@@ -33,6 +33,10 @@ var GTPData = (function () {
   var filterState = { track: 'all', status: 'all', search: '' };
   var _filterListeners = [];
 
+  function getFilterState() {
+    return { track: filterState.track, status: filterState.status, search: filterState.search };
+  }
+
   function onFilterChange(fn) {
     if (typeof fn === 'function') _filterListeners.push(fn);
   }
@@ -83,7 +87,7 @@ var GTPData = (function () {
   }
 
   function validateAssociation(raw, index) {
-    var missing = REQUIRED_ASSOCIATION_FIELDS.filter(function (f) { return !raw[f]; });
+    var missing = REQUIRED_ASSOCIATION_FIELDS.filter(function (f) { return !(f in raw) || !raw[f]; });
     if (missing.length) {
       console.warn('[GTPData] associations[' + index + '] missing fields: ' + missing.join(', '), raw);
       return false;
@@ -296,6 +300,7 @@ var GTPData = (function () {
     filterProjects: filterProjects,
 
     filterState: filterState,
+    getFilterState: getFilterState,
     setFilter: setFilter,
     onFilterChange: onFilterChange,
 

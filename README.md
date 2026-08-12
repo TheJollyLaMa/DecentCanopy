@@ -194,7 +194,8 @@ GTPData.getFilterOptions()  // Available tracks, statuses, locations
 GTPData.filterProjects(state)  // Apply filters
 
 // Filter state
-GTPData.filterState  // { track, status, search }
+GTPData.getFilterState()  // Returns a snapshot copy { track, status, search }
+GTPData.filterState  // { track, status, search } — legacy direct reference (read-only intent)
 GTPData.setFilter(key, value)
 GTPData.onFilterChange(callback)
 ```

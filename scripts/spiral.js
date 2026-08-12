@@ -1280,11 +1280,11 @@
         </div>`
       : '';
 
-    const repoLink = node.repoUrl
-      ? `<a href="${escAttr(node.repoUrl)}" target="_blank" rel="noreferrer">Repository ↗</a>`
+    const repoLink = safeUrl(node.repoUrl)
+      ? `<a href="${escAttr(safeUrl(node.repoUrl))}" target="_blank" rel="noreferrer">Repository ↗</a>`
       : '';
-    const artizenLink = node.artizenUrl
-      ? `<a href="${escAttr(node.artizenUrl)}" target="_blank" rel="noreferrer">Artizen ↗</a>`
+    const artizenLink = safeUrl(node.artizenUrl)
+      ? `<a href="${escAttr(safeUrl(node.artizenUrl))}" target="_blank" rel="noreferrer">Artizen ↗</a>`
       : '';
     const linksHtml = repoLink || artizenLink ? `<div class="details-links">${repoLink}${artizenLink}</div>` : '';
 
@@ -1565,6 +1565,17 @@
 
   function escAttr(text) {
     return String(text).replace(/"/g, '%22');
+  }
+
+  function safeUrl(url) {
+    if (!url) return null;
+    try {
+      var parsed = new URL(String(url));
+      if (parsed.protocol !== 'https:' && parsed.protocol !== 'http:') return null;
+      return parsed.href;
+    } catch (_) {
+      return null;
+    }
   }
 
   // ---- Boot ---------------------------------------------------------------------
