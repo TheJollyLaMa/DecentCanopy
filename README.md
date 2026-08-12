@@ -1,6 +1,6 @@
 # DecentCanopy
 
-A new perspective on coverage and associations.
+> **Extracted from [TheJollyLaMa/TheGreenTeaParty](https://github.com/TheJollyLaMa/TheGreenTeaParty)** — the fractal map + sidepanel + contract graph sub-system now lives here as its own standalone project.
 
 **DecentCanopy** is a fractal constellation visualization and data layer for mapping multi-project stewardship, coordination, and public ledger associations across decentralized networks.
 
@@ -17,20 +17,45 @@ DecentCanopy provides:
 ## Architecture
 
 ```
-views/
-├── index.html              Main constellation view
-├── styles/spiral.css       Styling for canvas & UI
+DecentCanopy/
+├── index.html                    Main constellation view (app entrypoint)
+├── .env.example                  Environment variable template
+styles/
+└── spiral.css                    Canvas, toolbar, sidepanel & legend styling
 scripts/
-├── spiral.js              Canvas rendering & interaction logic
-├── data-layer.js          Shared data access module
+├── config.js                     Chain IDs, supported networks, contract address slots
+├── mode-router.js                Resolves prototype vs app mode from URL
+├── network.js                    Chain ID parsing & supported-chain helpers
+├── contract-adapter.js           Public contract ABIs + read/write placeholder calls
+├── data-layer.js                 Shared data access module (GTPData)
 ├── data-adapter/
-│   ├── interface.js       Adapter contract definition
-│   └── mock-adapter.js    Local JSON data source
+│   ├── interface.js              Adapter method contract & validation
+│   ├── mock-adapter.js           Local JSON fixture loader (prototype mode)
+│   └── app-adapter.js            On-chain data adapter (app mode, wires contract-adapter)
+├── spiral.js                     Canvas fractal map — rendering, pan/zoom, interaction
 data/
-├── projects.json          Project records (id, name, track, status, raised, goal)
-├── associations.json      Relationship edges (source, target, type)
-└── activity.json          Public ledger activity feed (optional)
+├── projects.json                 Project records (id, name, track, status, raised, goal, …)
+├── associations.json             Relationship edges (source, target, type)
+└── activity.json                 Public ledger activity feed
 ```
+
+### Flow
+
+```
+index.html
+  └─ loads scripts in order:
+       config.js        → GTPConfig  (chain IDs, contract address slots)
+       mode-router.js   → GTPModeRouter  (prototype | app)
+       contract-adapter.js → GTPContractAdapter  (ABIs + call stubs)
+       data-adapter/interface.js  → GTPDataAdapterInterface
+       data-adapter/mock-adapter.js → GTPMockDataAdapter
+       data-adapter/app-adapter.js  → GTPAppDataAdapter
+       data-layer.js    → GTPData  (loads + normalises data via active adapter)
+       spiral.js        → renders fractal canvas, wires sidepanel & filters
+```
+
+- **Prototype mode** (default): `GTPData` uses `GTPMockDataAdapter` — fetches `data/*.json` directly; no wallet or chain needed.
+- **App mode** (`?mode=app` or path `/app`): `GTPData` uses `GTPAppDataAdapter` which delegates reads/writes to `GTPContractAdapter`. Contract addresses are configured in `scripts/config.js` (or loaded from environment at build time — see `.env.example`).
 
 ## Data Schema
 
@@ -89,19 +114,39 @@ Public ledger entries for the activity feed:
 
 ## Development
 
-This repository intentionally favors minimal dependencies.
+This repository intentionally favors **zero build-step, zero npm** minimal dependencies — plain HTML/CSS/JS served statically.
+
+**Setup:**
+
+```sh
+# 1. Clone
+git clone https://github.com/TheJollyLaMa/DecentCanopy.git
+cd DecentCanopy
+
+# 2. (Optional) copy env example — only needed when wiring real contracts
+cp .env.example .env
+# Edit .env with RPC URLs and deployed contract addresses
+```
 
 **Run locally:**
 
 ```sh
-# Option 1 — open directly in a browser (some fetch() calls may not work)
+# Option 1 — open directly in a browser (some fetch() calls may not work due to CORS)
 open index.html
 
 # Option 2 — use a simple static server (recommended)
 npx serve .
+# or: python3 -m http.server 3000
 ```
 
 Then visit `http://localhost:3000` (or the port shown by `serve`).
+
+**Modes:**
+
+| Mode | URL | Data source |
+|------|-----|-------------|
+| Prototype (default) | `/` | `data/*.json` fixture files |
+| App | `/?mode=app` or `/app` | On-chain via `GTPContractAdapter` (requires wallet + configured addresses) |
 
 ## Features
 
@@ -168,6 +213,31 @@ DecentCanopy prioritizes stewardship visibility and cross-project coordination o
 - Live data integration from public ledgers
 - Cross-repository project discovery
 - Quadratic funding and governance primitives
+
+## Known Limitations / Assumptions
+
+- **App mode is a scaffold.** `GTPAppDataAdapter` and `GTPContractAdapter` return placeholder results until real contract addresses are configured in `scripts/config.js` and a wallet provider is present.
+- **No build step.** Scripts are loaded as plain `<script>` tags in order. There is no bundler or tree-shaking; all global variables (`GTPConfig`, `GTPData`, etc.) are intentional.
+- **CORS on file://**: `fetch()` calls to local JSON fail when opening `index.html` directly from the filesystem. Use a local HTTP server (`npx serve .`).
+- **Source data is from TheGreenTeaParty.** The `data/*.json` fixture files represent Green Tea Party Fund projects and serve as demo content. Replace them with your own project data when adapting DecentCanopy for a different domain.
+
+## Attribution
+
+DecentCanopy is an extraction of the DeCentCanopy sub-system originally developed as part of **[TheJollyLaMa/TheGreenTeaParty](https://github.com/TheJollyLaMa/TheGreenTeaParty)**.
+
+Files faithfully extracted from that project (commit `310c4cc`):
+
+| File | Origin |
+|------|--------|
+| `scripts/spiral.js` | `TheGreenTeaParty/scripts/spiral.js` v0.33 |
+| `scripts/data-layer.js` | `TheGreenTeaParty/scripts/data-layer.js` |
+| `scripts/contract-adapter.js` | `TheGreenTeaParty/scripts/contract-adapter.js` |
+| `scripts/config.js` | `TheGreenTeaParty/scripts/config.js` |
+| `scripts/mode-router.js` | `TheGreenTeaParty/scripts/mode-router.js` |
+| `scripts/network.js` | `TheGreenTeaParty/scripts/network.js` |
+| `scripts/data-adapter/*` | `TheGreenTeaParty/scripts/data-adapter/*` |
+| `styles/spiral.css` | `TheGreenTeaParty/styles/spiral.css` |
+| `data/*.json` | `TheGreenTeaParty/data/*.json` |
 
 ## License
 
