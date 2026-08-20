@@ -72,9 +72,17 @@ var GTPData = (function () {
       id: raw.id,
       name: String(raw.name || '(Unnamed)'),
       track: String(raw.track || 'Unknown'),
-      status: String(raw.status || 'planning'),
+      status: String(raw.status || 'curation'),
       raised: Number(raw.raised) || 0,
       goal: Number(raw.goal) || 0,
+      season: raw.season != null ? Number(raw.season) : null,
+      seasonTitle: raw.seasonTitle || raw.track || null,
+      phase: raw.phase || null,
+      round: raw.round || null,
+      fundingOutcome: raw.fundingOutcome || null,
+      communityRaised: typeof raw.communityRaised === 'number' ? raw.communityRaised : null,
+      matchFunding: typeof raw.matchFunding === 'number' ? raw.matchFunding : null,
+      artifactSales: typeof raw.artifactSales === 'number' ? raw.artifactSales : null,
       lastUpdate: raw.lastUpdate || null,
       publicUpdate: raw.publicUpdate || raw.lastUpdate || null,
       stewards: Number(raw.stewards) || 0,
@@ -120,9 +128,10 @@ var GTPData = (function () {
 
   function createAdapter(basePath) {
     _modeInfo = GTPModeRouter.getModeInfo(window.location);
+    var appState = typeof GTPAppState !== 'undefined' ? GTPAppState : null;
 
     var adapter = _modeInfo.mode === 'app'
-      ? GTPAppDataAdapter.create({ basePath: basePath, appState: GTPAppState })
+      ? GTPAppDataAdapter.create({ basePath: basePath, appState: appState })
       : GTPMockDataAdapter.create({ basePath: basePath });
 
     return GTPDataAdapterInterface.assertAdapter(adapter, _modeInfo.mode);
@@ -237,10 +246,11 @@ var GTPData = (function () {
   }
 
   function getMetrics(projects) {
-    var list = projects || _projects;
     var allTotals = getTotals(_projects);
     var totalStewards = _projects.reduce(function (sum, project) { return sum + project.stewards; }, 0);
-    var activeProjects = list.filter(function (project) { return project.status === 'active'; }).length;
+    var activeProjects = _projects.filter(function (project) {
+      return project.status === 'competition' || project.status === 'funded';
+    }).length;
     var adapterMetrics = getAdapterMetrics();
 
     return {
@@ -276,7 +286,17 @@ var GTPData = (function () {
     return _projects.filter(function (p) {
       if (s.track && s.track !== 'all' && p.track !== s.track) return false;
       if (s.status && s.status !== 'all' && p.status !== s.status) return false;
-      if (search && !p.name.toLowerCase().includes(search) && !p.description.toLowerCase().includes(search)) return false;
+      if (search) {
+        var haystack = [
+          p.name,
+          p.description,
+          p.track,
+          p.seasonTitle,
+          p.phase,
+          p.fundingOutcome
+        ].filter(Boolean).join(' ').toLowerCase();
+        if (!haystack.includes(search)) return false;
+      }
       return true;
     });
   }

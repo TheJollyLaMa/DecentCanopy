@@ -19,7 +19,7 @@
           🌲 <span>DecentCanopy</span>
         </a>
 
-        <span class="mode-badge mode-badge--prototype" aria-live="polite">Vision Prototype (Mock Data)</span>
+        <span class="mode-badge mode-badge--prototype" aria-live="polite">Artizen-backed Prototype Snapshot</span>
 
         <div class="toolbar-sep" role="separator"></div>
 
@@ -109,8 +109,8 @@
 
       <aside class="prototype-vision-note" aria-label="Prototype explainer">
         <p>
-          DecentCanopy is a long-term vision demo showing how multi-project canopy behavior may look at scale.
-          Data here is static mock fixture data only.
+          DecentCanopy now snapshots public Artizen season data so the constellation, filters, and detail panels can
+          reflect real funding cadence instead of placeholder fixtures.
         </p>
       </aside>
 
@@ -159,38 +159,38 @@
       <!-- ---- Track colour legend ---- -->
       <aside class="spiral-legend" aria-label="Track colour legend">
         <div class="legend-item">
-          <span class="legend-dot" style="background:#22c55e"></span> Green Tea
+          <span class="legend-dot" style="background:#22c55e"></span> Season 1 · Founding
         </div>
         <div class="legend-item">
-          <span class="legend-dot" style="background:#3b82f6"></span> Blue Tea
+          <span class="legend-dot" style="background:#3b82f6"></span> Season 2 · Public Goods
         </div>
         <div class="legend-item">
-          <span class="legend-dot" style="background:#ef4444"></span> Red Rice
+          <span class="legend-dot" style="background:#ef4444"></span> Season 3 · Art + Science
         </div>
         <div class="legend-item">
-          <span class="legend-dot" style="background:#a855f7"></span> Purple Sage
+          <span class="legend-dot" style="background:#a855f7"></span> Season 4 · Community Systems
         </div>
         <div class="legend-item">
-          <span class="legend-dot" style="background:#f59e0b"></span> Golden Root
+          <span class="legend-dot" style="background:#f59e0b"></span> Season 5 · Creator Infrastructure
         </div>
         <div class="legend-item">
-          <span class="legend-dot" style="background:#94a3b8"></span> Silver Stream
+          <span class="legend-dot" style="background:#94a3b8"></span> Season 6 · Cultural Commons
         </div>
       </aside>
 
       <!-- ---- Status legend ---- -->
       <aside class="spiral-status-legend" aria-label="Status indicator legend">
         <div class="status-item">
-          <span class="status-dot" style="background:#22c55e"></span> Active
+          <span class="status-dot" style="background:#3b82f6"></span> Curation
         </div>
         <div class="status-item">
-          <span class="status-dot" style="background:#f59e0b"></span> Planning
+          <span class="status-dot" style="background:#f59e0b"></span> Competition
         </div>
         <div class="status-item">
-          <span class="status-dot" style="background:#94a3b8"></span> Completed
+          <span class="status-dot" style="background:#22c55e"></span> Funded
         </div>
         <div class="status-item">
-          <span class="status-dot" style="background:#ef4444"></span> Paused
+          <span class="status-dot" style="background:#94a3b8"></span> Archived
         </div>
       </aside>
 
@@ -209,31 +209,12 @@
         panel?.setAttribute('aria-hidden', 'true');
       });
     </script>
-    <script>
-      const fixedModeRouter = Object.freeze({
-        resolveMode: function () {
-          return { mode: 'prototype', source: 'spiral-vision' };
-        },
-        getModeInfo: function () {
-          return {
-            mode: 'prototype',
-            source: 'spiral-vision',
-            label: 'Vision Prototype (Mock Data)',
-            isPrototype: true,
-            isApp: false
-          };
-        }
-      });
-
-      Object.defineProperty(window, 'GTPModeRouter', {
-        value: fixedModeRouter,
-        enumerable: true,
-        writable: false,
-        configurable: false
-      });
-    </script>
+    <script src="scripts/config.js"></script>
+    <script src="scripts/mode-router.js"></script>
+    <script src="scripts/contract-adapter.js"></script>
     <script src="scripts/data-adapter/interface.js"></script>
     <script src="scripts/data-adapter/mock-adapter.js"></script>
+    <script src="scripts/data-adapter/app-adapter.js"></script>
     <script src="scripts/data-layer.js"></script>
     <script src="scripts/spiral.js"></script>
   </body>

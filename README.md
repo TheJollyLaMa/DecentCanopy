@@ -9,10 +9,10 @@
 DecentCanopy provides:
 
 - **Fractal Constellation View** — A Mandelbrot-inspired interactive spiral map displaying projects as nodes with dynamic zoom and pan controls
-- **Association Mapping** — Visual representation of project relationships via public ledgers and stewardship links
-- **Sidepanel Details** — Project information, parent/child relationships, and cross-project associations
+- **Association Mapping** — Visual representation of project relationships, shared funding pools, and curator overlap
+- **Sidepanel Details** — Project information, season/phase context, parent/child relationships, and cross-project associations
 - **Shared Data Layer** — Normalized access to projects, associations, activity, and metrics via `scripts/data-layer.js`
-- **Mock Adapter** — Local JSON fixtures for deterministic prototype rendering
+- **Artizen Snapshot** — Local JSON data derived from public Artizen season/funding records for deterministic rendering
 
 ## Architecture
 
@@ -30,13 +30,13 @@ scripts/
 ├── data-layer.js                 Shared data access module (GTPData)
 ├── data-adapter/
 │   ├── interface.js              Adapter method contract & validation
-│   ├── mock-adapter.js           Local JSON fixture loader (prototype mode)
+│   ├── mock-adapter.js           Local Artizen JSON loader (prototype mode)
 │   └── app-adapter.js            On-chain data adapter (app mode, wires contract-adapter)
 ├── spiral.js                     Canvas fractal map — rendering, pan/zoom, interaction
-data/
-├── projects.json                 Project records (id, name, track, status, raised, goal, …)
-├── associations.json             Relationship edges (source, target, type)
-└── activity.json                 Public ledger activity feed
+├── data/
+│   ├── projects.json             Artizen project records (season, phase, outcome, funding totals, …)
+│   ├── associations.json         Relationship edges (source, target, type)
+│   └── activity.json             Public season/funding activity feed
 ```
 
 ### Flow
@@ -54,7 +54,7 @@ index.html
        spiral.js        → renders fractal canvas, wires sidepanel & filters
 ```
 
-- **Prototype mode** (default): `GTPData` uses `GTPMockDataAdapter` — fetches `data/*.json` directly; no wallet or chain needed.
+- **Prototype mode** (default): `GTPData` uses the local Artizen JSON snapshot; no wallet or chain needed.
 - **App mode** (`?mode=app` or path `/app`): `GTPData` uses `GTPAppDataAdapter` which delegates reads/writes to `GTPContractAdapter`. Contract addresses are configured in `scripts/config.js` (or loaded from environment at build time — see `.env.example`).
 
 ## Data Schema
@@ -65,12 +65,19 @@ Each project record requires:
 
 ```json
 {
-  "id": "proj-001",
+  "id": "artizen-s1-example",
   "name": "Project Name",
-  "track": "Green Tea",
-  "status": "active",
+  "track": "Season 1 · Founding",
+  "status": "funded",
   "raised": 7800,
   "goal": 12000,
+  "season": 1,
+  "seasonTitle": "Season 1 · Founding",
+  "phase": "closeout",
+  "fundingOutcome": "winner",
+  "communityRaised": 5400,
+  "matchFunding": 2400,
+  "artifactSales": 340,
   "stewards": 8,
   "description": "...",
   "location": "Portland, OR"
@@ -78,7 +85,7 @@ Each project record requires:
 ```
 
 **Required fields:** `id`, `name`, `track`, `status`, `raised`, `goal`  
-**Optional fields:** `lastUpdate`, `publicUpdate`, `stewards`, `description`, `repoUrl`, `artizenUrl`, `nextAction`, `location`
+**Common optional fields:** `season`, `seasonTitle`, `phase`, `round`, `fundingOutcome`, `communityRaised`, `matchFunding`, `artifactSales`, `lastUpdate`, `publicUpdate`, `stewards`, `description`, `repoUrl`, `artizenUrl`, `nextAction`, `location`
 
 ### Associations (`data/associations.json`)
 
@@ -97,15 +104,15 @@ Defines relationships between projects:
 
 ### Activity (`data/activity.json`)
 
-Public ledger entries for the activity feed:
+Public season/funding entries for the activity feed:
 
 ```json
 {
-  "type": "mission-complete",
-  "title": "Project milestone reached",
+  "type": "allocation-finalized",
+  "title": "Season allocation settled",
   "date": "2026-07-30",
-  "projectId": "proj-001",
-  "amount": null
+  "projectId": "artizen-s1-example",
+  "amount": 2400
 }
 ```
 
@@ -145,7 +152,7 @@ Then visit `http://localhost:3000` (or the port shown by `serve`).
 
 | Mode | URL | Data source |
 |------|-----|-------------|
-| Prototype (default) | `/` | `data/*.json` fixture files |
+| Prototype (default) | `/` | Local Artizen season snapshot in `data/*.json` |
 | App | `/?mode=app` or `/app` | On-chain via `GTPContractAdapter` (requires wallet + configured addresses) |
 
 ## Features
@@ -170,8 +177,8 @@ Click any project node to open a details panel showing:
 
 ### Filtering
 
-- Filter by track (e.g., "Green Tea", "Blue Tea", "Red Rice")
-- Filter by status (e.g., "active", "planning", "completed", "paused")
+- Filter by season track (e.g., "Season 1 · Founding", "Season 2 · Public Goods")
+- Filter by status/phase (e.g., "curation", "competition", "funded", "archived")
 - Search by project name or description
 
 ## Data Layer API
@@ -220,7 +227,7 @@ DecentCanopy prioritizes stewardship visibility and cross-project coordination o
 - **App mode is a scaffold.** `GTPAppDataAdapter` and `GTPContractAdapter` return placeholder results until real contract addresses are configured in `scripts/config.js` and a wallet provider is present.
 - **No build step.** Scripts are loaded as plain `<script>` tags in order. There is no bundler or tree-shaking; all global variables (`GTPConfig`, `GTPData`, etc.) are intentional.
 - **CORS on file://**: `fetch()` calls to local JSON fail when opening `index.html` directly from the filesystem. Use a local HTTP server (`npx serve .`).
-- **Source data is from TheGreenTeaParty.** The `data/*.json` fixture files represent Green Tea Party Fund projects and serve as demo content. Replace them with your own project data when adapting DecentCanopy for a different domain.
+- **Source data is from public Artizen season records.** The `data/*.json` files now model the seasons, phases, funding outcomes, and project relationships from Artizen’s public funding story rather than the older Green Tea Party fixture set.
 
 ## Attribution
 
