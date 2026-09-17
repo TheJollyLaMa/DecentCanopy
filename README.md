@@ -207,6 +207,19 @@ GTPData.onFilterChange(callback)
 
 DecentCanopy prioritizes stewardship visibility and cross-project coordination over engagement metrics.
 
+## Contributor Payroll
+
+Merged pull requests can queue ART bounties from linked issues labeled `bounty: <amount> ART`. An optional `idea-credit: @username` label splits the bounty 80% to the implementer and 20% to the idea originator. Testing issues use `test-bounty: <amount> ART`, `/test-complete`, and owner-only `/test-approved` commands.
+
+Only wallets in `contributor-accounts.json` can receive entries. GitHub Actions update `payroll-queue.json`; an administrator then verifies payment and runs the **Settle Payroll** workflow. Settlement records ledger state and an optional transaction hash but does not transfer ART on-chain.
+
+Validate locally with:
+
+```sh
+node --test test/payroll.test.js test/commentArt.test.js
+node scripts/validatePayrollQueue.js
+```
+
 ## Next Steps
 
 - Contract adapter for reading project registry and treasury data on-chain
