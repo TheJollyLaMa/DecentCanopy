@@ -9,21 +9,21 @@
   // ---- Constants ----------------------------------------------------------------
 
   const TRACK_COLORS = {
-    'Green Tea': '#22c55e',
-    'Blue Tea': '#3b82f6',
-    'Red Rice': '#ef4444',
-    'Purple Sage': '#a855f7',
-    'Golden Root': '#f59e0b',
-    'Silver Stream': '#94a3b8'
+    'Season 1 · Founding': '#22c55e',
+    'Season 2 · Public Goods': '#3b82f6',
+    'Season 3 · Art + Science': '#ef4444',
+    'Season 4 · Community Systems': '#a855f7',
+    'Season 5 · Creator Infrastructure': '#f59e0b',
+    'Season 6 · Cultural Commons': '#94a3b8'
   };
 
   const TRACK_ORDER = Object.keys(TRACK_COLORS);
 
   const STATUS_COLORS = {
-    active: '#22c55e',
-    planning: '#f59e0b',
-    completed: '#94a3b8',
-    paused: '#ef4444'
+    curation: '#3b82f6',
+    competition: '#f59e0b',
+    funded: '#22c55e',
+    archived: '#94a3b8'
   };
 
   const ASSOCIATION_PRIORITY = {
@@ -1246,6 +1246,8 @@
     const color = TRACK_COLORS[node.track] || '#94a3b8';
     const progress = Math.round(progressPct(node));
     const gap = Math.max(0, (node.goal || 0) - (node.raised || 0));
+    const matchFunding = typeof node.matchFunding === 'number' ? node.matchFunding : null;
+    const communityRaised = typeof node.communityRaised === 'number' ? node.communityRaised : null;
     const parentId = parentById[node.id];
     const children = (childrenById[node.id] || []).map((id) => nodeMap[id]).filter(Boolean);
     const neighbours = [...(adjacency[node.id] || [])]
@@ -1287,19 +1289,30 @@
       ? `<a href="${escAttr(safeUrl(node.artizenUrl))}" target="_blank" rel="noreferrer">Artizen ↗</a>`
       : '';
     const linksHtml = repoLink || artizenLink ? `<div class="details-links">${repoLink}${artizenLink}</div>` : '';
+    const seasonMeta = node.seasonTitle ? `<span>${escHtml(node.seasonTitle)}</span>` : '';
+    const phaseMeta = node.phase ? `<span>${escHtml(capitalize(node.phase))} phase</span>` : '';
+    const outcomeMeta = node.fundingOutcome ? `<span>${escHtml(capitalize(node.fundingOutcome))} outcome</span>` : '';
+    const fundingFlowMeta = [
+      communityRaised != null ? `<span>Community ${formatCurrency(communityRaised)}</span>` : '',
+      matchFunding != null ? `<span>Match ${formatCurrency(matchFunding)}</span>` : ''
+    ].join('');
 
     detailsContentEl.innerHTML =
       `<p class="details-track" style="color:${color}">${escHtml(node.track)}</p>` +
       `<h2 class="details-title">${escHtml(node.name)}</h2>` +
       `<div class="details-priority">` +
-        `<h3>What needs action now</h3>` +
+        `<h3>Season status</h3>` +
         `<p>${escHtml(primaryAction(node))}</p>` +
       `</div>` +
       `<p class="details-desc">${escHtml(node.description || '')}</p>` +
       `<div class="details-meta">` +
         `<span class="badge badge-${node.status}">${capitalize(node.status)}</span>` +
+        seasonMeta +
+        phaseMeta +
+        outcomeMeta +
         `<span>${node.stewards} steward${node.stewards !== 1 ? 's' : ''}</span>` +
         `<span>Updated ${escHtml(node.lastUpdate)}</span>` +
+        fundingFlowMeta +
       `</div>` +
       `<div class="details-funding">` +
         `<div class="funding-bar-track">` +
@@ -1308,6 +1321,7 @@
         `<p>${formatCurrency(node.raised)} / ${formatCurrency(node.goal)} &middot; ${progress}%` +
           (gap > 0 ? ` &middot; ${formatCurrency(gap)} remaining` : ' &middot; Goal reached') +
         `</p>` +
+        `<p>${escHtml(node.publicUpdate || '')}</p>` +
       `</div>` +
       parentHtml +
       childHtml +
@@ -1477,16 +1491,21 @@
 
   function primaryAction(node) {
     const gap = Math.max(0, (node.goal || 0) - (node.raised || 0));
-    if (node.status === 'planning') {
+    if (node.status === 'curation') {
       return gap > 0
-        ? `Confirm the next steward step and close the ${formatCurrency(gap)} launch gap so this branch can move into active work.`
-        : 'Confirm the next steward step and turn this planned branch into active delivery.';
+        ? `Finish the curation shortlist and close the ${formatCurrency(gap)} launch gap before the competition phase opens.`
+        : 'Finish the curation shortlist and prepare the season for competition.';
     }
-    if (node.status === 'completed') {
-      return 'Capture what worked, link the next descendant initiative, and keep maintenance responsibilities visible.';
+    if (node.status === 'competition') {
+      return gap > 0
+        ? `Keep artifact sales moving and raise the remaining ${formatCurrency(gap)} before the match pool closes.`
+        : 'Keep artifact sales moving and record the final allocation outcome.';
     }
-    if (node.status === 'paused') {
-      return 'Review blockers with the steward group and decide whether to resume, reshape, or archive this branch.';
+    if (node.status === 'funded') {
+      return 'Capture the allocation result, document what the match funding unlocked, and seed the next branch.';
+    }
+    if (node.status === 'archived') {
+      return 'Archive the learnings, keep the season record public, and note what should re-enter curation next time.';
     }
     return gap > 0
       ? `Coordinate the next steward action and raise the remaining ${formatCurrency(gap)} needed to reach this project’s goal.`
@@ -1494,9 +1513,10 @@
   }
 
   function shortActionLabel(node) {
-    if (node.status === 'planning') return 'Needs launch plan';
-    if (node.status === 'completed') return 'Share learnings';
-    if (node.status === 'paused') return 'Resolve blockers';
+    if (node.status === 'curation') return 'Needs curation';
+    if (node.status === 'competition') return 'In competition';
+    if (node.status === 'funded') return 'Funded';
+    if (node.status === 'archived') return 'Archived';
     return Math.max(0, (node.goal || 0) - (node.raised || 0)) > 0 ? 'Needs next action' : 'Ready for next branch';
   }
 
