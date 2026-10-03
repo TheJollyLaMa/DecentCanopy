@@ -82,3 +82,107 @@
 .artizen-account-space > h3 { margin: 0 0 0.2rem; font-size: 0.88rem; }
 .account-group--locked { opacity: 0.7; }
 .account-locations li { display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }
+.pro-badge {
+  margin-left: 0.3rem; padding: 0.05rem 0.4rem; border-radius: 999px; font-size: 0.62rem; font-weight: 800; letter-spacing: 0.08em;
+  color: #0f172a; background: linear-gradient(90deg, #fde68a, #f472b6);
+}
+.account-bio { margin: 0.3rem 0; font-style: italic; font-size: 0.8rem; }
+.account-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(5.5rem, 1fr)); gap: 0.4rem; margin: 0.4rem 0; }
+.account-stats div { padding: 0.4rem 0.5rem; border-radius: 0.45rem; background: rgba(74, 222, 128, 0.08); border: 1px solid rgba(74, 222, 128, 0.25); }
+.account-stats dt { font-size: 0.64rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted, #94a3b8); }
+.account-stats dd { margin: 0.1rem 0 0; font-size: 1rem; font-weight: 700; color: #bbf7d0; }
+.account-total { margin: 0.45rem 0 0; font-size: 0.82rem; }
+.account-total strong { color: #fde68a; font-size: 0.95rem; }
+.account-plain { padding: 0.3rem 0; font-size: 0.8rem; overflow-wrap: anywhere; }
+.account-plain small { display: block; color: var(--muted, #94a3b8); }
+.curated-links ul { list-style: none; margin: 0.3rem 0; padding: 0; display: grid; gap: 0.35rem; }
+.curated-links li { padding: 0.4rem 0.55rem; border-radius: 0.5rem; background: rgba(74, 222, 128, 0.07); border: 1px solid rgba(74, 222, 128, 0.22); }
+.curated-links a { overflow-wrap: anywhere; color: #86efac; font-weight: 600; font-size: 0.84rem; text-decoration: none; }
+.curated-links a:visited { color: #86efac; }
+.curated-links a:hover,
+.curated-links a:focus-visible { color: #dcfce7; text-decoration: underline; }
+.curated-links small { display: block; font-size: 0.7rem; color: var(--muted, #94a3b8); }
+.details-funding--public { border-color: rgba(253, 230, 138, 0.4); }
+
+/* ---- Card artwork, creator avatar, list thumbnails ---- */
+.details-artwork,
+.details-avatar {
+  margin: 0.35rem 0 0.6rem;
+}
+
+.details-artwork img {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border, rgba(148, 163, 184, 0.3));
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.details-avatar {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.details-avatar img {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #fbbf24;
+  box-shadow: 0 0 0 4px rgba(251, 191, 36, 0.18), 0 0 18px rgba(52, 211, 153, 0.35);
+}
+
+.details-image-link {
+  display: block;
+  color: inherit;
+  border-radius: 0.6rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.details-avatar .details-image-link {
+  border-radius: 50%;
+  flex: none;
+}
+
+.details-image-link:hover,
+.details-image-link:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.55), 0 6px 18px rgba(0, 0, 0, 0.35);
+  outline: none;
+}
+
+.details-artwork figcaption a {
+  color: inherit;
+  text-decoration: underline;
+}
+
+.details-artwork figcaption,
+.details-avatar figcaption {
+  margin-top: 0.25rem;
+  color: var(--muted);
+  font-size: 0.68rem;
+}
+
+.details-group .related-entity--thumb {
+  flex-direction: row;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.related-entity--thumb > span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.account-thumb {
+  flex: 0 0 auto;
+  width: 34px;
+  height: 34px;
+  border-radius: 0.4rem;
+  object-fit: cover;
+  background: rgba(15, 23, 42, 0.6);
+}

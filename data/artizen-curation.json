@@ -2,38 +2,294 @@
   "creator": {
     "id": "curator:thejollylama",
     "name": "TheJollyLaMa",
-    "description": "A creator/steward node added at the request of TheJollyLaMa. Artizen's public graph feed does not include creator profile records."
+    "description": "Creator/steward node for TheJollyLaMa. Profile figures below were read from the public Artizen profile; Artizen’s public graph feed does not include creator records.",
+    "websiteUrl": "https://github.com/TheJollyLaMa",
+    "links": [
+      {
+        "label": "GitHub · TheJollyLaMa",
+        "url": "https://github.com/TheJollyLaMa"
+      },
+      {
+        "label": "Decent Agency Discord",
+        "url": "https://discord.gg/tkBfwT3YMN",
+        "note": "Every TheJollyLaMa project has a channel here"
+      }
+    ],
+    "artizenProfile": {
+      "bio": "lone wolf, untrained developer, visionary and extraordinaire. resident genie in a bottle. 🧞‍♂️🪔",
+      "pro": true,
+      "boostPoints": "77.8K",
+      "artTokens": "161.0K",
+      "recentBoostsEarned": "+16,100 boosts earned in 5 days",
+      "projectCount": 7,
+      "recentBoosts": [
+        {
+          "name": "Marsita the Ultra — Memories from Base Reality",
+          "slug": "marsita-the-ultra---memories-from-base-reality"
+        },
+        {
+          "name": "IndependentTribunal.org"
+        },
+        {
+          "name": "LaughterScale.com"
+        },
+        {
+          "name": "BaseX.com"
+        },
+        {
+          "name": "Community Basic Income for CEN"
+        }
+      ],
+      "stewardship": [],
+      "capturedAt": "2026-10-03",
+      "source": "Artizen public creator profile (read-only capture, not live)",
+      "fundMemberships": [],
+      "fundMembershipNote": "No approved fund memberships. All fund submissions are still pending review (per TheJollyLaMa)."
+    },
+    "image": "https://b52a6191a6a50af956eb089c76ac973d.cdn.bubble.io/cdn-cgi/image/w=256,h=256,f=auto,dpr=1,fit=cover,q=80/f1789024983353x968943645928254300/UmbrellaMan.png",
+    "imageSource": "Artizen creator avatar (public profile, captured 2026-10-03)"
   },
   "projects": [
     {
       "slug": "decent-jukebox",
-      "name": "Decent Jukebox"
+      "name": "Decent Jukebox",
+      "artizenPageUrl": "https://artizen.fund/index/p/decent-jukebox?season=7",
+      "websiteUrl": "https://thejollylama.github.io/DecentBusking/",
+      "links": [
+        {
+          "label": "Website · DecentBusking",
+          "url": "https://thejollylama.github.io/DecentBusking/"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 1293,
+        "boosts": 127,
+        "bonus": 209.5,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [
+          "Open Music Fund for Sovereign Sound Builders",
+          "We’re Loud Fund for DIY Festivals",
+          "Lovepunks Fund for Experiential Culture"
+        ],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)",
+        "submissionStatus": "pending"
+      }
     },
     {
       "slug": "bignuten",
-      "name": "BigNuten"
+      "name": "BigNuten",
+      "artizenPageUrl": "https://artizen.fund/index/p/bignuten?season=7",
+      "websiteUrl": "https://bignuten.thejollylama.eth.limo",
+      "links": [
+        {
+          "label": "Website",
+          "url": "https://bignuten.thejollylama.eth.limo"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 11165,
+        "boosts": 111,
+        "bonus": 203.94,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [
+          "Creative Wellness Fund for Community Healing",
+          "Dharma Creator Fund",
+          "Paradigm Fund for Frontier Tech"
+        ],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)",
+        "submissionStatus": "pending"
+      }
     },
     {
       "slug": "qart-code",
       "name": "qArt-code",
-      "description": "Creator-curated entry; no matching project was found in the latest Artizen public index.",
-      "searchUrl": "https://artizen.fyi/search?q=qArt-code"
+      "description": "Creator-curated entry; published on Artizen but not yet in the latest artizen.fyi public index.",
+      "artizenPageUrl": "https://artizen.fund/index/p/qart-code?season=7",
+      "websiteUrl": "https://thejollylama.github.io/qArt-code/",
+      "links": [
+        {
+          "label": "Website",
+          "url": "https://thejollylama.github.io/qArt-code/"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/qArt-code"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 52,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)"
+      }
     },
     {
       "slug": "green-tea-party",
-      "name": "The Green Tea Party"
+      "name": "The Green Tea Party",
+      "artizenPageUrl": "https://artizen.fund/index/p/green-tea-party?season=7",
+      "websiteUrl": "https://thejollylama.github.io/TheGreenTeaParty/",
+      "links": [
+        {
+          "label": "Website",
+          "url": "https://thejollylama.github.io/TheGreenTeaParty/"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 14423,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)"
+      }
     },
     {
       "slug": "decent-canopy",
-      "name": "DeCent Canopy"
+      "name": "DeCent Canopy",
+      "artizenPageUrl": "https://artizen.fund/index/p/decent-canopy?season=7",
+      "websiteUrl": "https://thejollylama.github.io/DecentCanopy/",
+      "links": [
+        {
+          "label": "Website",
+          "url": "https://thejollylama.github.io/DecentCanopy/"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 1545,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [
+          "GLITCH Fund for Arts & Tech"
+        ],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)",
+        "submissionStatus": "pending"
+      }
     },
     {
       "slug": "green-tea-party-kiln",
-      "name": "Green Tea Party Kiln"
+      "name": "Green Tea Party Kiln",
+      "artizenPageUrl": "https://artizen.fund/index/p/green-tea-party-kiln?season=7",
+      "links": [],
+      "publicStats": {
+        "total": 20697,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [
+          "Living Water Legacy Fund",
+          "Apollo Fund for the New Renaissance"
+        ],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)",
+        "submissionStatus": "pending"
+      },
+      "note": "Mama’s project. It sits in The Green Tea Party envelope; TheJollyLaMa supports it with boosts and artifact purchases but is not its creator."
     },
     {
       "slug": "green-tea-hut-1",
-      "name": "Green Tea Hut #1"
+      "name": "Green Tea Hut #1",
+      "artizenPageUrl": "https://artizen.fund/index/p/green-tea-hut-1?season=7",
+      "websiteUrl": "https://thejollylama.github.io/GreenTeaHut_01/",
+      "links": [
+        {
+          "label": "Website",
+          "url": "https://thejollylama.github.io/GreenTeaHut_01/"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 5656,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)"
+      }
+    },
+    {
+      "slug": "artfi",
+      "name": "ArtFi",
+      "artizenPageUrl": "https://artizen.fund/index/p/artfi?season=7",
+      "description": "Creator-curated entry; published on Artizen but not yet in the latest artizen.fyi public index.",
+      "websiteUrl": "https://thejollylama.github.io/ArtFi/",
+      "links": [
+        {
+          "label": "Website",
+          "url": "https://thejollylama.github.io/ArtFi/"
+        },
+        {
+          "label": "GitHub repository",
+          "url": "https://github.com/TheJollyLaMa/ArtFi"
+        },
+        {
+          "label": "Decent Agency Discord",
+          "url": "https://discord.gg/tkBfwT3YMN",
+          "note": "Project channel in the A Decent Agency server"
+        }
+      ],
+      "publicStats": {
+        "total": 0,
+        "currency": "USD",
+        "season": 7,
+        "season7Submissions": [],
+        "capturedAt": "2026-10-03",
+        "source": "Artizen public project page (read-only capture, not live)"
+      }
     }
   ],
   "associations": [
@@ -66,6 +322,27 @@
       "note": "The Green Tea Party is one of TheJollyLaMa's Artizen projects."
     },
     {
+      "source": "creator",
+      "targetSlug": "artfi",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Listed on TheJollyLaMa’s public Artizen profile."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "green-tea-hut-1",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Listed on TheJollyLaMa’s public Artizen profile."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "decent-canopy",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Listed on TheJollyLaMa’s public Artizen profile."
+    },
+    {
       "sourceSlug": "green-tea-party",
       "targetSlug": "decent-canopy",
       "type": "associated-project",
@@ -85,6 +362,27 @@
       "type": "associated-project",
       "sourceLabel": "Creator-curated by TheJollyLaMa",
       "note": "Described by TheJollyLaMa as within The Green Tea Party project envelope."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "marsita-the-ultra---memories-from-base-reality",
+      "type": "boosted",
+      "sourceLabel": "Artizen public profile · Boosts tab",
+      "note": "Listed in the Boosts tab of TheJollyLaMa’s public Artizen profile (captured 2026-10-03); amount not captured."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "green-tea-party-kiln",
+      "type": "boosted",
+      "sourceLabel": "Creator-declared by TheJollyLaMa",
+      "note": "TheJollyLaMa boosts Mama’s Green Tea Party Kiln."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "green-tea-party-kiln",
+      "type": "collected-artifacts",
+      "sourceLabel": "Creator-declared by TheJollyLaMa",
+      "note": "TheJollyLaMa has bought artifacts from the Green Tea Party Kiln."
     }
   ]
 }

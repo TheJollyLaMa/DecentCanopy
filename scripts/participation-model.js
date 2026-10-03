@@ -40,6 +40,15 @@
     return url.href;
   }
 
+  function artizenProfile(value) {
+    if (!value) return null;
+    const url = new URL(website(value));
+    if (url.hostname !== 'artizen.fund' && !url.hostname.endsWith('.artizen.fund')) {
+      throw new Error('Artizen profile links must point to artizen.fund.');
+    }
+    return url.href;
+  }
+
   function rows(value, label) {
     if (!Array.isArray(value) || value.length > MAX_RECORDS) {
       throw new Error(`${label} must be an array of at most ${MAX_RECORDS} records.`);
@@ -121,6 +130,8 @@
       const entity = { id, kind: raw.kind, name: text(raw.name, 'Entity name'), websiteUrl: website(raw.websiteUrl) };
       entity.publicWallet = wallet(raw.publicWallet);
       entity.sharedLocation = location(raw.sharedLocation);
+      const profileUrl = artizenProfile(raw.artizenProfileUrl);
+      if (profileUrl) entity.artizenProfileUrl = profileUrl;
       if (raw.funding) {
         if (!['project', 'fund'].includes(raw.kind) || raw.funding.currency !== 'USD') {
           throw new Error('Funding records require a project/fund and currency USD.');
@@ -210,6 +221,7 @@
         entity.publicWallet = record.publicWallet || null;
         entity.sharedLocation = record.sharedLocation || null;
         entity.funding = record.funding || null;
+        if (record.artizenProfileUrl) entity.artizenPageUrl = record.artizenProfileUrl;
         if (record.funding) {
           entity.raised = record.funding.raised;
           entity.goal = record.funding.goal;
@@ -239,7 +251,7 @@
     return { projects, associations: [...base.associations, ...bundle.connections, ...walletLinks], activity: base.activity };
   }
 
-  const api = { validate, apply, website, wallet, location, readLedgerBalance, networks: NETWORKS };
+  const api = { validate, apply, website, artizenProfile, wallet, location, readLedgerBalance, networks: NETWORKS };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.CanopyParticipationModel = api;
 }(typeof window === 'undefined' ? globalThis : window));

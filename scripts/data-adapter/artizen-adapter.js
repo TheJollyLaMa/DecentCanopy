@@ -11,6 +11,16 @@ var GTPArtizenDataAdapter = (function () {
     return value;
   }
 
+  // Curated public links and read-only Artizen page captures are kept separate from
+  // participant-reported fields (websiteUrl, funding) so the card can label provenance.
+  function applyCuratedPublicData(entity, project) {
+    if (!entity) return;
+    if (Array.isArray(project.links)) entity.curatedLinks = project.links.slice();
+    if (project.artizenPageUrl) entity.artizenPageUrl = project.artizenPageUrl;
+    if (project.publicStats) entity.publicStats = project.publicStats;
+    if (project.note) entity.curationNote = project.note;
+  }
+
   function transform(snapshot, curation) {
     if (!snapshot || typeof snapshot !== 'object') {
       throw new Error('[GTPArtizenDataAdapter] Artizen snapshot is missing or invalid');
@@ -42,6 +52,7 @@ var GTPArtizenDataAdapter = (function () {
         image: project.image || null,
         slug: project.slug,
         artizenUrl: 'https://artizen.fyi/projects/' + encodeURIComponent(project.slug),
+        artizenPageUrl: 'https://artizen.fund/index/p/' + encodeURIComponent(project.slug),
         sourceLabel: 'Artizen public project index',
         generatedAt: snapshot.generatedAt || null
       });
@@ -65,6 +76,7 @@ var GTPArtizenDataAdapter = (function () {
         image: fund.image || null,
         slug: fund.slug,
         artizenUrl: 'https://artizen.fyi/funds/' + encodeURIComponent(fund.slug),
+        artizenPageUrl: 'https://artizen.fund/index/mf/' + encodeURIComponent(fund.slug),
         sourceLabel: 'Artizen public fund index',
         generatedAt: snapshot.generatedAt || null
       });
@@ -82,32 +94,41 @@ var GTPArtizenDataAdapter = (function () {
         raised: 0,
         goal: 0,
         description: creator.description || '',
-        sourceLabel: 'Creator-curated in DecentCanopy'
+        sourceLabel: 'Creator-curated in DecentCanopy',
+        curatedLinks: Array.isArray(creator.links) ? creator.links.slice() : [],
+        artizenProfile: creator.artizenProfile || null,
+        image: creator.image || null,
+        imageSource: creator.imageSource || null,
+        artizenPageUrl: creator.artizenPageUrl || null
       });
     }
 
+    var entitiesById = new Map(entities.map(function (entity) { return [entity.id, entity]; }));
     var curatedProjects = curation && Array.isArray(curation.projects) ? curation.projects : [];
     curatedProjects.forEach(function (project) {
       if (!project.slug || !project.name) return;
-      if (!idsBySlug.has(project.slug)) {
-        var id = 'curated-project:' + project.slug;
-        idsBySlug.set(project.slug, id);
-        idSet.add(id);
-        entities.push({
-          id: id,
-          name: project.name,
-          kind: 'project',
-          track: 'Projects',
-          status: 'not-in-feed',
-          raised: 0,
-          goal: 0,
-          description: project.description || 'This creator-curated entry was not found in the latest Artizen public index.',
-          slug: project.slug,
-          artizenUrl: project.searchUrl || null,
-          sourceLabel: 'Creator-curated in DecentCanopy',
-          dataState: 'not-in-feed'
-        });
+      if (idsBySlug.has(project.slug)) {
+        applyCuratedPublicData(entitiesById.get(idsBySlug.get(project.slug)), project);
+        return;
       }
+      var id = 'curated-project:' + project.slug;
+      idsBySlug.set(project.slug, id);
+      idSet.add(id);
+      entities.push({
+        id: id,
+        name: project.name,
+        kind: 'project',
+        track: 'Projects',
+        status: 'not-in-feed',
+        raised: 0,
+        goal: 0,
+        description: project.description || 'This creator-curated entry was not found in the latest Artizen public index.',
+        slug: project.slug,
+        artizenUrl: project.searchUrl || null,
+        sourceLabel: 'Creator-curated in DecentCanopy',
+        dataState: 'not-in-feed'
+      });
+      applyCuratedPublicData(entities[entities.length - 1], project);
     });
 
     var edges = new Map();

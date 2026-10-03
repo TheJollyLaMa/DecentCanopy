@@ -29,7 +29,8 @@ DecentCanopy/
 styles/
 ├── spiral.css                    Canvas, toolbar, sidepanel & legend styling
 ├── decent-head.css               Forest header and responsive wallet/IPFS controls
-└── participation.css             Consent, import, profile and globe dialogs
+├── participation.css             Consent, import, profile and globe dialogs
+└── onboarding.css                Beginner tour and About "Build the canopy with us" styles
 scripts/
 ├── config.js                     Chain IDs, supported networks, contract address slots
 ├── mode-router.js                Resolves prototype vs app mode from URL
@@ -49,6 +50,7 @@ scripts/
 ├── participation.js              Browser-local consent, imports, edits, exports and deletion
 ├── canopy-globe.js               Opt-in Earth/space projection and accessible card navigation
 ├── artizen-account.js            Creator-card Artizen account preview (sign-in coming soon)
+├── onboarding.js                 First-visit tour, local "your view" preference, data-notes drawer
 ├── pinDataBackup.js              Packages public canopy data and pins it to IPFS
 ├── data/
 │   ├── projects.json             Artizen project records (season, phase, outcome, funding totals, …)
@@ -200,6 +202,13 @@ Click any project node to open a details panel showing:
 - Parent/ancestor relationships
 - Child/descendant projects
 - Associated projects (shared stewardship, collaboration, research links)
+- Project and fund artwork from the Artizen public index, and a creator's profile picture when one is curated
+
+### First visit: tour, your view, and data notes
+
+- **🧭 Tour** opens automatically on a first visit and can be replayed from the toolbar. It explains projects, funds, creators, lines, and halos, then points to TheJollyLaMa's card as a filled-in example.
+- **Make it your view** is optional. A visitor can keep exploring, pick an existing creator card as "me", or add a local creator card (name, HTTPS website, and an `artizen.fund` profile link) with explicit local-storage consent. After that, the canopy opens on that card. This is a browser-local preference, not verified ownership. Clear it from **Participate / import**.
+- **ⓘ Data notes** is a tab on the right edge (docked to the details sidebar when it is open). It holds the snapshot date, counts, and data limits. Stash it with one click; the choice is remembered. It opens automatically inside a fund canopy, where it holds the "return" control.
 
 ### Filtering
 
@@ -309,6 +318,21 @@ Every creator card includes an **Artizen account** section:
 - **Artizen space preview** — projects from curated/participant links (plus projects that grew from them via `associated-project`), funds those projects were submitted to, curated in, or funded by in the public graph, participant-reported fund membership, and participant-reported stewardship (`fund-steward`). The public feed has no steward or purchase data, so **artifact collections** are marked Coming soon.
 - **Locations** — the creator's own opt-in location is listed separately from each project's and fund's location. Creators often live somewhere other than their projects or funds; nothing is inferred between them.
 
+#### A filled-in creator canopy: TheJollyLaMa
+
+`data/artizen-curation.json` shows what a fully connected creator card looks like. Every field is public and labeled with its source:
+
+- **Profile picture** — `creator.image` (TheJollyLaMa's Artizen creator avatar, the public image shown beside their posts and profile on Artizen), labeled by `imageSource`. Project and fund cards show their artwork from the Artizen public index; clicking the artwork opens the real Artizen page (`artizen.fund/index/p/<slug>` for projects, `artizen.fund/index/mf/<slug>` for funds, or a curated `artizenPageUrl`). Add `creator.artizenPageUrl` to make the avatar open the creator's Artizen profile.
+- **Projects** — Decent Jukebox (now [DecentBusking](https://thejollylama.github.io/DecentBusking/)), BigNuten, qArt-code, The Green Tea Party, Green Tea Hut #1, DeCent Canopy, and ArtFi. Each has its website, its GitHub repo, its Artizen project page, and the [A Decent Agency Discord](https://discord.gg/tkBfwT3YMN), where every project has a channel.
+- **Projects you support** — Green Tea Party Kiln is **Mama's project**. It sits in The Green Tea Party envelope; TheJollyLaMa supports it with creator-declared `boosted` and `collected-artifacts` edges. It never counts as TheJollyLaMa's project or toward their total. Related projects (one hop of `associated-project`) are not pulled into a creator's own project list.
+- **`publicStats`** — the "Total", boosts, boost bonus, and season-7 fund submissions read from each public Artizen project page. They're dated (`capturedAt`) and are not live. Project halos use these totals for brightness when no participant-reported funding exists.
+- **`artizenProfile`** — the PRO badge, bio, boost points, ART tokens, recent boosts, and `stewardship: []` (shown as **None**), all read from the public creator profile.
+- **No fund memberships** — every fund submission is still pending review, so none is shown as membership (`fundMembershipNote`). The account panel lists **Fund submissions** (submitted, curated, or funded records from the public graph) and says plainly that a submission is not membership. Season submissions on project cards are marked "pending review" (`publicStats.submissionStatus`).
+- **`boosted` edges** — a recent boost whose project is in the index (Marsita the Ultra), plus the Kiln. Other recent boosts are listed by name only.
+- **Artifact collection** lists creator-declared `collected-artifacts` edges (unverified). The full, verified list stays **Coming soon** until sign-in or ledger receipts exist.
+
+To fill in your own card the same way, add your creator, projects, `links`, `publicStats`, and `artizenProfile` fields to a pull request on `data/artizen-curation.json`. Use only public data you are comfortable publishing, and include capture dates.
+
 #### Location choices and privacy
 
 - **Country:** label-only is supported; supplied coordinates are rounded to whole degrees.
@@ -364,6 +388,8 @@ GTPData.onFilterChange(callback)
 DecentCanopy prioritizes stewardship visibility and cross-project coordination over engagement metrics.
 
 ## Contributor Payroll
+
+New contributors: open **About → Build the canopy with us → File an Issue**. It opens the [`contributor-request.yml`](.github/ISSUE_TEMPLATE/contributor-request.yml) template (GitHub username, wallet, what you want to help with, links) so the owner can whitelist you in `contributor-accounts.json`. Then pitch ideas or pick up bounty issues.
 
 Merged pull requests can queue rewards from linked issues labeled `bounty: <amount> ART` and/or `bounty: <amount> USDC`. A single issue can have one label per configured token; duplicate labels for the same token are rejected. Optional `idea-credit: @username` splits each bounty 80/20, with amounts that cannot be represented at that token's ledger precision rejected rather than rounded. Testing issues support the same configured assets with `test-bounty: <amount> <currency>`, `/test-complete`, and owner-only `/test-approved` commands.
 

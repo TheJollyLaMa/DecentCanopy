@@ -57,6 +57,8 @@ test('transforms Artizen records into typed project/fund graph entities', () => 
   assert.equal(project.track, 'Projects');
   assert.equal(fund.id, 'artizen-fund:fund-1');
   assert.equal(fund.available, 1250);
+  assert.equal(project.artizenPageUrl, 'https://artizen.fund/index/p/example-project');
+  assert.equal(fund.artizenPageUrl, 'https://artizen.fund/index/mf/example-fund');
   assert.equal(data.associations.length, 1);
   assert.equal(data.associations[0].type, 'submitted');
   assert.deepEqual(Array.from(data.associations[0].seasonNumbers), [7]);
@@ -139,4 +141,39 @@ test('current snapshot resolves the stated Green Tea Party project cluster', () 
   ).length;
   assert.equal(data.projects.length, snapshot.projects.length + snapshot.funds.length + curationOnlyProjects + 1);
   assert.equal(data.metrics.sourceCounts.relationships, snapshot.relationships.length);
+});
+
+test('current curation fills TheJollyLaMa’s card with public links, stats, memberships, and a boost', () => {
+  const snapshot = JSON.parse(fs.readFileSync(snapshotPath, 'utf8'));
+  const curation = JSON.parse(fs.readFileSync(curationPath, 'utf8'));
+  const data = transform(snapshot, curation);
+  const byName = new Map(data.projects.map((entity) => [entity.name, entity]));
+  const creatorId = 'curator:thejollylama';
+  const creator = data.projects.find((entity) => entity.id === creatorId);
+  assert.equal(creator.artizenProfile.pro, true);
+  assert.deepEqual(Array.from(creator.artizenProfile.stewardship), []);
+
+  const discord = 'https://discord.gg/tkBfwT3YMN';
+  for (const name of ['Decent Jukebox', 'BigNuten', 'qArt-code', 'The Green Tea Party', 'DeCent Canopy', 'Green Tea Hut #1', 'ArtFi']) {
+    const project = byName.get(name);
+    assert.ok(project, `${name} should be in the canopy`);
+    assert.ok(project.curatedLinks.some((link) => link.url === discord), `${name} should link the Decent Agency Discord`);
+    assert.ok(project.curatedLinks.some((link) => /^https:\/\//.test(link.url) && /Website/.test(link.label)), `${name} should have a website`);
+    assert.equal(typeof project.publicStats.total, 'number');
+    assert.match(project.artizenPageUrl, /^https:\/\/artizen\.fund\/index\/p\//);
+    assert.ok(data.associations.some((edge) => edge.source === creatorId && edge.target === project.id && edge.type === 'creator-associated'));
+  }
+  assert.match(byName.get('Decent Jukebox').curatedLinks[0].url, /DecentBusking/);
+  const kilnId = byName.get('Green Tea Party Kiln').id;
+  const kilnEdges = data.associations.filter((edge) => edge.source === creatorId && edge.target === kilnId);
+  assert.deepEqual([...kilnEdges.map((edge) => edge.type)].sort(), ['boosted', 'collected-artifacts'],
+    'The Kiln is Mama’s project: TheJollyLaMa only supports it and never claims it');
+  assert.match(byName.get('Green Tea Party Kiln').curationNote, /Mama/);
+
+  assert.equal(data.associations.filter((edge) => edge.source === creatorId && edge.type === 'fund-member').length, 0,
+    'pending fund submissions are not memberships');
+  assert.equal(data.associations.filter((edge) => edge.source === creatorId && edge.type === 'boosted').length, 2);
+  const creatorEntity = data.projects.find((entity) => entity.id === creatorId);
+  assert.match(creatorEntity.image, /cdn\.bubble\.io\/.*UmbrellaMan\.png$/);
+  assert.ok(byName.get('BigNuten').image, 'snapshot artwork passes through');
 });

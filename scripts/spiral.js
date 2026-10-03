@@ -49,7 +49,10 @@
     funded: 5,
     'creator-associated': 5,
     'associated-project': 4,
-    'fund-steward': 4
+    'fund-steward': 4,
+    'fund-member': 3,
+    boosted: 2,
+    'collected-artifacts': 2
   };
 
   const MIN_ZOOM = 0.35;
@@ -213,6 +216,7 @@
     updateBreadcrumbs();
     updateBackButton();
     scheduleRender();
+    window.dispatchEvent(new CustomEvent('decentcanopy:ready', { detail: { artizen: isArtizenMode, greenTea: isGreenTeaMode } }));
   }
 
   function filterToGreenTeaCluster() {
@@ -992,8 +996,9 @@
         ctx.fill();
       }
 
-      if (isArtizenMode && node.funding && !isDimmed) {
-        const intensity = Math.min(1, Math.log10(1 + node.funding.raised) / 6);
+      const haloRaised = node.funding ? node.funding.raised : node.publicStats ? node.publicStats.total : null;
+      if (isArtizenMode && haloRaised != null && !isDimmed) {
+        const intensity = Math.min(1, Math.log10(1 + haloRaised) / 6);
         ctx.beginPath();
         ctx.arc(node.x, node.y, visSize * (1.4 + intensity), 0, Math.PI * 2);
         ctx.fillStyle = hexAlpha(color, 0.025 + intensity * 0.14);
@@ -1254,6 +1259,15 @@
       if (selectedNode?.kind === 'creator' && detailsPanel?.classList.contains('open')) showDetails(selectedNode);
     });
 
+    window.addEventListener('decentcanopy:focus-entity', event => {
+      if (!allEntitiesById[event.detail]) return;
+      if (!nodeMap[event.detail]) {
+        window.dispatchEvent(new CustomEvent('decentcanopy:select-entity', { detail: event.detail }));
+        return;
+      }
+      focusNode(nodeMap[event.detail], { recordHistory: true, openDetails: true });
+    });
+
     window.addEventListener('decentcanopy:select-entity', event => {
       const entity = allEntitiesById[event.detail];
       if (!entity) return;
@@ -1506,7 +1520,7 @@
     const parentId = parentById[node.id];
     if (parentId) ids.add(parentId);
     (childrenById[node.id] || []).slice(0, 6).forEach((id) => ids.add(id));
-    (descendantCache[node.id] || []).slice(0, 8).forEach((id) => ids.add(id));
+    Array.from(descendantCache[node.id] || []).slice(0, 8).forEach((id) => ids.add(id));
 
     let sx = 0;
     let sy = 0;
@@ -1819,6 +1833,14 @@
     let linksHtml = safeUrl(node.artizenUrl)
       ? `<div class="details-links"><a href="${escAttr(safeUrl(node.artizenUrl))}" target="_blank" rel="noreferrer">${node.dataState === 'not-in-feed' ? 'Search Artizen ↗' : 'Artizen record ↗'}</a></div>`
       : '';
+    if (safeUrl(node.artizenPageUrl)) {
+      linksHtml += `<div class="details-links"><a href="${escAttr(safeUrl(node.artizenPageUrl))}" target="_blank" rel="noopener noreferrer">${node.kind === 'creator' ? 'Artizen profile' : node.kind === 'fund' ? 'Artizen fund page' : 'Artizen project page'} ↗</a></div>`;
+    }
+    const curatedLinks = (node.curatedLinks || []).filter(link => safeUrl(link.url));
+    let curatedLinksHtml = '';
+    if (curatedLinks.length) {
+      curatedLinksHtml = `<div class="details-group curated-links"><h3>Creator-curated links</h3><ul>${curatedLinks.map(link => `<li><a href="${escAttr(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${/discord/i.test(link.url) ? '💬 ' : /^https:\/\/github\.com\//i.test(link.url) ? '🛠️ ' : '🌐 '}${escHtml(link.label)} ↗</a>${link.note ? `<small>${escHtml(link.note)}</small>` : ''}</li>`).join('')}</ul><p class="participation-card-note">Public links curated by the creator in DecentCanopy.</p></div>`;
+    }
     if (safeUrl(node.websiteUrl)) {
       linksHtml += `<div class="details-links"><a href="${escHtml(safeUrl(node.websiteUrl))}" target="_blank" rel="noopener noreferrer">Website: ${escHtml(new URL(node.websiteUrl).hostname)} ↗</a><p class="participation-card-note">Local participant website draft · unverified</p></div>`;
     }
@@ -1832,6 +1854,10 @@
       ? `<div class="details-group"><h3>Opt-in location</h3><p>${escHtml(place.label)} · ${escHtml(place.precision)}${place.latitude != null ? ` · ${place.latitude}, ${place.longitude}` : ''}</p><p class="participation-card-note">${place.precision === 'space' ? 'Symbolic space placement, not an astronomical coordinate.' : 'Participant-declared location; local only and unverified.'}</p></div>` : '';
     const importedFunding = node.funding
       ? `<div class="details-funding"><strong>${formatCurrency(node.funding.raised)} raised / ${formatCurrency(node.funding.goal)} goal</strong><p>Season ${node.funding.season} · as of ${escHtml(node.funding.asOf)} · USD</p><p class="participation-card-note">Participant-reported, unverified; not live. Brightness reflects reported raised USD, not creator wealth.</p></div>` : '';
+    const stats = node.publicStats;
+    const publicStatsHtml = stats
+      ? `<div class="details-funding details-funding--public"><strong>${formatCurrency(stats.total)} total on Artizen</strong>${stats.boosts ? `<p>${stats.boosts.toLocaleString()} boosts · ${formatCurrency(stats.bonus || 0)} boost bonus</p>` : ''}${stats.season7Submissions && stats.season7Submissions.length ? `<p>Season ${stats.season} submissions${stats.submissionStatus === 'pending' ? ' (pending review, not membership)' : ''}: ${stats.season7Submissions.map(escHtml).join(', ')}</p>` : ''}<p class="participation-card-note">${escHtml(stats.source)} · captured ${escHtml(stats.capturedAt)} · USD. Not a live feed.</p></div>` : '';
+    const curationNoteHtml = node.curationNote ? `<p class="details-muted">${escHtml(node.curationNote)}</p>` : '';
     const events = node.participationEvents || [];
     const boosts = events.filter(event => event.type === 'boost' && event.actor === node.id);
     const boostTotal = boosts.reduce((sum, event) => sum + event.amount, 0);
@@ -1883,7 +1909,7 @@
       : node.kind === 'creator'
       ? '<p class="details-muted">Creator profile records are not included in the Artizen public graph feed. This creator node and its links were added locally at the creator’s request.</p>'
       : node.kind === 'project' && node.dataState !== 'not-in-feed'
-        ? '<p class="details-muted">This feed does not report project fundraising totals, creator identities, or artifact purchases. A connection means the relationship label shown below; it is not proof of a ledger transaction.</p>'
+        ? `<p class="details-muted">The public graph feed does not report project fundraising totals, creator identities, or artifact purchases${node.publicStats ? ' (the total above is a separate dated capture of the public Artizen page)' : ''}. A connection means the relationship label shown below; it is not proof of a ledger transaction.</p>`
         : '';
 
     const accountHtml = node.kind === 'creator' && window.CanopyArtizenAccount
@@ -1892,15 +1918,30 @@
         entitiesById: allEntitiesById,
         connectedWallet: window.decentCanopyWallet || null,
         networks: window.CanopyParticipationModel.networks,
+        viewerId: window.CanopyOnboarding?.viewerId?.() || null,
         esc: escHtml,
       })
       : '';
 
+    const imageUrl = safeUrl(node.image);
+    const pageUrl = safeUrl(node.artizenPageUrl);
+    const pageLabel = node.kind === 'creator' ? 'Artizen profile' : node.kind === 'fund' ? 'Artizen fund page' : 'Artizen project page';
+    const linkImage = (img) => pageUrl
+      ? `<a class="details-image-link" href="${escAttr(pageUrl)}" target="_blank" rel="noopener noreferrer" title="Open ${escAttr(node.name)} on Artizen">${img}</a>`
+      : img;
+    const imageHtml = !imageUrl ? '' : node.kind === 'creator'
+      ? `<figure class="details-avatar">${linkImage(`<img src="${escAttr(imageUrl)}" alt="${escAttr(node.name)} profile picture${pageUrl ? ` — opens ${pageLabel}` : ''}" referrerpolicy="no-referrer" />`)}<figcaption>${escHtml(node.imageSource || 'Creator-supplied image')}</figcaption></figure>`
+      : `<figure class="details-artwork">${linkImage(`<img src="${escAttr(imageUrl)}" alt="${escAttr(node.name)} artwork${pageUrl ? ` — opens ${pageLabel}` : ''}" loading="lazy" referrerpolicy="no-referrer" onerror="this.closest('figure').hidden=true" />`)}<figcaption>Artwork · Artizen public index${pageUrl ? ` · <a href="${escAttr(pageUrl)}" target="_blank" rel="noopener noreferrer">${pageLabel} ↗</a>` : ''}</figcaption></figure>`;
+
     detailsContentEl.innerHTML =
       `<p class="details-track" style="color:${color}">${capitalize(node.kind)}</p>` +
+      imageHtml +
       `<h2 class="details-title">${escHtml(node.name)}</h2>` +
       recordLabel +
       `<p class="details-desc">${escHtml(node.description || '')}</p>` +
+      curationNoteHtml +
+      publicStatsHtml +
+      curatedLinksHtml +
       valueHtml +
       importedFunding +
       walletHtml +
@@ -2056,6 +2097,7 @@
     back.textContent = '← All Artizen projects and funds';
     back.addEventListener('click', returnToArtizenCanopy);
     visionNoteEl.replaceChildren(summary, back);
+    window.CanopyDataNotes?.open();
     visionNoteEl.setAttribute('aria-label', `${fund.name} fund canopy summary`);
     if (modeBadgeEl) modeBadgeEl.querySelector('.mode-badge-label').textContent = `${fund.name} · fund canopy`;
     const hint = document.querySelector('.spiral-hint');

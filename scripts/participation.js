@@ -79,7 +79,15 @@
     }
   }
 
-  window.CanopyParticipation = { overlay, openWebsite, readPublicWallet };
+  function saveLocalCreator(record) {
+    const state = read();
+    const bundle = structuredClone(state.bundle || EMPTY);
+    bundle.entities = bundle.entities.filter(entity => entity.id !== record.id).concat({ ...record, kind: 'creator' });
+    CanopyParticipationModel.validate(bundle, GTPData.getProjects().filter(entity => !entity.id.startsWith('local-creator:')));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ ...state, consent: true, bundle }));
+  }
+
+  window.CanopyParticipation = { overlay, openWebsite, readPublicWallet, saveLocalCreator };
 
   document.addEventListener('DOMContentLoaded', () => {
     const dialog = document.getElementById('participation-dialog');

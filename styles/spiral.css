@@ -289,16 +289,111 @@ body {
   min-height: 2rem;
 }
 
-.prototype-vision-note {
+/* ---- Data notes drawer: docks to the right edge, or to the details sidebar when it is open ---- */
+.data-notes {
   position: absolute;
-  top: var(--prototype-note-top);
-  left: 0.85rem;
-  z-index: 18;
-  max-width: min(640px, calc(100% - 1.7rem));
-  padding: 0.6rem 0.75rem;
+  right: 0;
+  bottom: 5.5rem;
+  z-index: 24;
+  display: flex;
+  align-items: flex-end;
+  transition: right 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.spiral-shell:has(#details-panel.open) .data-notes {
+  right: 340px;
+}
+
+.data-notes-tab {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  writing-mode: vertical-rl;
+  padding: 0.7rem 0.4rem;
+  color: #d1fae5;
+  font: inherit;
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: linear-gradient(180deg, rgba(6, 78, 59, 0.95), rgba(15, 23, 42, 0.95));
+  border: 1px solid rgba(34, 197, 94, 0.55);
+  border-right: 0;
+  border-radius: 0.6rem 0 0 0.6rem;
+  cursor: pointer;
+  box-shadow: -4px 0 14px rgba(0, 0, 0, 0.35);
+}
+
+.data-notes-tab span[aria-hidden] {
+  writing-mode: horizontal-tb;
+}
+
+.data-notes-tab:hover,
+.data-notes-tab:focus-visible {
+  color: #fff;
+  border-color: #34d399;
+}
+
+.data-notes-panel {
+  width: min(360px, calc(100vw - 3rem));
+  max-height: min(48vh, 420px);
+  overflow: auto;
+  padding: 0.6rem 0.75rem 0.7rem;
   border: 1px solid rgba(34, 197, 94, 0.45);
-  border-radius: 0.6rem;
-  background: rgba(15, 23, 42, 0.88);
+  border-right: 0;
+  border-radius: 0.6rem 0 0 0.6rem;
+  background: rgba(15, 23, 42, 0.95);
+  box-shadow: -6px 0 22px rgba(0, 0, 0, 0.4);
+  animation: data-notes-in 0.2s ease-out;
+}
+
+.data-notes[data-open="true"] .data-notes-tab {
+  display: none;
+}
+
+.data-notes-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 0.4rem;
+  color: #a7f3d0;
+  font-size: 0.8rem;
+}
+
+.data-notes-stash {
+  padding: 0.2rem 0.5rem;
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.72rem;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 0.4rem;
+  cursor: pointer;
+}
+
+.data-notes-stash:hover,
+.data-notes-stash:focus-visible {
+  color: var(--text);
+  border-color: #34d399;
+}
+
+@keyframes data-notes-in {
+  from { opacity: 0; transform: translateX(16px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .data-notes, .data-notes-panel { transition: none; animation: none; }
+}
+
+@media (max-width: 720px) {
+  .spiral-shell:has(#details-panel.open) .data-notes {
+    right: 0;
+  }
+}
+
+.prototype-vision-note {
+  position: static;
 }
 
 .prototype-vision-note p {

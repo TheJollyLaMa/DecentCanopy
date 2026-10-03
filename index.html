@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="styles/decent-head.css" />
     <link rel="stylesheet" href="styles/payroll.css" />
     <link rel="stylesheet" href="styles/participation.css" />
+    <link rel="stylesheet" href="styles/onboarding.css" />
   </head>
   <body>
     <header class="decent-head" aria-label="DecentCanopy header">
@@ -140,10 +141,105 @@
         stewardship, and each person's and place's own location. Artizen sign-in and artifact collections are
         <strong>coming soon</strong>; we will never ask for your Artizen password.
       </p>
+      <p>
+        See a filled-in canopy on <strong>TheJollyLaMa</strong>'s creator blip: profile picture, project artwork and
+        websites, the Decent Agency Discord, dated totals from public Artizen pages, projects they support, recent boosts,
+        and pending fund submissions (a submission is not membership), all labeled with their source.
+      </p>
+      <p>
+        New here? The <strong>🧭 Tour</strong> walks you through the map and lets you choose your own view. Sources and
+        limits live in the <strong>ⓘ Data notes</strong> tab.
+      </p>
       <a class="canopy-about-project-link" href="https://artizen.fund/index/p/decent-canopy?season=7" target="_blank" rel="noopener noreferrer">
         <img class="artizen-logo" src="assets/artizen-logo.png" alt="" /> Explore DecentCanopy on Artizen <span aria-hidden="true">↗</span>
       </a>
       <p class="canopy-about-note">DecentCanopy grew from the early Green Tea Party meeting circles. The network is still growing.</p>
+      <section class="about-build" aria-labelledby="about-build-title">
+        <h2 id="about-build-title">🌱 Build the canopy with us</h2>
+        <p>Open source and community-built. Ideas and fixes start as GitHub issues; contributors earn on the auto payroll.</p>
+        <ol>
+          <li><strong>File an issue</strong> to join the contributor whitelist.</li>
+          <li><strong>Pitch ideas or pick up issues.</strong> <code>bounty</code> labels pay in ART or USDC; the idea's author shares 20% via <code>idea-credit</code>.</li>
+          <li><strong>Ship it.</strong> Merged work is queued on the payroll automatically and paid out on Base.</li>
+        </ol>
+        <div class="about-build-actions">
+          <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy" target="_blank" rel="noopener noreferrer">View repository ↗</a>
+          <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy/issues" target="_blank" rel="noopener noreferrer">Open issues ↗</a>
+          <a id="about-issue-button" class="about-issue-button" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=contributor-request.yml&amp;title=Contributor%20request%3A%20" target="_blank" rel="noopener noreferrer">File an Issue</a>
+        </div>
+      </section>
+    </dialog>
+
+    <dialog id="canopy-tour-dialog" class="canopy-tour-dialog" aria-labelledby="canopy-tour-title">
+      <div class="tour-canopy" aria-hidden="true">
+        <span class="tour-tree">🌲</span><span class="tour-tree">🌳</span><span class="tour-tree">🌲</span>
+        <span class="tour-critter">🐿️</span>
+      </div>
+      <p class="tour-kicker">Beginner tour · <span id="tour-step-count">1 of 5</span></p>
+      <h2 id="canopy-tour-title">Welcome to DecentCanopy 🌲</h2>
+
+      <section class="tour-step" data-step="0">
+        <p>A living map of the <span class="artizen-brand"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen</span> community: projects, funds, the creators behind them, and how they all connect.</p>
+        <p>No account needed. Look around, follow the lines, and see the wider forest around each idea.</p>
+      </section>
+
+      <section class="tour-step" data-step="1" hidden>
+        <h3>Reading the canopy</h3>
+        <ul class="tour-legend">
+          <li><span class="legend-dot" style="background:#34d399"></span><strong>Projects</strong> — the things people are building</li>
+          <li><span class="legend-dot" style="background:#a78bfa"></span><strong>Funds</strong> — click one to open its own fund canopy</li>
+          <li><span class="legend-dot" style="background:#fbbf24"></span><strong>Creators</strong> and creator-curated links</li>
+          <li><span class="tour-line" aria-hidden="true"></span><strong>Lines</strong> — submissions, curation, funding, boosts, and collaborations</li>
+          <li><span class="tour-halo" aria-hidden="true"></span><strong>Glow</strong> — dated public totals (brighter means more raised)</li>
+        </ul>
+        <p>Click any blip to open its card. The <strong>ⓘ Data notes</strong> tab on the right explains where everything comes from.</p>
+      </section>
+
+      <section class="tour-step" data-step="2" hidden>
+        <h3>A filled-in example</h3>
+        <p><strong>TheJollyLaMa</strong> shares their canopy so you can see what a complete card looks like: profile, projects and websites, the Decent Agency Discord, projects they support, and pending fund submissions.</p>
+        <p>Every line on a card says where it came from: Artizen's public index, the creator, or you.</p>
+        <button id="tour-peek" class="toolbar-btn" type="button">Peek at TheJollyLaMa's card ↗</button>
+      </section>
+
+      <section class="tour-step" data-step="3" hidden>
+        <h3>Make it your view <span class="tour-optional">optional</span></h3>
+        <p>Choose how the canopy greets you. Your choice stays in this browser. Nothing is uploaded or verified.</p>
+        <fieldset class="tour-choices">
+          <legend class="sr-only">Who is viewing?</legend>
+          <label><input type="radio" name="tour-viewer" value="explore" checked /> Just exploring</label>
+          <label><input type="radio" name="tour-viewer" value="existing" /> I'm already on the canopy</label>
+          <div class="tour-sub" data-for="existing" hidden>
+            <label>My creator card <select id="tour-existing"></select></label>
+          </div>
+          <label><input type="radio" name="tour-viewer" value="local" /> Add me as a local creator</label>
+          <div class="tour-sub" data-for="local" hidden>
+            <label>Display name <input id="tour-name" type="text" maxlength="80" placeholder="Your name or handle" /></label>
+            <label>Website (optional) <input id="tour-website" type="url" maxlength="2048" placeholder="https://…" /></label>
+            <label>Artizen profile (optional) <input id="tour-artizen" type="url" maxlength="2048" placeholder="https://artizen.fund/…" /></label>
+            <label class="tour-consent"><input id="tour-consent" type="checkbox" /> Store this card locally in my browser. I can clear it any time from Participate / import.</label>
+          </div>
+        </fieldset>
+        <p id="tour-error" class="tour-error" role="alert"></p>
+      </section>
+
+      <section class="tour-step" data-step="4" hidden>
+        <h3>You're all set</h3>
+        <ul class="tour-tips">
+          <li>🔎 <strong>Search</strong> any project, fund, creator, or tag.</li>
+          <li>🌍 <strong>Globe view</strong> shows people and places who opted in.</li>
+          <li>🪪 Open your card and choose <strong>Edit website / wallet / location</strong> to add more.</li>
+          <li>🧭 Replay this tour from the <strong>Tour</strong> button.</li>
+        </ul>
+      </section>
+
+      <div class="tour-dots" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
+      <div class="tour-actions">
+        <button id="tour-skip" class="tour-skip" type="button">Skip tour</button>
+        <span class="tour-spacer"></span>
+        <button id="tour-back" class="toolbar-btn" type="button">Back</button>
+        <button id="tour-next" class="tour-next" type="button">Next</button>
+      </div>
     </dialog>
 
     <div class="spiral-shell">
@@ -179,6 +275,7 @@
 
         <div class="toolbar-sep" role="separator"></div>
 
+        <button id="tour-open" class="toolbar-btn tour-open" type="button" aria-haspopup="dialog" aria-controls="canopy-tour-dialog">🧭 Tour</button>
         <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false">
           💸 Payroll
         </button>
@@ -252,12 +349,23 @@
         ></div>
       </nav>
 
-      <aside class="prototype-vision-note" aria-label="Prototype explainer">
-        <p>
-          DecentCanopy now snapshots public Artizen season data so the constellation, filters, and detail panels can
-          reflect real funding cadence instead of placeholder fixtures.
-        </p>
-      </aside>
+      <div id="data-notes" class="data-notes" data-open="false">
+        <button id="data-notes-tab" class="data-notes-tab" type="button" aria-expanded="false" aria-controls="data-notes-panel" title="About this data">
+          <span aria-hidden="true">ⓘ</span><span class="data-notes-tab-label">Data notes</span>
+        </button>
+        <div id="data-notes-panel" class="data-notes-panel" hidden>
+          <div class="data-notes-head">
+            <strong>About this data</strong>
+            <button id="data-notes-stash" class="data-notes-stash" type="button" aria-label="Stash data notes">Stash ⇥</button>
+          </div>
+          <aside class="prototype-vision-note" aria-label="Prototype explainer">
+            <p>
+              DecentCanopy now snapshots public Artizen season data so the constellation, filters, and detail panels can
+              reflect real funding cadence instead of placeholder fixtures.
+            </p>
+          </aside>
+        </div>
+      </div>
 
       <!-- ---- Canvas ---- -->
       <div class="spiral-canvas-wrap" role="region" aria-label="Interactive project constellation">
@@ -451,6 +559,7 @@
     <script src="scripts/data-layer.js"></script>
     <script src="scripts/canopy-globe.js"></script>
     <script src="scripts/artizen-account.js"></script>
+    <script src="scripts/onboarding.js"></script>
     <script src="scripts/spiral.js"></script>
   </body>
 </html>
