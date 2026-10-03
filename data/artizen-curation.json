@@ -1,0 +1,90 @@
+{
+  "creator": {
+    "id": "curator:thejollylama",
+    "name": "TheJollyLaMa",
+    "description": "A creator/steward node added at the request of TheJollyLaMa. Artizen's public graph feed does not include creator profile records."
+  },
+  "projects": [
+    {
+      "slug": "decent-jukebox",
+      "name": "Decent Jukebox"
+    },
+    {
+      "slug": "bignuten",
+      "name": "BigNuten"
+    },
+    {
+      "slug": "qart-code",
+      "name": "qArt-code",
+      "description": "Creator-curated entry; no matching project was found in the latest Artizen public index.",
+      "searchUrl": "https://artizen.fyi/search?q=qArt-code"
+    },
+    {
+      "slug": "green-tea-party",
+      "name": "The Green Tea Party"
+    },
+    {
+      "slug": "decent-canopy",
+      "name": "DeCent Canopy"
+    },
+    {
+      "slug": "green-tea-party-kiln",
+      "name": "Green Tea Party Kiln"
+    },
+    {
+      "slug": "green-tea-hut-1",
+      "name": "Green Tea Hut #1"
+    }
+  ],
+  "associations": [
+    {
+      "source": "creator",
+      "targetSlug": "decent-jukebox",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Listed by TheJollyLaMa among their Artizen projects."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "bignuten",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Listed by TheJollyLaMa among their Artizen projects."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "qart-code",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Listed by TheJollyLaMa among their Artizen projects."
+    },
+    {
+      "source": "creator",
+      "targetSlug": "green-tea-party",
+      "type": "creator-associated",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "The Green Tea Party is one of TheJollyLaMa's Artizen projects."
+    },
+    {
+      "sourceSlug": "green-tea-party",
+      "targetSlug": "decent-canopy",
+      "type": "associated-project",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Described by TheJollyLaMa as one of the first projects imagined from The Green Tea Party's first meeting minutes."
+    },
+    {
+      "sourceSlug": "green-tea-party",
+      "targetSlug": "green-tea-party-kiln",
+      "type": "associated-project",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Described by TheJollyLaMa as within The Green Tea Party project envelope."
+    },
+    {
+      "sourceSlug": "green-tea-party",
+      "targetSlug": "green-tea-hut-1",
+      "type": "associated-project",
+      "sourceLabel": "Creator-curated by TheJollyLaMa",
+      "note": "Described by TheJollyLaMa as within The Green Tea Party project envelope."
+    }
+  ]
+}

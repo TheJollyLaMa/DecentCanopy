@@ -153,6 +153,7 @@ Then visit `http://localhost:3000` (or the port shown by `serve`).
 | Mode | URL | Data source |
 |------|-----|-------------|
 | Prototype (default) | `/` | Local Artizen season snapshot in `data/*.json` |
+| Artizen canopy | `/?canopy=artizen` | Artizen project/fund graph snapshot in `data/artizen.json`, plus separately attributed local curation |
 | App | `/?mode=app` or `/app` | On-chain via `GTPContractAdapter` (requires wallet + configured addresses) |
 
 ## Features
@@ -181,6 +182,26 @@ Click any project node to open a details panel showing:
 - Filter by status/phase (e.g., "curation", "competition", "funded", "archived")
 - Search by project name or description
 
+## Artizen Canopy
+
+Open `/?canopy=artizen` to explore a refreshable snapshot of the public Artizen graph:
+
+- Artizen project and fund records appear as distinct node types.
+- The public index's `submitted`, `curated`, and `funded` project-to-fund relationships are rendered as connections, with season metadata retained where present.
+- Search covers names, descriptions, tags, and facets. The **View** filter switches between all entities, projects, funds, or creators and their connected project neighborhood.
+- The seed **TheJollyLaMa** creator node and its stated project associations are maintained separately in `data/artizen-curation.json`, with the provided rationale shown on each curated edge. qArt-code is included as a curated entry while it is absent from the checked-in index; the adapter will use the official Artizen record automatically if a later snapshot contains its slug.
+- The side panel labels the source of each relationship. Curated links are dashed and gold; Artizen-index links remain separate.
+
+The Artizen matching index used for this snapshot does not include creator fields, project fundraising totals, artifact-purchase records, or proof of public-ledger transactions. Individual Artizen project pages may provide creator bylines, but the importer does not crawl thousands of detail pages; creator links are therefore limited to the local curation file for now. This view does not infer or display missing data as fact. In particular, an Artizen `funded` relationship is shown as a source relationship record, not as a verified on-chain transaction.
+
+The browser reads the checked-in `data/artizen.json` snapshot rather than requesting Artizen from the user's browser; this avoids relying on cross-origin browser access and makes each snapshot reproducible. Refresh it with Node.js 18 or newer:
+
+```sh
+node scripts/sync-artizen-data.js
+```
+
+The command validates the public feed before replacing the snapshot and reports its source generation date. Review the generated snapshot before publishing an update. Curated records and links are not overwritten by the sync.
+
 ## Data Layer API
 
 The `GTPData` module exposes:
@@ -197,7 +218,7 @@ GTPData.getProjectById(id)
 GTPData.getNeighborIds(id)  // Find related projects via associations
 GTPData.buildAdjacency()    // Build full graph
 GTPData.getMetrics(projects)  // Aggregate metrics
-GTPData.getFilterOptions()  // Available tracks, statuses, locations
+GTPData.getFilterOptions()  // Available tracks, statuses, locations, and entity kinds
 GTPData.filterProjects(state)  // Apply filters
 
 // Filter state
@@ -240,7 +261,7 @@ node scripts/validatePayrollQueue.js
 - **App mode is a scaffold.** `GTPAppDataAdapter` and `GTPContractAdapter` return placeholder results until real contract addresses are configured in `scripts/config.js` and a wallet provider is present.
 - **No build step.** Scripts are loaded as plain `<script>` tags in order. There is no bundler or tree-shaking; all global variables (`GTPConfig`, `GTPData`, etc.) are intentional.
 - **CORS on file://**: `fetch()` calls to local JSON fail when opening `index.html` directly from the filesystem. Use a local HTTP server (`npx serve .`).
-- **Source data is from public Artizen season records.** The `data/*.json` files now model the seasons, phases, funding outcomes, and project relationships from Artizen’s public funding story rather than the older Green Tea Party fixture set.
+- **Data views have separate source scope.** The default prototype uses public Artizen season records in `data/*.json`; `/?canopy=artizen` uses the project/fund graph in `data/artizen.json` and separately attributed local curation in `data/artizen-curation.json`.
 
 ## Attribution
 
