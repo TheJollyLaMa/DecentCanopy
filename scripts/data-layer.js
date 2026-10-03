@@ -100,6 +100,12 @@ var GTPData = (function () {
       creator: raw.creator || null,
       slug: raw.slug || null,
       facets: Array.isArray(raw.facets) ? raw.facets.map(String) : [],
+      websiteUrl: raw.websiteUrl || null,
+      funding: raw.funding || null,
+      participationEvents: Array.isArray(raw.participationEvents) ? raw.participationEvents.slice() : [],
+      importCoverage: raw.importCoverage || null,
+      publicWallet: raw.publicWallet || null,
+      sharedLocation: raw.sharedLocation || null,
       generatedAt: raw.generatedAt || null
     };
   }
@@ -143,11 +149,12 @@ var GTPData = (function () {
 
   function createAdapter(basePath) {
     _modeInfo = GTPModeRouter.getModeInfo(window.location);
-    if (new URLSearchParams(window.location.search).get('canopy') === 'artizen') {
+    var canopy = new URLSearchParams(window.location.search).get('canopy');
+    if (canopy === 'artizen' || canopy === 'green-tea' || (!canopy && _modeInfo.mode === 'prototype')) {
       _modeInfo = {
         mode: 'artizen',
         source: 'artizen-public-index',
-        label: 'Artizen Canopy',
+        label: canopy === 'green-tea' ? 'Green Tea Canopy' : 'Artizen Canopy',
         isPrototype: false,
         isApp: false
       };
@@ -185,6 +192,15 @@ var GTPData = (function () {
       if (!Array.isArray(rawProjects)) throw new Error('[GTPData] adapter.getProjects() must return an array');
       if (!Array.isArray(rawAssociations)) throw new Error('[GTPData] adapter.getAssociations() must return an array');
       if (!Array.isArray(rawActivity)) rawActivity = [];
+
+      if (_modeInfo.mode === 'artizen' && window.CanopyParticipation) {
+        var localData = window.CanopyParticipation.overlay({
+          projects: rawProjects, associations: rawAssociations, activity: rawActivity
+        });
+        rawProjects = localData.projects;
+        rawAssociations = localData.associations;
+        rawActivity = localData.activity;
+      }
 
       _projects = rawProjects
         .map(function (p, i) { return normalizeProject(p, i); })

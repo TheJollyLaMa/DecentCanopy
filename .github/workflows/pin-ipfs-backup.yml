@@ -1,0 +1,50 @@
+name: Pin Canopy Data to IPFS
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - contributor-accounts.json
+      - data/activity.json
+      - data/artizen-curation.json
+      - data/artizen.json
+      - data/associations.json
+      - data/projects.json
+      - payroll-assets.json
+      - payroll-queue.json
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: decent-canopy-ipfs-backup
+      cancel-in-progress: false
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Pin canopy data backup to IPFS
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+        run: node scripts/pinDataBackup.js
+
+      - name: Commit latest backup manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/ipfs-backup.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: update IPFS canopy backup manifest"
+          git pull --rebase origin main
+          git push origin HEAD:main

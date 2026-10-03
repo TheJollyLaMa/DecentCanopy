@@ -1,0 +1,34 @@
+.participation-dialog {
+  width: min(650px, calc(100vw - 2rem));
+  max-height: 85vh;
+  overflow: auto;
+  padding: 1.4rem;
+  border: 1px solid #386f61;
+  border-radius: 1rem;
+  background: #101e2d;
+  color: #e5e7eb;
+  font: 0.88rem/1.6 system-ui, sans-serif;
+}
+
+.participation-dialog::backdrop { background: rgba(2, 6, 18, 0.8); }
+.participation-dialog h2 { margin: 0; }
+.participation-dialog h3 { margin-bottom: 0.4rem; }
+.participation-dialog p { color: #b8c7d7; }
+.participation-dialog label { display: block; margin: 0.8rem 0; }
+.participation-dialog input[type="url"] { width: 100%; padding: 0.6rem; }
+.participation-dialog input[type="text"],
+.participation-dialog input[type="number"],
+.participation-dialog select { max-width: 100%; padding: 0.45rem; }
+.participation-dialog input[type="text"] { width: 100%; }
+.participation-dialog button { margin: 0.25rem; }
+.participation-actions { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+#participation-status { color: #fbbf24; white-space: pre-wrap; }
+#participation-preview { padding: 0.6rem; border-left: 2px solid #6ee7b7; }
+.participation-card-note { color: #fbbf24; font-size: 0.76rem; }
+.globe-dialog { width: min(850px, calc(100vw - 1rem)); }
+#canopy-globe { display: block; width: 100%; height: 420px; max-height: 50vh; background: #070e1e; border-radius: 0.8rem; }
+.globe-entities { display: grid; gap: 0.4rem; }
+.globe-entities button { text-align: left; white-space: normal; }
+#participation-fields { max-height: 240px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.72rem; }
+.details-links a { overflow-wrap: anywhere; }
+.canopy-about-dialog { max-height: 85vh; overflow-y: auto; }

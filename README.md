@@ -13,8 +13,12 @@ DecentCanopy provides:
 - **Sidepanel Details** — Project information, season/phase context, parent/child relationships, and cross-project associations
 - **Shared Data Layer** — Normalized access to projects, associations, activity, and metrics via `scripts/data-layer.js`
 - **Artizen Snapshot** — Local JSON data derived from public Artizen season/funding records for deterministic rendering
-- **DecentHead Header** — Animated IPFS status, clickable canopy title, and injected-wallet connection controls
+- **DecentHead Header** — Animated forest canopy, About modal, IPFS status, and injected-wallet connection controls
 - **Repo Payroll** — ART/USDC bounty ledger and an owner-gated Base Settlement Router payout panel
+- **IPFS Canopy Backup** — Versioned public data snapshots pinned to IPFS through Pinata
+- **Opt-in Participation** — Previewed browser-local imports, website-card drafts, season funding, and explicitly unverified activity replay
+- **Public Wallet Links** — Ethereum, Optimism, and Base explorer links, matching-address associations, and requested read-only native balances
+- **Distributed Globe** — Consent-based country/city/precise locations and symbolic off-Earth markers, with accessible card navigation
 
 ## Architecture
 
@@ -23,7 +27,9 @@ DecentCanopy/
 ├── index.html                    Main constellation view (app entrypoint)
 ├── .env.example                  Environment variable template
 styles/
-└── spiral.css                    Canvas, toolbar, sidepanel & legend styling
+├── spiral.css                    Canvas, toolbar, sidepanel & legend styling
+├── decent-head.css               Forest header and responsive wallet/IPFS controls
+└── participation.css             Consent, import, profile and globe dialogs
 scripts/
 ├── config.js                     Chain IDs, supported networks, contract address slots
 ├── mode-router.js                Resolves prototype vs app mode from URL
@@ -35,14 +41,23 @@ scripts/
 ├── data-adapter/
 │   ├── interface.js              Adapter method contract & validation
 │   ├── mock-adapter.js           Local Artizen JSON loader (prototype mode)
-│   └── app-adapter.js            On-chain data adapter (app mode, wires contract-adapter)
+│   ├── app-adapter.js            On-chain data adapter (app mode, wires contract-adapter)
+│   └── artizen-adapter.js         Public project/fund graph and curated creator links
 ├── spiral.js                     Canvas fractal map — rendering, pan/zoom, interaction
 ├── decent-head.js                Wallet connect and IPFS status header behavior
+├── participation-model.js        Validates reported data, wallet/location links and ledger reads
+├── participation.js              Browser-local consent, imports, edits, exports and deletion
+├── canopy-globe.js               Opt-in Earth/space projection and accessible card navigation
+├── pinDataBackup.js              Packages public canopy data and pins it to IPFS
 ├── data/
 │   ├── projects.json             Artizen project records (season, phase, outcome, funding totals, …)
 │   ├── associations.json         Relationship edges (source, target, type)
 │   └── activity.json             Public season/funding activity feed
 ```
+
+The header and About modal share tree-lined SVG pathways and species-specific canopy-to-canopy
+critter routes. Modal critters stop when it closes; reduced-motion preferences disable movement.
+Artizen labels in the body toolbar and About modal use the logo also used by ArtFi.
 
 ### Flow
 
@@ -55,7 +70,11 @@ index.html
        data-adapter/interface.js  → GTPDataAdapterInterface
        data-adapter/mock-adapter.js → GTPMockDataAdapter
        data-adapter/app-adapter.js  → GTPAppDataAdapter
+       data-adapter/artizen-adapter.js → GTPArtizenDataAdapter
+       participation-model.js → validation and read-only ledger helpers
+       participation.js → consented, browser-local overlay
        data-layer.js    → GTPData  (loads + normalises data via active adapter)
+       canopy-globe.js  → opt-in globe and card-selection events
        spiral.js        → renders fractal canvas, wires sidepanel & filters
 ```
 
@@ -157,8 +176,8 @@ Then visit `http://localhost:3000` (or the port shown by `serve`).
 
 | Mode | URL | Data source |
 |------|-----|-------------|
-| Prototype (default) | `/` | Local Artizen season snapshot in `data/*.json` |
-| Artizen canopy | `/?canopy=artizen` | Artizen project/fund graph snapshot in `data/artizen.json`, plus separately attributed local curation |
+| Artizen canopy (default) | `/` or `/?canopy=artizen` | Artizen project/fund graph snapshot in `data/artizen.json`, plus separately attributed local curation |
+| Green Tea canopy | `/?canopy=green-tea` | The Green Tea Party and its directly associated curated project cluster |
 | App | `/?mode=app` or `/app` | On-chain via `GTPContractAdapter` (requires wallet + configured addresses) |
 
 ## Features
@@ -189,13 +208,14 @@ Click any project node to open a details panel showing:
 
 ## Artizen Canopy
 
-Open `/?canopy=artizen` to explore a refreshable snapshot of the public Artizen graph:
+The default landing view and `/?canopy=artizen` explore a refreshable snapshot of the public Artizen graph:
 
 - Artizen project and fund records appear as distinct node types.
 - The public index's `submitted`, `curated`, and `funded` project-to-fund relationships are rendered as connections, with season metadata retained where present.
 - Search covers names, descriptions, tags, and facets. The **View** filter switches between all entities, projects, funds, or creators and their connected project neighborhood.
 - The seed **TheJollyLaMa** creator node and its stated project associations are maintained separately in `data/artizen-curation.json`, with the provided rationale shown on each curated edge. qArt-code is included as a curated entry while it is absent from the checked-in index; the adapter will use the official Artizen record automatically if a later snapshot contains its slug.
 - The side panel labels the source of each relationship. Curated links are dashed and gold; Artizen-index links remain separate.
+- Selecting any fund opens a focused fund canopy: projects directly linked to that fund, plus their direct links to other projects, funds, and creator nodes. The summary distinguishes direct Artizen project–fund records from locally curated links, and the return control restores the complete Artizen view.
 
 The Artizen matching index used for this snapshot does not include creator fields, project fundraising totals, artifact-purchase records, or proof of public-ledger transactions. Individual Artizen project pages may provide creator bylines, but the importer does not crawl thousands of detail pages; creator links are therefore limited to the local curation file for now. This view does not infer or display missing data as fact. In particular, an Artizen `funded` relationship is shown as a source relationship record, not as a verified on-chain transaction.
 
@@ -206,6 +226,99 @@ node scripts/sync-artizen-data.js
 ```
 
 The command validates the public feed before replacing the snapshot and reports its source generation date. Review the generated snapshot before publishing an update. Curated records and links are not overwritten by the sync.
+
+Choose **Green Tea canopy** in the canopy switch (or open `/?canopy=green-tea`) to focus on The Green Tea Party and directly associated projects such as DecentCanopy, Green Tea Party Kiln, and Green Tea Hut #1. This focused view uses the same Artizen snapshot and only includes locally curated `associated-project` links for this cluster.
+
+### Opt-in participation prototype
+
+**Participate / import** accepts a previewed, versioned JSON file with explicit consent to browser-local storage. Nothing is uploaded, published to IPFS, or sent to Artizen. Wallet connection is optional and does **not** authenticate an Artizen account or prove ownership. Artizen credentials and session cookies must never be entered or imported. Website editing on data cards is a local annotation, not an authorized owner update. Direct HTTPS links are required; misleading links and concealed destinations are not appropriate.
+
+The prototype does not use ZenBoost or automate boosting. Artizen's [playbook](https://play.artizen.fund/#--terms-conditions---house-vibes) requires manual boosts and prohibits manipulation. Future live imports, account linking, and shared owner editing require an approved integration, identity verification, consent controls, and persistent server storage.
+
+Imports are limited to 2 MB and 1,000 records per array. Saving replaces the prior imported bundle, preserving separately edited website, wallet, and location drafts. Download the local bundle to retain it or revoke consent to delete it from this browser. Downloads and any copies made elsewhere are not deleted by revocation. Local imports are **excluded** from repository IPFS backups.
+
+Use this schema (the button downloads a minimal starter template). Existing project/fund IDs are available in the website editor; newly introduced creators use `local-creator:` IDs. This is a DecentCanopy exchange format, **not** a claim that arbitrary Artizen exports already match it:
+
+```json
+{
+  "format": "decentcanopy-participation",
+  "version": 1,
+  "coverage": "My partial history, season 7; not a complete lifetime record",
+  "entities": [
+    {
+      "id": "local-creator:me",
+      "kind": "creator",
+      "name": "My display name",
+      "websiteUrl": "https://example.org"
+    }
+  ],
+  "connections": [],
+  "events": []
+}
+```
+
+Existing entity records may include `funding: { "raised": 500, "goal": 1000, "currency": "USD", "season": 7, "asOf": "2026-10-03T12:00:00Z" }`. These are season-specific participant claims, displayed with their timestamp, not instant statistics. Only USD is supported for funding comparisons; fund availability is not treated as money raised. Node halos scale logarithmically with reported raised USD and do not imply creator wealth. Records without funding remain visible and are not treated as zero-funded.
+
+Connections contain `source`, `target`, and one of `creator-associated`, `collaboration`, or `fund-member`. Events contain a unique `id`, `target`, `date` (ISO timestamp), positive `amount`, and `type`: `boost`, `purchase`, or `counter-change`. A purchase requires `currency: "USD"`; boost and counter-change amounts are whole **boost counts**, not spent point balances. Optional `actor` must reference a creator. Aggregate `counter-change` records cannot have an actor. Do not include private buyer identities without their permission.
+
+All imported records remain **participant-reported, unverified**, regardless of any supplied verification flags. Creator cards summarize attributed boosts by destination within the imported coverage only—not a verified all-time tally. **Replay imported activity** animates visible targets chronologically, with larger purchase pulses and smaller boost pulses; actor journeys remain unverified and counter changes have no actor. Historical playback is compressed, not a live event stream. Reduced-motion preferences disable replay. Neither purchases nor boosts automatically alter fundraising totals, avoiding double counting.
+
+#### Participate through a card
+
+1. Search for a project, fund, or creator, open its side-panel card, and choose **Edit website / wallet / location**.
+2. Review the browser-local storage consent. Add a direct HTTPS website and save the website draft separately.
+3. Enter a public EVM address and choose **Ethereum**, **Optimism**, or **Base**, or use the connected wallet address. Blank the address and save to remove the link.
+4. Separately opt in to a location. Choose a city/country label, coordinates at your preferred precision, or **Off Earth**. Save wallet/location to persist these drafts.
+5. Open **Globe view** to turn and tilt the globe, follow connections, and select a marker or its accessible list entry to return to the card.
+
+To introduce a new creator, download the participation JSON template, replace the display name and `local-creator:me` identifier, and add permitted links/data before previewing and saving it. No user authentication or verified owner edits are claimed in this prototype. Shared community publishing and Artizen account linking remain future work requiring approved integration and authentication.
+
+#### Public wallets and ledger utility
+
+Entity import records optionally accept:
+
+```json
+{
+  "publicWallet": {
+    "address": "0x1111111111111111111111111111111111111111",
+    "chainId": 8453
+  },
+  "sharedLocation": {
+    "consent": true,
+    "precision": "city",
+    "label": "My chosen city",
+    "latitude": 40.7,
+    "longitude": -74.0
+  }
+}
+```
+
+These are fields within an entity, not a standalone import. The address above is an example, not a real participant association. Addresses are normalized to lowercase; invalid/zero addresses and unsupported networks are rejected. Each card links directly to that chain's public explorer. Profiles declaring the same address **on the same chain** gain a `shared-public-wallet` graph connection. A shared treasury does not imply the same person owns the projects. These links remain participant-declared and unverified.
+
+**Read public native balance (provider request)** explicitly queries the injected wallet provider on the selected chain for `eth_blockNumber` and `eth_getBalance`. It does not request a signature, send payments, switch networks, scan transaction histories, or contact a separate RPC service configured by DecentCanopy. The provider may contact its configured RPC operator, which learns the queried address. Results show ETH, block number, and read time; they are provider-reported, ephemeral, and not saved/exported. The selected network must match; network changes and malformed responses surface errors.
+
+A public balance is **not** Artizen fundraising, verified income, or personal wealth. Wallet ownership, Artizen account ownership, purchase attribution, and transaction semantics are not established by a link or balance lookup. Future verified ledger activity needs chain-specific receipt/log validation and an approved way to tie records to the appropriate Artizen entities. The graph separates declared associations from public ledger observations.
+
+#### Location choices and privacy
+
+- **Country:** label-only is supported; supplied coordinates are rounded to whole degrees.
+- **City:** label-only is supported; supplied coordinates are rounded to one decimal.
+- **Precise:** both coordinates are required and retained up to six decimal places.
+- **Off Earth / space:** the label is retained; Earth coordinates are discarded. A random symbolic position outside the globe is chosen for the page session, stable through redraws—not an astronomical position.
+
+**Request my precise browser location** requires the separate location checkbox and the browser's geolocation permission. It fills the editor only; saving still requires your choice. Browser accuracy is reported, not guaranteed. Results arriving after closing the editor or withdrawing location consent are discarded. No automatic GPS request, address lookup, reverse-geocoding, or third-party map/geocoder calls occur. City/country names without coordinates appear in the accessible list but are not plotted at invented coordinates.
+
+The globe is an orthographic, schematic latitude/longitude sphere, not a country-boundary basemap. Far-side Earth markers are hidden until the view is turned; space markers remain symbolic. Connections are recorded graph associations, not flights, proximity proof, or money transfers. The Green Tea globe is restricted to that canopy's project cluster; the Artizen globe includes all locally opted-in entities, independent of search filters.
+
+Location and wallet drafts persist only in browser storage with the rest of participation data, are included in explicit downloads, and are **not** in automatic IPFS backups. Precise locations plus public wallet addresses can expose identity, home/work locations, and financial activity. Share only what participants permit; opt-in is not a reason to republish someone else's private data. Uncheck location consent and save to remove that card's location, or revoke participation consent to delete all local data. Already exported copies cannot be recalled.
+
+### IPFS Backup
+
+The **Pin Canopy Data to IPFS** workflow publishes the public canopy JSON datasets under `data/` (including the full Artizen snapshot and creator curation), plus the payroll queue, contributor wallet registry, and asset configuration, as a versioned JSON bundle on Pinata's public IPFS network. It runs when those source datasets change on `main`, or on manual dispatch. The workflow updates `data/ipfs-backup.json` with the latest CID; the header's IPFS status control reads that public manifest and links to the backup.
+
+Before using it, create a Pinata JWT limited to public file uploads and add it to the repository's Actions secrets as `PINATA_JWT`. Never put the token in browser code or commit it. The workflow reports missing credentials or upload failures instead of claiming success. The bundle is content-addressed; unchanged source data reuses the existing pinned backup.
+
+The backup includes contributor wallet addresses and payroll ledger data. As with the repository itself, these records are public; IPFS copies are content-addressed and may remain available independently of later repository edits.
 
 ## Data Layer API
 
@@ -250,7 +363,7 @@ Open **Payroll** on the page and connect the registered repository-owner wallet.
 
 The `decentcanopy-repo-dev` fund must be created, active, and funded on the existing shared router before payouts can succeed; supported assets must also be router-approved. The repository configuration does not deploy a router or create/fund this allocation. After the panel confirms a `payout()` transaction on Base, run the owner-only **Settle Payroll** GitHub Actions workflow with the exact contributor, issue, role, currency, and confirmed transaction hash. That workflow moves only the matching entry to settled and commits the ledger update to `main`; it does not send the payment itself. Do not run it before the on-chain transaction is confirmed.
 
-The header's IPFS indicator is intentionally status-only for now: this page does not request Web3.Storage credentials or upload data.
+The header's animated canopy motif uses a three-tree grove, varied stationary trees lining its curved pathways, and wandering forest critters. The pathway trees follow the actual trail geometry at every header width. Critters move between tree canopies with species-specific hops, trots, fluttering flight, and resting pauses; routes adapt to resizing and stop for reduced-motion preferences. Its title opens an About dialog with project context and the official DecentCanopy Artizen page.
 
 Validate locally with:
 

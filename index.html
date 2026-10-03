@@ -12,47 +12,143 @@
     <link rel="stylesheet" href="styles/spiral.css" />
     <link rel="stylesheet" href="styles/decent-head.css" />
     <link rel="stylesheet" href="styles/payroll.css" />
+    <link rel="stylesheet" href="styles/participation.css" />
   </head>
   <body>
     <header class="decent-head" aria-label="DecentCanopy header">
       <div class="decent-head-left">
-        <button id="ipfs-status-button" class="decent-head-orb ipfs-orb" type="button" aria-expanded="false" aria-controls="ipfs-status-popover">
-          <span class="orb-symbol" aria-hidden="true">⌘</span>
-          <span class="orb-label">IPFS</span>
-          <span class="orb-state">status</span>
-        </button>
+        <div class="header-control-dock ipfs-dock">
+          <span class="dock-tree dock-tree-one" aria-hidden="true">🌲</span>
+          <span class="dock-tree dock-tree-two" aria-hidden="true">🌳</span>
+          <span class="dock-tree dock-tree-three" aria-hidden="true">🌲</span>
+          <span class="dock-critter dock-critter-bird" aria-hidden="true">🐦</span>
+          <span class="dock-critter dock-critter-squirrel" aria-hidden="true">🐿️</span>
+          <button id="ipfs-status-button" class="decent-head-orb ipfs-orb" type="button" aria-label="IPFS backup status" aria-expanded="false" aria-controls="ipfs-status-popover">
+            <img class="orb-logo ipfs-logo" src="assets/ipfs-logo.png" alt="" />
+          </button>
+          <span class="dock-caption">
+            <span>IPFS</span>
+            <span id="ipfs-state-label" class="orb-state">checking</span>
+          </span>
+        </div>
       </div>
-      <a class="decent-head-title" href="index.html" aria-label="DecentCanopy home">
-        <span class="head-title-mark" aria-hidden="true">✧</span>
-        <span>DecentCanopy</span>
-        <span class="head-title-mark" aria-hidden="true">✧</span>
-        <small>Connected stewardship</small>
-      </a>
+      <button id="decent-head-about-button" class="decent-head-title" type="button" aria-haspopup="dialog" aria-controls="canopy-about-dialog">
+        <span class="head-tree-grove" aria-hidden="true">
+          <span>🌳</span><span>🌴</span><span>🌲</span>
+        </span>
+        <span class="head-title-copy">
+          <span>DecentCanopy</span>
+          <small>Connected Stewardship</small>
+          <small class="head-frankenstein-subtitle">(Another Decent Frankenstein)</small>
+        </span>
+      </button>
+      <svg class="canopy-trails" viewBox="0 0 1200 68" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M 0 53 C 190 53 180 16 355 24 S 490 57 605 39 S 830 11 930 31 S 1070 55 1200 28" />
+        <path d="M 0 18 C 145 36 205 60 350 43 S 505 8 605 29 S 825 61 930 40 S 1090 12 1200 50" />
+      </svg>
+      <div class="header-forest" aria-hidden="true">
+        <span class="forest-tree forest-tree-a">🌲</span>
+        <span class="forest-tree forest-tree-b">🌳</span>
+        <span class="forest-tree forest-tree-c">🌴</span>
+        <span class="forest-tree forest-tree-d">🌲</span>
+        <span class="forest-tree forest-tree-e">🌳</span>
+        <span class="forest-tree forest-tree-f">🌲</span>
+        <span class="forest-tree forest-tree-g">🌴</span>
+        <span class="forest-tree forest-tree-h">🌳</span>
+        <span class="forest-tree forest-tree-i">🌲</span>
+      </div>
+      <div class="canopy-critters" aria-hidden="true">
+        <span class="canopy-critter critter-squirrel">🐿️</span>
+        <span class="canopy-critter critter-bird">🐦</span>
+        <span class="canopy-critter critter-butterfly">🦋</span>
+        <span class="canopy-critter critter-fox">🦊</span>
+        <span class="canopy-critter critter-owl">🦉</span>
+      </div>
       <div class="decent-head-right">
-        <button id="wallet-connect-button" class="decent-head-orb wallet-orb" type="button">
-          <span class="orb-symbol" aria-hidden="true">◉</span>
-          <span id="wallet-button-label" class="orb-label">Connect wallet</span>
-          <span id="wallet-address-label" class="orb-state">Base · admin</span>
-        </button>
+        <div class="header-control-dock wallet-dock">
+          <span class="dock-tree dock-tree-one" aria-hidden="true">🌳</span>
+          <span class="dock-tree dock-tree-two" aria-hidden="true">🌲</span>
+          <span class="dock-tree dock-tree-three" aria-hidden="true">🌴</span>
+          <span class="dock-critter dock-critter-butterfly" aria-hidden="true">🦋</span>
+          <span class="dock-critter dock-critter-fox" aria-hidden="true">🦊</span>
+          <button id="wallet-connect-button" class="decent-head-orb wallet-orb" type="button" aria-label="Connect wallet">
+            <img class="orb-logo metamask-logo" src="assets/metamask-logo.png" alt="" />
+          </button>
+          <span class="dock-caption wallet-caption">
+            <span id="wallet-button-label">Connect wallet</span>
+            <span id="wallet-address-label" class="orb-state" title="No wallet connected">Not connected</span>
+          </span>
+        </div>
       </div>
       <div id="ipfs-status-popover" class="ipfs-status-popover" role="status" hidden>
-        IPFS publishing is not connected. The current canopy uses checked-in snapshots; no login or uploads are enabled.
+        <p id="ipfs-backup-status">Checking for a published IPFS backup…</p>
       </div>
       <p id="wallet-status-message" class="wallet-status-message" role="status" aria-live="polite"></p>
     </header>
 
+    <dialog id="canopy-about-dialog" class="canopy-about-dialog" aria-labelledby="canopy-about-title">
+      <form method="dialog">
+        <button class="canopy-about-close" type="submit" aria-label="Close about DecentCanopy">×</button>
+      </form>
+      <div class="about-forest-scene" aria-hidden="true">
+        <svg class="canopy-trails" viewBox="0 0 1200 68" preserveAspectRatio="none">
+          <path d="M 0 53 C 190 53 180 16 355 24 S 490 57 605 39 S 830 11 930 31 S 1070 55 1200 28" />
+          <path d="M 0 18 C 145 36 205 60 350 43 S 505 8 605 29 S 825 61 930 40 S 1090 12 1200 50" />
+        </svg>
+        <div class="header-forest">
+          <span class="forest-tree forest-tree-a">🌲</span>
+          <span class="forest-tree forest-tree-b">🌳</span>
+          <span class="forest-tree forest-tree-c">🌴</span>
+          <span class="forest-tree forest-tree-d">🌲</span>
+          <span class="forest-tree forest-tree-e">🌳</span>
+          <span class="forest-tree forest-tree-f">🌲</span>
+          <span class="forest-tree forest-tree-g">🌴</span>
+          <span class="forest-tree forest-tree-h">🌳</span>
+          <span class="forest-tree forest-tree-i">🌲</span>
+        </div>
+        <div class="canopy-critters">
+          <span class="canopy-critter critter-squirrel">🐿️</span>
+          <span class="canopy-critter critter-bird">🐦</span>
+          <span class="canopy-critter critter-butterfly">🦋</span>
+          <span class="canopy-critter critter-fox">🦊</span>
+          <span class="canopy-critter critter-owl">🦉</span>
+        </div>
+      </div>
+      <p class="canopy-about-kicker">A living map of connected work</p>
+      <h1 id="canopy-about-title">About DecentCanopy</h1>
+      <p>
+        DecentCanopy helps communities see the projects, people, funds, and relationships that make a resilient
+        creative ecosystem. Follow the connections, explore their sources, and find the wider forest around each
+        endeavor.
+      </p>
+      <p>
+        This canopy brings together <span class="artizen-brand"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen's</span> public project graph and a separately curated Green Tea Party cluster.
+        Artizen records are shown as published; locally curated connections are identified as such.
+      </p>
+      <p>
+        Decent means connecting geographically distributed endeavors to public ledgers and transparent evidence.
+        Opt in to local creator profiles, website links, public wallet links, and locations on our globe.
+        Replay participant-reported boosts and purchases, and explore season-stamped funding.
+      </p>
+      <p>
+        Public wallet balances are read only on request. A wallet link does not verify Artizen identity or ownership;
+        imported activity is not a live or verified Artizen feed. Choose country, city, precise coordinates, or a
+        symbolic space marker. Nothing you import is automatically uploaded or pinned to IPFS.
+      </p>
+      <a class="canopy-about-project-link" href="https://artizen.fund/index/p/decent-canopy?season=7" target="_blank" rel="noopener noreferrer">
+        <img class="artizen-logo" src="assets/artizen-logo.png" alt="" /> Explore DecentCanopy on Artizen <span aria-hidden="true">↗</span>
+      </a>
+      <p class="canopy-about-note">DecentCanopy grew from the early Green Tea Party meeting circles. The network is still growing.</p>
+    </dialog>
+
     <div class="spiral-shell">
       <!-- ---- Top toolbar ---- -->
       <nav class="spiral-toolbar" aria-label="Constellation controls">
-        <a href="index.html" class="brand" aria-label="DecentCanopy home">
-          🌲 <span>DecentCanopy</span>
-        </a>
+        <span class="mode-badge mode-badge--prototype" aria-live="polite"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" /><span class="mode-badge-label">Artizen-backed Prototype Snapshot</span></span>
 
-        <span class="mode-badge mode-badge--prototype" aria-live="polite">Artizen-backed Prototype Snapshot</span>
-
-        <div class="canopy-switch" aria-label="Choose a canopy">
-          <a href="index.html">Green Tea demo</a>
-          <a href="?canopy=artizen">Artizen canopy</a>
+        <div class="canopy-switch" role="group" aria-label="Choose a canopy">
+          <a href="?canopy=green-tea">Green Tea canopy</a>
+          <a class="artizen-brand" href="index.html"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen canopy</a>
         </div>
 
         <div class="toolbar-sep" role="separator"></div>
@@ -81,6 +177,9 @@
         <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false">
           💸 Payroll
         </button>
+        <button id="participation-open" class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="participation-dialog">Participate / import</button>
+        <button id="participation-replay" class="toolbar-btn" type="button">Replay imported activity</button>
+        <button id="globe-open" class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="canopy-globe-dialog">Globe view</button>
 
         <!-- Association lines toggle -->
         <button
@@ -241,6 +340,62 @@
       </p>
     </div>
 
+    <dialog id="participation-dialog" class="participation-dialog" aria-labelledby="participation-title">
+      <button id="participation-close" class="toolbar-btn" type="button" aria-label="Close participation dialog">Close ×</button>
+      <h2 id="participation-title">Grow your local canopy</h2>
+      <p>Opt in to preview and import data you are permitted to use. This prototype stores it only in this browser, not on a server or IPFS. Do not include passwords, cookies, private contact lists, or another person's private data.</p>
+      <p>Artizen sign-in is not integrated. Never enter your Artizen credentials here. Imported identities, ownership, websites, and activity are unverified participant claims.</p>
+      <button id="participation-wallet" class="toolbar-btn" type="button">Connect wallet (optional)</button>
+      <p id="participation-wallet-status">Wallet connection is optional and does not verify Artizen identity or card ownership.</p>
+      <label><input id="participation-consent" type="checkbox" /> I have permission to use this data and agree to store it locally. Exporting or publishing requires my separate choice.</label>
+      <h3>Preview an import</h3>
+      <p>Use our versioned JSON format—not an arbitrary Artizen export. Download the template and consult the import documentation. All activity is historical until an approved live source is connected.</p>
+      <button id="participation-template" class="toolbar-btn" type="button">Download JSON template</button>
+      <label>Choose JSON (maximum 2 MB) <input id="participation-file" type="file" accept=".json,application/json" /></label>
+      <p id="participation-preview"></p>
+      <details><summary>Review every imported field, including wallets and precise locations</summary><pre id="participation-fields"></pre></details>
+      <button id="participation-save" class="toolbar-btn" type="button" disabled>Replace local import with preview</button>
+      <section id="participation-website-editor" hidden>
+        <h3>Local card: website, wallet, and location</h3>
+        <p id="participation-website-id"></p>
+        <p>This is your local annotation, not a verified owner edit. Use a direct HTTPS website; no concealed or misleading links.</p>
+        <label>Website URL (leave blank to remove) <input id="participation-website" type="url" placeholder="https://example.org" maxlength="2048" /></label>
+        <button id="participation-website-save" class="toolbar-btn" type="button">Save local website draft</button>
+        <h3>Public wallet link</h3>
+        <p>Link a public Artizen-associated address you have permission to identify. This is a participant claim, not verified Artizen ownership. A wallet can be a shared treasury. No automatic transaction scanning, signing, or payments.</p>
+        <label>Public wallet address (blank removes link) <input id="participation-address" type="text" maxlength="42" placeholder="0x…" autocomplete="off" /></label>
+        <label>Network <select id="participation-chain"><option value="8453">Base</option><option value="1">Ethereum</option><option value="10">Optimism</option></select></label>
+        <button id="participation-use-wallet" class="toolbar-btn" type="button">Use connected wallet address</button>
+        <h3>Opt-in globe location</h3>
+        <label><input id="participation-location-consent" type="checkbox" /> I have permission to associate this location with this card and consent to local storage. Precise locations may reveal a home or workplace; exports will include them.</label>
+        <label>Location precision <select id="participation-location-precision"><option value="country">Country (whole-degree coordinates)</option><option value="city">City (one-decimal coordinates)</option><option value="precise">Precise (up to six decimals)</option><option value="space">Off Earth / symbolic space marker</option></select></label>
+        <label>Place label <input id="participation-location-label" type="text" maxlength="120" placeholder="City, country, or your space label" /></label>
+        <label>Latitude (optional for city/country) <input id="participation-latitude" type="number" min="-90" max="90" step="any" /></label>
+        <label>Longitude (optional for city/country) <input id="participation-longitude" type="number" min="-180" max="180" step="any" /></label>
+        <button id="participation-geolocation" class="toolbar-btn" type="button">Request my precise browser location</button>
+        <p>City/country labels alone stay in the location list until you supply coordinates; we do not guess or send them to a geocoder. Space markers are randomly placed for this page session and are symbolic, not astronomical positions. Uncheck location consent and save to remove it.</p>
+        <button id="participation-profile-save" class="toolbar-btn" type="button">Save wallet / location</button>
+      </section>
+      <h3>Your data controls</h3>
+      <div class="participation-actions">
+        <button id="participation-export" class="toolbar-btn" type="button">Download my local data</button>
+        <button id="participation-clear" class="toolbar-btn" type="button">Revoke consent and delete local data</button>
+      </div>
+      <p id="participation-status" role="status" aria-live="polite">No uploads, automated boosts, or background account access. Wallet balance requests go through your provider's RPC; only request them if comfortable sharing the queried address with that provider.</p>
+      <a href="https://play.artizen.fund/#--terms-conditions---house-vibes" target="_blank" rel="noopener noreferrer">Artizen playbook and house vibes ↗</a>
+    </dialog>
+
+    <dialog id="canopy-globe-dialog" class="participation-dialog globe-dialog" aria-labelledby="canopy-globe-title">
+      <button id="globe-close" class="toolbar-btn" type="button">Close globe ×</button>
+      <h2 id="canopy-globe-title">Our distributed canopy</h2>
+      <p>A schematic globe of opt-in locations, not a geographic basemap. Green markers are on the visible hemisphere; turn the globe to see the far side. Purple space markers are symbolic random positions. Lines represent recorded associations, not travel or transactions.</p>
+      <label>Turn globe: longitude <input id="globe-longitude" type="range" min="-180" max="180" value="0" /></label>
+      <label>Tilt globe: latitude <input id="globe-latitude" type="range" min="-90" max="90" value="0" /></label>
+      <canvas id="canopy-globe" role="img" aria-label="Opt-in Earth and symbolic space locations; use the accessible list below to open cards"></canvas>
+      <p id="globe-status" role="status"></p>
+      <div id="globe-entities" class="globe-entities" aria-label="All opted-in locations"></div>
+    </dialog>
+
     <div id="payroll-overlay" class="payroll-overlay" hidden></div>
     <aside id="payroll-panel" class="payroll-panel" aria-labelledby="payroll-title" aria-hidden="true">
       <div class="payroll-panel-header">
@@ -286,7 +441,10 @@
     <script src="scripts/data-adapter/mock-adapter.js"></script>
     <script src="scripts/data-adapter/app-adapter.js"></script>
     <script src="scripts/data-adapter/artizen-adapter.js"></script>
+    <script src="scripts/participation-model.js"></script>
+    <script src="scripts/participation.js"></script>
     <script src="scripts/data-layer.js"></script>
+    <script src="scripts/canopy-globe.js"></script>
     <script src="scripts/spiral.js"></script>
   </body>
 </html>

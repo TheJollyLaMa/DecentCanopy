@@ -60,7 +60,7 @@ body {
 /* ---- Top toolbar ---- */
 .spiral-toolbar {
   position: absolute;
-  top: 4.3rem;
+  top: 5.9rem;
   left: 0;
   right: 0;
   z-index: 20;
@@ -70,21 +70,6 @@ body {
   padding: 0.6rem 0.85rem;
   background: linear-gradient(180deg, rgba(15, 23, 42, 0.96) 0%, rgba(15, 23, 42, 0) 100%);
   flex-wrap: wrap;
-}
-
-.spiral-toolbar .brand {
-  text-decoration: none;
-  color: var(--accent);
-  font-weight: 700;
-  font-size: 0.9rem;
-  letter-spacing: 0.04em;
-  white-space: nowrap;
-  margin-right: 0.35rem;
-}
-
-.spiral-toolbar .brand span {
-  color: var(--muted);
-  font-weight: 400;
 }
 
 .canopy-switch {
@@ -119,6 +104,53 @@ body {
 .mode-badge--artizen {
   color: #c4b5fd;
   border-color: rgba(167, 139, 250, 0.48);
+}
+
+.fund-canopy-explore,
+.fund-canopy-return {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+  width: 100%;
+  margin: 0.8rem 0;
+  padding: 0.75rem 0.85rem;
+  border: 1px solid rgba(52, 211, 153, 0.38);
+  border-radius: 0.7rem;
+  color: #d1fae5;
+  background: linear-gradient(110deg, rgba(6, 78, 59, 0.46), rgba(15, 23, 42, 0.8));
+  font: inherit;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+  transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+}
+
+.fund-canopy-explore:hover,
+.fund-canopy-explore:focus-visible,
+.fund-canopy-return:hover,
+.fund-canopy-return:focus-visible {
+  outline: none;
+  border-color: rgba(110, 231, 183, 0.82);
+  background: linear-gradient(110deg, rgba(6, 95, 70, 0.62), rgba(15, 23, 42, 0.9));
+  transform: translateY(-1px);
+}
+
+.fund-canopy-explore small {
+  color: #9fb9ae;
+  font-size: 0.7rem;
+  font-weight: 400;
+}
+
+.fund-canopy-return {
+  width: auto;
+  flex: 0 0 auto;
+  margin: 0;
+  padding: 0.35rem 0.6rem;
+  color: #a7f3d0;
+  background: rgba(6, 78, 59, 0.3);
+  font-size: 0.73rem;
 }
 
 /* Separator */
@@ -278,6 +310,10 @@ body {
 
 .prototype-vision-note a {
   color: var(--accent);
+}
+
+.prototype-vision-note .fund-canopy-return {
+  margin-top: 0.55rem;
 }
 
 .data-provenance {
@@ -799,7 +835,7 @@ body {
   }
 
   .spiral-toolbar {
-    top: 3.9rem;
+    top: 5.45rem;
     padding: 0.5rem 0.6rem;
     gap: 0.45rem;
   }
