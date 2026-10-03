@@ -48,7 +48,8 @@
     curated: 4,
     funded: 5,
     'creator-associated': 5,
-    'associated-project': 4
+    'associated-project': 4,
+    'fund-steward': 4
   };
 
   const MIN_ZOOM = 0.35;
@@ -1249,6 +1250,10 @@
       if (node) focusNode(node, { recordHistory: true, openDetails: true });
     });
 
+    window.addEventListener('decentcanopy:wallet-change', () => {
+      if (selectedNode?.kind === 'creator' && detailsPanel?.classList.contains('open')) showDetails(selectedNode);
+    });
+
     window.addEventListener('decentcanopy:select-entity', event => {
       const entity = allEntitiesById[event.detail];
       if (!entity) return;
@@ -1881,6 +1886,16 @@
         ? '<p class="details-muted">This feed does not report project fundraising totals, creator identities, or artifact purchases. A connection means the relationship label shown below; it is not proof of a ledger transaction.</p>'
         : '';
 
+    const accountHtml = node.kind === 'creator' && window.CanopyArtizenAccount
+      ? window.CanopyArtizenAccount.renderCreator(node, {
+        associations: allAssociations,
+        entitiesById: allEntitiesById,
+        connectedWallet: window.decentCanopyWallet || null,
+        networks: window.CanopyParticipationModel.networks,
+        esc: escHtml,
+      })
+      : '';
+
     detailsContentEl.innerHTML =
       `<p class="details-track" style="color:${color}">${capitalize(node.kind)}</p>` +
       `<h2 class="details-title">${escHtml(node.name)}</h2>` +
@@ -1895,6 +1910,7 @@
       returnCanopyHtml +
       tagsHtml +
       availableNotes +
+      accountHtml +
       associationsHtml +
       linksHtml;
 

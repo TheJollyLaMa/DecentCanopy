@@ -452,7 +452,7 @@ body {
 /* ---- Details panel ---- */
 #details-panel {
   position: absolute;
-  top: 0;
+  top: var(--decent-head-height, 94px);
   right: 0;
   bottom: 0;
   width: 340px;
@@ -872,6 +872,7 @@ body {
     left: 0;
     right: 0;
     height: 60vh;
+    max-height: calc(100vh - var(--decent-head-height, 82px));
     border-left: none;
     border-top: 1px solid var(--border);
     transform: translateY(100%);

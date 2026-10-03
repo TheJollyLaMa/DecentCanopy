@@ -32,3 +32,53 @@
 #participation-fields { max-height: 240px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; font-size: 0.72rem; }
 .details-links a { overflow-wrap: anywhere; }
 .canopy-about-dialog { max-height: 85vh; overflow-y: auto; }
+
+/* Creator card · Artizen account (sign-in coming soon) */
+.artizen-account {
+  margin: 0 0 1rem;
+  padding: 0.85rem;
+  border: 1px solid rgba(134, 239, 172, 0.28);
+  border-radius: 0.7rem;
+  background: linear-gradient(160deg, rgba(20, 83, 45, 0.22), rgba(15, 23, 42, 0.35));
+}
+.artizen-account-head { display: flex; align-items: center; gap: 0.45rem; flex-wrap: wrap; }
+.artizen-account-head h3 { margin: 0; font-size: 0.95rem; }
+.artizen-account-head .artizen-logo { width: 1.25rem; height: 1.25rem; object-fit: contain; }
+.artizen-account h4 {
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap;
+  margin: 0 0 0.4rem; font-size: 0.78rem; color: var(--muted, #94a3b8);
+  text-transform: uppercase; letter-spacing: 0.05em;
+}
+.artizen-account .account-muted { margin: 0.25rem 0; font-size: 0.74rem; color: var(--muted, #94a3b8); line-height: 1.4; }
+.coming-soon-badge {
+  display: inline-block; padding: 0.1rem 0.45rem; border-radius: 999px;
+  font-size: 0.64rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase;
+  color: #fde68a; background: rgba(245, 158, 11, 0.16); border: 1px solid rgba(245, 158, 11, 0.45);
+}
+.artizen-login-status { display: flex; align-items: center; gap: 0.4rem; margin: 0.6rem 0; font-size: 0.8rem; }
+.login-dot { width: 0.55rem; height: 0.55rem; border-radius: 50%; background: #64748b; box-shadow: 0 0 0 3px rgba(100, 116, 139, 0.25); }
+.artizen-wallet-status {
+  margin: 0 0 0.7rem; padding: 0.55rem 0.65rem; border-radius: 0.5rem; font-size: 0.78rem;
+  border-left: 3px solid #64748b; background: rgba(15, 23, 42, 0.45); overflow-wrap: anywhere;
+}
+.artizen-wallet-status p { margin: 0.25rem 0 0; color: var(--muted, #94a3b8); }
+.artizen-wallet-status--known { border-left-color: #38bdf8; }
+.artizen-wallet-status--matches { border-left-color: #4ade80; }
+.artizen-wallet-status--differs { border-left-color: #f59e0b; }
+.artizen-login-form { margin: 0 0 0.9rem; }
+.artizen-login-form fieldset {
+  display: grid; gap: 0.45rem; margin: 0; padding: 0.6rem 0.7rem 0.7rem;
+  border: 1px dashed rgba(148, 163, 184, 0.45); border-radius: 0.55rem;
+  opacity: 0.55; filter: grayscale(1); cursor: not-allowed;
+}
+.artizen-login-form legend { padding: 0 0.3rem; font-size: 0.78rem; font-weight: 600; }
+.artizen-login-form label { display: grid; gap: 0.2rem; font-size: 0.72rem; }
+.artizen-login-form input,
+.artizen-login-form button {
+  min-width: 0; padding: 0.4rem 0.5rem; border-radius: 0.4rem; font: inherit; font-size: 0.78rem;
+  border: 1px solid rgba(148, 163, 184, 0.4); background: rgba(15, 23, 42, 0.6); color: inherit; cursor: not-allowed;
+}
+.artizen-login-form .coming-soon-note { margin: 0.4rem 0 0; font-size: 0.72rem; color: #fde68a; line-height: 1.4; }
+.artizen-account-space > h3 { margin: 0 0 0.2rem; font-size: 0.88rem; }
+.account-group--locked { opacity: 0.7; }
+.account-locations li { display: flex; justify-content: space-between; gap: 0.5rem; flex-wrap: wrap; }

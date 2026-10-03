@@ -218,6 +218,13 @@
     const aboutDialog = document.getElementById('canopy-about-dialog');
 
     const header = document.querySelector('.decent-head');
+    if (header) {
+      const publishHeight = () => document.documentElement.style.setProperty(
+        '--decent-head-height', `${Math.ceil(header.getBoundingClientRect().height)}px`);
+      publishHeight();
+      if ('ResizeObserver' in window) new ResizeObserver(publishHeight).observe(header);
+      else window.addEventListener('resize', publishHeight);
+    }
     const aboutScene = document.querySelector('.about-forest-scene');
     linePathsWithTrees(header);
     linePathsWithTrees(aboutScene);

@@ -48,6 +48,7 @@ scripts/
 ├── participation-model.js        Validates reported data, wallet/location links and ledger reads
 ├── participation.js              Browser-local consent, imports, edits, exports and deletion
 ├── canopy-globe.js               Opt-in Earth/space projection and accessible card navigation
+├── artizen-account.js            Creator-card Artizen account preview (sign-in coming soon)
 ├── pinDataBackup.js              Packages public canopy data and pins it to IPFS
 ├── data/
 │   ├── projects.json             Artizen project records (season, phase, outcome, funding totals, …)
@@ -259,7 +260,7 @@ Use this schema (the button downloads a minimal starter template). Existing proj
 
 Existing entity records may include `funding: { "raised": 500, "goal": 1000, "currency": "USD", "season": 7, "asOf": "2026-10-03T12:00:00Z" }`. These are season-specific participant claims, displayed with their timestamp, not instant statistics. Only USD is supported for funding comparisons; fund availability is not treated as money raised. Node halos scale logarithmically with reported raised USD and do not imply creator wealth. Records without funding remain visible and are not treated as zero-funded.
 
-Connections contain `source`, `target`, and one of `creator-associated`, `collaboration`, or `fund-member`. Events contain a unique `id`, `target`, `date` (ISO timestamp), positive `amount`, and `type`: `boost`, `purchase`, or `counter-change`. A purchase requires `currency: "USD"`; boost and counter-change amounts are whole **boost counts**, not spent point balances. Optional `actor` must reference a creator. Aggregate `counter-change` records cannot have an actor. Do not include private buyer identities without their permission.
+Connections contain `source`, `target`, and one of `creator-associated`, `collaboration`, `fund-member`, or `fund-steward` (creator → fund only). Events contain a unique `id`, `target`, `date` (ISO timestamp), positive `amount`, and `type`: `boost`, `purchase`, or `counter-change`. A purchase requires `currency: "USD"`; boost and counter-change amounts are whole **boost counts**, not spent point balances. Optional `actor` must reference a creator. Aggregate `counter-change` records cannot have an actor. Do not include private buyer identities without their permission.
 
 All imported records remain **participant-reported, unverified**, regardless of any supplied verification flags. Creator cards summarize attributed boosts by destination within the imported coverage only—not a verified all-time tally. **Replay imported activity** animates visible targets chronologically, with larger purchase pulses and smaller boost pulses; actor journeys remain unverified and counter changes have no actor. Historical playback is compressed, not a live event stream. Reduced-motion preferences disable replay. Neither purchases nor boosts automatically alter fundraising totals, avoiding double counting.
 
@@ -298,6 +299,15 @@ These are fields within an entity, not a standalone import. The address above is
 **Read public native balance (provider request)** explicitly queries the injected wallet provider on the selected chain for `eth_blockNumber` and `eth_getBalance`. It does not request a signature, send payments, switch networks, scan transaction histories, or contact a separate RPC service configured by DecentCanopy. The provider may contact its configured RPC operator, which learns the queried address. Results show ETH, block number, and read time; they are provider-reported, ephemeral, and not saved/exported. The selected network must match; network changes and malformed responses surface errors.
 
 A public balance is **not** Artizen fundraising, verified income, or personal wealth. Wallet ownership, Artizen account ownership, purchase attribution, and transaction semantics are not established by a link or balance lookup. Future verified ledger activity needs chain-specific receipt/log validation and an approved way to tie records to the appropriate Artizen entities. The graph separates declared associations from public ledger observations.
+
+#### Creator Artizen account (coming soon)
+
+Every creator card includes an **Artizen account** section:
+
+- **Login status** — always “Not signed in to Artizen” today. The sign-in form (Artizen profile URL, wallet address) is shown grayed out and disabled with a **Coming soon** note. It will only be enabled through an Artizen-approved sign-in; DecentCanopy never asks for Artizen passwords or session cookies.
+- **Wallet known to DecentCanopy** — whether a public wallet has been linked to this creator, and whether the wallet connected in the header matches it (case-insensitive, with network noted). A match is a hint, not verified ownership. The card refreshes when the header wallet changes.
+- **Artizen space preview** — projects from curated/participant links (plus projects that grew from them via `associated-project`), funds those projects were submitted to, curated in, or funded by in the public graph, participant-reported fund membership, and participant-reported stewardship (`fund-steward`). The public feed has no steward or purchase data, so **artifact collections** are marked Coming soon.
+- **Locations** — the creator's own opt-in location is listed separately from each project's and fund's location. Creators often live somewhere other than their projects or funds; nothing is inferred between them.
 
 #### Location choices and privacy
 

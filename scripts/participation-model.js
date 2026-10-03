@@ -1,7 +1,7 @@
 (function (root) {
   'use strict';
 
-  const TYPES = ['creator-associated', 'collaboration', 'fund-member'];
+  const TYPES = ['creator-associated', 'collaboration', 'fund-member', 'fund-steward'];
   const MAX_RECORDS = 1000;
   const NETWORKS = {
     1: { name: 'Ethereum', explorer: 'https://etherscan.io', symbol: 'ETH' },
@@ -144,7 +144,7 @@
     }
     const connectionIds = new Set();
     const connections = rows(input.connections, 'connections').map(raw => {
-      if (!TYPES.includes(raw.type)) throw new Error('Connection type must be creator-associated, collaboration, or fund-member.');
+      if (!TYPES.includes(raw.type)) throw new Error('Connection type must be creator-associated, collaboration, fund-member, or fund-steward.');
       const source = reference(raw.source, 'Connection');
       const target = reference(raw.target, 'Connection');
       if (source === target) throw new Error('A connection must join different entities.');
@@ -154,6 +154,9 @@
       }
       if (raw.type === 'fund-member' && (known.get(target) !== 'fund' || known.get(source) === 'fund')) {
         throw new Error('Fund membership must connect a project or creator to a fund.');
+      }
+      if (raw.type === 'fund-steward' && (known.get(source) !== 'creator' || known.get(target) !== 'fund')) {
+        throw new Error('Fund stewardship must connect a creator to a fund.');
       }
       const key = JSON.stringify([raw.type, ...[source, target].sort()]);
       if (connectionIds.has(key)) throw new Error('Duplicate connection in import.');
