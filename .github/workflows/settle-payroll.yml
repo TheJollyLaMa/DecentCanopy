@@ -4,16 +4,32 @@ on:
   workflow_dispatch:
     inputs:
       contributor_github:
-        description: Contributor GitHub username; blank matches all pending entries
-        required: false
+        description: Contributor GitHub username
+        required: true
         type: string
       issue_ref:
         description: Issue ref to settle, for example owner/repo#123
-        required: false
+        required: true
         type: string
+      role:
+        description: Queue entry role
+        required: true
+        type: choice
+        options:
+          - contributor
+          - implementer
+          - idea-originator
+          - tester
+      currency:
+        description: Configured payout asset
+        required: true
+        type: choice
+        options:
+          - ART
+          - USDC
       tx_hash:
-        description: Optional on-chain transaction hash
-        required: false
+        description: Confirmed Base transaction hash
+        required: true
         type: string
 
 permissions:
@@ -22,6 +38,7 @@ permissions:
 
 jobs:
   settle:
+    if: github.actor == 'TheJollyLaMa'
     runs-on: ubuntu-latest
     concurrency:
       group: decent-canopy-payroll-queue
@@ -44,6 +61,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           INPUT_CONTRIBUTOR_GITHUB: ${{ github.event.inputs.contributor_github }}
           INPUT_ISSUE_REF: ${{ github.event.inputs.issue_ref }}
+          INPUT_ROLE: ${{ github.event.inputs.role }}
+          INPUT_CURRENCY: ${{ github.event.inputs.currency }}
           INPUT_TX_HASH: ${{ github.event.inputs.tx_hash }}
         run: node scripts/settlePayroll.js
 
@@ -56,6 +75,6 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add payroll-queue.json contributor-accounts.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "chore: settle ART payroll entries"
+          git commit -m "chore: settle payroll entries"
           git pull --rebase origin main
           git push origin HEAD:main

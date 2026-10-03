@@ -10,8 +10,37 @@
     <title>DecentCanopy | Fractal Project Constellation</title>
     <link rel="icon" href="assets/favicon.png" type="image/png" />
     <link rel="stylesheet" href="styles/spiral.css" />
+    <link rel="stylesheet" href="styles/decent-head.css" />
+    <link rel="stylesheet" href="styles/payroll.css" />
   </head>
   <body>
+    <header class="decent-head" aria-label="DecentCanopy header">
+      <div class="decent-head-left">
+        <button id="ipfs-status-button" class="decent-head-orb ipfs-orb" type="button" aria-expanded="false" aria-controls="ipfs-status-popover">
+          <span class="orb-symbol" aria-hidden="true">⌘</span>
+          <span class="orb-label">IPFS</span>
+          <span class="orb-state">status</span>
+        </button>
+      </div>
+      <a class="decent-head-title" href="index.html" aria-label="DecentCanopy home">
+        <span class="head-title-mark" aria-hidden="true">✧</span>
+        <span>DecentCanopy</span>
+        <span class="head-title-mark" aria-hidden="true">✧</span>
+        <small>Connected stewardship</small>
+      </a>
+      <div class="decent-head-right">
+        <button id="wallet-connect-button" class="decent-head-orb wallet-orb" type="button">
+          <span class="orb-symbol" aria-hidden="true">◉</span>
+          <span id="wallet-button-label" class="orb-label">Connect wallet</span>
+          <span id="wallet-address-label" class="orb-state">Base · admin</span>
+        </button>
+      </div>
+      <div id="ipfs-status-popover" class="ipfs-status-popover" role="status" hidden>
+        IPFS publishing is not connected. The current canopy uses checked-in snapshots; no login or uploads are enabled.
+      </div>
+      <p id="wallet-status-message" class="wallet-status-message" role="status" aria-live="polite"></p>
+    </header>
+
     <div class="spiral-shell">
       <!-- ---- Top toolbar ---- -->
       <nav class="spiral-toolbar" aria-label="Constellation controls">
@@ -48,6 +77,10 @@
         </label>
 
         <div class="toolbar-sep" role="separator"></div>
+
+        <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false">
+          💸 Payroll
+        </button>
 
         <!-- Association lines toggle -->
         <button
@@ -208,6 +241,35 @@
       </p>
     </div>
 
+    <div id="payroll-overlay" class="payroll-overlay" hidden></div>
+    <aside id="payroll-panel" class="payroll-panel" aria-labelledby="payroll-title" aria-hidden="true">
+      <div class="payroll-panel-header">
+        <div>
+          <p class="payroll-kicker">DecentCanopy repo fund</p>
+          <h2 id="payroll-title">Contributor payroll</h2>
+        </div>
+        <button id="payroll-close-button" class="payroll-close-button" type="button" aria-label="Close payroll panel">×</button>
+      </div>
+      <p class="payroll-description">
+        Review queued ART and USDC rewards. An authorized Base wallet pays through the shared ArtFi Settlement Router;
+        the GitHub workflow records only confirmed transactions in this repository ledger.
+      </p>
+      <div id="payroll-panel-status" class="payroll-panel-status" role="status" aria-live="polite">
+        Connect the repository owner wallet from the header to enable payouts.
+      </div>
+      <div class="payroll-panel-actions">
+        <button id="payroll-refresh-button" class="toolbar-btn" type="button">Refresh queue</button>
+        <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/settle-payroll.yml" target="_blank" rel="noopener noreferrer">Open Settle Payroll workflow</a>
+      </div>
+      <div id="payroll-fund-summary" class="payroll-fund-summary" aria-live="polite"></div>
+      <div id="payroll-entries" class="payroll-entries">
+        <p class="payroll-empty">Loading payroll queue…</p>
+      </div>
+    </aside>
+
+    <script src="https://cdn.jsdelivr.net/npm/ethers@6.14.4/dist/ethers.umd.min.js"></script>
+    <script src="scripts/decent-head.js"></script>
+    <script src="scripts/payroll-admin.js"></script>
     <script>
       // Close details panel button wired here before spiral.js so it works
       // even if the module fails to load.

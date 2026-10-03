@@ -3,7 +3,7 @@ const path = require('path');
 
 const { renderArtFiComment } = require('./commentArt');
 const { postIssueComment, repositoryCoordinates } = require('./githubApi');
-const { settleEntries } = require('./payroll');
+const { PAYROLL_ROLES, SUPPORTED_CURRENCIES, settleEntries } = require('./payroll');
 
 const ROOT = path.resolve(__dirname, '..');
 const QUEUE_PATH = path.join(ROOT, 'payroll-queue.json');
@@ -17,19 +17,34 @@ function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
 
-function buildSettlementComment({ settledCount, actor, txHash, issueNumber }) {
+function buildSettlementComment({ settledCount, actor, txHash, issueNumber, currency, role }) {
   const body = [
-    `✅ Settled ${settledCount} payroll entr${settledCount === 1 ? 'y' : 'ies'} by @${actor}.`,
+    `✅ Settled ${settledCount} ${currency || 'ART'} ${role ? `${role} ` : ''}payroll entr${settledCount === 1 ? 'y' : 'ies'} by @${actor}.`,
     txHash ? `🔗 Tx: ${txHash}` : '',
   ].filter(Boolean).join('\n');
   return renderArtFiComment(body, issueNumber, 'settlement');
+}
+
+function validateSettlementInputs({ contributorGithub, issueRef, role, currency, txHash }) {
+  if (!contributorGithub || !issueRef || !role || !currency || !txHash) {
+    throw new Error('contributor, issue, role, currency, and confirmed transaction hash are all required');
+  }
+  if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+#\d+$/.test(issueRef)) {
+    throw new Error('issue_ref must look like owner/repo#123');
+  }
+  if (!PAYROLL_ROLES.has(role)) throw new Error(`unsupported payroll role: ${role}`);
+  if (!SUPPORTED_CURRENCIES.includes(currency)) throw new Error(`unsupported payroll asset: ${currency}`);
+  if (!/^0x[a-fA-F0-9]{64}$/.test(txHash)) throw new Error('tx_hash must be a 32-byte transaction hash');
 }
 
 async function main() {
   const { owner, repo } = repositoryCoordinates();
   const contributorGithub = String(process.env.INPUT_CONTRIBUTOR_GITHUB || '').trim();
   const issueRef = String(process.env.INPUT_ISSUE_REF || '').trim();
+  const role = String(process.env.INPUT_ROLE || '').trim().toLowerCase();
+  const currency = String(process.env.INPUT_CURRENCY || '').trim().toUpperCase();
   const txHash = String(process.env.INPUT_TX_HASH || '').trim();
+  validateSettlementInputs({ contributorGithub, issueRef, role, currency, txHash });
   const queue = readJson(QUEUE_PATH);
   const accounts = readJson(ACCOUNTS_PATH);
   const settled = settleEntries({
@@ -37,14 +52,15 @@ async function main() {
     accounts,
     contributorGithub,
     issueRef,
+    role,
+    currency,
     txHash,
     settledAt: new Date().toISOString(),
     settledBy: process.env.GITHUB_ACTOR || 'github-actions[bot]',
   });
 
   if (settled.length === 0) {
-    console.log('No matching pending entries found.');
-    return;
+    throw new Error('No pending payroll entry matches the contributor, issue, role, and currency.');
   }
   writeJson(QUEUE_PATH, queue);
   writeJson(ACCOUNTS_PATH, accounts);
@@ -57,6 +73,8 @@ async function main() {
       actor: process.env.GITHUB_ACTOR,
       txHash,
       issueNumber,
+      currency,
+      role,
     }));
   }
   console.log(`Settled ${settled.length} payroll entries.`);
@@ -69,4 +87,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildSettlementComment };
+module.exports = { buildSettlementComment, validateSettlementInputs };

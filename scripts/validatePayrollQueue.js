@@ -1,13 +1,17 @@
 const fs = require('fs');
 const path = require('path');
+const {
+  PAYROLL_ASSET_CONFIG,
+  PAYROLL_ROLES,
+  SUPPORTED_CURRENCIES,
+  normalizeAmount,
+} = require('./payroll');
 
 const ROOT = path.resolve(__dirname, '..');
 const QUEUE_PATH = path.join(ROOT, 'payroll-queue.json');
 const ACCOUNTS_PATH = path.join(ROOT, 'contributor-accounts.json');
-const SUPPORTED_ROLES = new Set(['contributor', 'implementer', 'idea-originator', 'tester']);
 const ADDRESS_RE = /^0x[a-fA-F0-9]{40}$/;
 const ISSUE_REF_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+#\d+$/;
-const AMOUNT_RE = /^(?:0|[1-9]\d*)(?:\.\d+)?$/;
 
 function readJson(filePath) {
   return JSON.parse(fs.readFileSync(filePath, 'utf8'));
@@ -53,16 +57,24 @@ function validateEntry(entry, section, index) {
   const contributorGithub = String(entry.contributorGithub || '').trim();
   const contributor = String(entry.contributor || '').trim();
   const amount = String(entry.amount || '').trim();
+  const currency = String(entry.currency || 'ART').trim().toUpperCase();
   const role = String(entry.role || 'contributor').trim().toLowerCase();
 
   if (!ISSUE_REF_RE.test(issueRef)) fail(`${section}[${index}].issueRef must look like owner/repo#123`);
   if (!contributorGithub) fail(`${section}[${index}].contributorGithub is required`);
   if (!ADDRESS_RE.test(contributor)) fail(`${section}[${index}].contributor must be a valid Ethereum address`);
-  if (!AMOUNT_RE.test(amount) || Number(amount) <= 0) fail(`${section}[${index}].amount must be a positive decimal`);
-  if (entry.currency !== 'ART') fail(`${section}[${index}].currency must be ART`);
-  if (!SUPPORTED_ROLES.has(role)) fail(`${section}[${index}].role is not supported: ${role}`);
+  if (!SUPPORTED_CURRENCIES.includes(currency)) fail(`${section}[${index}].currency is unsupported: ${currency}`);
+  try {
+    normalizeAmount(amount, currency);
+  } catch (error) {
+    fail(`${section}[${index}].amount is invalid for ${currency}: ${error.message}`);
+  }
+  if (!PAYROLL_ROLES.has(role)) fail(`${section}[${index}].role is not supported: ${role}`);
+  if (entry.fund && String(entry.fund).trim().toLowerCase() !== PAYROLL_ASSET_CONFIG.fundSlug) {
+    fail(`${section}[${index}].fund must be ${PAYROLL_ASSET_CONFIG.fundSlug}`);
+  }
 
-  const key = `${issueRef}:${contributorGithub.toLowerCase()}:${role}`;
+  const key = `${issueRef}:${contributorGithub.toLowerCase()}:${role}:${currency}`;
   if (seen.has(key)) fail(`duplicate payroll entry detected for ${issueRef} / ${contributorGithub}`);
   seen.add(key);
   const registeredWallet = contributors.get(contributorGithub.toLowerCase());

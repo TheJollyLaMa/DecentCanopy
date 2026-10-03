@@ -19,7 +19,7 @@ function writeJson(filePath, value) {
 
 function buildMergedPayrollComment({ entries, isManual, prNumber, issueNumber }) {
   const lines = entries.map(entry =>
-    `- **${entry.amount} ART** to @${entry.contributorGithub}${entry.role ? ` (${entry.role})` : ''}`
+    `- **${entry.amount} ${entry.currency || 'ART'}** to @${entry.contributorGithub}${entry.role ? ` (${entry.role})` : ''}`
   );
   return renderArtFiComment([
     `✅ Payroll queued from ${isManual ? 'manual recovery for' : 'merged'} PR #${prNumber}:`,
@@ -100,7 +100,7 @@ async function main() {
       queuedBy: process.env.GITHUB_ACTOR || 'github-actions[bot]',
     });
     if (result.reason === 'missing-bounty-label') {
-      console.log(`Skipping issue #${issueNumber}: no label matching "bounty: <amount> ART".`);
+      console.log(`Skipping issue #${issueNumber}: no label matching a supported "bounty: <amount> <currency>" label.`);
       continue;
     }
     if (isManual) result.entries.forEach(entry => { entry.retroactive = true; });

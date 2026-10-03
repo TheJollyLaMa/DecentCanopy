@@ -13,6 +13,8 @@ DecentCanopy provides:
 - **Sidepanel Details** — Project information, season/phase context, parent/child relationships, and cross-project associations
 - **Shared Data Layer** — Normalized access to projects, associations, activity, and metrics via `scripts/data-layer.js`
 - **Artizen Snapshot** — Local JSON data derived from public Artizen season/funding records for deterministic rendering
+- **DecentHead Header** — Animated IPFS status, clickable canopy title, and injected-wallet connection controls
+- **Repo Payroll** — ART/USDC bounty ledger and an owner-gated Base Settlement Router payout panel
 
 ## Architecture
 
@@ -28,11 +30,14 @@ scripts/
 ├── network.js                    Chain ID parsing & supported-chain helpers
 ├── contract-adapter.js           Public contract ABIs + read/write placeholder calls
 ├── data-layer.js                 Shared data access module (GTPData)
+├── payroll.js                    Multi-currency payroll parsing and ledger rules
+├── payroll-admin.js              Wallet-gated shared-router payout panel
 ├── data-adapter/
 │   ├── interface.js              Adapter method contract & validation
 │   ├── mock-adapter.js           Local Artizen JSON loader (prototype mode)
 │   └── app-adapter.js            On-chain data adapter (app mode, wires contract-adapter)
 ├── spiral.js                     Canvas fractal map — rendering, pan/zoom, interaction
+├── decent-head.js                Wallet connect and IPFS status header behavior
 ├── data/
 │   ├── projects.json             Artizen project records (season, phase, outcome, funding totals, …)
 │   ├── associations.json         Relationship edges (source, target, type)
@@ -237,14 +242,20 @@ DecentCanopy prioritizes stewardship visibility and cross-project coordination o
 
 ## Contributor Payroll
 
-Merged pull requests can queue ART bounties from linked issues labeled `bounty: <amount> ART`. An optional `idea-credit: @username` label splits the bounty 80% to the implementer and 20% to the idea originator. Testing issues use `test-bounty: <amount> ART`, `/test-complete`, and owner-only `/test-approved` commands.
+Merged pull requests can queue rewards from linked issues labeled `bounty: <amount> ART` and/or `bounty: <amount> USDC`. A single issue can have one label per configured token; duplicate labels for the same token are rejected. Optional `idea-credit: @username` splits each bounty 80/20, with amounts that cannot be represented at that token's ledger precision rejected rather than rounded. Testing issues support the same configured assets with `test-bounty: <amount> <currency>`, `/test-complete`, and owner-only `/test-approved` commands.
 
-Only wallets in `contributor-accounts.json` can receive entries. GitHub Actions update `payroll-queue.json`; an administrator then verifies payment and runs the **Settle Payroll** workflow. Settlement records ledger state and an optional transaction hash but does not transfer ART on-chain.
+Only wallets registered in `contributor-accounts.json` can receive entries. GitHub Actions add entries to `payroll-queue.json` and accrue per-token account totals. Token addresses, decimals, the shared Base router, and the configured `decentcanopy-repo-dev` fund slug are in `payroll-assets.json`.
+
+Open **Payroll** on the page and connect the registered repository-owner wallet. The panel checks Base, the router's `PAYROLL_ROLE`, fund status/balance, token approval, contributor identity, and on-chain work-reference replay protection before offering a payout. If a recipient has not yet been approved on the shared router, the panel can add them only when the connected wallet also has `CONTRIBUTOR_ADMIN_ROLE`; it never revokes or changes other repositories' contributor approvals.
+
+The `decentcanopy-repo-dev` fund must be created, active, and funded on the existing shared router before payouts can succeed; supported assets must also be router-approved. The repository configuration does not deploy a router or create/fund this allocation. After the panel confirms a `payout()` transaction on Base, run the owner-only **Settle Payroll** GitHub Actions workflow with the exact contributor, issue, role, currency, and confirmed transaction hash. That workflow moves only the matching entry to settled and commits the ledger update to `main`; it does not send the payment itself. Do not run it before the on-chain transaction is confirmed.
+
+The header's IPFS indicator is intentionally status-only for now: this page does not request Web3.Storage credentials or upload data.
 
 Validate locally with:
 
 ```sh
-node --test test/payroll.test.js test/commentArt.test.js
+node --test
 node scripts/validatePayrollQueue.js
 ```
 

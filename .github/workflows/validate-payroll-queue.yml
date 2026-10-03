@@ -6,6 +6,7 @@ on:
     paths:
       - payroll-queue.json
       - contributor-accounts.json
+      - payroll-assets.json
       - scripts/**
       - test/payroll.test.js
       - test/commentArt.test.js
@@ -15,6 +16,7 @@ on:
     paths:
       - payroll-queue.json
       - contributor-accounts.json
+      - payroll-assets.json
       - scripts/**
       - test/payroll.test.js
       - test/commentArt.test.js

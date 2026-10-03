@@ -8,7 +8,8 @@ const {
   applyAccountAccrual,
   isDuplicate,
   normalizeLogin,
-  parseAmountLabel,
+  parseAmountLabels,
+  PAYROLL_ASSET_CONFIG,
   pickWhitelistedTester,
 } = require('./payroll');
 
@@ -35,10 +36,10 @@ async function main() {
   const commenter = normalizeLogin(event.comment && event.comment.user && event.comment.user.login);
   const issueNumber = Number(event.issue && event.issue.number);
   const issue = await githubRequest(`/repos/${owner}/${repo}/issues/${issueNumber}`);
-  const bounty = parseAmountLabel(issue, TEST_BOUNTY_LABEL_RE);
+  const bounties = parseAmountLabels(issue, TEST_BOUNTY_LABEL_RE);
 
-  if (!bounty) {
-    console.log(`Issue #${issueNumber} has no label matching "test-bounty: <amount> ART".`);
+  if (bounties.length === 0) {
+    console.log('Issue #' + issueNumber + ' has no test-bounty label for a configured payroll asset.');
     return;
   }
 
@@ -69,27 +70,28 @@ async function main() {
   }
 
   const tester = pickWhitelistedTester({ assigneeLogins, accounts, commenter });
-  const entry = {
+  const entries = bounties.map(bounty => ({
     issueRef: `${owner}/${repo}#${issueNumber}`,
     contributor: tester.walletAddress,
     contributorGithub: tester.github,
     amount: bounty.amount,
-    currency: 'ART',
+    currency: bounty.currency,
+    fund: PAYROLL_ASSET_CONFIG.fundSlug,
     role: 'tester',
     queuedAt: new Date().toISOString(),
     queuedBy: process.env.GITHUB_ACTOR || commenter,
-  };
-  if (isDuplicate(queue, entry)) {
-    console.log(`Testing payout already exists for ${entry.issueRef} / @${entry.contributorGithub}.`);
+  })).filter(entry => !isDuplicate(queue, entry));
+  if (entries.length === 0) {
+    console.log(`Testing payouts already exist for ${owner}/${repo}#${issueNumber} / @${tester.github}.`);
     return;
   }
 
-  queue.pending.push(entry);
-  applyAccountAccrual(accounts, [entry]);
+  queue.pending.push(...entries);
+  applyAccountAccrual(accounts, entries);
   writeJson(QUEUE_PATH, queue);
   writeJson(ACCOUNTS_PATH, accounts);
   await postIssueComment(owner, repo, issueNumber, buildTestingComment(
-    `✅ Queued ${entry.amount} ART testing bounty for @${entry.contributorGithub}, pending administrator settlement.`,
+    `✅ Queued ${entries.map(entry => `${entry.amount} ${entry.currency}`).join(' and ')} testing bounty for @${tester.github}, pending administrator settlement.`,
     issueNumber,
     'test-approved'
   ));
