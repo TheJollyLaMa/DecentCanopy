@@ -186,3 +186,11 @@
   object-fit: cover;
   background: rgba(15, 23, 42, 0.6);
 }
+.airdrop-status {
+  margin: 0 0 0.8rem; padding: 0.6rem 0.7rem; border-radius: 0.5rem; font-size: 0.78rem;
+  border-left: 3px solid #fbbf24; background: rgba(66, 32, 6, 0.35);
+}
+.airdrop-status p { margin: 0.3rem 0 0.45rem; color: var(--muted, #cbd5e1); }
+.airdrop-status--joined { border-left-color: #34d399; background: rgba(6, 78, 59, 0.3); }
+.airdrop-claim-link { display: inline-block; text-decoration: none; }
+.community-verification h3 { color: #6ee7b7; }

@@ -1,0 +1,23 @@
+{
+  "airdrop": {
+    "amount": "100",
+    "currency": "ART",
+    "label": "airdrop-claim",
+    "artizen": {
+      "chainId": 8453,
+      "juiceboxProjectId": 6,
+      "artToken": "0x44c4516768e47cd97cfF2561B81a74699F23f8Ec",
+      "minArtMinted": "500",
+      "blockscoutApi": "https://base.blockscout.com/api",
+      "rpcUrl": "https://base-rpc.publicnode.com"
+    }
+  },
+  "pinning": {
+    "amountPerWeek": "25",
+    "currency": "ART",
+    "label": "pinner-request",
+    "maxRewardedPinnersPerWeek": 20,
+    "acceptedCidAgeDays": 8,
+    "maxPayloadBytes": 20000000
+  }
+}

@@ -6,10 +6,13 @@ const {
   SUPPORTED_CURRENCIES,
   normalizeAmount,
 } = require('./payroll');
+const { registeredRecipient } = require('./communityRewards');
 
 const ROOT = path.resolve(__dirname, '..');
 const QUEUE_PATH = path.join(ROOT, 'payroll-queue.json');
 const ACCOUNTS_PATH = path.join(ROOT, 'contributor-accounts.json');
+const CREATORS_PATH = path.join(ROOT, 'data', 'community-creators.json');
+const PINNERS_PATH = path.join(ROOT, 'data', 'community-pinners.json');
 const ADDRESS_RE = /^0x[a-fA-F0-9]{40}$/;
 const ISSUE_REF_RE = /^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+#\d+$/;
 
@@ -29,6 +32,24 @@ let queue;
 let accounts;
 try { queue = readJson(QUEUE_PATH); } catch (error) { fail(`payroll-queue.json is not valid JSON: ${error.message}`); }
 try { accounts = readJson(ACCOUNTS_PATH); } catch (error) { fail(`contributor-accounts.json is not valid JSON: ${error.message}`); }
+
+let creators = { creators: [] };
+let pinners = { pinners: [] };
+try { if (fs.existsSync(CREATORS_PATH)) creators = readJson(CREATORS_PATH); } catch (error) { fail(`data/community-creators.json is not valid JSON: ${error.message}`); }
+try { if (fs.existsSync(PINNERS_PATH)) pinners = readJson(PINNERS_PATH); } catch (error) { fail(`data/community-pinners.json is not valid JSON: ${error.message}`); }
+if (!Array.isArray(creators.creators)) fail('data/community-creators.json.creators must be an array');
+if (!Array.isArray(pinners.pinners)) fail('data/community-pinners.json.pinners must be an array');
+const claimedArtizenWallets = new Map();
+for (const [index, creator] of creators.creators.entries()) {
+  if (!ADDRESS_RE.test(String(creator.artizenWallet || ''))) fail(`data/community-creators.json.creators[${index}].artizenWallet must be a valid address`);
+  if (!ISSUE_REF_RE.test(String(creator.claimIssue || ''))) fail(`data/community-creators.json.creators[${index}].claimIssue must look like owner/repo#123`);
+  const key = creator.artizenWallet.toLowerCase();
+  if (claimedArtizenWallets.has(key)) fail(`Artizen wallet ${creator.artizenWallet} was claimed more than once`);
+  claimedArtizenWallets.set(key, index);
+}
+for (const [index, pinner] of pinners.pinners.entries()) {
+  if (!ADDRESS_RE.test(String(pinner.wallet || ''))) fail(`data/community-pinners.json.pinners[${index}].wallet must be a valid address`);
+}
 
 if (!queue || typeof queue !== 'object' || Array.isArray(queue)) fail('payroll-queue.json must be a JSON object');
 if (!Array.isArray(queue.pending)) fail('payroll-queue.json.pending must be an array');
@@ -77,9 +98,10 @@ function validateEntry(entry, section, index) {
   const key = `${issueRef}:${contributorGithub.toLowerCase()}:${role}:${currency}`;
   if (seen.has(key)) fail(`duplicate payroll entry detected for ${issueRef} / ${contributorGithub}`);
   seen.add(key);
-  const registeredWallet = contributors.get(contributorGithub.toLowerCase());
-  if (!registeredWallet) fail(`${section}[${index}].contributorGithub is not registered in contributor-accounts.json`);
-  if (registeredWallet !== contributor.toLowerCase()) fail(`${section}[${index}].contributor does not match the registered wallet for ${contributorGithub}`);
+  const registry = role === 'airdrop' ? 'data/community-creators.json' : role === 'pinner' ? 'data/community-pinners.json' : 'contributor-accounts.json';
+  const registeredWallet = registeredRecipient({ ...entry, role }, { accounts, creators, pinners });
+  if (!registeredWallet) fail(`${section}[${index}].contributorGithub is not registered in ${registry}`);
+  if (registeredWallet.toLowerCase() !== contributor.toLowerCase()) fail(`${section}[${index}].contributor does not match the registered wallet for ${contributorGithub} in ${registry}`);
 
   if (section === 'settled') {
     if (!String(entry.settledAt || '').trim()) fail(`${section}[${index}].settledAt is required`);

@@ -11,6 +11,8 @@ const DATA_FILES = [
   'data/artizen-curation.json',
   'data/artizen.json',
   'data/associations.json',
+  'data/community-creators.json',
+  'data/community-pinners.json',
   'data/projects.json',
   'payroll-assets.json',
   'payroll-queue.json'
@@ -18,6 +20,16 @@ const DATA_FILES = [
 const BACKUP_MANIFEST_PATH = path.join(ROOT, 'data', 'ipfs-backup.json');
 const PINATA_UPLOAD_URL = 'https://uploads.pinata.cloud/v3/files';
 const PINATA_GATEWAY_URL = 'https://gateway.pinata.cloud/ipfs/';
+const RECENT_CID_LIMIT = 10;
+
+function recentCids(previous, current) {
+  const rows = [current, ...(Array.isArray(previous?.recentCids) ? previous.recentCids : [])];
+  if (previous?.cid && !rows.some(row => row.cid === previous.cid)) {
+    rows.push({ cid: previous.cid, pinnedAt: previous.pinnedAt, payloadSha256: previous.payloadSha256 || null });
+  }
+  const seen = new Set();
+  return rows.filter(row => row?.cid && !seen.has(row.cid) && seen.add(row.cid)).slice(0, RECENT_CID_LIMIT);
+}
 
 function computeDataDigest(contents) {
   const hash = crypto.createHash('sha256');
@@ -84,8 +96,10 @@ async function main() {
 
   const createdAt = new Date().toISOString();
   const payload = createBackupPayload(contents, createdAt);
+  const payloadBytes = Buffer.from(JSON.stringify(payload));
+  const payloadSha256 = crypto.createHash('sha256').update(payloadBytes).digest('hex');
   const form = new FormData();
-  form.append('file', new Blob([JSON.stringify(payload)], { type: 'application/json' }), 'decentcanopy-data-backup.json');
+  form.append('file', new Blob([payloadBytes], { type: 'application/json' }), 'decentcanopy-data-backup.json');
   form.append('network', 'public');
   form.append('name', `DecentCanopy data backup ${createdAt}`);
 
@@ -111,8 +125,11 @@ async function main() {
     gatewayUrl: `${PINATA_GATEWAY_URL}${cid}`,
     pinnedAt: createdAt,
     dataSha256,
+    payloadSha256,
+    payloadBytes: payloadBytes.length,
     files: DATA_FILES
   };
+  manifest.recentCids = recentCids(previous, { cid, pinnedAt: createdAt, payloadSha256 });
   const temporaryPath = `${BACKUP_MANIFEST_PATH}.tmp`;
   await fs.writeFile(temporaryPath, `${JSON.stringify(manifest, null, 2)}\n`);
   await fs.rename(temporaryPath, BACKUP_MANIFEST_PATH);
@@ -126,4 +143,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { DATA_FILES, computeDataDigest, createBackupPayload, readDataFiles, readUploadCid };
+module.exports = { DATA_FILES, computeDataDigest, createBackupPayload, readDataFiles, readUploadCid, recentCids };

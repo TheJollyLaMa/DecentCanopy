@@ -7,9 +7,13 @@ on:
       - payroll-queue.json
       - contributor-accounts.json
       - payroll-assets.json
+      - community-rewards.json
+      - data/community-creators.json
+      - data/community-pinners.json
       - scripts/**
       - test/payroll.test.js
       - test/commentArt.test.js
+      - test/community-rewards.test.js
       - .github/workflows/**
   pull_request:
     branches: [main]
@@ -17,9 +21,13 @@ on:
       - payroll-queue.json
       - contributor-accounts.json
       - payroll-assets.json
+      - community-rewards.json
+      - data/community-creators.json
+      - data/community-pinners.json
       - scripts/**
       - test/payroll.test.js
       - test/commentArt.test.js
+      - test/community-rewards.test.js
       - .github/workflows/**
 
 permissions:
@@ -43,4 +51,4 @@ jobs:
         run: node scripts/validatePayrollQueue.js
 
       - name: Test payroll automation
-        run: node --test test/payroll.test.js test/commentArt.test.js
+        run: node --test test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js

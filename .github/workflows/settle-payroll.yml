@@ -20,6 +20,8 @@ on:
           - implementer
           - idea-originator
           - tester
+          - airdrop
+          - pinner
       currency:
         description: Configured payout asset
         required: true

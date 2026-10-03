@@ -337,3 +337,18 @@
 .about-build code {
   white-space: nowrap;
 }
+
+.about-rewards-title {
+  margin: 1rem 0 0.35rem;
+  color: #fde68a;
+  font-size: 0.95rem;
+}
+
+.about-rewards {
+  margin: 0 0 0.6rem;
+  padding-left: 1.1rem;
+}
+
+.about-rewards li {
+  margin: 0.25rem 0;
+}

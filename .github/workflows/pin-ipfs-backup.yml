@@ -9,9 +9,14 @@ on:
       - data/artizen-curation.json
       - data/artizen.json
       - data/associations.json
+      - data/community-creators.json
+      - data/community-pinners.json
       - data/projects.json
       - payroll-assets.json
       - payroll-queue.json
+  schedule:
+    # Bot commits made with GITHUB_TOKEN do not trigger push workflows; this picks them up daily.
+    - cron: '41 14 * * *'
   workflow_dispatch:
 
 permissions:

@@ -19,6 +19,54 @@ DecentCanopy provides:
 - **Opt-in Participation** — Previewed browser-local imports, website-card drafts, season funding, and explicitly unverified activity replay
 - **Public Wallet Links** — Ethereum, Optimism, and Base explorer links, matching-address associations, and requested read-only native balances
 - **Distributed Globe** — Consent-based country/city/precise locations and symbolic off-Earth markers, with accessible card navigation
+- **Creator Artizen Space** — Creator cards with profile picture, projects, websites, Discord, dated public totals, supported projects, boosts, and fund submissions; Artizen sign-in is shown as coming soon
+- **Community Rewards** — 100 ART for verifying an Artizen wallet on Base and joining the map, plus weekly ART for community IPFS pinners, both queued to the payroll
+
+## How to use everything (quick guide)
+
+A hands-on tour of what's here. Each item links to the detailed section below.
+
+### Visiting the canopy
+
+1. Open https://thejollylama.github.io/DecentCanopy/. The Artizen canopy loads by default; the **🧭 Tour** opens on a first visit and can be replayed from the toolbar.
+2. **Explore:** scroll to zoom and drag to pan. Click any blip to open its card. Use **View** to switch between all entities, projects, funds, or creators, and search for anything by name. Selecting a fund opens its own fund canopy; use the return control to come back.
+3. **Make it your view (optional):** in the tour, pick your creator card or add a local one. The canopy then opens on you. This is a browser-local preference; clear it from **Participate / import**.
+4. **ⓘ Data notes:** the tab on the right edge holds snapshot dates, counts, and limits. Click to stash it.
+5. **Canopy switch:** choose **Green Tea canopy** (or `/?canopy=green-tea`) for The Green Tea Party cluster.
+6. **Globe view:** see creators, projects, and funds that opted in to a location. Drag to turn and select a marker to open its card.
+7. **About** (click the header title): project context, the Artizen link, contributor info, and community rewards.
+
+See [Features](#features) and [Artizen Canopy](#artizen-canopy).
+
+### As a creator
+
+- **See your card:** search your name and open your creator blip. The **Artizen account** section shows your login status (sign-in is *coming soon*; we will never ask for your Artizen password), whether your wallet is known to DecentCanopy, and your Artizen space: projects, supported projects, boosts, fund submissions, and locations.
+- **Fill in your card publicly:** open a pull request on `data/artizen-curation.json` with your creator record, projects, `links` (website, Discord, GitHub), `publicStats`, and `artizenProfile`. TheJollyLaMa's card is the worked example. See [A filled-in creator canopy](#a-filled-in-creator-canopy-thejollylama).
+- **Join the map and earn 100 ART:** connect your wallet in the header and click **🎁 Claim 100 ART** (or use About → Claim 100 ART, or the link on your card). Fill in the GitHub issue form with your Artizen wallet, projects, website, and optional globe location. A bot checks Base for ART that Artizen minted to that wallet; if it passes, your blip goes on the map and 100 ART is queued to that wallet. See [Community Rewards](#community-rewards).
+- **Local-only edits:** on any card, **Edit website / wallet / location** saves drafts in your browser only. **Participate / import** previews a participation JSON (website cards, season funding, boosts, purchases) and powers **Replay imported activity**. Nothing local is uploaded. See [Opt-in participation prototype](#opt-in-participation-prototype).
+- **Public wallet utility:** a linked wallet shows explorer links on Ethereum, Optimism, or Base and can read its public native balance on request. A wallet link is not proof of identity or wealth.
+
+### Pinning the canopy data (earn weekly ART)
+
+1. Open the **IPFS** popover in the header and click **📌 Pin it yourself**. Copy the CID, then either run the shown `ipfs pin add` command on your own node, or paste your own Pinata JWT to pin by CID. The JWT is used once in that tab and never saved or sent anywhere except Pinata.
+2. File a **Pinner request** from About → Become a pinner, with your wallet and public gateway URL.
+3. After the owner approves you, a weekly check fetches the dataset from your gateway and queues 25 ART when it matches. See [Weekly ART for community pinners](#-weekly-art-for-community-pinners).
+
+### Contributing code and ideas
+
+1. About → **File an Issue** to join the contributor whitelist (GitHub username + wallet).
+2. Pitch ideas or pick up issues labeled `bounty: <amount> ART|USDC`. Idea authors share 20% via `idea-credit: @username`. Testing issues use `test-bounty:` with `/test-complete`.
+3. Merged pull requests queue payouts automatically in `payroll-queue.json`. See [Contributor Payroll](#contributor-payroll).
+
+### Admin (repository owner) playbook
+
+- **Payroll button:** the **💸 Payroll** toolbar button appears only while the registered owner wallet (`role: "owner"` in `contributor-accounts.json`, currently TheJollyLaMa) is connected in the header. Connect it, open Payroll, review each entry, and pay on Base. Then run the **Settle Payroll** workflow with the confirmed transaction hash (roles: contributor, implementer, idea-originator, tester, airdrop, pinner). Hiding the button is a convenience; the router's `PAYROLL_ROLE` and owner-wallet checks are the real authorization.
+- **Airdrop claims:** the bot labels each claim `airdrop-queued` or `airdrop-needs-review`. Comment `/airdrop-approved` to approve an edge case manually; the claimant can comment `/airdrop-recheck` after funding a project.
+- **Pinner requests:** comment `/pinner-approved` on a request to add the pinner. The **Community Pinning Rewards** workflow runs every Monday (or on demand) and opens a `pinning-check` issue with the results.
+- **IPFS backup:** **Pin Canopy Data to IPFS** runs on data pushes and daily. It needs the `PINATA_JWT` Actions secret, which is never committed or exposed to the browser.
+- **Refresh Artizen data:** `node scripts/sync-artizen-data.js`, review the diff, and commit.
+- **One-time setup:** see the [maintainer setup checklist](#setup-checklist-maintainer).
+- **Before pushing:** `node --test` and `node scripts/validatePayrollQueue.js`.
 
 ## Architecture
 
@@ -348,11 +396,60 @@ Location and wallet drafts persist only in browser storage with the rest of part
 
 ### IPFS Backup
 
-The **Pin Canopy Data to IPFS** workflow publishes the public canopy JSON datasets under `data/` (including the full Artizen snapshot and creator curation), plus the payroll queue, contributor wallet registry, and asset configuration, as a versioned JSON bundle on Pinata's public IPFS network. It runs when those source datasets change on `main`, or on manual dispatch. The workflow updates `data/ipfs-backup.json` with the latest CID; the header's IPFS status control reads that public manifest and links to the backup.
+The **Pin Canopy Data to IPFS** workflow publishes the public canopy JSON datasets under `data/` (including the full Artizen snapshot and creator curation), plus the payroll queue, contributor wallet registry, and asset configuration, as a versioned JSON bundle on Pinata's public IPFS network. It runs when those source datasets change on `main`, once a day (to pick up bot commits, which do not trigger push workflows), or on manual dispatch. The workflow updates `data/ipfs-backup.json` with the latest CID, the bundle's `payloadSha256`/`payloadBytes`, and up to 10 `recentCids`; the header's IPFS status control reads that public manifest and links to the backup.
 
 Before using it, create a Pinata JWT limited to public file uploads and add it to the repository's Actions secrets as `PINATA_JWT`. Never put the token in browser code or commit it. The workflow reports missing credentials or upload failures instead of claiming success. The bundle is content-addressed; unchanged source data reuses the existing pinned backup.
 
-The backup includes contributor wallet addresses and payroll ledger data. As with the repository itself, these records are public; IPFS copies are content-addressed and may remain available independently of later repository edits.
+The backup also includes the public community registries (`data/community-creators.json`, `data/community-pinners.json`). It includes contributor wallet addresses and payroll ledger data. As with the repository itself, these records are public; IPFS copies are content-addressed and may remain available independently of later repository edits.
+
+## Community Rewards
+
+Two community programs pay ART through the same payroll queue as bounties. Settings are in [`community-rewards.json`](community-rewards.json). Every reward is queued by a GitHub Action and is paid only when the owner settles the payroll from the **Payroll** panel.
+
+### 🎁 100 ART for putting your blip on the map
+
+1. Connect a wallet in the header (optional) and click **🎁 Put your blip on the map**. You can also use **About → Claim 100 ART** or the claim box in any creator card's Artizen account panel. Each opens the [`airdrop-claim.yml`](.github/ISSUE_TEMPLATE/airdrop-claim.yml) issue form, pre-filled where possible.
+2. Enter your **Artizen wallet** (the Base smart wallet shown in Artizen's wallet panel), your creator name, your Artizen project links, and an optional website. You can also share an optional globe location, rounded to country or about city level. Then tick the publishing consent box.
+3. The **Airdrop Claim** workflow ([`processAirdropClaim.js`](scripts/processAirdropClaim.js)) checks the wallet on Base with keyless public APIs: a Blockscout log query and a public RPC.
+   - **Verified** means Artizen's ART token (the JBERC20 of Artizen's Juicebox project #6) minted at least `minArtMinted` (500) ART to that wallet from the zero address. This happens when you fund a project on Artizen.
+   - Holding ART, or paying the shared Juicebox terminal for another project, does not count.
+4. If verified, the bot:
+   - publishes your record in [`data/community-creators.json`](data/community-creators.json)
+   - queues **100 ART** for that same Artizen wallet (role `airdrop`)
+   - labels the issue `airdrop-queued`, comments, and closes it
+
+   If not verified, it labels the issue `airdrop-needs-review` and explains what to check. The claimant can comment `/airdrop-recheck` after funding a project. The owner can approve manually with `/airdrop-approved`, which records `method: owner-approved`.
+
+Your blip appears as a green **community-verified** creator node, linked to the projects you listed (labeled *self-declared*) and with the ✅ verification on its card. If the claim comes from the GitHub account of an already-curated creator (for example `curator:thejollylama`), the verification merges into that node.
+
+Rules and caveats:
+- One claim per GitHub account, per Artizen wallet, and per connected wallet. The payroll validator also rejects an Artizen wallet that appears in more than one claim.
+- The airdrop is always paid to the **verified Artizen wallet**, never to a different address. Someone who pastes another person's Artizen wallet only pays that person, and it uses up that wallet's claim.
+- Verification proves that the wallet funded Artizen on-chain. It does **not** prove who controls the wallet, and it is not an Artizen login.
+- No Artizen credentials, cookies, or scraping are involved.
+
+### 📌 Weekly ART for community pinners
+
+Anyone can help keep the dataset decentralized:
+
+- **Pin it yourself:** open the header **IPFS** badge → **📌 Pin it yourself**. Copy the `ipfs pin add <cid>` command for your own Kubo node, or pin by CID with your Pinata account. The Pinata JWT is used once in that tab, sent only to `api.pinata.cloud`, and never stored. A scoped, revocable key is best.
+- **Earn ART:** serve your pin from **your own** gateway, then file the [`pinner-request.yml`](.github/ISSUE_TEMPLATE/pinner-request.yml) form with your Base reward wallet and gateway URL. Never paste API keys there.
+  - The **Pinner Request** workflow checks your gateway right away and on `/pinner-recheck`.
+  - The owner approves you with `/pinner-approved`, which adds you to [`data/community-pinners.json`](data/community-pinners.json).
+- **Weekly check:** **Community Pinning Rewards** runs every Monday, and you can also dispatch it manually.
+  - It fetches `<gateway>/ipfs/<cid>` for the current backup CID, or any `recentCids` entry from the last 8 days.
+  - A pass requires the bytes to hash to the manifest's `payloadSha256`.
+  - Passing pinners get **25 ART** queued (role `pinner`, up to 20 per week, earliest approvals first).
+  - The results go in a public `pinning-check` issue, and the check runs at most once per ISO week.
+  - The IPFS popover shows how many community nodes passed this week.
+
+A gateway check shows that the data is **available** through that gateway. It is not proof of storage. Please serve only content you have pinned, for example with a Pinata dedicated gateway or Kubo with `Gateway.NoFetch = true`. Randomized storage proofs, like ArtFi's spot-checked node registry, are a natural upgrade path.
+
+### Setup checklist (maintainer)
+
+- Add the `PINATA_JWT` Actions secret, then run **Pin Canopy Data to IPFS** once. Pinning rewards need a published CID.
+- Create the labels `airdrop-claim`, `airdrop-queued`, `airdrop-needs-review`, `pinner-request`, and `pinning-check`. Issue forms only apply labels that already exist.
+- Keep the shared router's `decentcanopy-repo-dev` fund stocked with ART for airdrop and pinner payouts. Settle them with the **Settle Payroll** workflow using role `airdrop` or `pinner`.
 
 ## Data Layer API
 
@@ -393,9 +490,9 @@ New contributors: open **About → Build the canopy with us → File an Issue**.
 
 Merged pull requests can queue rewards from linked issues labeled `bounty: <amount> ART` and/or `bounty: <amount> USDC`. A single issue can have one label per configured token; duplicate labels for the same token are rejected. Optional `idea-credit: @username` splits each bounty 80/20, with amounts that cannot be represented at that token's ledger precision rejected rather than rounded. Testing issues support the same configured assets with `test-bounty: <amount> <currency>`, `/test-complete`, and owner-only `/test-approved` commands.
 
-Only wallets registered in `contributor-accounts.json` can receive entries. GitHub Actions add entries to `payroll-queue.json` and accrue per-token account totals. Token addresses, decimals, the shared Base router, and the configured `decentcanopy-repo-dev` fund slug are in `payroll-assets.json`.
+Only registered wallets can receive entries: bounty, idea, and testing roles use `contributor-accounts.json`; `airdrop` entries must pay the verified Artizen wallet recorded for that claim in `data/community-creators.json`; and `pinner` entries must pay an approved wallet in `data/community-pinners.json`. GitHub Actions add entries to `payroll-queue.json` and accrue per-token account totals. Token addresses, decimals, the shared Base router, and the configured `decentcanopy-repo-dev` fund slug are in `payroll-assets.json`.
 
-Open **Payroll** on the page and connect the registered repository-owner wallet. The panel checks Base, the router's `PAYROLL_ROLE`, fund status/balance, token approval, contributor identity, and on-chain work-reference replay protection before offering a payout. If a recipient has not yet been approved on the shared router, the panel can add them only when the connected wallet also has `CONTRIBUTOR_ADMIN_ROLE`; it never revokes or changes other repositories' contributor approvals.
+Connect the registered repository-owner wallet in the header; the **💸 Payroll** toolbar button only appears for that wallet. (This only hides the button; the router role and owner checks below are the real authorization.) The panel checks Base, the router's `PAYROLL_ROLE`, fund status/balance, token approval, contributor identity, and on-chain work-reference replay protection before offering a payout. If a recipient has not yet been approved on the shared router, the panel can add them only when the connected wallet also has `CONTRIBUTOR_ADMIN_ROLE`; it never revokes or changes other repositories' contributor approvals.
 
 The `decentcanopy-repo-dev` fund must be created, active, and funded on the existing shared router before payouts can succeed; supported assets must also be router-approved. The repository configuration does not deploy a router or create/fund this allocation. After the panel confirms a `payout()` transaction on Base, run the owner-only **Settle Payroll** GitHub Actions workflow with the exact contributor, issue, role, currency, and confirmed transaction hash. That workflow moves only the matching entry to settled and commits the ledger update to `main`; it does not send the payment itself. Do not run it before the on-chain transaction is confirmed.
 

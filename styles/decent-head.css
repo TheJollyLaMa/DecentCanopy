@@ -749,3 +749,118 @@
   from { opacity: 0; transform: translateY(12px) scale(0.975); }
   to { opacity: 1; transform: translateY(0) scale(1); }
 }
+
+.ipfs-status-popover .ipfs-community-pinners {
+  margin-top: 0.5rem;
+  color: #a7f3d0;
+}
+
+.ipfs-pin-yourself {
+  margin-top: 0.65rem;
+  padding: 0.35rem 0.7rem;
+  border: 1px solid rgba(52, 211, 153, 0.55);
+  border-radius: 999px;
+  color: #d1fae5;
+  background: rgba(6, 78, 59, 0.55);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ipfs-pin-yourself:hover,
+.ipfs-pin-yourself:focus-visible {
+  background: rgba(16, 185, 129, 0.4);
+}
+
+.airdrop-claim-chip {
+  position: absolute;
+  top: calc(var(--decent-head-height, 92px) - 1.6rem);
+  right: 1rem;
+  z-index: 50;
+  padding: 0.2rem 0.65rem;
+  border: 1px solid rgba(251, 191, 36, 0.6);
+  border-radius: 999px;
+  color: #fde68a;
+  background: rgba(66, 32, 6, 0.85);
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-decoration: none;
+  animation: canopy-pulse 3.2s ease-in-out infinite;
+}
+
+.airdrop-claim-chip[hidden] {
+  display: none;
+}
+
+.pin-yourself-dialog {
+  position: fixed;
+  width: min(520px, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  overflow-y: auto;
+  padding: 1.6rem clamp(1.2rem, 4vw, 2rem) 1.4rem;
+  border: 1px solid rgba(52, 211, 153, 0.4);
+  border-radius: 1.2rem;
+  color: #dbeafe;
+  background: linear-gradient(145deg, #0b1725, #0f2230 64%, #0a1521);
+  box-shadow: 0 28px 90px rgba(0, 0, 0, 0.62);
+  line-height: 1.55;
+  font-size: 0.88rem;
+}
+
+.pin-yourself-dialog::backdrop {
+  background: rgba(2, 6, 23, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.pin-yourself-dialog h2 {
+  margin: 0 0 0.6rem;
+  color: #a7f3d0;
+}
+
+.pin-yourself-dialog h3 {
+  margin: 1rem 0 0.35rem;
+  color: #fde68a;
+  font-size: 0.92rem;
+}
+
+.pin-yourself-dialog p {
+  margin: 0.35rem 0;
+}
+
+.pin-yourself-dialog code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.35rem;
+  color: #e0f2fe;
+  background: rgba(15, 23, 42, 0.85);
+  overflow-wrap: anywhere;
+}
+
+.pin-yourself-dialog a {
+  color: #67e8f9;
+}
+
+.pin-pinata-form {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.pin-pinata-form label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.pin-pinata-form input {
+  padding: 0.45rem 0.6rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 0.45rem;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.9);
+  font: inherit;
+}
+
+.pin-yourself-status {
+  min-height: 1.2em;
+  color: #a7f3d0;
+}

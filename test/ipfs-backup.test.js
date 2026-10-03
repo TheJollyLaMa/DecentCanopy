@@ -8,7 +8,8 @@ const {
   computeDataDigest,
   createBackupPayload,
   readDataFiles,
-  readUploadCid
+  readUploadCid,
+  recentCids
 } = require('../scripts/pinDataBackup');
 
 test('IPFS backup covers every checked-in canopy snapshot and curated data file', () => {
@@ -18,6 +19,8 @@ test('IPFS backup covers every checked-in canopy snapshot and curated data file'
     'data/artizen-curation.json',
     'data/artizen.json',
     'data/associations.json',
+    'data/community-creators.json',
+    'data/community-pinners.json',
     'data/projects.json',
     'payroll-assets.json',
     'payroll-queue.json'
@@ -61,4 +64,17 @@ test('reads CID values from Pinata upload responses and rejects malformed respon
   const cid = `bafy${'a'.repeat(55)}`;
   assert.equal(readUploadCid({ data: { cid } }), cid);
   assert.throws(() => readUploadCid({ data: {} }), /valid CID/);
+});
+
+test('backup manifest keeps a short, de-duplicated history of recent CIDs for pinner checks', () => {
+  const previous = {
+    cid: 'bafyprevious000000000000000',
+    pinnedAt: '2026-10-01T00:00:00.000Z',
+    payloadSha256: 'a'.repeat(64),
+    recentCids: [{ cid: 'bafyolder00000000000000000', pinnedAt: '2026-09-30T00:00:00.000Z', payloadSha256: 'b'.repeat(64) }]
+  };
+  const rows = recentCids(previous, { cid: 'bafycurrent000000000000000', pinnedAt: '2026-10-02T00:00:00.000Z', payloadSha256: 'c'.repeat(64) });
+  assert.deepEqual(rows.map(row => row.cid), ['bafycurrent000000000000000', 'bafyolder00000000000000000', 'bafyprevious000000000000000']);
+  const many = Array.from({ length: 14 }, (_, index) => ({ cid: `bafy${String(index).padStart(22, '0')}`, pinnedAt: 'x' }));
+  assert.equal(recentCids({ recentCids: many }, { cid: 'bafynew0000000000000000000', pinnedAt: 'y' }).length, 10);
 });

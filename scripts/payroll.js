@@ -6,7 +6,7 @@ const IDEA_CREDIT_LABEL_RE = /^idea-credit:\s*@?([-\w]+)$/i;
 const CLOSING_ISSUE_RE = /(?:closes?|fixes?|resolves?)\s+(?:[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+)?#(\d+)/gi;
 const TITLE_ISSUE_RE = /#(\d+)/g;
 const AMOUNT_RE = /^\d+(?:\.\d+)?$/;
-const PAYROLL_ROLES = new Set(['contributor', 'implementer', 'idea-originator', 'tester']);
+const PAYROLL_ROLES = new Set(['contributor', 'implementer', 'idea-originator', 'tester', 'airdrop', 'pinner']);
 
 const CONTRIBUTOR_ALIASES = {
   'copilot-swe-agent': 'copilot',

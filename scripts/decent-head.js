@@ -71,6 +71,8 @@
       link.textContent = 'Open IPFS backup ↗';
       status.appendChild(link);
       if (stateLabel) stateLabel.textContent = 'pinned';
+      window.decentCanopyIpfsManifest = manifest;
+      window.dispatchEvent(new CustomEvent('decentcanopy:ipfs-manifest', { detail: manifest }));
     } catch (error) {
       status.textContent = `Could not check IPFS backup status: ${error.message}`;
       if (stateLabel) stateLabel.textContent = 'unavailable';

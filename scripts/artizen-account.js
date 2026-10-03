@@ -116,6 +116,32 @@
     'declared-matches-other-network': ['matches', 'Your connected address matches, on a different network.', 'The link was declared for another network; addresses match but the network differs.'],
   };
 
+  const REPO_URL = 'https://github.com/TheJollyLaMa/DecentCanopy';
+
+  function airdropClaimUrl({ connectedWallet, name } = {}) {
+    const params = new URLSearchParams({ template: 'airdrop-claim.yml', title: `Airdrop claim: ${name || 'my creator blip'}` });
+    if (name) params.set('display_name', name);
+    if (connectedWallet && /^0x[0-9a-fA-F]{40}$/.test(connectedWallet)) params.set('connected_wallet', connectedWallet);
+    return `${REPO_URL}/issues/new?${params}`;
+  }
+
+  function renderAirdrop(creator, connectedWallet, esc) {
+    const verify = creator.communityVerification;
+    if (verify) {
+      return `<div class="airdrop-status airdrop-status--joined">
+        <strong>${verify.method === 'base-art-mint' ? '✅ Artizen wallet verified on Base' : '🤝 Maintainer-approved community creator'}</strong>
+        <p>This creator blip came from a public airdrop claim. The 100 ART is paid to the verified Artizen wallet when the maintainer settles the payroll.</p>
+      </div>`;
+    }
+    if (creator.kind !== 'creator') return '';
+    const url = airdropClaimUrl({ connectedWallet: connectedWallet && connectedWallet.address, name: creator.status === 'participant-reported' ? creator.name : '' });
+    return `<div class="airdrop-status">
+      <strong>🎁 Put your blip on the map · claim 100 ART</strong>
+      <p>Verify your Artizen wallet on Base and publish your creator blip. A bot checks for ART that Artizen minted to the wallet when you funded a project. If it finds enough, 100 ART is queued to that wallet. One claim per person.</p>
+      <a class="toolbar-btn airdrop-claim-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open the claim form on GitHub ↗</a>
+    </div>`;
+  }
+
   function renderCreator(creator, context) {
     const { associations, entitiesById, connectedWallet, networks, esc, viewerId } = context;
     const isViewer = Boolean(viewerId && viewerId === creator.id);
@@ -131,7 +157,10 @@
     const locationText = location => location
       ? `${esc(location.label)} · ${esc(location.precision)}`
       : '<span class="account-muted">not shared</span>';
-    const relationLabel = { 'creator-associated': 'Creator-curated link', collaboration: 'Reported collaboration' };
+    const relationLabel = {
+      'creator-associated': creator.status === 'community-verified' ? 'Self-declared in airdrop claim' : 'Creator-curated link',
+      collaboration: 'Reported collaboration',
+    };
 
     const projectsHtml = summary.projects.length
       ? `<ul>${summary.projects.map(({ project, relation }) => entityButton(project, [
@@ -210,6 +239,7 @@
         ${declared ? `<p>${esc(network ? network.name : `Chain ${declared.chainId}`)} · <code title="${esc(declared.address)}">${esc(short(declared.address))}</code></p>` : ''}
         <p>${esc(hint)}</p>
       </div>
+      ${renderAirdrop(creator, connectedWallet, esc)}
       <form class="artizen-login-form" aria-describedby="artizen-login-note" onsubmit="return false">
         <fieldset disabled>
           <legend>Sign in with Artizen</legend>
@@ -236,7 +266,7 @@
     </section>`;
   }
 
-  const api = { summarize, walletStatus, renderCreator };
+  const api = { summarize, walletStatus, renderCreator, airdropClaimUrl };
   if (typeof module === 'object' && module.exports) module.exports = api;
   else root.CanopyArtizenAccount = api;
 }(typeof window !== 'undefined' ? window : globalThis));

@@ -3,6 +3,10 @@
   color: #a7f3d0;
 }
 
+.payroll-open-button[hidden] {
+  display: none;
+}
+
 .payroll-overlay {
   position: fixed;
   inset: 0;

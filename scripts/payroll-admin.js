@@ -1,7 +1,30 @@
 (function () {
   'use strict';
 
-  const ROLES = new Set(['contributor', 'implementer', 'idea-originator', 'tester']);
+  const ROLES = new Set(['contributor', 'implementer', 'idea-originator', 'tester', 'airdrop', 'pinner']);
+
+  // Mirrors registeredRecipient() in scripts/communityRewards.js.
+  function registeredRecipient(entry) {
+    const role = String(entry.role || 'contributor').toLowerCase();
+    const github = String(entry.contributorGithub || '').toLowerCase();
+    if (role === 'airdrop') {
+      const creator = (state.creators?.creators || []).find(row =>
+        String(row.github).toLowerCase() === github && row.claimIssue === entry.issueRef);
+      return creator ? creator.artizenWallet : null;
+    }
+    if (role === 'pinner') {
+      const pinner = (state.pinners?.pinners || []).find(row =>
+        String(row.github).toLowerCase() === github && row.status === 'approved');
+      return pinner ? pinner.wallet : null;
+    }
+    const account = (state.accounts?.contributors || []).find(row => String(row.github || '').toLowerCase() === github);
+    return account ? account.walletAddress : null;
+  }
+
+  function recipientMatches(entry) {
+    const wallet = registeredRecipient(entry);
+    return Boolean(wallet && wallet.toLowerCase() === String(entry.contributor || '').toLowerCase());
+  }
   const ROUTER_ABI = [
     'function PAYROLL_ROLE() view returns (bytes32)',
     'function CONTRIBUTOR_ADMIN_ROLE() view returns (bytes32)',
@@ -193,10 +216,7 @@
     if (!state.routerState?.fund.exists) return 'fund-missing';
     if (!state.routerState?.fund.active) return 'fund-inactive';
     if (!assetState?.approved) return 'asset-not-approved';
-    const account = state.accounts?.contributors?.find(contributor =>
-      String(contributor.github || '').toLowerCase() === String(entry.contributorGithub || '').toLowerCase()
-    );
-    if (!account || String(account.walletAddress || '').toLowerCase() !== String(entry.contributor || '').toLowerCase()) return 'account-mismatch';
+    if (!recipientMatches(entry)) return 'account-mismatch';
     return 'ready';
   }
 
@@ -206,7 +226,7 @@
       'fund-missing': `Create the ${state.config.fundSlug} fund on the shared router before paying.`,
       'fund-inactive': 'The repository fund is inactive.',
       'asset-not-approved': 'This token is not approved on the shared router.',
-      'account-mismatch': 'The recipient does not match the registered GitHub wallet.',
+      'account-mismatch': 'The recipient does not match the registered wallet (contributor registry, verified Artizen creator, or approved pinner).',
       invalid: 'This queue entry is invalid or uses an unsupported asset.',
       ready: '',
     })[status] || 'On-chain status is unavailable; refresh to retry.';
@@ -292,6 +312,10 @@
         fetchJson('payroll-queue.json'),
         fetchJson('contributor-accounts.json'),
         fetchJson('payroll-assets.json'),
+      ]);
+      [state.creators, state.pinners] = await Promise.all([
+        fetchJson('data/community-creators.json').catch(() => ({ creators: [] })),
+        fetchJson('data/community-pinners.json').catch(() => ({ pinners: [] })),
       ]);
       if (!Array.isArray(state.queue.pending) || !Array.isArray(state.queue.settled)) {
         throw new Error('The payroll ledger must have pending and settled arrays.');
@@ -390,11 +414,8 @@
       const asset = state.config.assets[currency];
       if (!asset) throw new Error(`No configured Base token matches ${currency}.`);
       if (!ROLES.has(entryRole(entry))) throw new Error(`Unsupported payroll role: ${entryRole(entry)}.`);
-      const registered = state.accounts.contributors.find(account =>
-        account.github.toLowerCase() === String(entry.contributorGithub).toLowerCase()
-      );
-      if (!registered || registered.walletAddress.toLowerCase() !== String(entry.contributor).toLowerCase()) {
-        throw new Error('The queue recipient does not match the registered contributor wallet.');
+      if (!recipientMatches(entry)) {
+        throw new Error('The queue recipient does not match the registered wallet for this payout role.');
       }
       await switchToBase();
       const provider = new ethers.BrowserProvider(window.ethereum);
@@ -487,6 +508,28 @@
     openButton?.focus();
   }
 
+  // UI gate only: the router's PAYROLL_ROLE and the owner check in payEntry remain the real authorization.
+  function isOwnerWallet(wallet) {
+    const owner = configuredOwner();
+    return Boolean(owner?.walletAddress && wallet?.address &&
+      owner.walletAddress.toLowerCase() === wallet.address.toLowerCase());
+  }
+
+  function updateButtonVisibility() {
+    const allowed = isOwnerWallet(state.wallet);
+    if (openButton) openButton.hidden = !allowed;
+    if (!allowed && panel?.classList.contains('open')) closePanel();
+  }
+
+  async function loadAccountsForGate() {
+    try {
+      state.accounts = await fetchJson('contributor-accounts.json');
+    } catch (_) {
+      state.accounts = state.accounts || null;
+    }
+    updateButtonVisibility();
+  }
+
   function init() {
     panel = document.getElementById('payroll-panel');
     overlay = document.getElementById('payroll-overlay');
@@ -508,9 +551,11 @@
     });
     window.addEventListener('decentcanopy:wallet-change', event => {
       state.wallet = event.detail;
+      updateButtonVisibility();
       if (panel.classList.contains('open')) refresh();
     });
     if (window.decentCanopyWallet) state.wallet = window.decentCanopyWallet;
+    loadAccountsForGate();
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init, { once: true });

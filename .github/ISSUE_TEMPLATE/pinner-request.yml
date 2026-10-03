@@ -1,0 +1,50 @@
+name: Become a community pinner
+description: Keep a copy of the canopy dataset on IPFS and earn weekly ART
+title: "Pinner request: "
+labels: ["pinner-request"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Help keep the canopy decentralized 📌 Pin the latest DecentCanopy backup CID (shown in the site's **IPFS** badge) on your own IPFS node or pinning account and serve it from **your own** gateway.
+
+        A bot checks that your gateway serves byte-identical canopy data right away; after the maintainer approves you, a weekly check queues ART for each week you pass.
+
+        Set up your gateway to serve only content you have pinned (for example, a Pinata dedicated gateway, or Kubo with `Gateway.NoFetch = true`). **Never paste API keys or JWTs here.**
+
+  - type: input
+    id: wallet
+    attributes:
+      label: Base wallet for ART rewards
+      placeholder: 0x...
+    validations:
+      required: true
+
+  - type: input
+    id: gateway
+    attributes:
+      label: Gateway URL
+      description: Public HTTPS gateway root; we request <gateway>/ipfs/<cid>
+      placeholder: https://your-gateway.mypinata.cloud
+    validations:
+      required: true
+
+  - type: dropdown
+    id: setup
+    attributes:
+      label: Pinning setup
+      options:
+        - Pinata
+        - Kubo node
+        - Filebase
+        - Other pinning service
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: commitment
+    attributes:
+      label: Pinning commitment
+      options:
+        - label: I will keep the latest canopy CID pinned and understand that a gateway check shows availability, not proof of storage.
+          required: true

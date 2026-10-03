@@ -83,8 +83,11 @@
       </div>
       <div id="ipfs-status-popover" class="ipfs-status-popover" role="status" hidden>
         <p id="ipfs-backup-status">Checking for a published IPFS backup…</p>
+        <p id="ipfs-community-pinners" class="ipfs-community-pinners" hidden></p>
+        <button id="ipfs-pin-yourself" class="ipfs-pin-yourself" type="button">📌 Pin it yourself · earn ART</button>
       </div>
       <p id="wallet-status-message" class="wallet-status-message" role="status" aria-live="polite"></p>
+      <a id="airdrop-claim-chip" class="airdrop-claim-chip" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=airdrop-claim.yml" target="_blank" rel="noopener noreferrer" hidden>🎁 Put your blip on the map · claim 100 ART ↗</a>
     </header>
 
     <dialog id="canopy-about-dialog" class="canopy-about-dialog" aria-labelledby="canopy-about-title">
@@ -162,12 +165,43 @@
           <li><strong>Pitch ideas or pick up issues.</strong> <code>bounty</code> labels pay in ART or USDC; the idea's author shares 20% via <code>idea-credit</code>.</li>
           <li><strong>Ship it.</strong> Merged work is queued on the payroll automatically and paid out on Base.</li>
         </ol>
+        <h3 class="about-rewards-title">🎁 Community rewards</h3>
+        <ul class="about-rewards">
+          <li><strong>100 ART to join the map.</strong> Verify your Artizen wallet on Base (ART that Artizen minted to it when you funded a project) and publish your creator blip, with an optional website and globe pin.</li>
+          <li><strong>Weekly ART for pinning.</strong> Keep the canopy dataset pinned on your own IPFS node or Pinata account; a weekly gateway check queues ART for you.</li>
+        </ul>
+        <div class="about-build-actions">
+          <a class="about-issue-button" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=airdrop-claim.yml&amp;title=Airdrop%20claim%3A%20" target="_blank" rel="noopener noreferrer">Claim 100 ART</a>
+          <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=pinner-request.yml&amp;title=Pinner%20request%3A%20" target="_blank" rel="noopener noreferrer">Become a pinner ↗</a>
+        </div>
         <div class="about-build-actions">
           <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy" target="_blank" rel="noopener noreferrer">View repository ↗</a>
           <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy/issues" target="_blank" rel="noopener noreferrer">Open issues ↗</a>
           <a id="about-issue-button" class="about-issue-button" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=contributor-request.yml&amp;title=Contributor%20request%3A%20" target="_blank" rel="noopener noreferrer">File an Issue</a>
         </div>
       </section>
+    </dialog>
+
+    <dialog id="pin-yourself-dialog" class="pin-yourself-dialog" aria-labelledby="pin-yourself-title">
+      <form method="dialog">
+        <button class="canopy-about-close" type="submit" aria-label="Close pinning guide">×</button>
+      </form>
+      <h2 id="pin-yourself-title">📌 Pin the canopy yourself</h2>
+      <p>Every copy makes the community dataset harder to lose. Pin the latest backup:</p>
+      <p class="pin-cid-row"><code id="pin-yourself-cid">No backup CID published yet</code> <button id="pin-copy-cid" class="toolbar-btn" type="button">Copy CID</button></p>
+      <h3>With your own IPFS node (Kubo)</h3>
+      <p><code id="pin-kubo-command">ipfs pin add &lt;cid&gt;</code> <button id="pin-copy-kubo" class="toolbar-btn" type="button">Copy</button></p>
+      <h3>With your Pinata account</h3>
+      <form id="pin-pinata-form" class="pin-pinata-form" autocomplete="off">
+        <label>Pinata JWT (used once in this tab, never saved or sent anywhere except Pinata)
+          <input id="pin-pinata-jwt" type="password" autocomplete="off" spellcheck="false" placeholder="eyJ…" />
+        </label>
+        <button class="toolbar-btn" type="submit">Pin by CID with Pinata</button>
+      </form>
+      <p class="participation-card-note">Use a scoped Pinata key and revoke it afterwards if you like. DecentCanopy never stores your key.</p>
+      <p id="pin-yourself-status" class="pin-yourself-status" role="status" aria-live="polite"></p>
+      <h3>Earn weekly ART</h3>
+      <p>Serve your pin from your own gateway and <a href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=pinner-request.yml&amp;title=Pinner%20request%3A%20" target="_blank" rel="noopener noreferrer">request to become a community pinner ↗</a>. A weekly check confirms your gateway serves the exact canopy bytes and queues ART for you. That check shows availability, not proof of storage, so please keep the pin honest.</p>
     </dialog>
 
     <dialog id="canopy-tour-dialog" class="canopy-tour-dialog" aria-labelledby="canopy-tour-title">
@@ -276,7 +310,7 @@
         <div class="toolbar-sep" role="separator"></div>
 
         <button id="tour-open" class="toolbar-btn tour-open" type="button" aria-haspopup="dialog" aria-controls="canopy-tour-dialog">🧭 Tour</button>
-        <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false">
+        <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false" hidden>
           💸 Payroll
         </button>
         <button id="participation-open" class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="participation-dialog">Participate / import</button>
@@ -561,5 +595,6 @@
     <script src="scripts/artizen-account.js"></script>
     <script src="scripts/onboarding.js"></script>
     <script src="scripts/spiral.js"></script>
+    <script src="scripts/community-rewards-ui.js"></script>
   </body>
 </html>

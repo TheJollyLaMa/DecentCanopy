@@ -34,6 +34,7 @@
     'not-reported': '#64748b',
     'not-in-feed': '#f59e0b',
     curated: '#fbbf24',
+    'community-verified': '#34d399',
     inactive: '#94a3b8'
   };
 
@@ -949,7 +950,7 @@
       if (focusMode && !touchesSelection && !inFocusContext) return;
 
       const sameTrack = source.track === target.track;
-      const isCurated = Boolean(sourceLabel && /curated|participant-reported|participant-declared/i.test(sourceLabel));
+      const isCurated = Boolean(sourceLabel && /curated|participant-reported|participant-declared|self-declared/i.test(sourceLabel));
       const color = isCurated ? '#fbbf24' : sameTrack ? (TRACK_COLORS[source.track] || '#94a3b8') : '#94a3b8';
       const alpha = touchesSelection ? 0.5 : focusMode ? 0.07 : 0.13;
       const bend = 0.08 + priority * 0.03;
@@ -1839,7 +1840,7 @@
     const curatedLinks = (node.curatedLinks || []).filter(link => safeUrl(link.url));
     let curatedLinksHtml = '';
     if (curatedLinks.length) {
-      curatedLinksHtml = `<div class="details-group curated-links"><h3>Creator-curated links</h3><ul>${curatedLinks.map(link => `<li><a href="${escAttr(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${/discord/i.test(link.url) ? '💬 ' : /^https:\/\/github\.com\//i.test(link.url) ? '🛠️ ' : '🌐 '}${escHtml(link.label)} ↗</a>${link.note ? `<small>${escHtml(link.note)}</small>` : ''}</li>`).join('')}</ul><p class="participation-card-note">Public links curated by the creator in DecentCanopy.</p></div>`;
+      curatedLinksHtml = `<div class="details-group curated-links"><h3>Creator-curated links</h3><ul>${curatedLinks.map(link => `<li><a href="${escAttr(safeUrl(link.url))}" target="_blank" rel="noopener noreferrer">${/discord/i.test(link.url) ? '💬 ' : /^https:\/\/github\.com\//i.test(link.url) ? '🛠️ ' : '🌐 '}${escHtml(link.label)} ↗</a>${link.note ? `<small>${escHtml(link.note)}</small>` : ''}</li>`).join('')}</ul><p class="participation-card-note">${node.status === 'community-verified' ? 'Public links from the creator’s airdrop claim.' : 'Public links curated by the creator in DecentCanopy.'}</p></div>`;
     }
     if (safeUrl(node.websiteUrl)) {
       linksHtml += `<div class="details-links"><a href="${escHtml(safeUrl(node.websiteUrl))}" target="_blank" rel="noopener noreferrer">Website: ${escHtml(new URL(node.websiteUrl).hostname)} ↗</a><p class="participation-card-note">Local participant website draft · unverified</p></div>`;
@@ -1848,10 +1849,13 @@
     const walletInfo = node.publicWallet;
     const network = walletInfo && window.CanopyParticipationModel.networks[walletInfo.chainId];
     const walletHtml = network
-      ? `<div class="details-group"><h3>Public ledger link · ${escHtml(network.name)}</h3><div class="details-links"><a href="${network.explorer}/address/${walletInfo.address}" target="_blank" rel="noopener noreferrer">${escHtml(walletInfo.address)} ↗</a></div><p class="participation-card-note">Participant-declared wallet association. Ownership and Artizen identity unverified; not proof of purchases or personal wealth.</p><button class="toolbar-btn" type="button" data-read-wallet="${escHtml(node.id)}">Read public native balance (provider request)</button></div>` : '';
+      ? `<div class="details-group"><h3>Public ledger link · ${escHtml(network.name)}</h3><div class="details-links"><a href="${network.explorer}/address/${walletInfo.address}" target="_blank" rel="noopener noreferrer">${escHtml(walletInfo.address)} ↗</a></div><p class="participation-card-note">${node.communityVerification?.method === 'base-art-mint' ? 'Artizen wallet: Artizen ART was minted to it on Base. This does not prove who controls it, and it is not proof of personal wealth.' : 'Participant-declared wallet association. Ownership and Artizen identity unverified; not proof of purchases or personal wealth.'}</p><button class="toolbar-btn" type="button" data-read-wallet="${escHtml(node.id)}">Read public native balance (provider request)</button></div>` : '';
     const place = node.sharedLocation;
     const locationHtml = place
-      ? `<div class="details-group"><h3>Opt-in location</h3><p>${escHtml(place.label)} · ${escHtml(place.precision)}${place.latitude != null ? ` · ${place.latitude}, ${place.longitude}` : ''}</p><p class="participation-card-note">${place.precision === 'space' ? 'Symbolic space placement, not an astronomical coordinate.' : 'Participant-declared location; local only and unverified.'}</p></div>` : '';
+      ? `<div class="details-group"><h3>Opt-in location</h3><p>${escHtml(place.label)} · ${escHtml(place.precision)}${place.latitude != null ? ` · ${place.latitude}, ${place.longitude}` : ''}</p><p class="participation-card-note">${place.precision === 'space' ? 'Symbolic space placement, not an astronomical coordinate.' : (node.communityVerification ? 'Shared publicly by the creator in their airdrop claim; rounded and unverified.' : 'Participant-declared location; local only and unverified.')}</p></div>` : '';
+    const verify = node.communityVerification;
+    const verificationHtml = verify
+      ? `<div class="details-group community-verification"><h3>${verify.method === 'base-art-mint' ? '✅ Artizen wallet verified on Base' : '🤝 Maintainer-approved community creator'}</h3>${verify.method === 'base-art-mint' ? `<p>${escHtml(Number(verify.artMinted || 0).toLocaleString(undefined, { maximumFractionDigits: 0 }))} ART minted to this wallet by Artizen funding${verify.firstMintTx ? ` · <a href="https://basescan.org/tx/${escAttr(verify.firstMintTx)}" target="_blank" rel="noopener noreferrer">first mint ↗</a>` : ''}</p>` : ''}<p class="participation-card-note">Joined the canopy via ${/^[\w.-]+\/[\w.-]+#\d+$/.test(verify.claimIssue || '') ? `<a href="https://github.com/${escAttr(verify.claimIssue.replace('#', '/issues/'))}" target="_blank" rel="noopener noreferrer">claim ${escHtml(verify.claimIssue.split('#')[1] ? '#' + verify.claimIssue.split('#')[1] : verify.claimIssue)}</a>` : 'a public claim'} by GitHub @${escHtml(verify.github)}${verify.checkedAt ? ` · checked ${escHtml(String(verify.checkedAt).slice(0, 10))}` : ''}. Project links are self-declared.</p></div>` : '';
     const importedFunding = node.funding
       ? `<div class="details-funding"><strong>${formatCurrency(node.funding.raised)} raised / ${formatCurrency(node.funding.goal)} goal</strong><p>Season ${node.funding.season} · as of ${escHtml(node.funding.asOf)} · USD</p><p class="participation-card-note">Participant-reported, unverified; not live. Brightness reflects reported raised USD, not creator wealth.</p></div>` : '';
     const stats = node.publicStats;
@@ -1907,7 +1911,7 @@
     const availableNotes = node.id.startsWith('local-creator:')
       ? '<p class="details-muted">Locally imported creator. A connected wallet does not verify this identity, Artizen account, or ownership.</p>'
       : node.kind === 'creator'
-      ? '<p class="details-muted">Creator profile records are not included in the Artizen public graph feed. This creator node and its links were added locally at the creator’s request.</p>'
+      ? `<p class="details-muted">Creator profile records are not included in the Artizen public graph feed. ${node.status === 'community-verified' ? 'This creator joined through a public airdrop claim on GitHub.' : 'This creator node and its links were added locally at the creator’s request.'}</p>`
       : node.kind === 'project' && node.dataState !== 'not-in-feed'
         ? `<p class="details-muted">The public graph feed does not report project fundraising totals, creator identities, or artifact purchases${node.publicStats ? ' (the total above is a separate dated capture of the public Artizen page)' : ''}. A connection means the relationship label shown below; it is not proof of a ledger transaction.</p>`
         : '';
@@ -1944,6 +1948,7 @@
       curatedLinksHtml +
       valueHtml +
       importedFunding +
+      verificationHtml +
       walletHtml +
       locationHtml +
       activityHtml +
@@ -2046,7 +2051,7 @@
     summary.textContent =
       `Artizen public index · snapshot ${date} · ${counts.projects || 0} projects, ${counts.funds || 0} funds, ` +
       `${counts.relationships || 0} project–fund records. Lines reflect submitted, curated, or funded relationships. ` +
-      'Node size reflects recorded links, not funding. Creator links are curated or locally participant-reported. The public feed has no purchase or ledger proofs. Imported funding halos and activity replay are unverified, historical, and local—not live statistics.';
+      'Node size reflects recorded links, not funding. Creator links are curated, self-declared in Base-verified airdrop claims, or locally participant-reported. The public feed has no purchase or ledger proofs. Imported funding halos and activity replay are unverified, historical, and local—not live statistics.';
     visionNoteEl.replaceChildren(summary);
     visionNoteEl.setAttribute('aria-label', 'Artizen data source and limitations');
     const hint = document.querySelector('.spiral-hint');

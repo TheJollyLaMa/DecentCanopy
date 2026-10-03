@@ -112,6 +112,8 @@ var GTPData = (function () {
       importCoverage: raw.importCoverage || null,
       publicWallet: raw.publicWallet || null,
       sharedLocation: raw.sharedLocation || null,
+      communityVerification: raw.communityVerification || null,
+      github: raw.github || null,
       generatedAt: raw.generatedAt || null
     };
   }

@@ -21,7 +21,7 @@ var GTPArtizenDataAdapter = (function () {
     if (project.note) entity.curationNote = project.note;
   }
 
-  function transform(snapshot, curation) {
+  function transform(snapshot, curation, community) {
     if (!snapshot || typeof snapshot !== 'object') {
       throw new Error('[GTPArtizenDataAdapter] Artizen snapshot is missing or invalid');
     }
@@ -182,6 +182,62 @@ var GTPArtizenDataAdapter = (function () {
       });
     });
 
+    var COMMUNITY_EDGE_LABEL = 'Self-declared in airdrop claim (Artizen wallet verified on Base)';
+    (community && Array.isArray(community.creators) ? community.creators : []).forEach(function (row) {
+      if (!row || !row.github || !row.artizenWallet) return;
+      var verification = row.verification || {};
+      var communityVerification = {
+        method: verification.method || null,
+        verified: verification.verified === true,
+        artMinted: verification.artMinted || null,
+        firstMintTx: verification.firstMintTx || null,
+        checkedAt: verification.checkedAt || null,
+        claimIssue: row.claimIssue || null,
+        joinedAt: row.joinedAt || null,
+        github: row.github
+      };
+      var wallet = { address: String(row.artizenWallet).toLowerCase(), chainId: 8453 };
+      var curatedId = 'curator:' + String(row.github).toLowerCase();
+      var entity = entitiesById.get(curatedId);
+      if (entity && entity.kind === 'creator') {
+        entity.communityVerification = communityVerification;
+        entity.github = row.github;
+        if (!entity.publicWallet) entity.publicWallet = wallet;
+        if (!entity.sharedLocation && row.sharedLocation) entity.sharedLocation = row.sharedLocation;
+      } else {
+        var links = row.website ? [{ label: 'Website', url: row.website }] : [];
+        links.push({ label: 'GitHub · ' + row.github, url: 'https://github.com/' + encodeURIComponent(row.github) });
+        entity = {
+          id: row.id || ('community-creator:' + String(row.github).toLowerCase()),
+          name: row.name || row.github,
+          kind: 'creator',
+          track: 'Creators',
+          status: 'community-verified',
+          raised: 0,
+          goal: 0,
+          description: 'Community creator who joined the canopy by verifying their Artizen wallet on Base.',
+          sourceLabel: COMMUNITY_EDGE_LABEL,
+          curatedLinks: links,
+          github: row.github,
+          publicWallet: wallet,
+          sharedLocation: row.sharedLocation || null,
+          communityVerification: communityVerification
+        };
+        if (idSet.has(entity.id)) return;
+        idSet.add(entity.id);
+        entitiesById.set(entity.id, entity);
+        entities.push(entity);
+      }
+      (Array.isArray(row.artizenProjects) ? row.artizenProjects : []).forEach(function (slug) {
+        addEdge({
+          source: entity.id,
+          target: idsBySlug.get(slug),
+          type: 'creator-associated',
+          sourceLabel: COMMUNITY_EDGE_LABEL
+        });
+      });
+    });
+
     return {
       projects: entities,
       associations: Array.from(edges.values()),
@@ -213,9 +269,12 @@ var GTPArtizenDataAdapter = (function () {
       fetch(basePath + 'data/artizen-curation.json').then(function (response) {
         if (!response.ok) throw new Error('[GTPArtizenDataAdapter] Could not load creator-curated links (HTTP ' + response.status + ')');
         return response.json();
-      })
+      }),
+      fetch(basePath + 'data/community-creators.json').then(function (response) {
+        return response.ok ? response.json() : null;
+      }).catch(function () { return null; })
     ]).then(function (payloads) {
-      return transform(payloads[0], payloads[1]);
+      return transform(payloads[0], payloads[1], payloads[2]);
     });
 
     return {

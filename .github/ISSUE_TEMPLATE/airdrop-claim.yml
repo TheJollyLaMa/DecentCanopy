@@ -1,0 +1,93 @@
+name: Claim 100 ART · join the canopy
+description: Put your creator blip on the public DecentCanopy map and receive 100 ART for the data point
+title: "Airdrop claim: "
+labels: ["airdrop-claim"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for adding a data point to the canopy 🌳 A bot checks your **Artizen wallet** on Base. If Artizen has minted ART to it (that happens when you fund a project on Artizen), your creator blip is published and **100 ART** is queued for that same Artizen wallet. Payouts are sent when the maintainer settles the payroll.
+
+        One claim per GitHub account and per wallet. Never paste a password, seed phrase, private key, or API token.
+
+  - type: input
+    id: artizen_wallet
+    attributes:
+      label: Artizen wallet address
+      description: The wallet shown in your Artizen wallet panel (a Base smart wallet), not necessarily your MetaMask address. The airdrop is paid here.
+      placeholder: 0x...
+    validations:
+      required: true
+
+  - type: input
+    id: display_name
+    attributes:
+      label: Creator name
+      description: How your blip is labeled on the map
+      placeholder: e.g. TheJollyLaMa
+    validations:
+      required: true
+
+  - type: textarea
+    id: projects
+    attributes:
+      label: Your Artizen projects
+      description: Links to projects you created, one per line (https://artizen.fund/index/p/...). They become your blip's connections.
+      placeholder: https://artizen.fund/index/p/your-project
+    validations:
+      required: false
+
+  - type: input
+    id: website
+    attributes:
+      label: Website (optional)
+      placeholder: https://...
+    validations:
+      required: false
+
+  - type: input
+    id: connected_wallet
+    attributes:
+      label: Connected wallet (optional)
+      description: The wallet you connected in DecentCanopy, if different. It is listed publicly; nothing is paid to it.
+      placeholder: 0x...
+    validations:
+      required: false
+
+  - type: dropdown
+    id: globe
+    attributes:
+      label: Show me on the globe
+      options:
+        - Don't show my location
+        - Country
+        - City (rounded to ~10 km)
+      default: 0
+    validations:
+      required: true
+
+  - type: input
+    id: location_label
+    attributes:
+      label: Location label
+      description: Only used if you chose Country or City
+      placeholder: e.g. Portland, Oregon, USA
+    validations:
+      required: false
+
+  - type: input
+    id: coordinates
+    attributes:
+      label: Approximate coordinates
+      description: Optional "latitude, longitude"; rounded before publishing (city ≈ 1 decimal, country = whole degrees)
+      placeholder: 45.5, -122.7
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: Publishing consent
+      options:
+        - label: I agree that the details above are published in the public DecentCanopy dataset, shown on the map, and pinned to IPFS.
+          required: true

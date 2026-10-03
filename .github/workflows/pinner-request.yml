@@ -1,0 +1,54 @@
+name: Pinner Request
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  issue_comment:
+    types: [created]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  process:
+    if: >
+      github.event.issue.pull_request == null &&
+      contains(github.event.issue.labels.*.name, 'pinner-request') &&
+      (github.event_name == 'issues' ||
+       startsWith(github.event.comment.body, '/pinner-recheck') ||
+       startsWith(github.event.comment.body, '/pinner-approved'))
+    runs-on: ubuntu-latest
+    concurrency:
+      group: decent-canopy-payroll-queue
+      cancel-in-progress: false
+    steps:
+      - name: Checkout main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --global credential.helper store
+          printf 'https://x-access-token:%s@github.com\n' "$GH_TOKEN" > "$HOME/.git-credentials"
+          chmod 600 "$HOME/.git-credentials"
+          git init .
+          git remote add origin "https://github.com/${GITHUB_REPOSITORY}.git"
+          git fetch --depth=1 origin main
+          git checkout -B main FETCH_HEAD
+
+      - name: Process
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/processPinnerRequest.js
+
+      - name: Validate updated queue
+        run: node scripts/validatePayrollQueue.js
+
+      - name: Commit update
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/community-pinners.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: register community IPFS pinner"
+          git pull --rebase origin main
+          git push origin HEAD:main
