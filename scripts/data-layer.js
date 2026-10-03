@@ -6,7 +6,7 @@
  * Loads and normalises project data through mode-specific adapters.
  */
 
-/* global window, GTPDataAdapterInterface, GTPMockDataAdapter, GTPAppDataAdapter, GTPModeRouter, GTPAppState */
+/* global window, GTPDataAdapterInterface, GTPMockDataAdapter, GTPArtizenDataAdapter, GTPAppDataAdapter, GTPModeRouter, GTPAppState */
 
 var GTPData = (function () {
   'use strict';
@@ -90,7 +90,17 @@ var GTPData = (function () {
       repoUrl: raw.repoUrl || null,
       artizenUrl: raw.artizenUrl || null,
       nextAction: raw.nextAction || null,
-      location: raw.location || null
+      location: raw.location || null,
+      kind: String(raw.kind || 'project'),
+      dataState: raw.dataState || null,
+      sourceLabel: raw.sourceLabel || null,
+      available: typeof raw.available === 'number' ? raw.available : null,
+      tags: Array.isArray(raw.tags) ? raw.tags.map(String) : [],
+      image: raw.image || null,
+      creator: raw.creator || null,
+      slug: raw.slug || null,
+      facets: Array.isArray(raw.facets) ? raw.facets.map(String) : [],
+      generatedAt: raw.generatedAt || null
     };
   }
 
@@ -108,7 +118,12 @@ var GTPData = (function () {
     return {
       source: String(raw.source),
       target: String(raw.target),
-      type: String(raw.type || 'collaboration')
+      type: String(raw.type || 'collaboration'),
+      sourceLabel: raw.sourceLabel || null,
+      note: raw.note || null,
+      seasonNumbers: Array.isArray(raw.seasonNumbers) ? raw.seasonNumbers.slice() : [],
+      createdAt: raw.createdAt || null,
+      records: Number(raw.records) || 1
     };
   }
 
@@ -128,11 +143,22 @@ var GTPData = (function () {
 
   function createAdapter(basePath) {
     _modeInfo = GTPModeRouter.getModeInfo(window.location);
+    if (new URLSearchParams(window.location.search).get('canopy') === 'artizen') {
+      _modeInfo = {
+        mode: 'artizen',
+        source: 'artizen-public-index',
+        label: 'Artizen Canopy',
+        isPrototype: false,
+        isApp: false
+      };
+    }
     var appState = typeof GTPAppState !== 'undefined' ? GTPAppState : null;
 
-    var adapter = _modeInfo.mode === 'app'
-      ? GTPAppDataAdapter.create({ basePath: basePath, appState: appState })
-      : GTPMockDataAdapter.create({ basePath: basePath });
+    var adapter = _modeInfo.mode === 'artizen'
+      ? GTPArtizenDataAdapter.create({ basePath: basePath })
+      : _modeInfo.mode === 'app'
+        ? GTPAppDataAdapter.create({ basePath: basePath, appState: appState })
+        : GTPMockDataAdapter.create({ basePath: basePath });
 
     return GTPDataAdapterInterface.assertAdapter(adapter, _modeInfo.mode);
   }
@@ -201,7 +227,11 @@ var GTPData = (function () {
     return {
       availableFunds: Number(_adapterMetrics.availableFunds) || 0,
       placeholder: !!_adapterMetrics.placeholder,
-      reason: _adapterMetrics.reason || ''
+      reason: _adapterMetrics.reason || '',
+      source: _adapterMetrics.source || '',
+      generatedAt: _adapterMetrics.generatedAt || null,
+      sourceCounts: _adapterMetrics.sourceCounts || null,
+      dataNotes: Array.isArray(_adapterMetrics.dataNotes) ? _adapterMetrics.dataNotes.slice() : []
     };
   }
 
@@ -267,16 +297,19 @@ var GTPData = (function () {
     var tracks = [];
     var statuses = [];
     var locations = [];
-    var seenTracks = {}, seenStatuses = {}, seenLocations = {};
+    var kinds = [];
+    var seenTracks = {}, seenStatuses = {}, seenLocations = {}, seenKinds = {};
     _projects.forEach(function (p) {
       if (p.track && !seenTracks[p.track]) { seenTracks[p.track] = 1; tracks.push(p.track); }
       if (p.status && !seenStatuses[p.status]) { seenStatuses[p.status] = 1; statuses.push(p.status); }
       if (p.location && !seenLocations[p.location]) { seenLocations[p.location] = 1; locations.push(p.location); }
+      if (p.kind && !seenKinds[p.kind]) { seenKinds[p.kind] = 1; kinds.push(p.kind); }
     });
     return {
       tracks: tracks.sort(),
       statuses: statuses.sort(),
-      locations: locations.sort()
+      locations: locations.sort(),
+      kinds: kinds.sort()
     };
   }
 
@@ -284,17 +317,19 @@ var GTPData = (function () {
     var s = state || filterState;
     var search = (s.search || '').trim().toLowerCase();
     return _projects.filter(function (p) {
-      if (s.track && s.track !== 'all' && p.track !== s.track) return false;
+      if (s.track && s.track !== 'all' && p.track !== s.track && p.kind !== s.track) return false;
       if (s.status && s.status !== 'all' && p.status !== s.status) return false;
       if (search) {
         var haystack = [
           p.name,
           p.description,
+          p.creator,
           p.track,
           p.seasonTitle,
           p.phase,
           p.fundingOutcome
         ].filter(Boolean).join(' ').toLowerCase();
+        haystack += ' ' + p.tags.concat(p.facets).join(' ').toLowerCase();
         if (!haystack.includes(search)) return false;
       }
       return true;

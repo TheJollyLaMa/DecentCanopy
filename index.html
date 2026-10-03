@@ -21,9 +21,13 @@
 
         <span class="mode-badge mode-badge--prototype" aria-live="polite">Artizen-backed Prototype Snapshot</span>
 
+        <div class="canopy-switch" aria-label="Choose a canopy">
+          <a href="index.html">Green Tea demo</a>
+          <a href="?canopy=artizen">Artizen canopy</a>
+        </div>
+
         <div class="toolbar-sep" role="separator"></div>
 
-        <!-- Track filter -->
         <div class="toolbar-filter">
           <label for="spiral-track-filter">Track</label>
           <select id="spiral-track-filter" aria-label="Filter by track">
@@ -31,13 +35,17 @@
           </select>
         </div>
 
-        <!-- Status filter -->
         <div class="toolbar-filter">
           <label for="spiral-status-filter">Status</label>
           <select id="spiral-status-filter" aria-label="Filter by status">
             <option value="all">All statuses</option>
           </select>
         </div>
+
+        <label class="toolbar-search">
+          <span class="sr-only">Search projects, funds, creators, and tags</span>
+          <input id="spiral-search" type="search" placeholder="Search projects, funds, creators…" autocomplete="off" />
+        </label>
 
         <div class="toolbar-sep" role="separator"></div>
 
@@ -215,6 +223,7 @@
     <script src="scripts/data-adapter/interface.js"></script>
     <script src="scripts/data-adapter/mock-adapter.js"></script>
     <script src="scripts/data-adapter/app-adapter.js"></script>
+    <script src="scripts/data-adapter/artizen-adapter.js"></script>
     <script src="scripts/data-layer.js"></script>
     <script src="scripts/spiral.js"></script>
   </body>

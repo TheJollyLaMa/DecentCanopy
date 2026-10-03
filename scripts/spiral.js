@@ -14,7 +14,10 @@
     'Season 3 · Art + Science': '#ef4444',
     'Season 4 · Community Systems': '#a855f7',
     'Season 5 · Creator Infrastructure': '#f59e0b',
-    'Season 6 · Cultural Commons': '#94a3b8'
+    'Season 6 · Cultural Commons': '#94a3b8',
+    Projects: '#34d399',
+    Funds: '#a78bfa',
+    Creators: '#fbbf24'
   };
 
   const TRACK_ORDER = Object.keys(TRACK_COLORS);
@@ -23,7 +26,15 @@
     curation: '#3b82f6',
     competition: '#f59e0b',
     funded: '#22c55e',
-    archived: '#94a3b8'
+    archived: '#94a3b8',
+    active: '#22c55e',
+    planning: '#f59e0b',
+    completed: '#94a3b8',
+    paused: '#ef4444',
+    'not-reported': '#64748b',
+    'not-in-feed': '#f59e0b',
+    curated: '#fbbf24',
+    inactive: '#94a3b8'
   };
 
   const ASSOCIATION_PRIORITY = {
@@ -32,7 +43,12 @@
     collaboration: 2,
     'funding-pool': 1.5,
     'research-link': 1,
-    'same-track': 0.5
+    'same-track': 0.5,
+    submitted: 3,
+    curated: 4,
+    funded: 5,
+    'creator-associated': 5,
+    'associated-project': 4
   };
 
   const MIN_ZOOM = 0.35;
@@ -51,6 +67,10 @@
 
   let allProjects = [];
   let allAssociations = [];
+  let allNeighborIds = {};
+  let allEntitiesById = {};
+  let isArtizenMode = false;
+  let artizenMetrics = null;
 
   let nodes = [];
   let nodeMap = {};
@@ -82,6 +102,8 @@
 
   let filterTrack = 'all';
   let filterStatus = 'all';
+  let filterSearch = '';
+  let searchTimeout = null;
 
   let rafId = null;
   let needRender = true;
@@ -108,6 +130,9 @@
   let breadcrumbsEl;
   let trackSel;
   let statusSel;
+  let searchInput;
+  let modeBadgeEl;
+  let visionNoteEl;
   let loadingEl;
   let emptyEl;
 
@@ -129,6 +154,10 @@
     breadcrumbsEl = document.getElementById('spiral-breadcrumbs');
     trackSel = document.getElementById('spiral-track-filter');
     statusSel = document.getElementById('spiral-status-filter');
+    searchInput = document.getElementById('spiral-search');
+    modeBadgeEl = document.querySelector('.mode-badge');
+    visionNoteEl = document.querySelector('.prototype-vision-note');
+    isArtizenMode = new URLSearchParams(window.location.search).get('canopy') === 'artizen';
     loadingEl = document.getElementById('spiral-loading');
     emptyEl = document.getElementById('spiral-empty');
 
@@ -141,6 +170,7 @@
         await GTPData.load();
         allProjects = GTPData.getProjects();
         allAssociations = GTPData.getAssociations();
+        artizenMetrics = GTPData.getAdapterMetrics();
       } else {
         const [pRes, aRes] = await Promise.all([
           fetch('data/projects.json'),
@@ -150,12 +180,15 @@
         allProjects = await pRes.json();
         allAssociations = await aRes.json();
       }
+
     } catch (err) {
       console.error('[spiral] Failed to load data:', err);
       if (loadingEl) loadingEl.style.display = 'none';
       if (emptyEl) {
         emptyEl.querySelector('strong').textContent = 'Could not load project data.';
-        emptyEl.querySelector('p').textContent = 'Check that data/projects.json and data/associations.json exist.';
+        emptyEl.querySelector('p').textContent = isArtizenMode
+          ? 'Check that data/artizen.json and data/artizen-curation.json exist, then run node scripts/sync-artizen-data.js to refresh the public snapshot.'
+          : 'Check that data/projects.json and data/associations.json exist.';
         emptyEl.style.display = 'block';
       }
       return;
@@ -163,12 +196,28 @@
 
     if (loadingEl) loadingEl.style.display = 'none';
 
+    buildGlobalNeighbors();
+    updateCanopyDescription();
     populateFilters();
     buildLayout();
     applyHomeCamera(false);
     updateBreadcrumbs();
     updateBackButton();
     scheduleRender();
+  }
+
+  function buildGlobalNeighbors() {
+    allNeighborIds = {};
+    allEntitiesById = {};
+    allProjects.forEach((project) => {
+      allNeighborIds[project.id] = new Set();
+      allEntitiesById[project.id] = project;
+    });
+    allAssociations.forEach((edge) => {
+      if (!allNeighborIds[edge.source] || !allNeighborIds[edge.target]) return;
+      allNeighborIds[edge.source].add(edge.target);
+      allNeighborIds[edge.target].add(edge.source);
+    });
   }
 
   // ---- Canvas setup -------------------------------------------------------------
@@ -221,7 +270,13 @@
       descendantCache = {};
       trackClusters = [];
       if (selectedNode) closeDetails({ clearSelection: true });
-      if (emptyEl) emptyEl.style.display = 'block';
+      if (emptyEl) {
+        if (isArtizenMode) {
+          emptyEl.querySelector('strong').textContent = 'No entities match this search or view.';
+          emptyEl.querySelector('p').textContent = 'Try a different name, tag, or entity type.';
+        }
+        emptyEl.style.display = 'block';
+      }
       needRender = true;
       updateBreadcrumbs();
       updateBackButton();
@@ -243,7 +298,7 @@
         ...project,
         x: 0,
         y: 0,
-        size,
+        size: project.kind === 'creator' ? 12 : project.kind === 'fund' ? 8.5 : size,
         degree: 0,
         depth: 0,
         trackIndex: TRACK_ORDER.indexOf(project.track),
@@ -276,12 +331,17 @@
           source: nodeMap[edge.source],
           target: nodeMap[edge.target],
           type: edge.type,
-          priority: associationPriority(edge.type)
+          priority: associationPriority(edge.type),
+          sourceLabel: edge.sourceLabel
         };
       });
 
     nodes.forEach((node) => {
-      node.degree = adjacency[node.id].size;
+      node.degree = isArtizenMode ? (allNeighborIds[node.id]?.size || 0) : adjacency[node.id].size;
+      if (isArtizenMode) {
+        const baseSize = node.kind === 'creator' ? 11 : node.kind === 'fund' ? 6 : 4.5;
+        node.size = Math.min(baseSize + Math.sqrt(node.degree) * 0.8, node.kind === 'creator' ? 13 : 10.5);
+      }
     });
 
     parentById = {};
@@ -293,28 +353,32 @@
       .map((track) => nodes.filter((node) => node.track === track))
       .filter((group) => group.length > 0);
 
-    groups.forEach((group, index) => buildTrackHierarchy(group, index, groups.length));
-    groups.forEach((group) => {
-      const rootId = trackClusters.find((cluster) => cluster.track === group[0].track)?.rootId;
-      if (rootId) {
-        computeSubtreeSize(rootId);
-        buildDescendantCache(rootId);
-      }
-    });
+    if (isArtizenMode) {
+      layoutArtizenGroups(groups);
+    } else {
+      groups.forEach((group, index) => buildTrackHierarchy(group, index, groups.length));
+      groups.forEach((group) => {
+        const rootId = trackClusters.find((cluster) => cluster.track === group[0].track)?.rootId;
+        if (rootId) {
+          computeSubtreeSize(rootId);
+          buildDescendantCache(rootId);
+        }
+      });
 
-    trackClusters.forEach((cluster, index) => {
-      const root = nodeMap[cluster.rootId];
-      if (!root) return;
-      const angle = groups.length === 1 ? -Math.PI / 2 : -Math.PI / 2 + (Math.PI * 2 * index) / groups.length;
-      const hubRadius = groups.length === 1 ? 0 : TRACK_RING_RADIUS;
-      const hubX = Math.cos(angle) * hubRadius;
-      const hubY = Math.sin(angle) * hubRadius;
-      cluster.x = hubX;
-      cluster.y = hubY;
-      placeBranch(root.id, hubX, hubY, angle, BRANCH_SPREAD, 0);
-    });
+      trackClusters.forEach((cluster, index) => {
+        const root = nodeMap[cluster.rootId];
+        if (!root) return;
+        const angle = groups.length === 1 ? -Math.PI / 2 : -Math.PI / 2 + (Math.PI * 2 * index) / groups.length;
+        const hubRadius = groups.length === 1 ? 0 : TRACK_RING_RADIUS;
+        const hubX = Math.cos(angle) * hubRadius;
+        const hubY = Math.sin(angle) * hubRadius;
+        cluster.x = hubX;
+        cluster.y = hubY;
+        placeBranch(root.id, hubX, hubY, angle, BRANCH_SPREAD, 0);
+      });
+    }
 
-    branchEdges = Object.entries(parentById)
+    branchEdges = isArtizenMode ? [] : Object.entries(parentById)
       .filter(([, parentId]) => Boolean(parentId))
       .map(([childId, parentId]) => ({
         parent: nodeMap[parentId],
@@ -335,6 +399,38 @@
     updateBreadcrumbs();
     updateBackButton();
     needRender = true;
+  }
+
+  function layoutArtizenGroups(groups) {
+    const settings = {
+      Projects: { x: -300, y: 30, spacing: 10.2 },
+      Funds: { x: 390, y: 30, spacing: 10.4 },
+      Creators: { x: 40, y: 720, spacing: 18 }
+    };
+
+    groups.forEach((group, index) => {
+      group.sort(compareNodePriority);
+      const track = group[0].track;
+      const center = settings[track] || { x: 0, y: 0, spacing: 10 };
+      const root = group[0];
+      trackClusters.push({
+        track: track,
+        rootId: root.id,
+        count: group.length,
+        index: index,
+        total: groups.length,
+        x: center.x,
+        y: center.y
+      });
+      group.forEach((node, nodeIndex) => {
+        const angle = nodeIndex * 2.399963229728653 + stableUnit(node.id) * 0.1;
+        const radius = center.spacing * Math.sqrt(nodeIndex);
+        node.x = center.x + Math.cos(angle) * radius;
+        node.y = center.y + Math.sin(angle) * radius;
+        node.depth = 0;
+        parentById[node.id] = null;
+      });
+    });
   }
 
   function buildTrackHierarchy(group, groupIndex, groupCount) {
@@ -491,11 +587,46 @@
   }
 
   function filteredProjects() {
-    return allProjects.filter((project) => {
-      const okTrack = filterTrack === 'all' || project.track === filterTrack;
+    const search = filterSearch.trim().toLowerCase();
+    let creatorContext = null;
+    if (filterTrack === 'creator') {
+      creatorContext = new Set();
+      const creators = allProjects.filter((project) => project.kind === 'creator');
+      creators.forEach((creator) => {
+        creatorContext.add(creator.id);
+        const directIds = allAssociations
+          .filter((edge) => edge.source === creator.id || edge.target === creator.id)
+          .map((edge) => edge.source === creator.id ? edge.target : edge.source);
+        directIds.forEach((id) => {
+          creatorContext.add(id);
+          allAssociations.forEach((edge) => {
+            if (edge.source === id) creatorContext.add(edge.target);
+            else if (edge.target === id) creatorContext.add(edge.source);
+          });
+        });
+      });
+    }
+
+    const matchingProjects = allProjects.filter((project) => {
+      const okTrack = filterTrack === 'all'
+        || project.kind === filterTrack
+        || (filterTrack === 'creator' && creatorContext.has(project.id));
       const okStatus = filterStatus === 'all' || project.status === filterStatus;
-      return okTrack && okStatus;
+      const haystack = [project.name, project.description, project.creator]
+        .concat(project.tags || [], project.facets || [])
+        .join(' ')
+        .toLowerCase();
+      return okTrack && okStatus && (!search || haystack.includes(search));
     });
+
+    if (!isArtizenMode || !search) return matchingProjects;
+    const matchingIds = new Set(matchingProjects.map((project) => project.id));
+    const visibleIds = new Set(matchingIds);
+    allAssociations.forEach((edge) => {
+      if (matchingIds.has(edge.source)) visibleIds.add(edge.target);
+      if (matchingIds.has(edge.target)) visibleIds.add(edge.source);
+    });
+    return allProjects.filter((project) => visibleIds.has(project.id));
   }
 
   // ---- Render loop --------------------------------------------------------------
@@ -605,7 +736,7 @@
         ctx.fillStyle = hexAlpha('#cbd5e1', isDimmed ? 0.3 : 0.65);
         ctx.font = `${Math.max(8, 10 / zoom)}px Inter, system-ui, sans-serif`;
         ctx.textBaseline = 'top';
-        ctx.fillText(`${cluster.count} projects`, cluster.x, cluster.y + 9 / zoom);
+        ctx.fillText(`${cluster.count} ${isArtizenMode ? 'entities' : 'projects'}`, cluster.x, cluster.y + 9 / zoom);
       } else if (root && root.depth === 0) {
         ctx.fillStyle = hexAlpha(color, isDimmed ? 0.25 : 0.45);
         ctx.font = `${Math.max(8, 10 / zoom)}px Inter, system-ui, sans-serif`;
@@ -642,15 +773,17 @@
   }
 
   function drawAssociationEdges(focusContext, world) {
+    if (isArtizenMode && !selectedNode && zoom < 0.55) return;
     ctx.save();
-    relationEdges.forEach(({ source, target, type, priority }) => {
+    relationEdges.forEach(({ source, target, type, priority, sourceLabel }) => {
       if (!edgeVisible(source, target, world)) return;
       const touchesSelection = selectedNode && (source.id === selectedNode.id || target.id === selectedNode.id);
       const inFocusContext = !focusContext || focusContext.has(source.id) || focusContext.has(target.id);
       if (focusMode && !touchesSelection && !inFocusContext) return;
 
       const sameTrack = source.track === target.track;
-      const color = sameTrack ? (TRACK_COLORS[source.track] || '#94a3b8') : '#94a3b8';
+      const isCurated = Boolean(sourceLabel && sourceLabel.toLowerCase().includes('curated'));
+      const color = isCurated ? '#fbbf24' : sameTrack ? (TRACK_COLORS[source.track] || '#94a3b8') : '#94a3b8';
       const alpha = touchesSelection ? 0.5 : focusMode ? 0.07 : 0.13;
       const bend = 0.08 + priority * 0.03;
       const mx = (source.x + target.x) / 2;
@@ -663,7 +796,7 @@
       ctx.quadraticCurveTo(mx - dy * bend, my + dx * bend, target.x, target.y);
       ctx.strokeStyle = hexAlpha(color, alpha);
       ctx.lineWidth = (touchesSelection ? 1.2 : 0.75) / zoom;
-      ctx.setLineDash(type === 'research-link' ? [4 / zoom, 5 / zoom] : []);
+      ctx.setLineDash(type === 'research-link' || isCurated ? [4 / zoom, 5 / zoom] : []);
       ctx.stroke();
     });
     ctx.setLineDash([]);
@@ -676,7 +809,7 @@
     const labels = [];
     const visibleNodes = nodes
       .filter((node) => pointInBounds(node.x, node.y, world, node.size + 18 / zoom))
-      .filter((node) => lod !== 'far' || node.depth <= 1 || hoveredNode?.id === node.id || selectedNode?.id === node.id)
+      .filter((node) => isArtizenMode || lod !== 'far' || node.depth <= 1 || hoveredNode?.id === node.id || selectedNode?.id === node.id)
       .sort((a, b) => a.depth - b.depth || a.size - b.size);
 
     visibleNodes.forEach((node) => {
@@ -697,14 +830,14 @@
       }
 
       ctx.beginPath();
-      ctx.arc(node.x, node.y, visSize, 0, Math.PI * 2);
+      traceNodeShape(node, visSize);
       ctx.fillStyle = hexAlpha(color, alpha * (lod === 'far' ? 0.55 : 0.74));
       ctx.fill();
       ctx.strokeStyle = hexAlpha(color, alpha);
       ctx.lineWidth = (isSelected ? 2.2 : node.depth === 0 ? 1.6 : 1) / zoom;
       ctx.stroke();
 
-      if (lod !== 'far' && node.goal > 0 && alpha > 0.25) {
+      if (!isArtizenMode && lod !== 'far' && node.goal > 0 && alpha > 0.25) {
         const progress = Math.min(node.raised / node.goal, 1);
         if (progress > 0) {
           ctx.beginPath();
@@ -715,7 +848,7 @@
         }
       }
 
-      if (lod !== 'far') {
+      if (!isArtizenMode && lod !== 'far') {
         const sdot = STATUS_COLORS[node.status] || '#94a3b8';
         ctx.beginPath();
         ctx.arc(node.x + visSize * 0.64, node.y - visSize * 0.64, Math.max(1.8, 2.8 / zoom), 0, Math.PI * 2);
@@ -727,6 +860,23 @@
         drawNodeLabel(node, visSize, lod, alpha, labels);
       }
     });
+  }
+
+  function traceNodeShape(node, radius) {
+    if (node.kind !== 'fund' && node.kind !== 'creator') {
+      ctx.arc(node.x, node.y, radius, 0, Math.PI * 2);
+      return;
+    }
+    const sides = node.kind === 'creator' ? 6 : 4;
+    const rotation = node.kind === 'fund' ? Math.PI / 4 : 0;
+    for (let i = 0; i < sides; i += 1) {
+      const angle = rotation + (Math.PI * 2 * i) / sides;
+      const x = node.x + Math.cos(angle) * radius;
+      const y = node.y + Math.sin(angle) * radius;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.closePath();
   }
 
   function shouldDrawLabel(node, lod, isHovered, isSelected, isDimmed) {
@@ -743,7 +893,11 @@
     const screen = worldToScreen(node.x, node.y);
     const lines = [node.name];
 
-    if (lod === 'near' && zoom >= META_LOD_ZOOM) {
+    if (isArtizenMode && lod !== 'far' && zoom >= META_LOD_ZOOM) {
+      lines.push(`${capitalize(node.kind)} · ${node.degree} connection${node.degree === 1 ? '' : 's'}`);
+    } else if (isArtizenMode && lod === 'near') {
+      lines.push(capitalize(node.kind));
+    } else if (lod === 'near' && zoom >= META_LOD_ZOOM) {
       const gap = Math.max(0, (node.goal || 0) - (node.raised || 0));
       lines.push(`${capitalize(node.status)} · ${gap > 0 ? `${shortCurrency(gap)} to go` : 'Goal met'}`);
       lines.push(shortActionLabel(node));
@@ -859,6 +1013,40 @@
       buildLayout();
       if (!selectedNode) applyHomeCamera(true);
       scheduleRender();
+    });
+
+    searchInput?.addEventListener('input', () => {
+      filterSearch = searchInput.value;
+      window.clearTimeout(searchTimeout);
+      searchTimeout = window.setTimeout(() => {
+        if (isArtizenMode && selectedNode) closeDetails({ clearSelection: true });
+        buildLayout();
+        const term = filterSearch.trim().toLowerCase();
+        const exactNameMatches = term ? nodes.filter((node) => node.name.trim().toLowerCase() === term) : [];
+        const partialNameMatches = term ? nodes.filter((node) => node.name.toLowerCase().includes(term)) : [];
+        const uniqueMatch = exactNameMatches.length === 1
+          ? exactNameMatches[0]
+          : partialNameMatches.length === 1 ? partialNameMatches[0] : null;
+        if (isArtizenMode && uniqueMatch) {
+          focusNode(uniqueMatch, { recordHistory: false, openDetails: true });
+        } else if (!selectedNode) {
+          applyHomeCamera(true);
+        }
+        scheduleRender();
+      }, 180);
+    });
+
+    detailsContentEl?.addEventListener('click', (event) => {
+      const related = event.target.closest('[data-related-node]');
+      if (!related) return;
+      let node = nodeMap[related.dataset.relatedNode];
+      if (!node && isArtizenMode) {
+        filterTrack = 'all';
+        if (trackSel) trackSel.value = 'all';
+        buildLayout();
+        node = nodeMap[related.dataset.relatedNode];
+      }
+      if (node) focusNode(node, { recordHistory: true, openDetails: true });
     });
 
     document.addEventListener('keydown', (event) => {
@@ -1209,7 +1397,18 @@
 
   function showTooltip(node, mx, my) {
     if (!tooltipEl) return;
-    const connCount = adjacency[node.id] ? adjacency[node.id].size : 0;
+    const connCount = isArtizenMode
+      ? (allNeighborIds[node.id]?.size || 0)
+      : adjacency[node.id] ? adjacency[node.id].size : 0;
+    if (isArtizenMode) {
+      tooltipEl.innerHTML =
+        `<strong>${escHtml(node.name)}</strong>` +
+        `<span class="tip-track" style="color:${TRACK_COLORS[node.track] || '#94a3b8'}">${capitalize(node.kind)}</span>` +
+        `<span>${connCount} recorded connection${connCount === 1 ? '' : 's'}</span>`;
+      tooltipEl.classList.add('visible');
+      moveTooltip(mx, my);
+      return;
+    }
     tooltipEl.innerHTML =
       `<strong>${escHtml(node.name)}</strong>` +
       `<span class="tip-track" style="color:${TRACK_COLORS[node.track] || '#94a3b8'}">${escHtml(node.track)}</span>` +
@@ -1244,6 +1443,10 @@
     if (!detailsPanel || !detailsContentEl) return;
 
     const color = TRACK_COLORS[node.track] || '#94a3b8';
+    if (isArtizenMode) {
+      showArtizenDetails(node, color);
+      return;
+    }
     const progress = Math.round(progressPct(node));
     const gap = Math.max(0, (node.goal || 0) - (node.raised || 0));
     const matchFunding = typeof node.matchFunding === 'number' ? node.matchFunding : null;
@@ -1332,6 +1535,67 @@
     detailsPanel.setAttribute('aria-hidden', 'false');
   }
 
+  function showArtizenDetails(node, color) {
+    const neighbourIds = [...(allNeighborIds[node.id] || [])];
+    const neighbours = neighbourIds
+      .map((id) => nodeMap[id] || allEntitiesById[id])
+      .filter(Boolean)
+      .sort((a, b) => a.name.localeCompare(b.name));
+    const linksHtml = safeUrl(node.artizenUrl)
+      ? `<div class="details-links"><a href="${escAttr(safeUrl(node.artizenUrl))}" target="_blank" rel="noreferrer">${node.dataState === 'not-in-feed' ? 'Search Artizen ↗' : 'Artizen record ↗'}</a></div>`
+      : '';
+    const tagsHtml = node.tags && node.tags.length
+      ? `<div class="details-group"><h3>Tags</h3><p class="details-tags">${node.tags.slice(0, 18).map((tag) => `<span>${escHtml(tag)}</span>`).join('')}</p></div>`
+      : '';
+    const associationRows = neighbours.slice(0, 24).map((neighbour) => {
+      const matchingEdges = allAssociations.filter((edge) =>
+        (edge.source === node.id && edge.target === neighbour.id)
+        || (edge.source === neighbour.id && edge.target === node.id)
+      );
+      const edgeNotes = matchingEdges.map((edge) => {
+        const details = [edge.type.replace(/-/g, ' ')];
+        if (edge.seasonNumbers && edge.seasonNumbers.length) {
+          details.push('season ' + edge.seasonNumbers.slice().sort((a, b) => a - b).join(', '));
+        }
+        if (edge.records > 1) details.push(edge.records + ' source records');
+        if (edge.createdAt) details.push('latest record ' + edge.createdAt.slice(0, 10));
+        if (edge.sourceLabel) details.push(edge.sourceLabel);
+        if (edge.note) details.push(edge.note);
+        return details.join(' · ');
+      });
+      const connectionText = [...new Set(edgeNotes)].join(' / ') || 'Associated';
+      return `<li><button type="button" class="related-entity" data-related-node="${escAttr(neighbour.id)}" style="--entity-color:${TRACK_COLORS[neighbour.track] || '#94a3b8'}"><strong>${escHtml(neighbour.name)}</strong><small>${escHtml(connectionText)}</small></button></li>`;
+    }).join('');
+    const associationsHtml = neighbours.length
+      ? `<div class="details-group"><h3>Recorded connections (${neighbours.length})</h3><ul>${associationRows}</ul>${neighbours.length > 24 ? `<p class="details-muted">Showing 24 of ${neighbours.length}. Use the search box to find a specific connection.</p>` : ''}</div>`
+      : '';
+    const recordLabel = node.dataState === 'not-in-feed'
+      ? '<p class="data-provenance data-provenance--curated">Curator-curated entry · no exact-name match in the latest Artizen index</p>'
+      : `<p class="data-provenance">${escHtml(node.sourceLabel || 'Artizen public graph snapshot')}${node.generatedAt ? ` · snapshot ${escHtml(node.generatedAt.slice(0, 10))}` : ''}</p>`;
+    const valueHtml = node.kind === 'fund' && node.available !== null
+      ? `<div class="details-funding"><p>Available funds reported by Artizen: <strong>${formatCurrency(node.available)}</strong></p></div>`
+      : '';
+    const availableNotes = node.kind === 'creator'
+      ? '<p class="details-muted">Creator profile records are not included in the Artizen public graph feed. This creator node and its links were added locally at the creator’s request.</p>'
+      : node.kind === 'project' && node.dataState !== 'not-in-feed'
+        ? '<p class="details-muted">This feed does not report project fundraising totals, creator identities, or artifact purchases. A connection means the relationship label shown below; it is not proof of a ledger transaction.</p>'
+        : '';
+
+    detailsContentEl.innerHTML =
+      `<p class="details-track" style="color:${color}">${capitalize(node.kind)}</p>` +
+      `<h2 class="details-title">${escHtml(node.name)}</h2>` +
+      recordLabel +
+      `<p class="details-desc">${escHtml(node.description || '')}</p>` +
+      valueHtml +
+      tagsHtml +
+      availableNotes +
+      associationsHtml +
+      linksHtml;
+
+    detailsPanel.classList.add('open');
+    detailsPanel.setAttribute('aria-hidden', 'false');
+  }
+
   function closeDetails(options = {}) {
     const { clearSelection = true, preserveFocusState = false } = options;
     detailsPanel?.classList.remove('open');
@@ -1351,20 +1615,60 @@
   function populateFilters() {
     if (!trackSel || !statusSel) return;
 
-    const tracks = TRACK_ORDER.filter((track) => allProjects.some((project) => project.track === track));
+    const trackLabel = trackSel.closest('.toolbar-filter')?.querySelector('label');
+    if (trackLabel) trackLabel.textContent = isArtizenMode ? 'View' : 'Track';
+    if (trackSel.options[0]) trackSel.options[0].textContent = isArtizenMode ? 'All entities' : 'All tracks';
+    const tracks = [...new Set(allProjects.map((project) => isArtizenMode ? project.kind : project.track))].sort();
     tracks.forEach((track) => {
       const option = document.createElement('option');
       option.value = track;
-      option.textContent = track;
+      option.textContent = track === 'project' ? 'Projects' : track === 'fund' ? 'Funds' : track === 'creator' ? 'Creators' : track;
       trackSel.appendChild(option);
     });
 
-    Object.keys(STATUS_COLORS).forEach((status) => {
+    [...new Set(allProjects.map((project) => project.status))].sort().forEach((status) => {
       const option = document.createElement('option');
       option.value = status;
       option.textContent = capitalize(status);
       statusSel.appendChild(option);
     });
+    if (isArtizenMode) statusSel.closest('.toolbar-filter')?.setAttribute('hidden', '');
+  }
+
+  function updateCanopyDescription() {
+    const switchLinks = document.querySelectorAll('.canopy-switch a');
+    switchLinks.forEach((link) => {
+      const isArtizenLink = new URL(link.href, window.location.href).searchParams.get('canopy') === 'artizen';
+      if (isArtizenLink === isArtizenMode) link.setAttribute('aria-current', 'page');
+      else link.removeAttribute('aria-current');
+    });
+    if (!isArtizenMode) return;
+    document.querySelector('.spiral-shell')?.classList.add('artizen-mode');
+    if (modeBadgeEl) {
+      modeBadgeEl.textContent = 'Artizen Canopy · public data snapshot';
+      modeBadgeEl.classList.remove('mode-badge--prototype');
+      modeBadgeEl.classList.add('mode-badge--artizen');
+    }
+    if (!visionNoteEl) return;
+    const counts = artizenMetrics?.sourceCounts || {};
+    const date = artizenMetrics?.generatedAt ? artizenMetrics.generatedAt.slice(0, 10) : 'date unavailable';
+    const summary = document.createElement('p');
+    summary.textContent =
+      `Artizen public index · snapshot ${date} · ${counts.projects || 0} projects, ${counts.funds || 0} funds, ` +
+      `${counts.relationships || 0} project–fund records. Lines reflect submitted, curated, or funded relationships. ` +
+      'Node size reflects recorded links, not funding. Zoom or select to reveal connections. Creator links are curated; purchases and ledger transactions are not in this feed.';
+    visionNoteEl.replaceChildren(summary);
+    visionNoteEl.setAttribute('aria-label', 'Artizen data source and limitations');
+    const hint = document.querySelector('.spiral-hint');
+    if (hint) hint.textContent = 'Zoom to reveal connections · Click a node for source details · Search a project, fund, creator, or tag';
+    const legend = document.querySelector('.spiral-legend');
+    if (legend) {
+      legend.innerHTML =
+        '<div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> Projects</div>' +
+        '<div class="legend-item"><span class="legend-dot" style="background:#a78bfa"></span> Funds</div>' +
+        '<div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> Creators / curated links</div>';
+      legend.setAttribute('aria-label', 'Artizen entity legend');
+    }
   }
 
   function updateBreadcrumbs() {
