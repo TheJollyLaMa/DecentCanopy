@@ -18,12 +18,15 @@ test('IPFS backup covers every checked-in canopy snapshot and curated data file'
     'data/activity.json',
     'data/artizen-curation.json',
     'data/artizen.json',
+    'data/artizen-archive.json',
+    'data/decent-creators.json',
     'data/associations.json',
     'data/community-creators.json',
     'data/community-pinners.json',
     'data/projects.json',
     'payroll-assets.json',
-    'payroll-queue.json'
+    'payroll-queue.json',
+    'community-rewards.json'
   ]);
 });
 

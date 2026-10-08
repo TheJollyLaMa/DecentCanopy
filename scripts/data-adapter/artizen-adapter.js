@@ -184,7 +184,8 @@ var GTPArtizenDataAdapter = (function () {
 
     var COMMUNITY_EDGE_LABEL = 'Self-declared in airdrop claim (Artizen wallet verified on Base)';
     (community && Array.isArray(community.creators) ? community.creators : []).forEach(function (row) {
-      if (!row || !row.github || !row.artizenWallet) return;
+      if (!row || !(row.github || row.claimant) || !row.artizenWallet) return;
+      var claimantKey = String(row.github || row.claimant).toLowerCase();
       var verification = row.verification || {};
       var communityVerification = {
         method: verification.method || null,
@@ -194,22 +195,23 @@ var GTPArtizenDataAdapter = (function () {
         checkedAt: verification.checkedAt || null,
         claimIssue: row.claimIssue || null,
         joinedAt: row.joinedAt || null,
-        github: row.github
+        github: row.github || null,
+        signer: row.github ? null : (row.claimant || null),
+        via: row.via || (row.github ? 'github-issue' : 'in-app')
       };
       var wallet = { address: String(row.artizenWallet).toLowerCase(), chainId: 8453 };
-      var curatedId = 'curator:' + String(row.github).toLowerCase();
-      var entity = entitiesById.get(curatedId);
+      var entity = row.github ? entitiesById.get('curator:' + String(row.github).toLowerCase()) : null;
       if (entity && entity.kind === 'creator') {
         entity.communityVerification = communityVerification;
-        entity.github = row.github;
+        if (row.github) entity.github = row.github;
         if (!entity.publicWallet) entity.publicWallet = wallet;
         if (!entity.sharedLocation && row.sharedLocation) entity.sharedLocation = row.sharedLocation;
       } else {
         var links = row.website ? [{ label: 'Website', url: row.website }] : [];
-        links.push({ label: 'GitHub · ' + row.github, url: 'https://github.com/' + encodeURIComponent(row.github) });
+        if (row.github) links.push({ label: 'GitHub · ' + row.github, url: 'https://github.com/' + encodeURIComponent(row.github) });
         entity = {
-          id: row.id || ('community-creator:' + String(row.github).toLowerCase()),
-          name: row.name || row.github,
+          id: row.id || ('community-creator:' + claimantKey),
+          name: row.name || (row.github || (claimantKey.slice(0, 6) + '…' + claimantKey.slice(-4))),
           kind: 'creator',
           track: 'Creators',
           status: 'community-verified',
@@ -218,7 +220,7 @@ var GTPArtizenDataAdapter = (function () {
           description: 'Community creator who joined the canopy by verifying their Artizen wallet on Base.',
           sourceLabel: COMMUNITY_EDGE_LABEL,
           curatedLinks: links,
-          github: row.github,
+          github: row.github || null,
           publicWallet: wallet,
           sharedLocation: row.sharedLocation || null,
           communityVerification: communityVerification

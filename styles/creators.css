@@ -1,0 +1,93 @@
+.creator-dialog {
+  width: min(760px, 94vw);
+}
+.creator-dialog, .creator-dialog * {
+  box-sizing: border-box;
+}
+.creator-dialog p {
+  overflow-wrap: anywhere;
+}
+.creator-dialog .reward-form {
+  grid-template-columns: minmax(0, 1fr);
+}
+.creator-dialog .reward-form label {
+  display: grid;
+  min-width: 0;
+}
+.creator-dialog .reward-form .reward-check {
+  display: flex;
+}
+.creator-dialog input:not([type="checkbox"]),
+.creator-dialog select,
+.creator-dialog textarea {
+  width: 100%;
+  max-width: 100%;
+}
+.creator-dialog [hidden] {
+  display: none !important;
+}
+.creator-entry {
+  border: 1px solid rgba(52, 211, 153, .4);
+  border-radius: 10px;
+  padding: 14px;
+  margin: 12px 0;
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+.creator-entry legend {
+  color: #86efac;
+  padding: 0 6px;
+}
+.creator-entry [data-payout-field] {
+  padding: 12px;
+  background: rgba(251, 191, 36, .08);
+}
+.creator-service-status:not(:empty) {
+  color: #fbbf24;
+  font-size: 12px;
+  max-width: 350px;
+}
+.creator-dialog .reward-form > h3 {
+  margin-bottom: 0;
+  color: #86efac;
+}
+.creator-dialog .reward-form > p {
+  margin-top: 0;
+}
+.details-desc, .details-group p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.creator-profile-details a {
+  color: #86efac;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+.creator-profile-details a:hover {
+  color: #fbbf24;
+}
+.creator-profile-details small {
+  display: block;
+  color: #cbd5e1;
+  margin-top: 5px;
+}
+.creator-profile-details > .toolbar-btn {
+  display: block;
+  margin: 12px 0;
+  white-space: normal;
+}
+.claim-badge {
+  display: inline-block;
+  padding: 1px 7px;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+.claim-badge.is-claimed { color: #fbbf24; border-style: dashed; }
+.claim-badge.is-mutual { color: #7dd3fc; }
+.claim-badge.is-ledger { color: #34d399; box-shadow: 0 0 8px rgba(52, 211, 153, 0.45); }
+.creator-profile-details .ledger-proof { color: #fcd34d; }
+.creator-profile-details .ledger-proof.is-verified { color: #6ee7b7; }
+.creator-dialog select[multiple] { min-height: 5.5em; }

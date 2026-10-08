@@ -4,17 +4,33 @@ const { renderArtFiComment } = require('./commentArt');
 const { githubRequest, repositoryCoordinates } = require('./githubApi');
 const { applyAccountAccrual, isDuplicate, normalizeAmount, PAYROLL_ASSET_CONFIG } = require('./payroll');
 const { acceptedCids, checkPinner, rewardablePinners } = require('./communityPinning');
-const { PATHS, isoWeek, readJson, writeJson } = require('./communityRewards');
+const { PATHS, claimantLabel, claimantOf, isoWeek, readJson, writeJson } = require('./communityRewards');
 
 const CHECK_HISTORY = 26;
 
+function buildRewardEntries({ rewarded, config, issueRef, week, now, queue }) {
+  if (config.currency !== 'USDC') throw new Error('New community pinning rewards must use USDC.');
+  return rewarded.map(pinner => ({
+    issueRef,
+    contributor: pinner.wallet,
+    contributorGithub: pinner.github || pinner.claimant,
+    amount: normalizeAmount(config.amountPerWeek, config.currency),
+    currency: config.currency,
+    fund: PAYROLL_ASSET_CONFIG.fundSlug,
+    role: 'pinner',
+    period: week,
+    queuedAt: now.toISOString(),
+    queuedBy: 'pinning-bot',
+  })).filter(entry => !isDuplicate(queue, entry));
+}
+
 function buildReport({ week, accepted, pinners, results, rewarded, config }) {
-  const rewardedSet = new Set(rewarded.map(pinner => pinner.github));
+  const rewardedSet = new Set(rewarded.map(pinner => claimantOf(pinner)));
   const rows = pinners.map(pinner => {
-    const result = results.get(pinner.github);
+    const result = results.get(claimantOf(pinner));
     const outcome = result?.ok ? `✅ served \`${result.cid.slice(0, 14)}…\` in ${result.ms} ms` : `❌ ${result?.reason || 'not checked'}`;
-    const reward = rewardedSet.has(pinner.github) ? `${config.amountPerWeek} ${config.currency}` : '—';
-    return `| @${pinner.github} | ${new URL(pinner.gateway).host} | ${outcome} | ${reward} |`;
+    const reward = rewardedSet.has(claimantOf(pinner)) ? `${config.amountPerWeek} ${config.currency}` : '—';
+    return `| ${claimantLabel(pinner)} | ${new URL(pinner.gateway).host} | ${outcome} | ${reward} |`;
   });
   return [
     `Weekly check of community IPFS pinners for **${week}**.`,
@@ -55,7 +71,7 @@ async function main() {
 
   const results = new Map();
   for (const pinner of approved) {
-    results.set(pinner.github, await checkPinner(pinner, accepted, { maxBytes: config.maxPayloadBytes }));
+    results.set(claimantOf(pinner), await checkPinner(pinner, accepted, { maxBytes: config.maxPayloadBytes }));
   }
   const rewarded = rewardablePinners(approved, results, config.maxRewardedPinnersPerWeek);
   const report = buildReport({ week, accepted, pinners: approved, results, rewarded, config });
@@ -73,23 +89,12 @@ async function main() {
   const issueRef = `${owner}/${repo}#${issue.number}`;
   const queue = readJson(PATHS.queue);
   const accounts = readJson(PATHS.accounts);
-  const entries = rewarded.map(pinner => ({
-    issueRef,
-    contributor: pinner.wallet,
-    contributorGithub: pinner.github,
-    amount: normalizeAmount(config.amountPerWeek, config.currency),
-    currency: config.currency,
-    fund: PAYROLL_ASSET_CONFIG.fundSlug,
-    role: 'pinner',
-    period: week,
-    queuedAt: now.toISOString(),
-    queuedBy: 'pinning-bot',
-  })).filter(entry => !isDuplicate(queue, entry));
+  const entries = buildRewardEntries({ rewarded, config, issueRef, week, now, queue });
   queue.pending.push(...entries);
   applyAccountAccrual(accounts, entries);
 
   for (const pinner of approved) {
-    const result = results.get(pinner.github);
+    const result = results.get(claimantOf(pinner));
     pinner.lastCheck = { week, ok: result.ok, cid: result.cid || null, reason: result.ok ? null : result.reason, checkedAt: now.toISOString() };
     if (result.ok) pinner.weeksPassed = (pinner.weeksPassed || 0) + 1;
   }
@@ -111,4 +116,4 @@ if (require.main === module) {
   });
 }
 
-module.exports = { buildReport };
+module.exports = { buildReport, buildRewardEntries };

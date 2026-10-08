@@ -3,18 +3,28 @@
 
   const ROLES = new Set(['contributor', 'implementer', 'idea-originator', 'tester', 'airdrop', 'pinner']);
 
+  function claimantOf(row) {
+    return String(row?.github || row?.claimant || '').toLowerCase();
+  }
+
+  // In-app claimants are wallet addresses rather than GitHub logins.
+  function personLabel(id) {
+    const text = String(id || '');
+    return /^0x[a-fA-F0-9]{40}$/.test(text) ? `${text.slice(0, 6)}…${text.slice(-4)}` : `@${text}`;
+  }
+
   // Mirrors registeredRecipient() in scripts/communityRewards.js.
   function registeredRecipient(entry) {
     const role = String(entry.role || 'contributor').toLowerCase();
     const github = String(entry.contributorGithub || '').toLowerCase();
     if (role === 'airdrop') {
       const creator = (state.creators?.creators || []).find(row =>
-        String(row.github).toLowerCase() === github && row.claimIssue === entry.issueRef);
+        claimantOf(row) === github && row.claimIssue === entry.issueRef);
       return creator ? creator.artizenWallet : null;
     }
     if (role === 'pinner') {
       const pinner = (state.pinners?.pinners || []).find(row =>
-        String(row.github).toLowerCase() === github && row.status === 'approved');
+        claimantOf(row) === github && row.status === 'approved');
       return pinner ? pinner.wallet : null;
     }
     const account = (state.accounts?.contributors || []).find(row => String(row.github || '').toLowerCase() === github);
@@ -46,6 +56,7 @@
     ownerAddress: null,
     wallet: null,
     busyIndex: null,
+    adminBusy: false,
     error: null,
     localTxByReference: new Map(),
   };
@@ -53,6 +64,8 @@
   let panel;
   let overlay;
   let openButton;
+  let treeButton;
+  let panelOpener;
   let closeButton;
   let refreshButton;
   let statusEl;
@@ -268,7 +281,7 @@
       const issueUrl = `https://github.com/${encodeURIComponent(String(entry.issueRef).split('#')[0])}/issues/${encodeURIComponent(String(entry.issueRef).split('#')[1] || '')}`;
       const metadata = [
         `<a href="${issueUrl}" target="_blank" rel="noopener noreferrer">${escapeHtml(entry.issueRef)}</a>`,
-        `@${escapeHtml(entry.contributorGithub)}`,
+        escapeHtml(personLabel(entry.contributorGithub)),
         `${escapeHtml(role)} · ${escapeHtml(shortAddress(entry.contributor))}`,
       ].join(' · ');
       const requiresReadiness = status === 'ready' && authorization.ready && !state.error;
@@ -284,7 +297,7 @@
         : '';
       return `<article class="payroll-entry">
         <div class="payroll-entry-top">
-          <span class="payroll-entry-person">@${escapeHtml(entry.contributorGithub)} · ${escapeHtml(role)}</span>
+          <span class="payroll-entry-person">${escapeHtml(personLabel(entry.contributorGithub))} · ${escapeHtml(role)}</span>
           <span class="payroll-entry-amount">${amount}</span>
         </div>
         <p class="payroll-entry-meta">${metadata}</p>
@@ -292,7 +305,7 @@
         ${handoff}
         <div class="payroll-entry-actions">
           ${paidTx ? `<a href="${explorerTransactionUrl(paidTx)}" target="_blank" rel="noopener noreferrer">View confirmed transaction</a>` : '<span></span>'}
-          <button class="payroll-pay-button" type="button" data-pay-index="${index}" ${!requiresReadiness || state.busyIndex !== null ? 'disabled' : ''}>
+          <button class="payroll-pay-button" type="button" data-pay-index="${index}" ${!requiresReadiness || state.busyIndex !== null || state.adminBusy ? 'disabled' : ''}>
             ${state.busyIndex === index ? 'Processing…' : status === 'paid' ? 'Paid on-chain' : 'Pay from fund'}
           </button>
         </div>
@@ -323,6 +336,7 @@
       if (!Array.isArray(state.accounts.contributors)) throw new Error('The contributor registry is invalid.');
       const owner = configuredOwner();
       state.ownerAddress = owner?.walletAddress || null;
+      updateButtonVisibility();
       await refreshChainState();
       await refreshAuthorization();
       renderFundSummary();
@@ -397,14 +411,15 @@
 
   async function payEntry(index) {
     const entry = state.queue?.pending?.[index];
-    if (!entry || state.busyIndex !== null) return;
+    if (!entry || state.busyIndex !== null || state.adminBusy) return;
     if (!window.ethereum || !state.wallet) {
       setStatus('Connect the registered repository owner wallet from the header before paying.', 'error');
       return;
     }
     state.busyIndex = index;
+    window.dispatchEvent(new CustomEvent('decentcanopy:payroll-busy', { detail: true }));
     renderEntries();
-    setStatus(`Checking ${entry.amount} ${normalizeEntryCurrency(entry)} for @${entry.contributorGithub}…`);
+    setStatus(`Checking ${entry.amount} ${normalizeEntryCurrency(entry)} for ${personLabel(entry.contributorGithub)}…`);
     try {
       validConfig();
       if (entry.fund && entry.fund.toLowerCase() !== state.config.fundSlug.toLowerCase()) {
@@ -424,6 +439,16 @@
       if (!state.ownerAddress || connectedAddress.toLowerCase() !== state.ownerAddress.toLowerCase()) {
         throw new Error('Connect the registered repository owner wallet before settling payroll.');
       }
+      const assertConnectedOwner = async () => {
+        const [accounts, chain] = await Promise.all([
+          window.ethereum.request({ method: 'eth_accounts' }),
+          window.ethereum.request({ method: 'eth_chainId' }),
+        ]);
+        if (accounts[0]?.toLowerCase() !== connectedAddress.toLowerCase() ||
+          Number.parseInt(chain, 16) !== state.config.chainId || !isOwnerWallet(state.wallet)) {
+          throw new Error('The wallet or network changed. Reconnect the owner on Base before paying.');
+        }
+      };
       const router = createRouter(signer);
       const [payrollRole, contributorAdminRole, fundId, assetApproved] = await Promise.all([
         router.PAYROLL_ROLE(),
@@ -465,16 +490,20 @@
         if (!(await router.hasRole(contributorAdminRole, connectedAddress))) {
           throw new Error('The connected wallet cannot approve contributors on the shared router.');
         }
-        if (!window.confirm(`Approve @${entry.contributorGithub} (${recipient}) on the shared router, then pay ${entry.amount} ${currency}?`)) {
+        if (!window.confirm(`Approve ${personLabel(entry.contributorGithub)} (${recipient}) on the shared router, then pay ${entry.amount} ${currency}?`)) {
           return;
         }
-        setStatus(`Approve @${entry.contributorGithub} as a recipient in your wallet…`);
-        await (await router.setContributorApproved(recipient, contributorHash, true)).wait();
-      } else if (!window.confirm(`Pay ${entry.amount} ${currency} to @${entry.contributorGithub} (${recipient}) from ${state.config.fundSlug}?`)) {
+        setStatus(`Approve ${personLabel(entry.contributorGithub)} as a recipient in your wallet…`);
+        await assertConnectedOwner();
+        const approvalReceipt = await (await router.setContributorApproved(recipient, contributorHash, true)).wait();
+        if (!approvalReceipt || approvalReceipt.status !== 1) throw new Error('Contributor approval did not confirm successfully.');
+      } else if (!window.confirm(`Pay ${entry.amount} ${currency} to ${personLabel(entry.contributorGithub)} (${recipient}) from ${state.config.fundSlug}?`)) {
         return;
       }
 
+      await assertConnectedOwner();
       await router.payout.staticCall(...payoutArgs);
+      await assertConnectedOwner();
       setStatus(`Confirm the ${entry.amount} ${currency} payout in your wallet…`);
       const transaction = await router.payout(...payoutArgs);
       const receipt = await transaction.wait();
@@ -487,15 +516,20 @@
       setStatus(`Payout failed: ${error.message || 'wallet or router error'}`, 'error');
     } finally {
       state.busyIndex = null;
+      window.dispatchEvent(new CustomEvent('decentcanopy:payroll-busy', { detail: false }));
       renderEntries();
     }
   }
 
-  function openPanel() {
+  function openPanel(event) {
+    if (!isOwnerWallet(state.wallet)) return;
+    panelOpener = event?.currentTarget || treeButton;
     panel?.classList.add('open');
     overlay?.removeAttribute('hidden');
     panel?.setAttribute('aria-hidden', 'false');
     openButton?.setAttribute('aria-expanded', 'true');
+    treeButton?.setAttribute('aria-expanded', 'true');
+    window.dispatchEvent(new CustomEvent('decentcanopy:admin-open'));
     refresh();
     closeButton?.focus();
   }
@@ -505,7 +539,8 @@
     overlay?.setAttribute('hidden', '');
     panel?.setAttribute('aria-hidden', 'true');
     openButton?.setAttribute('aria-expanded', 'false');
-    openButton?.focus();
+    treeButton?.setAttribute('aria-expanded', 'false');
+    (panelOpener || treeButton)?.focus();
   }
 
   // UI gate only: the router's PAYROLL_ROLE and the owner check in payEntry remain the real authorization.
@@ -518,14 +553,22 @@
   function updateButtonVisibility() {
     const allowed = isOwnerWallet(state.wallet);
     if (openButton) openButton.hidden = !allowed;
+    if (treeButton) {
+      treeButton.classList.toggle('admin-ready', allowed);
+      treeButton.setAttribute('aria-disabled', String(!allowed));
+      treeButton.setAttribute('aria-label', allowed ? 'Open admin workspace' : 'Admin workspace (admin wallet required)');
+      treeButton.title = allowed ? 'Open admin workspace' : 'Admin wallet required';
+    }
     if (!allowed && panel?.classList.contains('open')) closePanel();
   }
 
   async function loadAccountsForGate() {
     try {
       state.accounts = await fetchJson('contributor-accounts.json');
-    } catch (_) {
-      state.accounts = state.accounts || null;
+    } catch (error) {
+      state.accounts = null;
+      console.error('Admin wallet registry could not load:', error);
+      setStatus(`Admin wallet registry could not load: ${error.message}`, 'error');
     }
     updateButtonVisibility();
   }
@@ -534,6 +577,7 @@
     panel = document.getElementById('payroll-panel');
     overlay = document.getElementById('payroll-overlay');
     openButton = document.getElementById('payroll-open-button');
+    treeButton = document.getElementById('admin-tree-button');
     closeButton = document.getElementById('payroll-close-button');
     refreshButton = document.getElementById('payroll-refresh-button');
     statusEl = document.getElementById('payroll-panel-status');
@@ -542,9 +586,27 @@
     if (!panel || !entriesEl) return;
 
     openButton?.addEventListener('click', openPanel);
+    treeButton?.addEventListener('click', openPanel);
     closeButton?.addEventListener('click', closePanel);
     overlay?.addEventListener('click', closePanel);
     refreshButton?.addEventListener('click', refresh);
+    window.addEventListener('decentcanopy:router-updated', () => {
+      if (panel.classList.contains('open') && state.busyIndex === null) refresh();
+    });
+    window.addEventListener('decentcanopy:router-busy', event => {
+      state.adminBusy = event.detail;
+      renderEntries();
+    });
+    panel.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closePanel();
+      if (event.key !== 'Tab') return;
+      const controls = Array.from(panel.querySelectorAll('button, input, a[href], summary'))
+        .filter(control => !control.disabled && control.getClientRects().length);
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
+      else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
+    });
     entriesEl.addEventListener('click', event => {
       const button = event.target.closest('[data-pay-index]');
       if (button) payEntry(Number(button.dataset.payIndex));

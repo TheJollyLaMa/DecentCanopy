@@ -1,5 +1,6 @@
 'use strict';
 
+const crypto = require('node:crypto');
 const fs = require('node:fs');
 const path = require('node:path');
 
@@ -11,6 +12,7 @@ const PATHS = {
   queue: path.join(ROOT, 'payroll-queue.json'),
   accounts: path.join(ROOT, 'contributor-accounts.json'),
   backup: path.join(ROOT, 'data', 'ipfs-backup.json'),
+  requests: path.join(ROOT, 'data', 'community-requests.json'),
 };
 const ADDRESS_RE = /^0x[a-fA-F0-9]{40}$/;
 const GITHUB_RE = /^[A-Za-z0-9](?:[A-Za-z0-9-]{0,38})$/;
@@ -76,11 +78,15 @@ function parseCoordinates(value) {
 
 function parseLocation(fields) {
   const precisionText = String(fields['Show me on the globe'] || '').toLowerCase();
-  const label = cleanText(fields['Location label'], 120);
-  if (!precisionText || precisionText.startsWith("don't") || !label) return null;
   const precision = precisionText.startsWith('country') ? 'country' : precisionText.startsWith('city') ? 'city' : null;
-  if (!precision) return null;
-  const coordinates = parseCoordinates(fields['Approximate coordinates']);
+  return buildLocation(precision, fields['Location label'], fields['Approximate coordinates']);
+}
+
+// Only country or ~10 km city precision is published; coordinates are rounded before storage.
+function buildLocation(precision, labelText, coordinatesText) {
+  const label = cleanText(labelText, 120);
+  if (!['country', 'city'].includes(precision) || !label) return null;
+  const coordinates = parseCoordinates(coordinatesText);
   const digits = precision === 'city' ? 1 : 0;
   return {
     consent: true,
@@ -98,11 +104,7 @@ function parseAirdropClaim(body) {
   if (!isChecked(fields['Publishing consent'])) {
     throw new Error('Please tick the publishing consent box; the claim publishes your creator blip in the public dataset.');
   }
-  const projects = String(fields['Your Artizen projects'] || '')
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 12)
-    .map(link => httpsUrl(link, { hosts: ['artizen.fund'] }));
+  const projects = projectLinksFrom(fields['Your Artizen projects']);
   const connected = String(fields['Connected wallet (optional)'] || '').trim();
   return {
     artizenWallet: address(fields['Artizen wallet address'], 'Artizen wallet address'),
@@ -120,10 +122,62 @@ function parsePinnerRequest(body) {
   const gateway = httpsUrl(fields['Gateway URL']);
   if (!gateway) throw new Error('A public HTTPS gateway URL is required.');
   return {
-    wallet: address(fields['Base wallet for ART rewards'], 'Base wallet for ART rewards'),
+    wallet: address(fields['Base wallet for USDC rewards'] || fields['Base wallet for ART rewards'], 'Base reward wallet'),
     gateway: gateway.replace(/\/+$/, '').replace(/\/ipfs$/, ''),
     provider: cleanText(fields['Pinning setup'], 60) || 'other',
   };
+}
+
+function projectLinksFrom(value) {
+  const list = Array.isArray(value) ? value : String(value || '').split(/\s+/);
+  return list.map(link => String(link || '').trim()).filter(Boolean).slice(0, 12)
+    .map(link => httpsUrl(link, { hosts: ['artizen.fund'] }));
+}
+
+// In-app claims arrive as signed JSON; the signing wallet is the claimant (no GitHub account needed).
+function normalizeAirdropRequest(data, signer) {
+  if (!data || data.consent !== true) {
+    throw new Error('Please confirm the publishing consent; the claim publishes your creator blip in the public dataset.');
+  }
+  const location = data.location && typeof data.location === 'object' ? data.location : {};
+  return {
+    artizenWallet: address(data.artizenWallet, 'Artizen wallet address'),
+    displayName: cleanText(data.name, 80) || null,
+    projectLinks: projectLinksFrom(data.projects),
+    website: httpsUrl(data.website),
+    connectedWallet: address(signer, 'Signing wallet'),
+    sharedLocation: buildLocation(String(location.precision || ''), location.label, location.coordinates),
+  };
+}
+
+function normalizePinnerRequest(data, signer) {
+  if (!data || data.commitment !== true) throw new Error('Please confirm the pinning commitment.');
+  const gateway = httpsUrl(data.gateway);
+  if (!gateway) throw new Error('A public HTTPS gateway URL is required.');
+  return {
+    wallet: address(signer, 'Signing wallet'),
+    gateway: gateway.replace(/\/+$/, '').replace(/\/ipfs$/, ''),
+    provider: cleanText(data.setup, 60) || 'other',
+  };
+}
+
+function claimantOf(row) {
+  return String(row?.github || row?.claimant || '').toLowerCase();
+}
+
+function claimantLabel(row) {
+  if (row?.github) return `@${row.github}`;
+  const wallet = String(row?.claimant || '');
+  return wallet ? `${wallet.slice(0, 6)}…${wallet.slice(-4)}` : 'unknown';
+}
+
+function validClaimant(value) {
+  const text = String(value || '');
+  return GITHUB_RE.test(text) || ADDRESS_RE.test(text);
+}
+
+function requestIdFor(signature) {
+  return crypto.createHash('sha256').update(String(signature || '').toLowerCase()).digest('hex').slice(0, 20);
 }
 
 function artizenSlug(link) {
@@ -157,11 +211,11 @@ function registeredRecipient(entry, { accounts, creators, pinners }) {
   const role = String(entry.role || 'contributor').toLowerCase();
   const github = String(entry.contributorGithub || '').toLowerCase();
   if (role === 'airdrop') {
-    const creator = (creators?.creators || []).find(row => String(row.github).toLowerCase() === github && row.claimIssue === entry.issueRef);
+    const creator = (creators?.creators || []).find(row => claimantOf(row) === github && row.claimIssue === entry.issueRef);
     return creator ? creator.artizenWallet : null;
   }
   if (role === 'pinner') {
-    const pinner = (pinners?.pinners || []).find(row => String(row.github).toLowerCase() === github && row.status === 'approved');
+    const pinner = (pinners?.pinners || []).find(row => claimantOf(row) === github && row.status === 'approved');
     return pinner ? pinner.wallet : null;
   }
   const account = (accounts?.contributors || []).find(row => String(row.github).toLowerCase() === github);
@@ -172,13 +226,19 @@ module.exports = {
   ADDRESS_RE,
   PATHS,
   artizenSlug,
+  claimantLabel,
+  claimantOf,
   communityCreatorId,
   isoWeek,
+  normalizeAirdropRequest,
+  normalizePinnerRequest,
   parseAirdropClaim,
   parseIssueForm,
   parsePinnerRequest,
   readJson,
   registeredRecipient,
+  requestIdFor,
+  validClaimant,
   validGithub,
   writeJson,
 };

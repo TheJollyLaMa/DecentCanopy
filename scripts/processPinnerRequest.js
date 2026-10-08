@@ -4,17 +4,19 @@ const { renderArtFiComment } = require('./commentArt');
 const { githubRequest, postIssueComment, repositoryCoordinates } = require('./githubApi');
 const { normalizeLogin } = require('./payroll');
 const { acceptedCids, checkPinner } = require('./communityPinning');
-const { PATHS, parsePinnerRequest, readJson, validGithub, writeJson } = require('./communityRewards');
+const { ADDRESS_RE, PATHS, claimantOf, parsePinnerRequest, readJson, validClaimant, writeJson } = require('./communityRewards');
 
-function evaluatePinnerApproval({ request, applicant, issueRef, pinners, now, approvedBy }) {
-  const github = normalizeLogin(applicant);
-  if (!validGithub(github)) return { status: 'rejected', reason: 'The request author is not a valid GitHub account.' };
+function evaluatePinnerApproval({ request, applicant, issueRef = null, requestId = null, pinners, now, approvedBy, via = 'github-issue' }) {
+  const isWallet = ADDRESS_RE.test(String(applicant || ''));
+  const github = isWallet ? String(applicant).toLowerCase() : normalizeLogin(applicant);
+  if (!validClaimant(github)) return { status: 'rejected', reason: 'The request author is not a valid GitHub account or wallet.' };
   const rows = pinners.pinners || [];
-  const existing = rows.find(row => String(row.github).toLowerCase() === github.toLowerCase());
+  const existing = rows.find(row => claimantOf(row) === github.toLowerCase());
   if (existing) {
-    return existing.issueRef === issueRef
+    const same = (issueRef && existing.issueRef === issueRef) || (requestId && existing.requestId === requestId);
+    return same
       ? { status: 'already-approved', pinner: existing }
-      : { status: 'rejected', reason: `@${github} is already a registered pinner (${existing.issueRef}).` };
+      : { status: 'rejected', reason: `${isWallet ? 'This wallet' : `@${github}`} is already a registered pinner (${existing.issueRef || 'in-app request'}).` };
   }
   const gateway = request.gateway.toLowerCase();
   if (rows.some(row => row.gateway.toLowerCase() === gateway)) return { status: 'rejected', reason: 'That gateway is already registered by another pinner.' };
@@ -22,11 +24,14 @@ function evaluatePinnerApproval({ request, applicant, issueRef, pinners, now, ap
   return {
     status: 'approved',
     pinner: {
-      github,
+      github: isWallet ? null : github,
+      ...(isWallet ? { claimant: github } : {}),
+      via,
       wallet: request.wallet,
       gateway: request.gateway,
       provider: request.provider,
       issueRef,
+      ...(requestId ? { requestId } : {}),
       status: 'approved',
       approvedAt: now.toISOString(),
       approvedBy,

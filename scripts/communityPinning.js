@@ -86,7 +86,7 @@ async function checkPinner(pinner, accepted, options) {
 
 function rewardablePinners(pinners, results, max) {
   return pinners
-    .filter(pinner => pinner.status === 'approved' && results.get(pinner.github)?.ok)
+    .filter(pinner => pinner.status === 'approved' && results.get(String(pinner.github || pinner.claimant || '').toLowerCase())?.ok)
     .sort((a, b) => String(a.approvedAt).localeCompare(String(b.approvedAt)))
     .slice(0, max);
 }

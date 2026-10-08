@@ -76,6 +76,8 @@
   let allEntitiesById = {};
   let isArtizenMode = false;
   let isGreenTeaMode = false;
+  let isCreatorMode = false;
+  let archiveOnly = false;
   let fundCanopyId = null;
   let artizenMetrics = null;
 
@@ -167,7 +169,9 @@
     visionNoteEl = document.querySelector('.prototype-vision-note');
     const canopy = new URLSearchParams(window.location.search).get('canopy');
     isGreenTeaMode = canopy === 'green-tea';
-    isArtizenMode = canopy === 'artizen' || isGreenTeaMode ||
+    isCreatorMode = canopy === 'creators';
+    archiveOnly = canopy === 'artizen';
+    isArtizenMode = archiveOnly || isCreatorMode || isGreenTeaMode ||
       (!canopy && GTPModeRouter.getModeInfo(window.location).mode === 'prototype');
     loadingEl = document.getElementById('spiral-loading');
     emptyEl = document.getElementById('spiral-empty');
@@ -193,6 +197,11 @@
       }
 
       if (isGreenTeaMode) filterToGreenTeaCluster();
+      if (isCreatorMode || archiveOnly) {
+        allProjects = allProjects.filter(p => isCreatorMode ? Boolean(p.creatorRecord) : !p.creatorRecord);
+        const visible = new Set(allProjects.map(p => p.id));
+        allAssociations = allAssociations.filter(a => visible.has(a.source) && visible.has(a.target));
+      }
 
     } catch (err) {
       console.error('[spiral] Failed to load data:', err);
@@ -200,7 +209,7 @@
       if (emptyEl) {
         emptyEl.querySelector('strong').textContent = 'Could not load project data.';
         emptyEl.querySelector('p').textContent = isArtizenMode
-          ? 'Check that data/artizen.json and data/artizen-curation.json exist, then run node scripts/sync-artizen-data.js to refresh the public snapshot.'
+          ? 'Check that the frozen archive and creator index files are available. Artizen data refreshes are disabled.'
           : 'Check that data/projects.json and data/associations.json exist.';
         emptyEl.style.display = 'block';
       }
@@ -303,8 +312,8 @@
       if (selectedNode) closeDetails({ clearSelection: true });
       if (emptyEl) {
         if (isArtizenMode) {
-          emptyEl.querySelector('strong').textContent = 'No entities match this search or view.';
-          emptyEl.querySelector('p').textContent = 'Try a different name, tag, or entity type.';
+          emptyEl.querySelector('strong').textContent = isCreatorMode && !allProjects.length ? 'A new canopy starts with you.' : 'No entities match this search or view.';
+          emptyEl.querySelector('p').textContent = isCreatorMode && !allProjects.length ? 'Choose My creator to add your projects, progress and next chapter. The Artizen archive remains available in its own view.' : 'Try a different name, tag, or entity type.';
         }
         emptyEl.style.display = 'block';
       }
@@ -363,7 +372,8 @@
           target: nodeMap[edge.target],
           type: edge.type,
           priority: associationPriority(edge.type),
-          sourceLabel: edge.sourceLabel
+          sourceLabel: edge.sourceLabel,
+          decentClaim: edge.decentClaim
         };
       });
 
@@ -943,7 +953,7 @@
   function drawAssociationEdges(focusContext, world) {
     if (isArtizenMode && !selectedNode && zoom < 0.55) return;
     ctx.save();
-    relationEdges.forEach(({ source, target, type, priority, sourceLabel }) => {
+    relationEdges.forEach(({ source, target, type, priority, sourceLabel, decentClaim }) => {
       if (!edgeVisible(source, target, world)) return;
       const touchesSelection = selectedNode && (source.id === selectedNode.id || target.id === selectedNode.id);
       const inFocusContext = !focusContext || focusContext.has(source.id) || focusContext.has(target.id);
@@ -962,6 +972,17 @@
       ctx.beginPath();
       ctx.moveTo(source.x, source.y);
       ctx.quadraticCurveTo(mx - dy * bend, my + dx * bend, target.x, target.y);
+      if (decentClaim) {
+        const claimColor = { claimed: '#fbbf24', mutual: '#7dd3fc', ledger: '#34d399' }[decentClaim];
+        ctx.strokeStyle = hexAlpha(claimColor, touchesSelection ? 0.9 : focusMode ? 0.12 : decentClaim === 'claimed' ? 0.35 : 0.55);
+        ctx.lineWidth = (decentClaim === 'ledger' ? 2 : decentClaim === 'mutual' ? 1.4 : 1) / zoom;
+        ctx.setLineDash(decentClaim === 'claimed' ? [4 / zoom, 5 / zoom] : []);
+        ctx.shadowColor = decentClaim === 'ledger' ? claimColor : 'transparent';
+        ctx.shadowBlur = decentClaim === 'ledger' ? 10 : 0;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+        return;
+      }
       ctx.strokeStyle = hexAlpha(color, alpha);
       ctx.lineWidth = (touchesSelection ? 1.2 : 0.75) / zoom;
       ctx.setLineDash(type === 'research-link' || isCurated ? [4 / zoom, 5 / zoom] : []);
@@ -1826,6 +1847,16 @@
   }
 
   function showArtizenDetails(node, color) {
+    if (node.creatorRecord) {
+      const image = safeUrl(node.image);
+      detailsContentEl.innerHTML = `<p class="details-track" style="color:${color}">Decent ${escHtml(capitalize(node.kind))}</p>` +
+        (image ? `<figure class="${node.kind === 'creator' ? 'details-avatar' : 'details-artwork'}"><img src="${escAttr(image)}" alt="${escAttr(node.name)}" loading="lazy" referrerpolicy="no-referrer" /></figure>` : '') +
+        `<h2 class="details-title">${escHtml(node.name)}</h2><p class="details-desc">${escHtml(node.description)}</p>` +
+        window.DecentCreators.renderDetails(node, escHtml);
+      detailsPanel.classList.add('open');
+      detailsPanel.setAttribute('aria-hidden', 'false');
+      return;
+    }
     const neighbourIds = [...(allNeighborIds[node.id] || [])];
     const neighbours = neighbourIds
       .map((id) => nodeMap[id] || allEntitiesById[id])
@@ -1855,7 +1886,7 @@
       ? `<div class="details-group"><h3>Opt-in location</h3><p>${escHtml(place.label)} · ${escHtml(place.precision)}${place.latitude != null ? ` · ${place.latitude}, ${place.longitude}` : ''}</p><p class="participation-card-note">${place.precision === 'space' ? 'Symbolic space placement, not an astronomical coordinate.' : (node.communityVerification ? 'Shared publicly by the creator in their airdrop claim; rounded and unverified.' : 'Participant-declared location; local only and unverified.')}</p></div>` : '';
     const verify = node.communityVerification;
     const verificationHtml = verify
-      ? `<div class="details-group community-verification"><h3>${verify.method === 'base-art-mint' ? '✅ Artizen wallet verified on Base' : '🤝 Maintainer-approved community creator'}</h3>${verify.method === 'base-art-mint' ? `<p>${escHtml(Number(verify.artMinted || 0).toLocaleString(undefined, { maximumFractionDigits: 0 }))} ART minted to this wallet by Artizen funding${verify.firstMintTx ? ` · <a href="https://basescan.org/tx/${escAttr(verify.firstMintTx)}" target="_blank" rel="noopener noreferrer">first mint ↗</a>` : ''}</p>` : ''}<p class="participation-card-note">Joined the canopy via ${/^[\w.-]+\/[\w.-]+#\d+$/.test(verify.claimIssue || '') ? `<a href="https://github.com/${escAttr(verify.claimIssue.replace('#', '/issues/'))}" target="_blank" rel="noopener noreferrer">claim ${escHtml(verify.claimIssue.split('#')[1] ? '#' + verify.claimIssue.split('#')[1] : verify.claimIssue)}</a>` : 'a public claim'} by GitHub @${escHtml(verify.github)}${verify.checkedAt ? ` · checked ${escHtml(String(verify.checkedAt).slice(0, 10))}` : ''}. Project links are self-declared.</p></div>` : '';
+      ? `<div class="details-group community-verification"><h3>${verify.method === 'base-art-mint' ? '✅ Artizen wallet verified on Base' : '🤝 Maintainer-approved community creator'}</h3>${verify.method === 'base-art-mint' ? `<p>${escHtml(Number(verify.artMinted || 0).toLocaleString(undefined, { maximumFractionDigits: 0 }))} ART minted to this wallet by Artizen funding${verify.firstMintTx ? ` · <a href="https://basescan.org/tx/${escAttr(verify.firstMintTx)}" target="_blank" rel="noopener noreferrer">first mint ↗</a>` : ''}</p>` : ''}<p class="participation-card-note">Joined the canopy via ${/^[\w.-]+\/[\w.-]+#\d+$/.test(verify.claimIssue || '') ? `<a href="https://github.com/${escAttr(verify.claimIssue.replace('#', '/issues/'))}" target="_blank" rel="noopener noreferrer">claim ${escHtml(verify.claimIssue.split('#')[1] ? '#' + verify.claimIssue.split('#')[1] : verify.claimIssue)}</a>` : 'a public claim'} ${verify.github ? `by GitHub @${escHtml(verify.github)}` : `in the app, signed by wallet ${escHtml(String(verify.signer || '').slice(0, 6))}…${escHtml(String(verify.signer || '').slice(-4))}`}${verify.checkedAt ? ` · checked ${escHtml(String(verify.checkedAt).slice(0, 10))}` : ''}. Project links are self-declared.</p></div>` : '';
     const importedFunding = node.funding
       ? `<div class="details-funding"><strong>${formatCurrency(node.funding.raised)} raised / ${formatCurrency(node.funding.goal)} goal</strong><p>Season ${node.funding.season} · as of ${escHtml(node.funding.asOf)} · USD</p><p class="participation-card-note">Participant-reported, unverified; not live. Brightness reflects reported raised USD, not creator wealth.</p></div>` : '';
     const stats = node.publicStats;
@@ -1916,15 +1947,8 @@
         ? `<p class="details-muted">The public graph feed does not report project fundraising totals, creator identities, or artifact purchases${node.publicStats ? ' (the total above is a separate dated capture of the public Artizen page)' : ''}. A connection means the relationship label shown below; it is not proof of a ledger transaction.</p>`
         : '';
 
-    const accountHtml = node.kind === 'creator' && window.CanopyArtizenAccount
-      ? window.CanopyArtizenAccount.renderCreator(node, {
-        associations: allAssociations,
-        entitiesById: allEntitiesById,
-        connectedWallet: window.decentCanopyWallet || null,
-        networks: window.CanopyParticipationModel.networks,
-        viewerId: window.CanopyOnboarding?.viewerId?.() || null,
-        esc: escHtml,
-      })
+    const accountHtml = node.kind === 'creator'
+      ? '<div class="details-group"><h3>Your next chapter</h3><p>This is a historical creator card. Create a separate wallet-authorized Decent Creator profile to record your projects, progress and experiences without changing the archive.</p><button class="toolbar-btn" type="button" data-creator-open>Create / edit my Decent Creator</button></div>'
       : '';
 
     const imageUrl = safeUrl(node.image);
@@ -1942,6 +1966,7 @@
       imageHtml +
       `<h2 class="details-title">${escHtml(node.name)}</h2>` +
       recordLabel +
+      '<p class="details-muted">Frozen historical record. No further Artizen updates. Relationship labels and reported totals do not establish whether any payout was or was not made.</p>' +
       `<p class="details-desc">${escHtml(node.description || '')}</p>` +
       curationNoteHtml +
       publicStatsHtml +
@@ -2000,26 +2025,26 @@
       option.textContent = capitalize(status);
       statusSel.appendChild(option);
     });
-    if (isArtizenMode) statusSel.closest('.toolbar-filter')?.setAttribute('hidden', '');
+    if (isArtizenMode && !isCreatorMode) statusSel.closest('.toolbar-filter')?.setAttribute('hidden', '');
   }
 
   function updateCanopyDescription() {
     const switchLinks = document.querySelectorAll('.canopy-switch a');
     switchLinks.forEach((link) => {
       const linkCanopy = new URL(link.href, window.location.href).searchParams.get('canopy');
-      const isCurrent = isGreenTeaMode
-        ? linkCanopy === 'green-tea'
-        : isArtizenMode && linkCanopy !== 'green-tea';
+      const isCurrent = linkCanopy === (isGreenTeaMode ? 'green-tea' : isCreatorMode ? 'creators' : archiveOnly ? 'artizen' : null);
       if (isCurrent) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
     if (!isArtizenMode) return;
     document.querySelector('.spiral-shell')?.classList.add('artizen-mode');
     if (modeBadgeEl) {
-      modeBadgeEl.querySelector('.artizen-logo').hidden = isGreenTeaMode;
+      modeBadgeEl.querySelector('.artizen-logo').hidden = !archiveOnly;
       modeBadgeEl.querySelector('.mode-badge-label').textContent = isGreenTeaMode
         ? 'Green Tea Canopy · curated project cluster'
-        : 'Artizen Canopy · public data snapshot';
+        : isCreatorMode ? 'Decent Creators · projects & next chapters'
+        : archiveOnly ? 'Artizen archive · frozen historical records'
+        : 'DecentCanopy · living creators + historical archive';
       modeBadgeEl.classList.remove('mode-badge--prototype');
       modeBadgeEl.classList.add('mode-badge--artizen');
     }
@@ -2049,9 +2074,11 @@
     const date = artizenMetrics?.generatedAt ? artizenMetrics.generatedAt.slice(0, 10) : 'date unavailable';
     const summary = document.createElement('p');
     summary.textContent =
-      `Artizen public index · snapshot ${date} · ${counts.projects || 0} projects, ${counts.funds || 0} funds, ` +
+      `Frozen Artizen archive · snapshot ${date} · ${counts.projects || 0} projects, ${counts.funds || 0} funds, ` +
       `${counts.relationships || 0} project–fund records. Lines reflect submitted, curated, or funded relationships. ` +
-      'Node size reflects recorded links, not funding. Creator links are curated, self-declared in Base-verified airdrop claims, or locally participant-reported. The public feed has no purchase or ledger proofs. Imported funding halos and activity replay are unverified, historical, and local—not live statistics.';
+      'No further Artizen updates. None of these records establishes whether payouts were or were not made. ' +
+      'New Decent Creator profiles, projects, funding sources and journeys are separate wallet-signed self-reports; signatures prove wallet control, not the truth of claims. Browser-local previews are labeled as drafts. Node size reflects connections, not money.';
+    if (isCreatorMode) summary.textContent = 'Decent Creators · independent projects, funding sources and journeys. Public updates are wallet-signed, portable IPFS records discovered through a repo index. Claims, including optional Artizen experiences, are self-reported, not independently verified. Local drafts are not signed or public. Create your blip with My creator.';
     visionNoteEl.replaceChildren(summary);
     visionNoteEl.setAttribute('aria-label', 'Artizen data source and limitations');
     const hint = document.querySelector('.spiral-hint');
@@ -2095,7 +2122,7 @@
       `${fund.name} fund canopy · ${projectIds.size} directly associated projects · ` +
       `${relatedFunds} linked funds · ${creators} connected creator${creators === 1 ? '' : 's'}. ` +
       `${publicRecords} direct Artizen project–fund records; ${curatedLinks} local curated connection${curatedLinks === 1 ? '' : 's'}. ` +
-      'Links show recorded or curated associations, not verified transactions.';
+      'Links show recorded or curated associations; only glowing Decent lines are ledger-verified transfers.';
     const back = document.createElement('button');
     back.type = 'button';
     back.className = 'fund-canopy-return';

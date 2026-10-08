@@ -36,7 +36,10 @@ async function main() {
   const commenter = normalizeLogin(event.comment && event.comment.user && event.comment.user.login);
   const issueNumber = Number(event.issue && event.issue.number);
   const issue = await githubRequest(`/repos/${owner}/${repo}/issues/${issueNumber}`);
-  const bounties = parseAmountLabels(issue, TEST_BOUNTY_LABEL_RE);
+  const parsedBounties = parseAmountLabels(issue, TEST_BOUNTY_LABEL_RE);
+  const rewardCurrencies = require('../payroll-assets.json').newRewardCurrencies;
+  const bounties = parsedBounties.filter(bounty => rewardCurrencies.includes(bounty.currency));
+  if (bounties.length !== parsedBounties.length) console.warn(`Issue #${issueNumber}: retired-currency rewards were not queued. New rewards must use USDC.`);
 
   if (bounties.length === 0) {
     console.log('Issue #' + issueNumber + ' has no test-bounty label for a configured payroll asset.');

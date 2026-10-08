@@ -99,6 +99,10 @@ async function main() {
       queuedAt: new Date().toISOString(),
       queuedBy: process.env.GITHUB_ACTOR || 'github-actions[bot]',
     });
+    const rewardCurrencies = require('../payroll-assets.json').newRewardCurrencies;
+    const excluded = result.entries.filter(entry => !rewardCurrencies.includes(entry.currency));
+    if (excluded.length) console.warn(`Issue #${issueNumber}: retired-currency rewards were not queued. New rewards must use USDC.`);
+    result.entries = result.entries.filter(entry => rewardCurrencies.includes(entry.currency));
     if (result.reason === 'missing-bounty-label') {
       console.log(`Skipping issue #${issueNumber}: no label matching a supported "bounty: <amount> <currency>" label.`);
       continue;

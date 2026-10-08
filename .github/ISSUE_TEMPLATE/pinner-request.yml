@@ -1,5 +1,5 @@
 name: Become a community pinner
-description: Keep a copy of the canopy dataset on IPFS and earn weekly ART
+description: Keep canopy data available and qualify for weekly USDC rewards
 title: "Pinner request: "
 labels: ["pinner-request"]
 body:
@@ -8,14 +8,14 @@ body:
       value: |
         Help keep the canopy decentralized 📌 Pin the latest DecentCanopy backup CID (shown in the site's **IPFS** badge) on your own IPFS node or pinning account and serve it from **your own** gateway.
 
-        A bot checks that your gateway serves byte-identical canopy data right away; after the maintainer approves you, a weekly check queues ART for each week you pass.
+        After maintainer approval, a weekly matching-byte gateway check qualifies for $0.10 USDC, capped at 20 pinners per week. This verifies availability, not exclusive storage. Queued rewards are not payments; settlement depends on available USDC funding.
 
         Set up your gateway to serve only content you have pinned (for example, a Pinata dedicated gateway, or Kubo with `Gateway.NoFetch = true`). **Never paste API keys or JWTs here.**
 
   - type: input
     id: wallet
     attributes:
-      label: Base wallet for ART rewards
+      label: Base wallet for USDC rewards
       placeholder: 0x...
     validations:
       required: true
@@ -36,6 +36,7 @@ body:
       options:
         - Pinata
         - Kubo node
+        - IPFS Desktop
         - Filebase
         - Other pinning service
     validations:

@@ -1,10 +1,10 @@
-name: Airdrop Claim
+name: In-App Rewards
 
+# Signed reward requests from the DecentCanopy app arrive here from the relay
+# (relay/server.js) as repository_dispatch events. The signature is re-verified below.
 on:
-  issues:
-    types: [opened, edited, reopened]
-  issue_comment:
-    types: [created]
+  repository_dispatch:
+    types: [pinner-request, reward-review]
 
 permissions:
   contents: write
@@ -12,13 +12,6 @@ permissions:
 
 jobs:
   process:
-    if: >
-      false &&
-      github.event.issue.pull_request == null &&
-      contains(github.event.issue.labels.*.name, 'airdrop-claim') &&
-      (github.event_name == 'issues' ||
-       startsWith(github.event.comment.body, '/airdrop-recheck') ||
-       startsWith(github.event.comment.body, '/airdrop-approved'))
     runs-on: ubuntu-latest
     concurrency:
       group: decent-canopy-payroll-queue
@@ -36,10 +29,14 @@ jobs:
           git fetch --depth=1 origin main
           git checkout -B main FETCH_HEAD
 
+      - name: Install signature verifier
+        run: npm ci --prefix relay --omit=dev
+
       - name: Process
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: node scripts/processAirdropClaim.js
+          NODE_PATH: relay/node_modules
+        run: node scripts/processInAppRequest.js
 
       - name: Validate updated queue
         run: node scripts/validatePayrollQueue.js
@@ -48,8 +45,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/community-creators.json payroll-queue.json contributor-accounts.json
+          git add data/community-requests.json data/community-creators.json data/community-pinners.json payroll-queue.json contributor-accounts.json
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m "chore: queue ART airdrop for verified Artizen creator"
+          git commit -m "chore: record in-app ${{ github.event.action }} request"
           git pull --rebase origin main
           git push origin HEAD:main

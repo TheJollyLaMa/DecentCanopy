@@ -10,7 +10,15 @@ on:
       - community-rewards.json
       - data/community-creators.json
       - data/community-pinners.json
+      - data/community-requests.json
       - scripts/**
+      - relay/**
+      - test/in-app-rewards.test.js
+      - test/decent-creators.test.js
+      - test/router-admin.test.js
+      - test/decent-funds.test.js
+      - data/decent-creators.json
+      - data/artizen-archive.json
       - test/payroll.test.js
       - test/commentArt.test.js
       - test/community-rewards.test.js
@@ -24,7 +32,15 @@ on:
       - community-rewards.json
       - data/community-creators.json
       - data/community-pinners.json
+      - data/community-requests.json
       - scripts/**
+      - relay/**
+      - test/in-app-rewards.test.js
+      - test/decent-creators.test.js
+      - test/router-admin.test.js
+      - test/decent-funds.test.js
+      - data/decent-creators.json
+      - data/artizen-archive.json
       - test/payroll.test.js
       - test/commentArt.test.js
       - test/community-rewards.test.js
@@ -50,5 +66,8 @@ jobs:
       - name: Validate payroll queue
         run: node scripts/validatePayrollQueue.js
 
+      - name: Install relay dependencies
+        run: npm ci --prefix relay --omit=dev
+
       - name: Test payroll automation
-        run: node --test test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js
+        run: node --test test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js

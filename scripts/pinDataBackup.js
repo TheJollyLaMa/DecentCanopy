@@ -10,12 +10,15 @@ const DATA_FILES = [
   'data/activity.json',
   'data/artizen-curation.json',
   'data/artizen.json',
+  'data/artizen-archive.json',
+  'data/decent-creators.json',
   'data/associations.json',
   'data/community-creators.json',
   'data/community-pinners.json',
   'data/projects.json',
   'payroll-assets.json',
-  'payroll-queue.json'
+  'payroll-queue.json',
+  'community-rewards.json'
 ];
 const BACKUP_MANIFEST_PATH = path.join(ROOT, 'data', 'ipfs-backup.json');
 const PINATA_UPLOAD_URL = 'https://uploads.pinata.cloud/v3/files';

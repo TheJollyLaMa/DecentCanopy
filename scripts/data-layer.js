@@ -114,7 +114,13 @@ var GTPData = (function () {
       sharedLocation: raw.sharedLocation || null,
       communityVerification: raw.communityVerification || null,
       github: raw.github || null,
-      generatedAt: raw.generatedAt || null
+      generatedAt: raw.generatedAt || null,
+      creatorRecord: raw.creatorRecord || null,
+      creatorCid: raw.creatorCid || null,
+      creatorProjectKey: raw.creatorProjectKey || null,
+      creatorFundingKey: raw.creatorFundingKey || null,
+      creatorFundKey: raw.creatorFundKey || null,
+      creatorDraft: Boolean(raw.creatorDraft)
     };
   }
 
@@ -137,7 +143,8 @@ var GTPData = (function () {
       note: raw.note || null,
       seasonNumbers: Array.isArray(raw.seasonNumbers) ? raw.seasonNumbers.slice() : [],
       createdAt: raw.createdAt || null,
-      records: Number(raw.records) || 1
+      records: Number(raw.records) || 1,
+      decentClaim: ['claimed', 'mutual', 'ledger'].indexOf(raw.decentClaim) >= 0 ? raw.decentClaim : null
     };
   }
 
@@ -158,7 +165,7 @@ var GTPData = (function () {
   function createAdapter(basePath) {
     _modeInfo = GTPModeRouter.getModeInfo(window.location);
     var canopy = new URLSearchParams(window.location.search).get('canopy');
-    if (canopy === 'artizen' || canopy === 'green-tea' || (!canopy && _modeInfo.mode === 'prototype')) {
+    if (canopy === 'artizen' || canopy === 'green-tea' || canopy === 'creators' || (!canopy && _modeInfo.mode === 'prototype')) {
       _modeInfo = {
         mode: 'artizen',
         source: 'artizen-public-index',
@@ -191,7 +198,7 @@ var GTPData = (function () {
       _adapter.getAssociations(),
       _adapter.getActivity(),
       _adapter.getMetrics()
-    ]).then(function (data) {
+    ]).then(async function (data) {
       var rawProjects = data[0];
       var rawAssociations = data[1];
       var rawActivity = data[2];
@@ -201,13 +208,18 @@ var GTPData = (function () {
       if (!Array.isArray(rawAssociations)) throw new Error('[GTPData] adapter.getAssociations() must return an array');
       if (!Array.isArray(rawActivity)) rawActivity = [];
 
-      if (_modeInfo.mode === 'artizen' && window.CanopyParticipation) {
+      if (_modeInfo.mode === 'artizen' && window.CanopyParticipation && new URLSearchParams(window.location.search).get('canopy') !== 'artizen') {
         var localData = window.CanopyParticipation.overlay({
           projects: rawProjects, associations: rawAssociations, activity: rawActivity
         });
         rawProjects = localData.projects;
         rawAssociations = localData.associations;
         rawActivity = localData.activity;
+      }
+      if (_modeInfo.mode === 'artizen' && window.DecentCreators && new URLSearchParams(window.location.search).get('canopy') !== 'artizen') {
+        var creatorData = await window.DecentCreators.overlay({ projects: rawProjects, associations: rawAssociations, activity: rawActivity });
+        rawProjects = creatorData.projects;
+        rawAssociations = creatorData.associations;
       }
 
       _projects = rawProjects

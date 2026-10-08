@@ -6,11 +6,13 @@ const { applyAccountAccrual, isDuplicate, normalizeAmount, normalizeLogin, PAYRO
 const { verifyArtizenWallet } = require('./artizenOnchain');
 const {
   PATHS,
+  ADDRESS_RE,
   artizenSlug,
+  claimantOf,
   communityCreatorId,
   parseAirdropClaim,
   readJson,
-  validGithub,
+  validClaimant,
   writeJson,
 } = require('./communityRewards');
 
@@ -21,15 +23,16 @@ const REVIEW_LABEL = 'airdrop-needs-review';
  * Pure decision step: given a parsed claim, its on-chain evidence, and the current registries,
  * return either a rejection reason or the creator record and payroll entry to add.
  */
-function evaluateAirdropClaim({ claim, claimant, issueRef, evidence, creators, queue, config, now, queuedBy, ownerOverride = false }) {
-  const github = normalizeLogin(claimant);
-  if (!validGithub(github)) return { status: 'rejected', reason: 'The claim author is not a valid GitHub account.' };
+function evaluateAirdropClaim({ claim, claimant, issueRef, evidence, creators, queue, config, now, queuedBy, ownerOverride = false, via = 'github-issue', requestId = null }) {
+  const isWallet = ADDRESS_RE.test(String(claimant || ''));
+  const github = isWallet ? String(claimant).toLowerCase() : normalizeLogin(claimant);
+  if (!validClaimant(github)) return { status: 'rejected', reason: 'The claim author is not a valid GitHub account or wallet.' };
   const rows = creators.creators || [];
-  const existing = rows.find(row => String(row.github).toLowerCase() === github.toLowerCase());
+  const existing = rows.find(row => claimantOf(row) === github.toLowerCase());
   if (existing) {
     return existing.claimIssue === issueRef
       ? { status: 'already-claimed', creator: existing }
-      : { status: 'rejected', reason: `@${github} already claimed the airdrop in ${existing.claimIssue}. One claim per GitHub account.` };
+      : { status: 'rejected', reason: `${isWallet ? 'This wallet' : `@${github}`} already claimed the airdrop in ${existing.claimIssue}. One claim per ${isWallet ? 'wallet' : 'GitHub account'}.` };
   }
   const wallet = claim.artizenWallet.toLowerCase();
   const walletOwner = rows.find(row => row.artizenWallet.toLowerCase() === wallet
@@ -48,8 +51,11 @@ function evaluateAirdropClaim({ claim, claimant, issueRef, evidence, creators, q
     : evidence;
   const creator = {
     id: communityCreatorId(github),
-    github,
-    name: claim.displayName || github,
+    github: isWallet ? null : github,
+    ...(isWallet ? { claimant: github } : {}),
+    via,
+    ...(requestId ? { requestId } : {}),
+    name: claim.displayName || (isWallet ? `${github.slice(0, 6)}…${github.slice(-4)}` : github),
     artizenWallet: claim.artizenWallet,
     connectedWallet: claim.connectedWallet,
     artizenProjects: [...new Set(claim.projectLinks.map(artizenSlug).filter(Boolean))],
@@ -91,6 +97,10 @@ async function setLabels(owner, repo, issueNumber, add, remove) {
 }
 
 async function main() {
+  if (readJson(PATHS.config).airdrop.enabled === false) {
+    console.log('Artizen airdrop claims are retired; no changes made.');
+    return;
+  }
   const { owner, repo } = repositoryCoordinates();
   const event = readJson(process.env.GITHUB_EVENT_PATH);
   const issueNumber = Number(event.issue?.number);

@@ -248,12 +248,12 @@ test('airdropClaimUrl prefills the issue form by field id', () => {
 test('issue form labels match what the parsers read', () => {
   const template = name => fs.readFileSync(path.join(__dirname, '..', '.github', 'ISSUE_TEMPLATE', name), 'utf8');
   const labels = text => [...text.matchAll(/^\s+label: (.+)$/gm)].map(match => match[1].trim());
-  const airdrop = labels(template('airdrop-claim.yml'));
+  const airdrop = labels(fs.readFileSync(path.join(__dirname, '..', '.github', 'legacy-issue-templates', 'airdrop-claim.yml'), 'utf8'));
   ['Artizen wallet address', 'Creator name', 'Your Artizen projects', 'Website (optional)', 'Connected wallet (optional)',
     'Show me on the globe', 'Location label', 'Approximate coordinates', 'Publishing consent']
     .forEach(label => assert.ok(airdrop.includes(label), `airdrop template is missing "${label}"`));
   const pinner = labels(template('pinner-request.yml'));
-  ['Base wallet for ART rewards', 'Gateway URL', 'Pinning setup', 'Pinning commitment']
+  ['Base wallet for USDC rewards', 'Gateway URL', 'Pinning setup', 'Pinning commitment']
     .forEach(label => assert.ok(pinner.includes(label), `pinner template is missing "${label}"`));
 });
 

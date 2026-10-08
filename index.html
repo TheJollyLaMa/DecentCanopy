@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/payroll.css" />
     <link rel="stylesheet" href="styles/participation.css" />
     <link rel="stylesheet" href="styles/onboarding.css" />
+    <link rel="stylesheet" href="styles/creators.css" />
   </head>
   <body>
     <header class="decent-head" aria-label="DecentCanopy header">
@@ -33,16 +34,18 @@
           </span>
         </div>
       </div>
-      <button id="decent-head-about-button" class="decent-head-title" type="button" aria-haspopup="dialog" aria-controls="canopy-about-dialog">
-        <span class="head-tree-grove" aria-hidden="true">
-          <span>🌳</span><span>🌴</span><span>🌲</span>
-        </span>
-        <span class="head-title-copy">
-          <span>DecentCanopy</span>
-          <small>Connected Stewardship</small>
-          <small class="head-frankenstein-subtitle">(Another Decent Frankenstein)</small>
-        </span>
-      </button>
+      <div class="decent-head-brand">
+        <button id="admin-tree-button" class="head-tree-grove" type="button" aria-label="Admin workspace (admin wallet required)" aria-disabled="true" aria-controls="payroll-panel" aria-expanded="false" title="Admin wallet required">
+          <span aria-hidden="true">🌳</span><span aria-hidden="true">🌴</span><span aria-hidden="true">🌲</span>
+        </button>
+        <button id="decent-head-about-button" class="decent-head-title" type="button" aria-haspopup="dialog" aria-controls="canopy-about-dialog">
+          <span class="head-title-copy">
+            <span>DecentCanopy</span>
+            <small>Connected Stewardship</small>
+            <small class="head-frankenstein-subtitle">(Another Decent Frankenstein)</small>
+          </span>
+        </button>
+      </div>
       <svg class="canopy-trails" viewBox="0 0 1200 68" preserveAspectRatio="none" aria-hidden="true">
         <path d="M 0 53 C 190 53 180 16 355 24 S 490 57 605 39 S 830 11 930 31 S 1070 55 1200 28" />
         <path d="M 0 18 C 145 36 205 60 350 43 S 505 8 605 29 S 825 61 930 40 S 1090 12 1200 50" />
@@ -84,10 +87,9 @@
       <div id="ipfs-status-popover" class="ipfs-status-popover" role="status" hidden>
         <p id="ipfs-backup-status">Checking for a published IPFS backup…</p>
         <p id="ipfs-community-pinners" class="ipfs-community-pinners" hidden></p>
-        <button id="ipfs-pin-yourself" class="ipfs-pin-yourself" type="button">📌 Pin it yourself · earn ART</button>
+        <button id="ipfs-pin-yourself" class="ipfs-pin-yourself" type="button">📌 Pin it yourself · USDC program</button>
       </div>
       <p id="wallet-status-message" class="wallet-status-message" role="status" aria-live="polite"></p>
-      <a id="airdrop-claim-chip" class="airdrop-claim-chip" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=airdrop-claim.yml" target="_blank" rel="noopener noreferrer" hidden>🎁 Put your blip on the map · claim 100 ART ↗</a>
     </header>
 
     <dialog id="canopy-about-dialog" class="canopy-about-dialog" aria-labelledby="canopy-about-title">
@@ -126,23 +128,24 @@
         endeavor.
       </p>
       <p>
-        This canopy brings together <span class="artizen-brand"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen's</span> public project graph and a separately curated Green Tea Party cluster.
-        Artizen records are shown as published; locally curated connections are identified as such.
+        A home for independent creators to find each other, document their projects, and grow new connections.
+        The existing Artizen project and fund canopy is a frozen historical archive, alongside the Green Tea Party cluster.
+        No new data is expected from Artizen.
       </p>
       <p>
         Decent means connecting geographically distributed endeavors to public ledgers and transparent evidence.
-        Opt in to local creator profiles, website links, public wallet links, and locations on our globe.
-        Replay participant-reported boosts and purchases, and explore season-stamped funding.
+        Connect a wallet to create your own Decent Creator blip. Edit your profile, record project progress,
+        and track funding sources you are exploring, applying to, or reporting receipts from.
       </p>
       <p>
-        Public wallet balances are read only on request. A wallet link does not verify Artizen identity or ownership;
-        imported activity is not a live or verified Artizen feed. Choose country, city, precise coordinates, or a
-        symbolic space marker. Nothing you import is automatically uploaded or pinned to IPFS.
+        Your wallet signs your public updates. Signing costs no gas and sends no payment.
+        Profiles are portable IPFS records; a public repository index helps everyone discover them for now.
+        This is not fully decentralized discovery yet. Signatures prove wallet control, not real-world identity or the truth of a claim.
       </p>
       <p>
-        Creator cards now preview an Artizen account space: projects, the funds those projects touch, reported
-        stewardship, and each person's and place's own location. Artizen sign-in and artifact collections are
-        <strong>coming soon</strong>; we will never ask for your Artizen password.
+        If you want, document your Artizen experience in your journey: what happened, your own payout experience,
+        and evidence you choose to share. We do not assert that any payouts were or were not made.
+        These accounts remain separate from the historical archive, and are not independently verified.
       </p>
       <p>
         See a filled-in canopy on <strong>TheJollyLaMa</strong>'s creator blip: profile picture, project artwork and
@@ -153,26 +156,25 @@
         New here? The <strong>🧭 Tour</strong> walks you through the map and lets you choose your own view. Sources and
         limits live in the <strong>ⓘ Data notes</strong> tab.
       </p>
-      <a class="canopy-about-project-link" href="https://artizen.fund/index/p/decent-canopy?season=7" target="_blank" rel="noopener noreferrer">
-        <img class="artizen-logo" src="assets/artizen-logo.png" alt="" /> Explore DecentCanopy on Artizen <span aria-hidden="true">↗</span>
-      </a>
+      <button class="toolbar-btn" data-creator-open type="button">Create / edit my Decent Creator</button>
+      <p><a href="https://github.com/TheJollyLaMa/DecentCanopy/tree/main/wiki" target="_blank" rel="noopener noreferrer">Read the canopy wiki</a> · Creator guides, pinning and contributing.</p>
       <p class="canopy-about-note">DecentCanopy grew from the early Green Tea Party meeting circles. The network is still growing.</p>
       <section class="about-build" aria-labelledby="about-build-title">
         <h2 id="about-build-title">🌱 Build the canopy with us</h2>
         <p>Open source and community-built. Ideas and fixes start as GitHub issues; contributors earn on the auto payroll.</p>
         <ol>
           <li><strong>File an issue</strong> to join the contributor whitelist.</li>
-          <li><strong>Pitch ideas or pick up issues.</strong> <code>bounty</code> labels pay in ART or USDC; the idea's author shares 20% via <code>idea-credit</code>.</li>
+          <li><strong>Pitch ideas or pick up issues.</strong> Funded <code>bounty</code> labels specify USDC; the idea's author shares 20% via <code>idea-credit</code>.</li>
           <li><strong>Ship it.</strong> Merged work is queued on the payroll automatically and paid out on Base.</li>
         </ol>
-        <h3 class="about-rewards-title">🎁 Community rewards</h3>
+        <h3 class="about-rewards-title">📌 Keep the canopy available</h3>
         <ul class="about-rewards">
-          <li><strong>100 ART to join the map.</strong> Verify your Artizen wallet on Base (ART that Artizen minted to it when you funded a project) and publish your creator blip, with an optional website and globe pin.</li>
-          <li><strong>Weekly ART for pinning.</strong> Keep the canopy dataset pinned on your own IPFS node or Pinata account; a weekly gateway check queues ART for you.</li>
+          <li><strong>No token needed to join.</strong> Use your wallet and the community pinning account to publish, or export your signed record to keep independently.</li>
+          <li><strong>$0.10 USDC per qualifying week.</strong> Keep the canopy backup pinned using Pinata or IPFS Desktop/Kubo and serve it through your own public gateway. Approval and matching-byte checks are required; at most 20 pinners are rewarded each week. A queued reward is not a payment; settlement depends on available USDC funding.</li>
         </ul>
+        <p class="about-rewards-note">Claims are signed with your wallet right here. Signing is free, sends no transaction, and needs no GitHub account.</p>
         <div class="about-build-actions">
-          <a class="about-issue-button" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=airdrop-claim.yml&amp;title=Airdrop%20claim%3A%20" target="_blank" rel="noopener noreferrer">Claim 100 ART</a>
-          <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=pinner-request.yml&amp;title=Pinner%20request%3A%20" target="_blank" rel="noopener noreferrer">Become a pinner ↗</a>
+          <a class="about-repo-link" data-reward-pinner href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=pinner-request.yml&amp;title=Pinner%20request%3A%20" target="_blank" rel="noopener noreferrer">Become a pinner</a>
         </div>
         <div class="about-build-actions">
           <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy" target="_blank" rel="noopener noreferrer">View repository ↗</a>
@@ -191,6 +193,8 @@
       <p class="pin-cid-row"><code id="pin-yourself-cid">No backup CID published yet</code> <button id="pin-copy-cid" class="toolbar-btn" type="button">Copy CID</button></p>
       <h3>With your own IPFS node (Kubo)</h3>
       <p><code id="pin-kubo-command">ipfs pin add &lt;cid&gt;</code> <button id="pin-copy-kubo" class="toolbar-btn" type="button">Copy</button></p>
+      <h3>With IPFS Desktop</h3>
+      <p>Open Files → Import → From IPFS, paste the backup CID, and retain the pin. For reward checks, expose a public HTTPS gateway serving your pinned data; a desktop pin without a reachable gateway cannot qualify yet.</p>
       <h3>With your Pinata account</h3>
       <form id="pin-pinata-form" class="pin-pinata-form" autocomplete="off">
         <label>Pinata JWT (used once in this tab, never saved or sent anywhere except Pinata)
@@ -200,8 +204,72 @@
       </form>
       <p class="participation-card-note">Use a scoped Pinata key and revoke it afterwards if you like. DecentCanopy never stores your key.</p>
       <p id="pin-yourself-status" class="pin-yourself-status" role="status" aria-live="polite"></p>
-      <h3>Earn weekly ART</h3>
-      <p>Serve your pin from your own gateway and <a href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=pinner-request.yml&amp;title=Pinner%20request%3A%20" target="_blank" rel="noopener noreferrer">request to become a community pinner ↗</a>. A weekly check confirms your gateway serves the exact canopy bytes and queues ART for you. That check shows availability, not proof of storage, so please keep the pin honest.</p>
+      <h3 id="pinner-signup-title">$0.10 USDC per qualifying week</h3>
+      <p>Serve your pin from your own public gateway and sign up below. After approval, a weekly matching-byte check queues USDC to your connected wallet on Base, subject to the 20-pinner weekly cap. This shows availability, not proof of independent storage. Queued is not paid; settlement depends on USDC funding and an authorized transaction.</p>
+      <form id="pinner-signup-form" class="reward-form" autocomplete="off">
+        <label>Public gateway URL
+          <input id="pinner-gateway" type="url" required placeholder="https://your-gateway.example" />
+        </label>
+        <label>Setup
+          <select id="pinner-setup">
+            <option value="Pinata">Pinata</option>
+            <option value="Kubo node">Own IPFS node (Kubo)</option>
+            <option value="IPFS Desktop">IPFS Desktop</option>
+            <option value="Filebase">Filebase</option>
+            <option value="other">Other</option>
+          </select>
+        </label>
+        <label class="reward-check"><input id="pinner-commitment" type="checkbox" required /> I will keep the latest canopy backup pinned and served from this gateway.</label>
+        <button class="toolbar-btn" type="submit">Sign &amp; request to pin</button>
+      </form>
+      <p id="pinner-signup-status" class="pin-yourself-status" role="status" aria-live="polite"></p>
+      <p class="participation-card-note">No wallet or relay? <a href="https://github.com/TheJollyLaMa/DecentCanopy/issues/new?template=pinner-request.yml&amp;title=Pinner%20request%3A%20" target="_blank" rel="noopener noreferrer">Use the GitHub form instead ↗</a></p>
+    </dialog>
+
+    <dialog id="creator-dialog" class="participation-dialog creator-dialog" aria-labelledby="creator-title">
+      <button id="creator-close" class="toolbar-btn" type="button">Close editor ×</button>
+      <h2 id="creator-title">Your Decent Creator</h2>
+      <p>A living home for your projects and what comes next. An Artizen account, token balance, or payment is not required.</p>
+      <p id="creator-wallet"></p>
+      <button id="creator-connect" class="toolbar-btn" type="button">Connect my wallet</button>
+      <form id="creator-form" class="reward-form" hidden>
+        <label>Display name <input id="creator-name" required maxlength="100" /></label>
+        <label>About you <textarea id="creator-bio" rows="3" maxlength="1200"></textarea></label>
+        <label>Website (HTTPS) <input id="creator-website" type="url" /></label>
+        <label>Avatar URL (HTTPS) <input id="creator-avatar" type="url" /></label>
+        <label>Optional location label <input id="creator-location" maxlength="120" /></label>
+        <label>Location precision <select id="creator-location-precision"><option value="city">City</option><option value="country">Country</option></select></label>
+        <label class="reward-check"><input id="creator-location-consent" type="checkbox" /> Include this location publicly. Label-only locations appear in the globe list, not at guessed coordinates.</label>
+        <h3>Projects going forward</h3>
+        <p>New project records are yours to edit. Linking an archived project does not edit it or prove ownership.</p>
+        <div id="creator-projects"></div>
+        <button class="toolbar-btn" type="button" data-add-entry="projects">Add project</button>
+        <h3>Decent funds you steward</h3>
+        <p>Run or organize a fund? Publish it as its own blip. Projects you support get a line; it turns solid when the project confirms it. If your treasury is this signing wallet, transfers you list can be checked on-chain.</p>
+        <div id="creator-funds"></div>
+        <button class="toolbar-btn" type="button" data-add-entry="funds">Add a Decent fund</button>
+        <h3>New funding sources</h3>
+        <p>Track exploration, applications, pledges and receipts. Choose a Decent fund on the canopy to draw a line to it, and add the payment transaction so anyone can check it on the public ledger. A source does not imply approved membership or endorsement.</p>
+        <div id="creator-funding"></div>
+        <button class="toolbar-btn" type="button" data-add-entry="funding">Add funding source</button>
+        <h3>Your journey</h3>
+        <p>Progress and milestones first. Artizen experiences are optional: share your own account, a payout status if you wish, and supporting links. We make no assumption about any payout.</p>
+        <div id="creator-journey"></div>
+        <button class="toolbar-btn" type="button" data-add-entry="journey">Add journey update</button>
+        <h3>Save, sign, or publish</h3>
+        <label class="reward-check"><input id="creator-local-consent" type="checkbox" /> Save a draft in this browser. This is not a public or signed update.</label>
+        <button id="creator-preview" class="toolbar-btn" type="button">Save draft &amp; preview my blip</button>
+        <label class="reward-check"><input id="creator-public-consent" type="checkbox" /> I authorize publishing these records, links and my wallet address publicly. IPFS copies and previous versions may persist permanently. I share only my own experience and information I have permission to publish.</label>
+        <div class="participation-actions">
+          <button id="creator-export" class="toolbar-btn" type="button">Sign &amp; download portable record</button>
+          <button id="creator-publish" class="toolbar-btn" type="submit">Sign &amp; publish to the canopy</button>
+        </div>
+        <label>Restore a signed export <input id="creator-import" type="file" accept=".json,application/json" /></label>
+      </form>
+      <button id="creator-clear" class="toolbar-btn" type="button">Clear my local draft / preview</button>
+      <p>Only the signing wallet can publish a replacement profile. Wallet control is not proof of legal identity or historical project ownership. Never share private keys, seed phrases, Artizen credentials, or anyone else’s private information.</p>
+      <p>Community IPFS pinning keeps onboarding simple; the repo index and relay currently provide discovery and publishing access. Signed exports can be independently retained and pinned. External avatar/evidence sites may change or disappear.</p>
+      <p id="creator-status" role="status" aria-live="polite"></p>
     </dialog>
 
     <dialog id="canopy-tour-dialog" class="canopy-tour-dialog" aria-labelledby="canopy-tour-title">
@@ -213,7 +281,7 @@
       <h2 id="canopy-tour-title">Welcome to DecentCanopy 🌲</h2>
 
       <section class="tour-step" data-step="0">
-        <p>A living map of the <span class="artizen-brand"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen</span> community: projects, funds, the creators behind them, and how they all connect.</p>
+        <p>A living map of independent creators and their next chapters, alongside a frozen archive of Artizen projects and funds.</p>
         <p>No account needed. Look around, follow the lines, and see the wider forest around each idea.</p>
       </section>
 
@@ -223,8 +291,8 @@
           <li><span class="legend-dot" style="background:#34d399"></span><strong>Projects</strong> — the things people are building</li>
           <li><span class="legend-dot" style="background:#a78bfa"></span><strong>Funds</strong> — click one to open its own fund canopy</li>
           <li><span class="legend-dot" style="background:#fbbf24"></span><strong>Creators</strong> and creator-curated links</li>
-          <li><span class="tour-line" aria-hidden="true"></span><strong>Lines</strong> — submissions, curation, funding, boosts, and collaborations</li>
-          <li><span class="tour-halo" aria-hidden="true"></span><strong>Glow</strong> — dated public totals (brighter means more raised)</li>
+          <li><span class="tour-line" aria-hidden="true"></span><strong>Lines</strong> — historical relationships and separately labeled creator reports, not proof of payments</li>
+          <li><span class="tour-halo" aria-hidden="true"></span><strong>Glow</strong> — dated reported totals, not payout evidence</li>
         </ul>
         <p>Click any blip to open its card. The <strong>ⓘ Data notes</strong> tab on the right explains where everything comes from.</p>
       </section>
@@ -250,7 +318,7 @@
           <div class="tour-sub" data-for="local" hidden>
             <label>Display name <input id="tour-name" type="text" maxlength="80" placeholder="Your name or handle" /></label>
             <label>Website (optional) <input id="tour-website" type="url" maxlength="2048" placeholder="https://…" /></label>
-            <label>Artizen profile (optional) <input id="tour-artizen" type="url" maxlength="2048" placeholder="https://artizen.fund/…" /></label>
+            <input id="tour-artizen" type="hidden" />
             <label class="tour-consent"><input id="tour-consent" type="checkbox" /> Store this card locally in my browser. I can clear it any time from Participate / import.</label>
           </div>
         </fieldset>
@@ -262,7 +330,7 @@
         <ul class="tour-tips">
           <li>🔎 <strong>Search</strong> any project, fund, creator, or tag.</li>
           <li>🌍 <strong>Globe view</strong> shows people and places who opted in.</li>
-          <li>🪪 Open your card and choose <strong>Edit website / wallet / location</strong> to add more.</li>
+          <li>🪪 <strong>My creator</strong> connects your wallet to an editable profile, projects, funding sources and journey. Public updates require consent and a signature.</li>
           <li>🧭 Replay this tour from the <strong>Tour</strong> button.</li>
         </ul>
       </section>
@@ -283,7 +351,9 @@
 
         <div class="canopy-switch" role="group" aria-label="Choose a canopy">
           <a href="?canopy=green-tea">Green Tea canopy</a>
-          <a class="artizen-brand" href="index.html"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen canopy</a>
+          <a href="index.html">Whole canopy</a>
+          <a href="?canopy=creators">Decent Creators</a>
+          <a class="artizen-brand" href="?canopy=artizen"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen archive</a>
         </div>
 
         <div class="toolbar-sep" role="separator"></div>
@@ -310,6 +380,8 @@
         <div class="toolbar-sep" role="separator"></div>
 
         <button id="tour-open" class="toolbar-btn tour-open" type="button" aria-haspopup="dialog" aria-controls="canopy-tour-dialog">🧭 Tour</button>
+        <button data-creator-open class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="creator-dialog">My creator</button>
+        <span id="creator-service-status" class="creator-service-status" role="status"></span>
         <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false" hidden>
           💸 Payroll
         </button>
@@ -491,7 +563,7 @@
       <button id="participation-close" class="toolbar-btn" type="button" aria-label="Close participation dialog">Close ×</button>
       <h2 id="participation-title">Grow your local canopy</h2>
       <p>Opt in to preview and import data you are permitted to use. This prototype stores it only in this browser, not on a server or IPFS. Do not include passwords, cookies, private contact lists, or another person's private data.</p>
-      <p>Artizen sign-in is not integrated. Never enter your Artizen credentials here. Imported identities, ownership, websites, and activity are unverified participant claims.</p>
+      <p>No platform account access is used. Never enter credentials, private keys or seed phrases here. Imported identities, ownership, websites, and activity are unverified participant claims.</p>
       <button id="participation-wallet" class="toolbar-btn" type="button">Connect wallet (optional)</button>
       <p id="participation-wallet-status">Wallet connection is optional and does not verify Artizen identity or card ownership.</p>
       <label><input id="participation-consent" type="checkbox" /> I have permission to use this data and agree to store it locally. Exporting or publishing requires my separate choice.</label>
@@ -544,16 +616,50 @@
     </dialog>
 
     <div id="payroll-overlay" class="payroll-overlay" hidden></div>
-    <aside id="payroll-panel" class="payroll-panel" aria-labelledby="payroll-title" aria-hidden="true">
+    <aside id="payroll-panel" class="payroll-panel" role="dialog" aria-modal="true" aria-labelledby="payroll-title" aria-hidden="true">
       <div class="payroll-panel-header">
         <div>
-          <p class="payroll-kicker">DecentCanopy repo fund</p>
-          <h2 id="payroll-title">Contributor payroll</h2>
+          <p class="payroll-kicker">Owner workspace · Base</p>
+          <h2 id="payroll-title">Canopy administration</h2>
         </div>
-        <button id="payroll-close-button" class="payroll-close-button" type="button" aria-label="Close payroll panel">×</button>
+        <button id="payroll-close-button" class="payroll-close-button" type="button" aria-label="Close admin workspace">×</button>
       </div>
+      <details class="admin-section">
+        <summary>Fund allocations &amp; USDC deposits</summary>
+        <p class="payroll-description">Named balances on the shared Settlement Router, not new contracts. Creating a fund does not enable a reward or change queue routing.</p>
+        <form id="admin-fund-form" class="admin-form">
+          <label>Allocation slug <input id="admin-fund-slug" required pattern="[a-z0-9]+(-[a-z0-9]+)*" maxlength="80" placeholder="decentcanopy-repo-dev" autocomplete="off"></label>
+          <button class="toolbar-btn" type="submit">Inspect allocation</button>
+        </form>
+        <div id="admin-fund-info" class="payroll-panel-status" aria-live="polite">Inspect an allocation before managing it.</div>
+        <form id="admin-create-form" class="admin-form">
+          <label>Public metadata URI <input id="admin-fund-metadata" type="text" required maxlength="2048" placeholder="https://… or ipfs://…" autocomplete="off"></label>
+          <button id="admin-create-button" class="toolbar-btn" type="submit" disabled>Create inspected allocation</button>
+        </form>
+        <form id="admin-deposit-form" class="admin-form">
+          <label>Deposit USDC <input id="admin-deposit-amount" type="text" inputmode="decimal" required pattern="[0-9]+(\.[0-9]{1,6})?" placeholder="10.00" autocomplete="off"></label>
+          <button id="admin-deposit-button" class="toolbar-btn" type="submit" disabled>Approve &amp; deposit</button>
+        </form>
+        <p class="payroll-description">Only your connected admin wallet can use these controls. Creation also requires DEFAULT_ADMIN_ROLE. Deposits require Base USDC and ETH for gas. Approval is for the exact deposit, never unlimited. Nothing is sent until you confirm.</p>
+        <div id="admin-router-status" class="payroll-panel-status" role="status" aria-live="polite">No allocation changes submitted.</div>
+        <div id="admin-router-transactions" class="admin-transactions" aria-live="polite"></div>
+      </details>
+      <details class="admin-section">
+        <summary>Operations &amp; playbooks</summary>
+        <nav class="admin-links" aria-label="Admin operations">
+          <a href="https://github.com/TheJollyLaMa/DecentCanopy/tree/main/wiki" target="_blank" rel="noopener noreferrer">Canopy wiki &amp; admin playbook</a>
+          <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/pinning-rewards.yml" target="_blank" rel="noopener noreferrer">Weekly pinner checks</a>
+          <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/pin-ipfs-backup.yml" target="_blank" rel="noopener noreferrer">IPFS backups</a>
+          <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/creator-publish.yml" target="_blank" rel="noopener noreferrer">Creator publication runs</a>
+          <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/publish-site.yml" target="_blank" rel="noopener noreferrer">Site deployments</a>
+          <a href="https://github.com/TheJollyLaMa/DecentCanopy/blob/main/community-rewards.json" target="_blank" rel="noopener noreferrer">Reward policy configuration</a>
+        </nav>
+        <p class="payroll-description">Pinning currently earns $0.10 USDC per qualifying week, capped at 20 pinners. New onboarding/task incentives are not active. Separate allocations need an explicit routing change before bots or payroll can use them.</p>
+      </details>
+      <details class="admin-section" open>
+        <summary>Payroll &amp; pinner approvals</summary>
       <p class="payroll-description">
-        Review queued ART and USDC rewards. An authorized Base wallet pays through the shared ArtFi Settlement Router;
+        Review queued USDC rewards and any preserved legacy ledger entries. An authorized Base wallet pays through the shared ArtFi Settlement Router;
         the GitHub workflow records only confirmed transactions in this repository ledger.
       </p>
       <div id="payroll-panel-status" class="payroll-panel-status" role="status" aria-live="polite">
@@ -563,15 +669,22 @@
         <button id="payroll-refresh-button" class="toolbar-btn" type="button">Refresh queue</button>
         <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/settle-payroll.yml" target="_blank" rel="noopener noreferrer">Open Settle Payroll workflow</a>
       </div>
+      <section id="reward-review" class="reward-review" aria-labelledby="reward-review-title" hidden>
+        <h3 id="reward-review-title">Reward requests awaiting review</h3>
+        <div id="reward-review-list" class="reward-review-list"></div>
+        <p id="reward-review-status" class="payroll-panel-status" role="status" aria-live="polite"></p>
+      </section>
       <div id="payroll-fund-summary" class="payroll-fund-summary" aria-live="polite"></div>
       <div id="payroll-entries" class="payroll-entries">
         <p class="payroll-empty">Loading payroll queue…</p>
       </div>
+      </details>
     </aside>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.14.4/dist/ethers.umd.min.js"></script>
     <script src="scripts/decent-head.js"></script>
     <script src="scripts/payroll-admin.js"></script>
+    <script src="scripts/router-admin.js"></script>
     <script>
       // Close details panel button wired here before spiral.js so it works
       // even if the module fails to load.
@@ -592,9 +705,12 @@
     <script src="scripts/participation.js"></script>
     <script src="scripts/data-layer.js"></script>
     <script src="scripts/canopy-globe.js"></script>
-    <script src="scripts/artizen-account.js"></script>
+    <script src="scripts/creator-records.js"></script>
+    <script src="scripts/ledger-proof.js"></script>
+    <script src="scripts/decent-creators.js"></script>
     <script src="scripts/onboarding.js"></script>
     <script src="scripts/spiral.js"></script>
+    <script src="scripts/reward-messages.js"></script>
     <script src="scripts/community-rewards-ui.js"></script>
   </body>
 </html>

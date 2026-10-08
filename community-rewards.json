@@ -1,5 +1,9 @@
 {
+  "relay": {
+    "url": "https://decentcanopy-relay.onrender.com"
+  },
   "airdrop": {
+    "enabled": false,
     "amount": "100",
     "currency": "ART",
     "label": "airdrop-claim",
@@ -13,8 +17,8 @@
     }
   },
   "pinning": {
-    "amountPerWeek": "25",
-    "currency": "ART",
+    "amountPerWeek": "0.10",
+    "currency": "USDC",
     "label": "pinner-request",
     "maxRewardedPinnersPerWeek": 20,
     "acceptedCidAgeDays": 8,

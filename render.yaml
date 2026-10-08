@@ -1,0 +1,20 @@
+# Render blueprint for the DecentCanopy creator publishing and pinner relay.
+# Set GITHUB_TOKEN in the Render dashboard: a fine-grained token for TheJollyLaMa/DecentCanopy only,
+# with Contents: read and write (required for repository_dispatch) and Metadata: read.
+services:
+  - type: web
+    name: decentcanopy-relay
+    runtime: node
+    plan: free
+    buildCommand: npm ci --prefix relay --omit=dev
+    startCommand: node relay/server.js
+    healthCheckPath: /health
+    envVars:
+      - key: GITHUB_TOKEN
+        sync: false
+      - key: GITHUB_REPOSITORY
+        value: TheJollyLaMa/DecentCanopy
+      - key: ALLOWED_ORIGINS
+        value: https://thejollylama.github.io
+      - key: NODE_VERSION
+        value: "20"

@@ -137,8 +137,8 @@
     const url = airdropClaimUrl({ connectedWallet: connectedWallet && connectedWallet.address, name: creator.status === 'participant-reported' ? creator.name : '' });
     return `<div class="airdrop-status">
       <strong>🎁 Put your blip on the map · claim 100 ART</strong>
-      <p>Verify your Artizen wallet on Base and publish your creator blip. A bot checks for ART that Artizen minted to the wallet when you funded a project. If it finds enough, 100 ART is queued to that wallet. One claim per person.</p>
-      <a class="toolbar-btn airdrop-claim-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Open the claim form on GitHub ↗</a>
+      <p>Sign with your wallet to verify your Artizen wallet on Base and publish your creator blip. A bot checks for ART that Artizen minted to the wallet when you funded a project. If it finds enough, 100 ART is queued to that wallet. One claim per wallet. Signing is free and needs no GitHub account.</p>
+      <a class="toolbar-btn airdrop-claim-link" href="${esc(url)}" target="_blank" rel="noopener noreferrer">Sign &amp; claim 100 ART</a>
     </div>`;
   }
 

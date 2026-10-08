@@ -1,0 +1,361 @@
+/* global DecentCreatorRecords, ethers, GTPData */
+(function () {
+  'use strict';
+  const KEY = 'decentcanopy-creator-drafts-v1';
+  const byId = id => document.getElementById(id);
+  const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  let index = { creators: [] }, editingWallet = null, signed = null, generation = 0, lastGraph = { projects: [], associations: [] };
+  const wallet = () => window.decentCanopyWallet?.address?.toLowerCase() || null;
+  const local = () => ['localhost', '127.0.0.1'].includes(location.hostname);
+  const indexUrl = () => local() ? 'data/decent-creators.json' : 'https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/data/decent-creators.json';
+  function status(message, error = false) {
+    const el = byId('creator-status');
+    if (el) { el.textContent = message; el.classList.toggle('is-error', error); }
+  }
+  async function readIndex() {
+    const response = await fetch(`${indexUrl()}?t=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(20000) });
+    if (!response.ok) throw new Error(`Creator index could not be loaded (${response.status}).`);
+    const value = await response.json();
+    if (value.version !== 1 || !Array.isArray(value.creators)) throw new Error('Unsupported creator index.');
+    const seen = new Set();
+    value.creators.forEach(entry => {
+      if (typeof ethers === 'undefined') throw new Error('Wallet signature verifier unavailable. Reload when it can be loaded.');
+      const record = DecentCreatorRecords.verify(entry, ethers.verifyMessage);
+      if (JSON.stringify(record) !== JSON.stringify(entry.record) || !DecentCreatorRecords.CID.test(entry.cid)
+        || seen.has(record.wallet)) throw new Error('Creator index contains an invalid or duplicate signed profile.');
+      seen.add(record.wallet);
+    });
+    index = value;
+    return index;
+  }
+  function drafts() {
+    const value = localStorage.getItem(KEY);
+    return value ? JSON.parse(value) : {};
+  }
+  async function overlay(base) {
+    let entries = [];
+    try { entries = (await readIndex()).creators; }
+    catch (error) {
+      console.error('[Decent Creators]', error);
+      byId('creator-service-status').textContent = `${error.message} The historical archive remains available.`;
+    }
+    try {
+      const saved = drafts(), preview = saved.previewWallet && saved[saved.previewWallet];
+      if (preview) {
+        const record = DecentCreatorRecords.validate(preview);
+        entries = entries.filter(e => e.record.wallet !== record.wallet).concat({ record, cid: null, draft: true });
+      }
+    } catch (error) {
+      console.error('[Decent Creator drafts]', error);
+      byId('creator-service-status').textContent = `Local creator preview could not be loaded: ${error.message}. Open My creator to clear it.`;
+    }
+    lastGraph = DecentCreatorRecords.apply(base, entries);
+    if (typeof DecentLedgerProof !== 'undefined' && typeof ethers !== 'undefined') {
+      const providers = {};
+      const providerFor = chain => {
+        const config = DecentLedgerProof.CHAINS[chain];
+        return providers[chain] || (providers[chain] = new ethers.JsonRpcProvider(config.rpc, config.chainId, { staticNetwork: true }));
+      };
+      try { await DecentLedgerProof.verifyGraph(lastGraph, { providerFor, cache: DecentLedgerProof.browserCache() }); }
+      catch (error) { console.error('[Decent ledger proofs]', error); }
+    }
+    return lastGraph;
+  }
+  function multi(name, label, values = [], ref) {
+    return `<label>${esc(label)}<select data-field="${name}" data-ref="${ref}" multiple size="4">${values.map(v => `<option value="${esc(v)}" selected>${esc(v)}</option>`).join('')}</select><small>Ctrl/⌘-click to choose several.</small></label>`;
+  }
+  const chainOptions = [['', 'Not on-chain'], ...Object.entries(DecentLedgerProof.CHAINS).map(([id, c]) => [id, c.name])];
+  function canopyOptions(kind) {
+    const others = index.creators.filter(e => e.record.wallet !== editingWallet).flatMap(e => (kind === 'project' ? e.record.projects : e.record.funds || [])
+      .map(item => [`decent-${kind}:${e.record.wallet}:${item.key}`, `${item.name} — ${e.record.name}`]));
+    const own = [...byId(`creator-${kind}s`).children].map(row => [`decent-${kind}:${editingWallet}:${row.dataset.key}`, `${row.querySelector('[data-field="name"]').value || `Unnamed ${kind}`} — you`]);
+    return own.concat(others.sort((a, b) => a[1].localeCompare(b[1])));
+  }
+  function refreshRefs() {
+    byId('creator-form').querySelectorAll('select[data-ref]').forEach(select => {
+      const chosen = new Set([...select.selectedOptions].map(o => o.value).filter(Boolean));
+      const selfRef = select.closest('#creator-projects') && `decent-project:${editingWallet}:${select.closest('fieldset').dataset.key}`;
+      const options = canopyOptions(select.dataset.ref).filter(([value]) => value !== selfRef);
+      if (!select.multiple) options.unshift(['', 'Not a Decent fund on the canopy']);
+      chosen.forEach(value => { if (!options.some(([v]) => v === value)) options.push([value, 'No longer on the canopy — remove or keep']); });
+      select.replaceChildren(...options.map(([value, title]) => { const o = new Option(title, value); o.selected = chosen.has(value); return o; }));
+    });
+  }
+  function field(name, label, value = '', type = 'text', options = null) {
+    if (options) return `<label>${esc(label)}<select data-field="${name}">${options.map(([v, title]) => `<option value="${esc(v)}"${v === value ? ' selected' : ''}>${esc(title)}</option>`).join('')}</select></label>`;
+    if (type === 'textarea') return `<label>${esc(label)}<textarea data-field="${name}" rows="3">${esc(value)}</textarea></label>`;
+    return `<label>${esc(label)}<input data-field="${name}" type="${type}" value="${esc(value)}"${type === 'number' ? ' min="0" step="any"' : ''} /></label>`;
+  }
+  function projectOptions() {
+    return [['', 'Whole creator journey'], ...[...byId('creator-projects').children].map(row => [row.dataset.key, row.querySelector('[data-field="name"]').value || 'Unnamed project'])];
+  }
+  function addRow(kind, value = {}) {
+    const row = document.createElement('fieldset');
+    row.dataset.key = value.key || crypto.randomUUID();
+    row.className = 'creator-entry';
+    let html = `<legend>${{ projects: 'Project', funds: 'Decent fund', funding: 'Funding source' }[kind] || 'Journey update'}</legend>`;
+    if (kind === 'projects') {
+      html += field('name', 'Project name', value.name) + field('description', 'What you are building', value.description, 'textarea')
+        + field('website', 'Project website (HTTPS)', value.website, 'url') + field('image', 'Artwork URL (HTTPS, optional)', value.image, 'url')
+        + field('status', 'Progress', value.status || 'active', 'text', [['planning', 'Planning'], ['active', 'Active'], ['paused', 'Paused'], ['completed', 'Completed']])
+        + field('wallet', 'Receiving wallet for this project (optional; blank = your signing wallet)', value.wallet)
+        + multi('related', 'Related Decent projects (theirs or yours)', value.related, 'project')
+        + field('archiveId', 'Optional historical project reference', value.archiveId, 'text', [['', 'No archive reference'], ...GTPData.getProjects().filter(p => p.id.startsWith('artizen-project:') || p.id.startsWith('curated-project:')).sort((a, b) => a.name.localeCompare(b.name)).map(p => [p.id, p.name])]);
+    } else if (kind === 'funds') {
+      html += field('name', 'Fund name', value.name) + field('description', 'What this fund supports', value.description, 'textarea')
+        + field('website', 'Fund website (HTTPS)', value.website, 'url') + field('image', 'Fund image URL (HTTPS, optional)', value.image, 'url')
+        + field('status', 'Fund status', value.status || 'open', 'text', [['open', 'Open'], ['invite-only', 'Invite only'], ['paused', 'Paused'], ['closed', 'Closed']])
+        + field('treasuryChain', 'Treasury chain', value.treasury?.chain || '', 'text', chainOptions)
+        + field('treasuryAddress', 'Treasury address (use this signing wallet for ledger verification)', value.treasury?.address)
+        + multi('supports', 'Decent projects this fund supports', value.supports, 'project');
+    } else if (kind === 'funding') {
+      html += field('name', 'Funding source name', value.name) + field('projectKey', 'For', value.projectKey || '', 'text', projectOptions())
+        + `<label>Decent fund on the canopy (optional)<select data-field="fundRef" data-ref="fund">${value.fundRef ? `<option value="${esc(value.fundRef)}" selected>${esc(value.fundRef)}</option>` : ''}</select></label>`
+        + field('website', 'Funding source URL (HTTPS)', value.website, 'url')
+        + field('status', 'Your reported status', value.status || 'exploring', 'text', [['exploring', 'Exploring'], ['applied', 'Applied'], ['pledged', 'Pledged'], ['received', 'Received'], ['ended', 'Ended']])
+        + field('amount', 'Amount (optional; self-reported)', value.amount ?? '', 'number')
+        + field('currency', 'Currency (e.g. USD or USDC)', value.currency)
+        + field('chain', 'Payment chain (for ledger verification)', value.chain || '', 'text', chainOptions)
+        + field('txHash', 'Payment transaction hash (0x…, optional)', value.txHash)
+        + field('asOf', 'As of', value.asOf || new Date().toISOString().slice(0, 10), 'date')
+        + field('note', 'Notes', value.note, 'textarea');
+    } else {
+      html += field('date', 'Date', value.date || new Date().toISOString().slice(0, 10), 'date')
+        + field('projectKey', 'For', value.projectKey || '', 'text', projectOptions())
+        + field('type', 'Update type', value.type || 'progress', 'text', [['progress', 'Project progress'], ['milestone', 'Milestone'], ['artizen-experience', 'Artizen experience (optional)']])
+        + field('note', 'Your account of what happened / what comes next', value.note, 'textarea')
+        + field('evidence', 'Evidence or update URL (HTTPS, optional)', value.evidence, 'url')
+        + `<div data-payout-field${value.type !== 'artizen-experience' ? ' hidden' : ''}>`
+        + field('payout', 'Your self-reported payout experience — no platform verification', value.payout || 'not-shared', 'text', [['not-shared', 'Not shared'], ['received', 'Received'], ['partially-received', 'Partially received'], ['not-received', 'Not received'], ['uncertain', 'Uncertain'], ['not-applicable', 'Not applicable']]) + '</div>';
+    }
+    row.innerHTML = html + '<button type="button" class="toolbar-btn" data-remove-entry>Remove entry</button>';
+    byId(`creator-${kind}`).appendChild(row);
+    refreshRefs();
+  }
+  function collect() {
+    if (!editingWallet || wallet() !== editingWallet) throw new Error('Connect the wallet that owns this profile.');
+    const existing = index.creators.find(e => e.record.wallet === editingWallet);
+    const readRows = kind => [...byId(`creator-${kind}`).children].map(row => {
+      const result = { key: row.dataset.key };
+      row.querySelectorAll('[data-field]').forEach(el => { result[el.dataset.field] = el.multiple ? [...el.selectedOptions].map(o => o.value) : el.value; });
+      if (kind === 'funding') result.amount = result.amount === '' ? null : Number(result.amount);
+      if (kind === 'funds') {
+        result.treasury = result.treasuryChain || result.treasuryAddress ? { chain: result.treasuryChain, address: result.treasuryAddress.trim() } : null;
+        delete result.treasuryChain; delete result.treasuryAddress;
+      }
+      return result;
+    });
+    const projects = readRows('projects');
+    if (projects.some(p => p.archiveId && !GTPData.getProjectById(p.archiveId))) throw new Error('Choose an existing historical project reference, or remove that reference.');
+    return DecentCreatorRecords.validate({
+      format: 'decentcanopy-creator', version: 2, consent: true, wallet: editingWallet,
+      revision: existing ? existing.record.revision + 1 : 1, previousCid: existing?.cid || null,
+      updatedAt: new Date().toISOString(), name: byId('creator-name').value, bio: byId('creator-bio').value,
+      website: byId('creator-website').value, avatar: byId('creator-avatar').value,
+      location: byId('creator-location-consent').checked ? { consent: true, label: byId('creator-location').value, precision: byId('creator-location-precision').value } : null,
+      projects, funds: readRows('funds'), funding: readRows('funding'), journey: readRows('journey'),
+    });
+  }
+  function fill(record) {
+    byId('creator-name').value = record?.name || '';
+    byId('creator-bio').value = record?.bio || '';
+    byId('creator-website').value = record?.website || '';
+    byId('creator-avatar').value = record?.avatar || '';
+    byId('creator-location').value = record?.location?.label || '';
+    byId('creator-location-consent').checked = Boolean(record?.location);
+    byId('creator-location-precision').value = record?.location?.precision || 'city';
+    ['projects', 'funds', 'funding', 'journey'].forEach(kind => {
+      byId(`creator-${kind}`).replaceChildren();
+      (record?.[kind] || []).forEach(row => addRow(kind, row));
+    });
+    byId('creator-public-consent').checked = false;
+    signed = null;
+  }
+  async function openEditor() {
+    if (byId('canopy-about-dialog').open) byId('canopy-about-dialog').close();
+    const dialog = byId('creator-dialog');
+    if (!dialog.open) dialog.showModal();
+    editingWallet = wallet();
+    byId('creator-wallet').textContent = editingWallet || 'Connect a wallet using the button below. No Artizen account needed.';
+    byId('creator-form').hidden = true;
+    byId('creator-connect').hidden = Boolean(editingWallet);
+    if (!editingWallet) { status('Connecting proves control of your new canopy profile, not your former Artizen identity.'); return; }
+    const request = ++generation, selected = editingWallet;
+    status('Loading your latest signed profile…');
+    try {
+      await GTPData.load();
+      await readIndex();
+      if (generation !== request || wallet() !== selected) return;
+      const saved = drafts()[selected];
+      fill(saved || index.creators.find(e => e.record.wallet === selected)?.record);
+      byId('creator-form').hidden = false;
+      status(saved ? 'Restored your browser-local draft. Publishing requires a new signature.' : 'Edit your profile, projects, funding sources and journey. Nothing publishes until you consent and sign.');
+    } catch (error) { status(error.message, true); byId('creator-form').hidden = true; }
+  }
+  function download(value) {
+    const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
+    const a = document.createElement('a'); a.href = url; a.download = 'decent-creator.json'; a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+  async function sign() {
+    if (!byId('creator-public-consent').checked) throw new Error('Consent to public, permanently copyable IPFS publication before signing.');
+    const record = collect(), message = DecentCreatorRecords.message(record);
+    const hex = '0x' + [...new TextEncoder().encode(message)].map(b => b.toString(16).padStart(2, '0')).join('');
+    status('Review the profile in your wallet. Signing is free and authorizes publication, not a payment.');
+    const signature = await window.ethereum.request({ method: 'personal_sign', params: [hex, record.wallet] });
+    const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if (wallet() !== record.wallet || accounts[0]?.toLowerCase() !== record.wallet) throw new Error('Wallet changed while signing. Please sign again.');
+    signed = { message, signature };
+    DecentCreatorRecords.verify(signed, ethers.verifyMessage);
+    return signed;
+  }
+  async function publish() {
+    const envelope = await sign(), record = DecentCreatorRecords.parse(envelope.message), selected = record.wallet;
+    const configResponse = await fetch('community-rewards.json', { cache: 'no-store' });
+    if (!configResponse.ok) throw new Error('Publishing configuration could not be loaded.');
+    const config = await configResponse.json(), relay = config.relay?.url?.replace(/\/+$/, '');
+    if (!relay) throw new Error('Publishing relay is not configured. Download your signed record instead.');
+    const response = await fetch(`${relay}/requests`, {
+      method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(envelope), signal: AbortSignal.timeout(75000),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || `Publishing failed (${response.status}).`);
+    status('Signed record sent; not yet published. Waiting for signature verification and IPFS pinning…');
+    for (let attempt = 0; attempt < 30; attempt++) {
+      if (wallet() !== selected) throw new Error('Wallet changed. The signed request may still publish; reopen the original wallet profile to check.');
+      if (result.status === 'published') break;
+      await new Promise(resolve => setTimeout(resolve, 10000));
+      const check = await fetch(`${relay}/publications/${result.id}`, { cache: 'no-store', signal: AbortSignal.timeout(20000) });
+      if (!check.ok) throw new Error(`Publication status failed (${check.status}). Keep your signed export; publication may still finish.`);
+      const receipt = await check.json();
+      if (receipt.status === 'error') throw new Error(receipt.reason);
+      if (receipt.status === 'published') { result.cid = receipt.cid; result.status = 'published'; break; }
+    }
+    if (result.status !== 'published') throw new Error('Publication has not been confirmed yet. Keep your signed export and check again before resubmitting.');
+    if (!DecentCreatorRecords.CID.test(result.cid || '')) throw new Error('Publication status did not include a valid CID. Check the public index before retrying.');
+    index.creators = index.creators.filter(entry => entry.record.wallet !== selected).concat({ record, ...envelope, cid: result.cid });
+    const saved = drafts(); delete saved[selected];
+    if (saved.previewWallet === selected) delete saved.previewWallet;
+    localStorage.setItem(KEY, JSON.stringify(saved));
+    status(`Published at ipfs://${result.cid}. Your wallet authorized this record; its claims are self-reported. Reload the canopy to see it (site deployment may still be running).`);
+  }
+  function connections(node, e, link) {
+    const names = new Map(lastGraph.projects.map(p => [p.id, p.name]));
+    const rows = lastGraph.associations.filter(a => a.decentClaim && (a.source === node.id || a.target === node.id));
+    if (!rows.length) return '';
+    const badge = { claimed: 'Claimed by one side', mutual: 'Confirmed by both sides', ledger: 'Ledger-verified' };
+    const shortAddress = value => `${value.slice(0, 6)}…${value.slice(-4)}`;
+    const proof = c => {
+      const p = c.proof;
+      if (!p) return '';
+      const text = p.verified
+        ? (c.treasurySigned && c.recipientSigned ? 'On-chain transfer verified between the two signing wallets.' : `On-chain transfer found from ${shortAddress(c.treasury)} to ${shortAddress(c.recipient)}, but ${c.treasurySigned ? 'the receiving wallet is declared, not the creator’s signing wallet' : 'the fund treasury is declared, not the steward’s signing wallet'}.`)
+        : p.reason;
+      return `<small class="ledger-proof${p.verified ? ' is-verified' : ''}">${e(text)} ${link(p.explorer, `${DecentLedgerProof.CHAINS[c.chain].name} transaction`)}</small>`;
+    };
+    return `<div class="details-group"><h3>Canopy connections</h3><ul>${rows.map(a => {
+      const other = a.source === node.id ? a.target : a.source;
+      return `<li><span class="claim-badge is-${e(a.decentClaim)}">${e(badge[a.decentClaim])}</span> <strong>${e(names.get(other) || other)}</strong>
+        <small>${a.type === 'funding-pool' ? 'Funding' : 'Related project'} · ${e(a.note)}</small>${(a.ledgerCandidates || []).map(proof).join('')}</li>`;
+    }).join('')}</ul><p class="details-muted">Dashed lines are one-sided claims, solid lines are confirmed by both wallets, glowing lines have a matching on-chain transfer.</p></div>`;
+  }
+  function renderDetails(node, escape) {
+    const r = node.creatorRecord, e = escape;
+    const projectKey = node.creatorProjectKey, fundingKey = node.creatorFundingKey, fundKey = node.creatorFundKey;
+    const link = (value, label) => value ? `<a href="${e(value)}" target="_blank" rel="noopener noreferrer">${e(label)} ↗</a>` : '';
+    const projects = projectKey ? r.projects.filter(p => p.key === projectKey) : fundingKey || fundKey ? [] : r.projects;
+    const funds = fundKey ? (r.funds || []).filter(f => f.key === fundKey) : projectKey || fundingKey ? [] : (r.funds || []);
+    const funding = fundKey ? [] : fundingKey ? r.funding.filter(f => f.key === fundingKey) : r.funding.filter(f => !projectKey || f.projectKey === projectKey);
+    const journey = fundKey ? [] : r.journey.filter(j => !projectKey || !j.projectKey || j.projectKey === projectKey).slice().sort((a, b) => b.date.localeCompare(a.date));
+    const fundName = ref => lastGraph.projects.find(p => p.id === ref)?.name || 'a Decent fund no longer on the canopy';
+    const treasury = f => {
+      if (!f.treasury) return '<p class="details-muted">No treasury declared, so payments cannot be ledger-verified.</p>';
+      const c = DecentLedgerProof.CHAINS[f.treasury.chain];
+      const signerTreasury = f.treasury.address === r.wallet;
+      return `<p>Treasury on ${e(c.name)}: ${link(`${c.explorer}/address/${f.treasury.address}`, f.treasury.address)}
+        <span class="claim-badge ${signerTreasury ? 'is-ledger' : 'is-claimed'}">${signerTreasury ? 'Steward’s signing wallet' : 'Declared, not the signing wallet'}</span></p>`;
+    };
+    const payoutLabels = { 'not-shared': 'Not shared', received: 'Received', 'partially-received': 'Partially received', 'not-received': 'Not received', uncertain: 'Uncertain', 'not-applicable': 'Not applicable' };
+    return `<div class="creator-profile-details"><p class="data-provenance">${node.creatorDraft ? 'Browser-local draft · not signed or public' : 'Wallet-authorized publication · self-reported claims'}</p>
+      <p class="details-muted">Wallet ${e(r.wallet)} · revision ${r.revision} · ${e(r.updatedAt.slice(0, 10))}. A signature proves wallet control, not real-world identity, project ownership, or payout truth.</p>
+      ${node.creatorCid ? link(`https://gateway.pinata.cloud/ipfs/${node.creatorCid}`, 'Portable signed IPFS record') : ''}
+      ${wallet() === r.wallet ? '<button type="button" class="toolbar-btn" data-creator-open>Edit my creator / projects / funds / journey</button>' : ''}
+      ${funds.length ? `<div class="details-group"><h3>Decent funds stewarded</h3><ul>${funds.map(f => `<li><strong>${e(f.name)}</strong> · ${e(f.status)}<p>${e(f.description)}</p>${treasury(f)}${link(f.website, 'Fund website')}</li>`).join('')}</ul></div>` : ''}
+      ${projects.length ? `<div class="details-group"><h3>Projects going forward</h3><ul>${projects.map(p => `<li><strong>${e(p.name)}</strong> · ${e(p.status)}<p>${e(p.description)}</p>${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}</li>`).join('')}</ul></div>` : ''}
+      ${connections(node, e, link)}
+      ${funding.length ? `<div class="details-group"><h3>Funding sources · self-reported</h3><ul>${funding.map(f => `<li><strong>${e(f.name)}</strong> · ${e(f.status)}${f.amount !== null ? ` · ${e(f.amount)} ${e(f.currency)}` : ''}<small>As of ${e(f.asOf)}${f.projectKey ? ` · ${e(r.projects.find(p => p.key === f.projectKey)?.name)}` : ''}${f.fundRef ? ` · via ${e(fundName(f.fundRef))}` : ''}</small><p>${e(f.note)}</p>${link(f.website, 'Source')}${f.txHash ? link(`${DecentLedgerProof.CHAINS[f.chain].explorer}/tx/${f.txHash}`, 'Payment transaction') : ''}</li>`).join('')}</ul><p class="details-muted">Exploring, applying, and pledges are not receipts. Only transfers checked on the public ledger are verified.</p></div>` : ''}
+      ${journey.length ? `<div class="details-group"><h3>Journey &amp; progress</h3><ul>${journey.map(j => `<li><strong>${e(j.date)} · ${j.type === 'artizen-experience' ? 'Artizen experience · creator’s account' : e(j.type)}</strong>${j.projectKey ? `<small>${e(r.projects.find(p => p.key === j.projectKey)?.name)}</small>` : ''}<p>${e(j.note)}</p>${j.type === 'artizen-experience' ? `<p>Self-reported payout experience: ${e(payoutLabels[j.payout])}. Not independently verified.</p>` : ''}${link(j.evidence, 'Evidence / update')}</li>`).join('')}</ul></div>` : ''}</div>`;
+  }
+  window.DecentCreators = { overlay, openEditor, renderDetails };
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = byId('creator-form');
+    document.addEventListener('click', event => {
+      if (event.target.closest('[data-creator-open]')) openEditor();
+    });
+    byId('creator-connect').addEventListener('click', () => byId('wallet-connect-button').click());
+    byId('creator-close').addEventListener('click', () => byId('creator-dialog').close());
+    byId('creator-dialog').addEventListener('close', () => { generation++; });
+    form.addEventListener('click', event => {
+      const add = event.target.closest('[data-add-entry]'), remove = event.target.closest('[data-remove-entry]');
+      if (add) { addRow(add.dataset.addEntry); signed = null; if (add.dataset.addEntry === 'projects') refreshProjects(); }
+      if (remove) { remove.closest('fieldset').remove(); signed = null; refreshProjects(); refreshRefs(); }
+    });
+    function refreshProjects() {
+      const options = projectOptions();
+      form.querySelectorAll('[data-field="projectKey"]').forEach(select => {
+        const current = select.value;
+        select.replaceChildren(...options.map(([value, title]) => new Option(title, value)));
+        if (options.some(([value]) => value === current)) select.value = current;
+        else if (current) {
+          select.add(new Option('Removed project — choose a replacement', current));
+          select.value = current;
+          status('A project was removed. Choose the correct project for its journey/funding entries before saving.', true);
+        }
+      });
+    }
+    form.addEventListener('input', event => {
+      signed = null;
+      if (event.target.closest('#creator-projects')) refreshProjects();
+      if (event.target.matches('[data-field="name"]') && event.target.closest('#creator-projects, #creator-funds')) refreshRefs();
+    });
+    form.addEventListener('change', event => {
+      signed = null;
+      if (event.target.matches('[data-field="type"]')) event.target.closest('fieldset').querySelector('[data-payout-field]').hidden = event.target.value !== 'artizen-experience';
+    });
+    async function action(button, fn) {
+      button.disabled = true;
+      try { await fn(); } catch (error) { status(error.message, true); }
+      finally { button.disabled = false; }
+    }
+    byId('creator-preview').addEventListener('click', event => action(event.currentTarget, () => {
+      if (!byId('creator-local-consent').checked) throw new Error('Consent to browser-local draft storage first.');
+      const record = collect(), saved = drafts(); saved[record.wallet] = record; saved.previewWallet = record.wallet;
+      localStorage.setItem(KEY, JSON.stringify(saved));
+      location.href = 'index.html?canopy=creators';
+    }));
+    byId('creator-export').addEventListener('click', event => action(event.currentTarget, async () => {
+      if (!signed) await sign();
+      download({ format: 'decentcanopy-signed-creator', version: 1, ...signed });
+      status('Downloaded your signed, portable record. It has not been published by this action.');
+    }));
+    form.addEventListener('submit', event => { event.preventDefault(); action(byId('creator-publish'), publish); });
+    byId('creator-clear').addEventListener('click', event => action(event.currentTarget, () => {
+      const saved = drafts(); if (editingWallet) delete saved[editingWallet]; delete saved.previewWallet;
+      localStorage.setItem(KEY, JSON.stringify(saved));
+      status('Local draft and preview cleared. Published IPFS copies are not deleted. Reload to restore the published view.');
+      fill(index.creators.find(e => e.record.wallet === editingWallet)?.record);
+    }));
+    byId('creator-import').addEventListener('change', event => action(event.currentTarget, async () => {
+      const file = event.currentTarget.files[0];
+      if (!file) return;
+      if (file.size > 40000) throw new Error('Signed imports must be at most 40 KB.');
+      const envelope = JSON.parse(await file.text()), record = DecentCreatorRecords.verify(envelope, ethers.verifyMessage);
+      if (record.wallet !== editingWallet) throw new Error('This signed export belongs to another wallet.');
+      fill(record); status('Verified signed export loaded for editing. A new signature is required to publish your changes.');
+    }));
+    window.addEventListener('decentcanopy:wallet-change', () => {
+      generation++; signed = null;
+      if (byId('creator-dialog').open) openEditor();
+    });
+  });
+}());

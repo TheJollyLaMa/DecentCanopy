@@ -7,6 +7,8 @@ const SOURCE_URL = 'https://artizen.fyi/match/index.json';
 const OUTPUT_PATH = path.join(__dirname, '..', 'data', 'artizen.json');
 
 async function main() {
+  const archive = JSON.parse(await fs.readFile(path.join(__dirname, '..', 'data', 'artizen-archive.json'), 'utf8'));
+  if (archive.frozen) throw new Error('Artizen archive is frozen. Refreshing or replacing the historical snapshot is disabled.');
   const response = await fetch(SOURCE_URL, {
     headers: { accept: 'application/json' }
   });

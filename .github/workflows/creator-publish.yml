@@ -1,0 +1,50 @@
+name: Publish Decent Creator
+on:
+  repository_dispatch:
+    types: [creator-publish]
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci --prefix relay --omit=dev
+      - name: Verify, pin and persist publication against latest index
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          for attempt in 1 2 3 4 5; do
+            git fetch origin main
+            target="$RUNNER_TEMP/creator-publication-$GITHUB_RUN_ID-$attempt"
+            git worktree add --detach "$target" origin/main
+            if (
+              cd "$target"
+              NODE_PATH="$GITHUB_WORKSPACE/relay/node_modules" node scripts/publishCreator.js &&
+              git add data/decent-creators.json &&
+              (git diff --cached --quiet || git commit -m "chore: index wallet-authorized creator publication") &&
+              git push origin HEAD:main
+            ); then
+              node - "$target/data/decent-creators.json" <<'NODE'
+          const { readJson, requestIdFor } = require('./scripts/communityRewards');
+          const event = readJson(process.env.GITHUB_EVENT_PATH);
+          const index = readJson(process.argv[2]);
+          const receipt = (index.publications || []).find(row => row.id === requestIdFor(event.client_payload.signature));
+          if (!receipt || receipt.status !== 'published') {
+            console.error(`::error::${receipt?.reason || 'Publication was not confirmed.'}`);
+            process.exitCode = 1;
+          }
+          NODE
+              exit 0
+            fi
+            sleep $((attempt * 3))
+          done
+          echo "::error::Could not persist the publication after concurrent updates. Check the workflow and retry."
+          exit 1

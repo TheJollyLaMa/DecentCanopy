@@ -37,6 +37,8 @@
   transform: translateX(102%);
   transition: transform 220ms ease;
   visibility: hidden;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .payroll-panel.open {
@@ -152,9 +154,36 @@
 
 .payroll-entries {
   min-height: 0;
-  overflow: auto;
+  overflow: visible;
   padding-right: 0.2rem;
 }
+
+.payroll-panel > * { flex-shrink: 0; }
+
+.admin-section {
+  padding: 0.75rem;
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 0.75rem;
+}
+
+.admin-section summary { cursor: pointer; color: #a7f3d0; font-weight: 700; }
+.admin-section[open] > * + * { margin-top: 0.75rem; }
+.admin-form, .admin-links { display: grid; gap: 0.6rem; }
+.admin-form label { display: grid; gap: 0.3rem; color: #cbd5e1; font-size: 0.8rem; }
+.admin-form input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem;
+  color: #f8fafc;
+  background: #0f172a;
+  border: 1px solid #64748b;
+  border-radius: 0.4rem;
+  font: inherit;
+}
+.admin-form button:disabled { opacity: 0.45; cursor: not-allowed; }
+.admin-links a, .admin-transactions a { color: #67e8f9; font-size: 0.8rem; overflow-wrap: anywhere; }
+.admin-transactions { display: grid; gap: 0.4rem; }
+#admin-fund-info { white-space: pre-wrap; overflow-wrap: anywhere; }
 
 .payroll-entry {
   margin-bottom: 0.7rem;
@@ -258,4 +287,66 @@
   .payroll-panel {
     transition-duration: 0.01ms;
   }
+}
+
+.reward-review {
+  margin: 0.8rem 0;
+  padding: 0.75rem;
+  border: 1px solid rgba(251, 191, 36, 0.35);
+  border-radius: 0.8rem;
+  background: rgba(120, 53, 15, 0.16);
+}
+
+.reward-review[hidden] {
+  display: none;
+}
+
+.reward-review h3 {
+  margin: 0 0 0.5rem;
+  color: #fde68a;
+  font-size: 0.9rem;
+}
+
+.reward-review-list {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.reward-review-item {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.6rem;
+  background: rgba(15, 23, 42, 0.7);
+  font-size: 0.8rem;
+  color: #cbd5e1;
+}
+
+.reward-review-item strong {
+  color: #e2e8f0;
+}
+
+.reward-review-item small {
+  color: #94a3b8;
+  overflow-wrap: anywhere;
+}
+
+.reward-review-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.reward-review-actions input {
+  flex: 1;
+  min-width: 0;
+  padding: 0.3rem 0.5rem;
+  border: 1px solid rgba(148, 163, 184, 0.4);
+  border-radius: 0.4rem;
+  color: #e2e8f0;
+  background: rgba(15, 23, 42, 0.9);
+  font: inherit;
+}
+
+.reward-review .payroll-panel-status:empty {
+  display: none;
 }
