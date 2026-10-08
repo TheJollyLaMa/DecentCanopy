@@ -176,3 +176,12 @@ test('workflow entrypoint persists an explicit missing-pinning-secret error with
     fs.rmdirSync(temp);
   }
 });
+
+test('CID pattern accepts Pinata single-file (bafk…) and directory (bafy…) CIDv1s', () => {
+  const { CID } = require('../scripts/creator-records');
+  assert.ok(CID.test('bafkreic3vjvdsdcticb6eqvc5bjrekqar5tjr3drtujcsszrj3k3ae45lm'));
+  assert.ok(CID.test('bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu'));
+  assert.ok(CID.test('QmYwAPJzv5CZsnA625s3Xf2nemtYgPpHdWEz79ojWnPbdG'));
+  assert.ok(!CID.test('bafk<script>'));
+  assert.ok(!CID.test('invalid'));
+});

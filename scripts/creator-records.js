@@ -2,7 +2,7 @@
   'use strict';
   const PREFIX = 'DecentCanopy creator publication v1\n';
   const MAX_BYTES = 16000;
-  const CID = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|bafy[a-z2-7]{20,100})$/;
+  const CID = /^(Qm[1-9A-HJ-NP-Za-km-z]{44}|baf[a-z2-7]{20,100})$/;
   const CHAINS = ['base', 'ethereum', 'optimism'];
   const REF = /^decent-(project|fund):0x[0-9a-f]{40}:[a-zA-Z0-9_-]{1,50}$/;
 
