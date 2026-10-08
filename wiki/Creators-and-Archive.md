@@ -55,6 +55,7 @@ How it works and what to expect:
 - Practical limit: about 6 people with video; the hard cap is 12 guests.
 - Introductions between browsers use the free public PeerJS service, and there is no TURN relay server. Some strict corporate or mobile-carrier networks can block direct connections.
 - [`rabbit-hole/index.html`](../rabbit-hole/index.html) is one standalone file, so it can be pinned to IPFS and opened from any gateway.
+- **Radio:** 🎵 plays and pauses; the station button switches between **🎼 WQXR** classical and **🎸 DecentBusking**. DecentBusking plays its live [JukeLoop radio](https://thejollylama.github.io/DecentBusking/) track by track from IPFS, kept in step with the broadcast and showing the current song. Each person's radio is local to their own browser and isn't sent to other people in the room.
 
 ## Keep your record
 

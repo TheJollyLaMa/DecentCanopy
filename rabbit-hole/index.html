@@ -202,10 +202,12 @@
               </button>
               <input id="radio-volume" type="range" min="0" max="1" step="0.01" value="0.15" oninput="updateRadioVolume(this.value)" 
                      class="w-16 sm:w-20 accent-amber-400 h-1 cursor-pointer" title="Radio Volume">
+              <button onclick="switchRadioStation()" id="btn-station" title="Switch radio station" class="text-[10px] font-semibold text-amber-200 bg-slate-900/80 hover:bg-slate-800 border border-slate-700 rounded-full px-2 py-0.5 whitespace-nowrap">🎼 WQXR</button>
             </div>
           </h2>
           <span id="host-badge" class="hidden text-xs bg-amber-500/20 border border-amber-400/40 text-amber-300 px-3 py-1 rounded-full font-medium">HOST CONTROLS ACTIVE</span>
         </div>
+        <p id="radio-now" class="hidden text-[11px] text-amber-200/90 -mt-2 mb-2 truncate"></p>
         <p id="room-owner-label" class="text-[11px] text-slate-300 eth-icon-sep mb-3"></p>
 
         <!-- Host Invite Link -->
@@ -339,8 +341,14 @@
     const ICON_SRC = `${IPFS_GATEWAY}/Ens_Eth_Breathe.gif`;
     const BG_SRC = `${IPFS_GATEWAY}/GreenTeaParty_underground.jpeg`;
 
-    // Single Reliable Classical Stream (WQXR New York)
+    // Radio stations. JukeLoop mirrors the DecentBusking Discord voice channel, track by track, from IPFS.
     const CLASSICAL_STREAM = "https://stream.wqxr.org/wqxr-web";
+    const JUKELOOP_API = "https://decentbusking.onrender.com/api/radio";
+    const JUKELOOP_GATEWAY = "https://gateway.pinata.cloud/ipfs/";
+    const STATIONS = {
+      wqxr: { label: '🎼 WQXR', name: 'WQXR Classical Radio' },
+      busking: { label: '🎸 DecentBusking', name: 'DecentBusking · JukeLoop radio' },
+    };
 
     // Rooms are addressed as ?host=<wallet>&room=<name>. Every wallet can open its own rooms.
     const ADDRESS_RE = /^0x[0-9a-f]{40}$/;
@@ -455,31 +463,143 @@
       }
     }
 
-    /* WQXR CLASSICAL RADIO & VOLUME SLIDER */
-    function toggleClassicalRadio() {
-      const radio = document.getElementById('bg-radio');
-      const musicBtn = document.getElementById('btn-music');
-      const volSlider = document.getElementById('radio-volume');
+    /* RADIO: WQXR Classical stream, or DecentBusking's JukeLoop played in sync from IPFS */
+    let radioStation = (() => { try { return STATIONS[localStorage.getItem('rabbit-hole:station')] ? localStorage.getItem('rabbit-hole:station') : 'wqxr'; } catch { return 'wqxr'; } })();
+    let jukeTimer = null, jukePlayId = null, jukeToken = 0;
 
+    function setRadioNow(text, href) {
+      const el = byId('radio-now');
+      el.textContent = '';
+      if (!text) return el.classList.add('hidden');
+      el.append(text);
+      if (href) {
+        const a = document.createElement('a');
+        a.href = href; a.target = '_blank'; a.rel = 'noopener noreferrer';
+        a.className = 'underline text-amber-300 ml-1'; a.textContent = 'DecentBusking ↗';
+        el.append(' · ', a);
+      }
+      el.classList.remove('hidden');
+    }
+
+    function renderStationButton() {
+      const btn = byId('btn-station');
+      btn.textContent = STATIONS[radioStation].label;
+      btn.title = `Station: ${STATIONS[radioStation].name}. Click to switch.`;
+      byId('btn-music').title = `Play / pause ${STATIONS[radioStation].name}`;
+    }
+
+    function stopRadio() {
+      const radio = byId('bg-radio');
+      clearTimeout(jukeTimer);
+      jukeToken++;
+      jukePlayId = null;
+      radio.pause();
+      radio.removeAttribute('src');
+      radio.load();
+      isMusicPlaying = false;
+      byId('btn-music').classList.remove('music-playing');
+      setRadioNow('');
+    }
+
+    function startRadio() {
+      const radio = byId('bg-radio');
+      radio.volume = parseFloat(byId('radio-volume').value);
+      isMusicPlaying = true;
+      byId('btn-music').classList.add('music-playing');
+      if (radioStation === 'busking') {
+        radio.loop = false;
+        renderSystem(`🎸 Tuning in to ${STATIONS.busking.name}…`);
+        pollJukeLoop();
+        return;
+      }
+      radio.loop = true;
+      radio.src = CLASSICAL_STREAM;
+      setRadioNow('🎼 WQXR Classical Radio · New York');
+      radio.play().then(() => {
+        renderSystem(`🎼 Playing WQXR Classical Radio (Vol: ${Math.round(radio.volume * 100)}%)`);
+      }).catch(err => {
+        console.warn("Audio stream playback issue:", err);
+        renderSystem("⚠️ Stream loading... click music note again if it doesn't play.");
+      });
+    }
+
+    function toggleClassicalRadio() {
       if (isMusicPlaying) {
-        radio.pause();
-        isMusicPlaying = false;
-        musicBtn.classList.remove('music-playing');
-        renderSystem("🎼 Classical radio paused.");
+        stopRadio();
+        renderSystem(`📻 ${STATIONS[radioStation].name} paused.`);
       } else {
-        radio.src = CLASSICAL_STREAM;
-        radio.volume = parseFloat(volSlider.value);
-        
-        radio.play().then(() => {
-          isMusicPlaying = true;
-          musicBtn.classList.add('music-playing');
-          renderSystem(`🎼 Playing WQXR Classical Radio (Vol: ${Math.round(radio.volume * 100)}%)`);
-        }).catch(err => {
-          console.warn("Audio stream playback issue:", err);
-          renderSystem("⚠️ Stream loading... click music note again if it doesn't play.");
-        });
+        startRadio();
       }
     }
+
+    function switchRadioStation() {
+      const wasPlaying = isMusicPlaying;
+      if (wasPlaying) stopRadio();
+      radioStation = radioStation === 'wqxr' ? 'busking' : 'wqxr';
+      try { localStorage.setItem('rabbit-hole:station', radioStation); } catch {}
+      renderStationButton();
+      if (wasPlaying) startRadio();
+      else renderSystem(`📻 Station set to ${STATIONS[radioStation].name}. Tap 🎵 to listen.`);
+    }
+
+    async function pollJukeLoop() {
+      clearTimeout(jukeTimer);
+      const token = jukeToken;
+      const radio = byId('bg-radio');
+      try {
+        const response = await fetch(JUKELOOP_API, { cache: 'no-store' });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const state = await response.json();
+        if (token !== jukeToken) return;
+        const now = state && typeof state.nowPlaying === 'object' ? state.nowPlaying : null;
+        if (!now) {
+          jukePlayId = null;
+          radio.pause();
+          setRadioNow('🌙 The JukeLoop is between tracks…', 'https://thejollylama.github.io/DecentBusking/');
+        } else {
+          const title = String(now.title || 'Untitled').slice(0, 120);
+          const artist = String(now.uploader || '').slice(0, 60);
+          const position = Math.max(0, Number(now.positionMs) || 0) / 1000;
+          const cid = typeof now.ipfsCid === 'string' && /^[A-Za-z0-9]{20,120}$/.test(now.ipfsCid) ? now.ipfsCid : null;
+          const label = `🎸 ${title}${artist ? ` — ${artist}` : ''}`;
+          if (!cid) {
+            jukePlayId = null;
+            radio.pause();
+            setRadioNow(`${label} (playing in Discord, not on IPFS yet)`, 'https://thejollylama.github.io/DecentBusking/');
+          } else if (now.playId !== jukePlayId) {
+            jukePlayId = now.playId;
+            setRadioNow(label, 'https://thejollylama.github.io/DecentBusking/');
+            radio.src = JUKELOOP_GATEWAY + cid;
+            radio.addEventListener('loadedmetadata', () => {
+              if (token !== jukeToken) return;
+              if (Number.isFinite(radio.duration) && position < radio.duration - 2) radio.currentTime = position;
+            }, { once: true });
+            radio.play().catch(err => {
+              console.warn('[Rabbit Hole] JukeLoop playback issue:', err);
+              renderSystem("⚠️ The JukeLoop track is still loading from IPFS. Tap 🎵 again if it stays quiet.");
+            });
+            renderSystem(`🎸 DecentBusking JukeLoop: ${title}${artist ? ` by ${artist}` : ''}`);
+          } else if (!radio.paused && Math.abs(radio.currentTime - position) > 8 && position < radio.duration - 2) {
+            radio.currentTime = position;
+          }
+        }
+      } catch (err) {
+        if (token !== jukeToken) return;
+        console.warn('[Rabbit Hole] Could not reach the JukeLoop:', err.message);
+        setRadioNow('📴 Can’t reach the JukeLoop radio right now. Retrying…', 'https://thejollylama.github.io/DecentBusking/');
+      }
+      if (token === jukeToken && isMusicPlaying && radioStation === 'busking') jukeTimer = setTimeout(pollJukeLoop, 8000);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderStationButton();
+      byId('bg-radio').addEventListener('ended', () => {
+        if (isMusicPlaying && radioStation === 'busking') {
+          clearTimeout(jukeTimer);
+          jukeTimer = setTimeout(pollJukeLoop, 1500);
+        }
+      });
+    });
 
     function updateRadioVolume(val) {
       const radio = document.getElementById('bg-radio');
