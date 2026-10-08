@@ -1,4 +1,32 @@
 {
   "provider": "Pinata",
-  "status": "not-yet-pinned"
+  "cid": "bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu",
+  "uri": "ipfs://bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu",
+  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu",
+  "pinnedAt": "2026-10-08T13:38:08.554Z",
+  "dataSha256": "c7953c44894f4eb116c4ee21b8026e936d9edda97bb44e8827287c7b863f3cb1",
+  "payloadSha256": "b5a40ce123ff5c06b71a9f289683249f1e03c00ed5ab7bfeb1affce2c9971294",
+  "payloadBytes": 3854256,
+  "files": [
+    "contributor-accounts.json",
+    "data/activity.json",
+    "data/artizen-curation.json",
+    "data/artizen.json",
+    "data/artizen-archive.json",
+    "data/decent-creators.json",
+    "data/associations.json",
+    "data/community-creators.json",
+    "data/community-pinners.json",
+    "data/projects.json",
+    "payroll-assets.json",
+    "payroll-queue.json",
+    "community-rewards.json"
+  ],
+  "recentCids": [
+    {
+      "cid": "bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu",
+      "pinnedAt": "2026-10-08T13:38:08.554Z",
+      "payloadSha256": "b5a40ce123ff5c06b71a9f289683249f1e03c00ed5ab7bfeb1affce2c9971294"
+    }
+  ]
 }
