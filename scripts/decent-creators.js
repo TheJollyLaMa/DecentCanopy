@@ -12,10 +12,21 @@
     const el = byId('creator-status');
     if (el) { el.textContent = message; el.classList.toggle('is-error', error); }
   }
-  async function readIndex() {
-    const response = await fetch(`${indexUrl()}?t=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(20000) });
+  async function fetchIndex(url) {
+    const response = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(20000) });
     if (!response.ok) throw new Error(`Creator index could not be loaded (${response.status}).`);
-    const value = await response.json();
+    return response.json();
+  }
+  async function readIndex() {
+    // The live index is newest; the copy bundled with this site (e.g. an IPFS snapshot) keeps working without GitHub.
+    let value;
+    try {
+      value = await fetchIndex(indexUrl());
+    } catch (error) {
+      if (local()) throw error;
+      console.warn('[DecentCreators] Live index unavailable; using the copy bundled with this site.', error);
+      value = await fetchIndex('data/decent-creators.json');
+    }
     if (value.version !== 1 || !Array.isArray(value.creators)) throw new Error('Unsupported creator index.');
     const seen = new Set();
     value.creators.forEach(entry => {

@@ -86,6 +86,7 @@ See [Features](#features) and [Artizen Canopy](#artizen-canopy).
 - **GitHub-form fallback:** comment `/pinner-approved` on a pinner request issue to add the pinner; `/pinner-recheck` retries the availability check. Joining airdrops are retired and cannot be approved through the former commands.
 - **Weekly pinning check:** **Community Pinning Rewards** runs every Monday (or on demand) and opens a `pinning-check` issue with the results.
 - **Reward relay:** the in-app buttons post to the relay on Render (see [In-app requests and the relay](#in-app-requests-and-the-relay)). If it is down, the dialogs say so and link to the GitHub forms.
+- **IPFS site:** **Pin Canopy Site to IPFS** pins the whole website after each Pages publish; the CID is in `ipfs-site.json`. See [The whole canopy on IPFS](#the-whole-canopy-on-ipfs).
 - **IPFS backup:** **Pin Canopy Data to IPFS** runs on data pushes and daily. It needs the `PINATA_JWT` Actions secret, which is never committed or exposed to the browser.
 - **Frozen archive:** do not refresh Artizen data. `scripts/sync-artizen-data.js` refuses to overwrite it while `data/artizen-archive.json` is frozen. Existing snapshot, curation and legacy ledger history are retained.
 - **One-time setup:** see the [maintainer setup checklist](#setup-checklist-maintainer).
@@ -130,6 +131,8 @@ scripts/
 ├── publishCreator.js             Verify, pin and index creator publications
 ├── onboarding.js                 First-visit tour, local "your view" preference, data-notes drawer
 ├── pinDataBackup.js              Packages public canopy data and pins it to IPFS
+├── pinSite.js                    Pins the whole website as one IPFS folder (writes ipfs-site.json)
+├── siteFiles.js                  The public website file list, shared by Pages and the IPFS site pin
 ├── data/
 │   ├── projects.json             Artizen project records (season, phase, outcome, funding totals, …)
 │   ├── associations.json         Relationship edges (source, target, type)
@@ -414,6 +417,16 @@ Use **My creator** for new records rather than rewriting historical curation. Hi
 The globe is an orthographic, schematic latitude/longitude sphere, not a country-boundary basemap. Far-side Earth markers are hidden until the view is turned; space markers remain symbolic. Connections are recorded graph associations, not flights, proximity proof, or money transfers. The Green Tea globe is restricted to that canopy's project cluster; the Artizen globe includes all locally opted-in entities, independent of search filters.
 
 Location and wallet drafts persist only in browser storage with the rest of participation data, are included in explicit downloads, and are **not** in automatic IPFS backups. Precise locations plus public wallet addresses can expose identity, home/work locations, and financial activity. Share only what participants permit; opt-in is not a reason to republish someone else's private data. Uncheck location consent and save to remove that card's location, or revoke participation consent to delete all local data. Already exported copies cannot be recalled.
+
+### The whole canopy on IPFS
+
+**Pin Canopy Site to IPFS** ([workflow](.github/workflows/pin-site-ipfs.yml), [script](scripts/pinSite.js)) runs after each successful GitHub Pages publish, daily, or on demand. It pins the exact files Pages serves ([`scripts/siteFiles.js`](scripts/siteFiles.js)) as **one folder** (CIDv1) and writes the root [`ipfs-site.json`](ipfs-site.json) with the CID, gateway links, file digest and the 5 most recent versions (older site versions are unpinned from the community account). An unchanged site is not re-pinned. The header **IPFS** popover links to the latest copy.
+
+- Open it at `https://<cid>.ipfs.inbrowser.link/` (verifies content in your browser) or `https://<cid>.ipfs.dweb.link/`. Use a **subdomain** gateway: each site gets its own origin, so wallet signing, local drafts and relay publishing work. Path gateways (`…/ipfs/<cid>/`) still show the map but share one origin with every other site, so the relay does not accept publishing from them.
+- The canopy is at the root and the Rabbit Hole at `/rabbit-hole/`; its back link returns to the same IPFS copy.
+- **Works without GitHub/Pages:** the frozen Artizen archive, the bundled signed creator index (signatures are re-verified in the browser), funds/projects ledgers shipped with that version, the Rabbit Hole, and wallet signing.
+- **Still uses servers:** the newest creator index (raw GitHub, with fallback to the bundled copy), the publishing relay on Render (accepts `*.ipfs.inbrowser.link`, `*.ipfs.dweb.link`, `*.ipfs.w3s.link` origins; disable with `ALLOW_IPFS_GATEWAYS=false`), Pinata, PeerJS signalling for video rooms, radio streams and Base RPCs.
+- A CID is a fixed version. Pin it yourself (`ipfs pin add <cid>`) to help keep it alive. A stable name (IPNS/DNSLink) is future work.
 
 ### IPFS Backup
 

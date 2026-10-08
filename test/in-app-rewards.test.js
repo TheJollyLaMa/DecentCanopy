@@ -194,3 +194,18 @@ test('relay verifies, rate-limits, and dispatches signed requests', async () => 
   assert.equal(status.body.message, undefined);
   assert.equal((await relay.status('../../etc')).status, 400);
 });
+
+test('relay accepts the Pages origin and any CID on known IPFS subdomain gateways, nothing else', () => {
+  const { originMatches, IPFS_GATEWAY_ORIGINS } = require('../relay/server');
+  const allowed = ['https://thejollylama.github.io', ...IPFS_GATEWAY_ORIGINS];
+  const cid = 'bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu';
+  assert.ok(originMatches('https://thejollylama.github.io', allowed));
+  assert.ok(originMatches(`https://${cid}.ipfs.inbrowser.link`, allowed));
+  assert.ok(originMatches(`https://${cid}.ipfs.dweb.link`, allowed));
+  assert.ok(!originMatches('https://evil.example', allowed));
+  assert.ok(!originMatches(`https://evil.example.${cid}.ipfs.dweb.link`, allowed));
+  assert.ok(!originMatches(`https://${cid}.ipfs.dweb.link.evil.example`, allowed));
+  assert.ok(!originMatches('https://notacid.ipfs.dweb.link', allowed));
+  assert.ok(!originMatches(`http://${cid}.ipfs.dweb.link`, allowed));
+  assert.ok(!originMatches(undefined, allowed));
+});

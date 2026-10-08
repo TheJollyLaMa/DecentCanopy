@@ -3,6 +3,8 @@
 
   const BASE_CHAIN_ID = 8453;
   const BACKUP_MANIFEST_URL = 'https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/data/ipfs-backup.json';
+  const SITE_MANIFEST_URL = 'https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/ipfs-site.json';
+  const SITE_CID = /^baf[a-z2-7]{20,100}$/;
   let wallet = null;
 
   function shortAddress(address) {
@@ -33,6 +35,35 @@
   function showWalletMessage(message) {
     const status = document.getElementById('wallet-status-message');
     if (status) status.textContent = message;
+  }
+
+  function viewingFromIpfs() {
+    const host = window.location.hostname;
+    return /\.ipfs\./.test(host) || window.location.pathname.startsWith('/ipfs/') || window.location.protocol === 'ipfs:';
+  }
+
+  async function loadIpfsSiteStatus() {
+    const line = document.getElementById('ipfs-site-status');
+    if (!line) return;
+    try {
+      const response = await fetch(`${SITE_MANIFEST_URL}?t=${Date.now()}`, { cache: 'no-store' });
+      if (!response.ok) return;
+      const manifest = await response.json();
+      if (!SITE_CID.test(manifest.cid || '')) return;
+      const link = document.createElement('a');
+      link.href = `https://${manifest.cid}.ipfs.inbrowser.link/`;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      link.textContent = 'Open the whole canopy from IPFS ↗';
+      const onLatest = window.location.href.includes(manifest.cid);
+      line.replaceChildren(document.createTextNode(viewingFromIpfs()
+        ? (onLatest ? '🌐 You are viewing the canopy from IPFS (latest version). ' : '🌐 You are viewing a pinned IPFS copy of the canopy. Newest version: ')
+        : '🌐 This whole site is also pinned to IPFS: '), link);
+      line.title = `ipfs://${manifest.cid}`;
+      line.hidden = false;
+    } catch {
+      // Site pin status is optional; the data backup status above still shows.
+    }
   }
 
   async function loadIpfsBackupStatus() {
@@ -233,6 +264,7 @@
     animateCanopyCritters(header);
     const refreshAboutRoutes = animateCanopyCritters(aboutScene, aboutDialog);
     loadIpfsBackupStatus();
+    loadIpfsSiteStatus();
     walletButton?.addEventListener('click', connectWallet);
     aboutButton?.addEventListener('click', () => {
       aboutDialog?.showModal();

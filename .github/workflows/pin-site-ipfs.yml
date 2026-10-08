@@ -1,0 +1,52 @@
+name: Pin Canopy Site to IPFS
+
+on:
+  workflow_run:
+    # Pin exactly what GitHub Pages just published.
+    workflows: [Publish Canopy Site]
+    types: [completed]
+  schedule:
+    - cron: '17 15 * * *'
+  workflow_dispatch:
+    inputs:
+      force:
+        description: Pin again even if the site has not changed
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  pin:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: decent-canopy-site-pin
+      cancel-in-progress: false
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Pin the whole canopy site as one IPFS folder
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+          FORCE_PIN: ${{ inputs.force && 'true' || 'false' }}
+        run: node scripts/pinSite.js
+
+      - name: Commit site pin manifest
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add ipfs-site.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: update IPFS site pin manifest"
+          git pull --rebase origin main
+          git push origin HEAD:main

@@ -2,9 +2,10 @@
 
 [Wiki home](Home.md) · [Admin playbook](Admin-Playbook.md)
 
-## Two kinds of records
+## Three kinds of records
 
 - **Creator records:** each wallet signs its own portable profile. The publication workflow pins the signed envelope and updates the discovery index.
+- **The whole site:** [Pin Canopy Site to IPFS](../.github/workflows/pin-site-ipfs.yml) pins the website as one folder after each Pages publish. Open `https://<cid>.ipfs.inbrowser.link/` using the CID in [ipfs-site.json](../ipfs-site.json) or the header IPFS popover. Use a subdomain gateway so wallets and publishing work. The archive, bundled signed creators and Rabbit Hole (`/rabbit-hole/`) work from that copy; the relay, newest index, Pinata, PeerJS and RPCs are still servers. See [the README](../README.md#the-whole-canopy-on-ipfs).
 - **Canopy backup:** [Pin Canopy Data to IPFS](../.github/workflows/pin-ipfs-backup.yml) packages the public dataset, creator index, archive manifest and reward settings. The IPFS header popover shows its CID/status.
 
 The community `PINATA_JWT` belongs in GitHub Actions secrets. It is never committed or supplied to the browser. A CID identifies content; it does not guarantee someone will keep serving it.

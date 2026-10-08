@@ -7,10 +7,11 @@
 1. Configure **Settings -> Pages -> Source -> GitHub Actions**. [Publish Site](../.github/workflows/publish-site.yml) deploys main and successful publication/reward/backup workflow outcomes.
 2. Set `PINATA_JWT` in **Settings -> Secrets and variables -> Actions** with public upload permissions. Creator publication and canopy backups use it.
 3. Deploy [the Render blueprint](../render.yaml). Keep `GITHUB_TOKEN` only in Render: a fine-grained token limited to this repo, Contents read/write and Metadata read for dispatch.
-4. Restrict `ALLOWED_ORIGINS` to the site origin (and explicit local origins during testing). Set the correct relay URL in [community rewards](../community-rewards.json).
+4. Restrict `ALLOWED_ORIGINS` to the site origin (and explicit local origins during testing). The relay also accepts IPFS subdomain gateway origins (`*.ipfs.inbrowser.link`, `*.ipfs.dweb.link`, `*.ipfs.w3s.link`) so the IPFS copy can publish; set `ALLOW_IPFS_GATEWAYS=false` to turn that off. Set the correct relay URL in [community rewards](../community-rewards.json).
 5. Create the GitHub fallback labels `contributor-request`, `pinner-request` and `pinning-check` as needed.
 6. Verify the actual Base router roles, token approval, active allocation, balances and recipient approvals. The config file is not evidence of deployed permissions or funding.
-7. Run a backup and verify the current CID before enabling practical pinner qualification. Test a signed creator publication end-to-end and verify its explicit receipt and index.
+7. Run **Pin Canopy Site to IPFS** and open the `inbrowser` link in `ipfs-site.json`. If Pinata returns 401/403, the `PINATA_JWT` key needs the legacy `pinFileToIPFS` permission for folder uploads.
+8. Run a backup and verify the current CID before enabling practical pinner qualification. Test a signed creator publication end-to-end and verify its explicit receipt and index.
 
 Never commit JWTs, GitHub tokens or private keys. A static site cannot hide a secret. Render's token can also write to the repo: restrict scope, consider branch protection and rotate compromised credentials.
 

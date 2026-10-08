@@ -20,6 +20,20 @@ const RATE_LIMIT_PER_WALLET = 6;
 const STATUS_CACHE_MS = 15 * 1000;
 const OWNER_CACHE_MS = 10 * 60 * 1000;
 
+// IPFS subdomain gateways give each CID its own origin, so any pinned copy of the site can publish.
+const IPFS_GATEWAY_ORIGINS = ['https://*.ipfs.inbrowser.link', 'https://*.ipfs.dweb.link', 'https://*.ipfs.w3s.link'];
+const CID_LABEL = /^(baf[a-z2-7]{20,100}|k51[a-z0-9]{40,70})$/;
+
+function originMatches(origin, allowed) {
+  if (typeof origin !== 'string' || !origin) return false;
+  return allowed.some(rule => {
+    if (!rule.includes('*')) return rule === origin;
+    const [prefix, suffix] = rule.split('*');
+    if (!origin.startsWith(prefix) || !origin.endsWith(suffix)) return false;
+    return CID_LABEL.test(origin.slice(prefix.length, origin.length - suffix.length));
+  });
+}
+
 function createRelay({
   token,
   repository,
@@ -176,7 +190,7 @@ function createRelay({
   }
 
   function corsHeaders(origin) {
-    if (!origin || !allowedOrigins.includes(origin)) return {};
+    if (!originMatches(origin, allowedOrigins)) return {};
     return {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
@@ -193,9 +207,9 @@ function createRelay({
       res.end(body === undefined ? '' : JSON.stringify(body));
     };
     const url = new URL(req.url, 'http://relay');
-    if (req.method === 'OPTIONS') return send(origin && allowedOrigins.includes(origin) ? 204 : 403);
+    if (req.method === 'OPTIONS') return send(originMatches(origin, allowedOrigins) ? 204 : 403);
     if (req.method === 'GET' && url.pathname === '/health') return send(200, { ok: true, repository });
-    if (origin && !allowedOrigins.includes(origin)) return send(403, { error: 'Origin not allowed.' });
+    if (origin && !originMatches(origin, allowedOrigins)) return send(403, { error: 'Origin not allowed.' });
     try {
       const publication = url.pathname.match(/^\/publications\/([a-f0-9]{20})$/);
       if (req.method === 'GET' && publication) {
@@ -262,11 +276,14 @@ if (require.main === module) {
   const relay = createRelay({
     token,
     repository: process.env.GITHUB_REPOSITORY || 'TheJollyLaMa/DecentCanopy',
-    allowedOrigins: String(process.env.ALLOWED_ORIGINS || 'https://thejollylama.github.io').split(',').map(origin => origin.trim()).filter(Boolean),
+    allowedOrigins: [
+      ...String(process.env.ALLOWED_ORIGINS || 'https://thejollylama.github.io').split(',').map(origin => origin.trim()).filter(Boolean),
+      ...(process.env.ALLOW_IPFS_GATEWAYS === 'false' ? [] : IPFS_GATEWAY_ORIGINS),
+    ],
     verifyMessage,
   });
   const port = Number(process.env.PORT || 8787);
   http.createServer((req, res) => relay.handle(req, res)).listen(port, () => console.log(`DecentCanopy relay listening on ${port}`));
 }
 
-module.exports = { createRelay };
+module.exports = { createRelay, originMatches, IPFS_GATEWAY_ORIGINS };

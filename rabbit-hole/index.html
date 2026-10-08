@@ -158,7 +158,7 @@
       Connect Wallet
     </button>
     <p class="text-[11px] text-slate-400 leading-relaxed">You sign one short message (no transaction, no gas) so others can check this wallet is really you. Video, audio and chat go directly between browsers and are never recorded.</p>
-    <a href="https://thejollylama.github.io/DecentCanopy/?canopy=creators" class="block text-[11px] text-amber-400 underline">🌳 Back to the DecentCanopy</a>
+    <a id="canopy-link" href="https://thejollylama.github.io/DecentCanopy/?canopy=creators" class="block text-[11px] text-amber-400 underline">🌳 Back to the DecentCanopy</a>
   </div>
 
   <!-- STEP 2: WAITING ROOM / DOORBELL -->
@@ -593,6 +593,10 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       renderStationButton();
+      // Inside a DecentCanopy copy (Pages or an IPFS folder pin), link back to that same copy.
+      fetch('../scripts/spiral.js', { method: 'HEAD', cache: 'no-store' })
+        .then(r => { if (r.ok) byId('canopy-link').href = new URL('../?canopy=creators', location.href).href; })
+        .catch(() => {});
       byId('bg-radio').addEventListener('ended', () => {
         if (isMusicPlaying && radioStation === 'busking') {
           clearTimeout(jukeTimer);
