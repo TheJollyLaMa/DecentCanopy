@@ -1,14 +1,86 @@
 {
   "version": 1,
-  "updatedAt": null,
-  "creators": [],
+  "updatedAt": "2026-10-08T19:08:36.272Z",
+  "creators": [
+    {
+      "record": {
+        "format": "decentcanopy-creator",
+        "version": 2,
+        "consent": true,
+        "wallet": "0x807061df657a7697c04045da7d16d941861caabc",
+        "revision": 1,
+        "previousCid": null,
+        "updatedAt": "2026-10-08T19:06:33.788Z",
+        "name": "TheJollyLaMa",
+        "bio": "Lone wolf, unofficial and untrained web3 developer and artist, multi talented extraordinaire, resident genie in a bottle \n🧞‍♂️\n . 🪔 .",
+        "website": "https://thejollylama.github.io/BigNuten_Vanilla/",
+        "avatar": "https://ipfs.io/ipfs/bafkreicdvtxkjiz36nfiulfs47shwx6fgp5i7n5l3dnyhv5pd7mbs3hmie",
+        "location": null,
+        "projects": [
+          {
+            "key": "0e78af11-6bb7-4907-aeb4-23f6ce3ed0e6",
+            "name": "DecentCanopy",
+            "description": "",
+            "website": "",
+            "image": "",
+            "status": "active",
+            "archiveId": "",
+            "wallet": "",
+            "related": []
+          },
+          {
+            "key": "cd695985-650e-472e-8f3b-64cbb9a7f682",
+            "name": "DecentBusking",
+            "description": "",
+            "website": "",
+            "image": "",
+            "status": "active",
+            "archiveId": "",
+            "wallet": "",
+            "related": []
+          },
+          {
+            "key": "bb15e18e-41de-4f79-9479-9ebcc3e5e467",
+            "name": "TheGreenTeaParty",
+            "description": "",
+            "website": "",
+            "image": "",
+            "status": "active",
+            "archiveId": "",
+            "wallet": "",
+            "related": []
+          },
+          {
+            "key": "b5053fb2-dfa8-4716-a53f-d7c8376daf6b",
+            "name": "BigNuten",
+            "description": "",
+            "website": "",
+            "image": "",
+            "status": "active",
+            "archiveId": "",
+            "wallet": "",
+            "related": []
+          }
+        ],
+        "funds": [],
+        "funding": [],
+        "journey": [],
+        "rabbitHole": true
+      },
+      "cid": "bafkreicehkfxfefbtw7v4tzixfjm4pjept4oithfghwt6ju5shojw6knaa",
+      "message": "DecentCanopy creator publication v1\n{\"format\":\"decentcanopy-creator\",\"version\":2,\"consent\":true,\"wallet\":\"0x807061df657a7697c04045da7d16d941861caabc\",\"revision\":1,\"previousCid\":null,\"updatedAt\":\"2026-10-08T19:06:33.788Z\",\"name\":\"TheJollyLaMa\",\"bio\":\"Lone wolf, unofficial and untrained web3 developer and artist, multi talented extraordinaire, resident genie in a bottle \\n🧞‍♂️\\n . 🪔 .\",\"website\":\"https://thejollylama.github.io/BigNuten_Vanilla/\",\"avatar\":\"https://ipfs.io/ipfs/bafkreicdvtxkjiz36nfiulfs47shwx6fgp5i7n5l3dnyhv5pd7mbs3hmie\",\"location\":null,\"projects\":[{\"key\":\"0e78af11-6bb7-4907-aeb4-23f6ce3ed0e6\",\"name\":\"DecentCanopy\",\"description\":\"\",\"website\":\"\",\"image\":\"\",\"status\":\"active\",\"archiveId\":\"\",\"wallet\":\"\",\"related\":[]},{\"key\":\"cd695985-650e-472e-8f3b-64cbb9a7f682\",\"name\":\"DecentBusking\",\"description\":\"\",\"website\":\"\",\"image\":\"\",\"status\":\"active\",\"archiveId\":\"\",\"wallet\":\"\",\"related\":[]},{\"key\":\"bb15e18e-41de-4f79-9479-9ebcc3e5e467\",\"name\":\"TheGreenTeaParty\",\"description\":\"\",\"website\":\"\",\"image\":\"\",\"status\":\"active\",\"archiveId\":\"\",\"wallet\":\"\",\"related\":[]},{\"key\":\"b5053fb2-dfa8-4716-a53f-d7c8376daf6b\",\"name\":\"BigNuten\",\"description\":\"\",\"website\":\"\",\"image\":\"\",\"status\":\"active\",\"archiveId\":\"\",\"wallet\":\"\",\"related\":[]}],\"funds\":[],\"funding\":[],\"journey\":[],\"rabbitHole\":true}",
+      "signature": "0x6e1afd5c29b5eec7a4458d2678689ed63c72609e79b11fc8f10390fafb58de5d76aee22671efbefe2d7e8bada9bc9414f727651182eddaced38712e98a37d07c1b",
+      "publishedAt": "2026-10-08T19:08:36.272Z"
+    }
+  ],
   "publications": [
     {
       "id": "94a30c2b6c0b3e0c1a27",
       "wallet": "0x807061df657a7697c04045da7d16d941861caabc",
-      "status": "error",
-      "reason": "Pinning did not return a valid IPFS CID.",
-      "updatedAt": "2026-10-08T19:06:58.317Z"
+      "status": "published",
+      "cid": "bafkreicehkfxfefbtw7v4tzixfjm4pjept4oithfghwt6ju5shojw6knaa",
+      "revision": 1,
+      "updatedAt": "2026-10-08T19:08:36.763Z"
     },
     {
       "id": "eb54cce03992f209664b",
