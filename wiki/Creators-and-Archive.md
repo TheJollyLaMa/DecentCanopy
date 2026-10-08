@@ -39,6 +39,23 @@ Recipient wallet = the project's receiving wallet, or your signing wallet if lef
 
 Unresolved references (to a fund or project not on the canopy) are kept in your record, but no line is drawn. Unlinked funding sources still appear as private funding-source blips.
 
+## Rabbit Hole meeting rooms
+
+Every creator wallet has its own small video, voice and chat room.
+
+1. **Open it:** connect your wallet, open your creator blip and choose **🕳️ Open my Rabbit Hole**. Enter a name and sign one message. Signing is free and needs no gas. The room stays open while that tab is open.
+2. **Share it:** use **📋 Copy invite link** on your blip or the **Copy** button inside the room. The link looks like `…/rabbit-hole/?host=<your wallet>&room=lounge`. **🔐 New private room** opens a second room with a random name that only people holding that link can find.
+3. **List it (optional):** in **My creator**, tick **Show a "Knock on my Rabbit Hole" button** and publish. Visitors then see **Knock on <name>'s Rabbit Hole** on your blip. This is the signed `rabbitHole: true` field. It is omitted when off, so older signed records don't change.
+4. **Knock:** guests connect their wallet and sign too. Before knocking, the guest's browser checks that the room is really held by the host wallet in the link. The host sees each knocker's verified wallet, then chooses **Buzz In** or **Decline**.
+
+How it works and what to expect:
+- Video, audio, chat, reactions and files (up to 5 MB) go directly between browsers over encrypted WebRTC. Every guest connects to every other guest. Nothing is recorded or stored; chat disappears when you leave.
+- Wallet proofs last 12 hours per tab. Each guest's proof is tied to their own connection, so a copied proof can't be reused by someone else. A signature proves wallet control, not real-world identity.
+- Anyone who knows a room link can try to take that room's address before you open it. Guests will refuse to join, because the wallet check fails, but the room is blocked until it's free again. If that happens, open a **New private room**.
+- Practical limit: about 6 people with video; the hard cap is 12 guests.
+- Introductions between browsers use the free public PeerJS service, and there is no TURN relay server. Some strict corporate or mobile-carrier networks can block direct connections.
+- [`rabbit-hole/index.html`](../rabbit-hole/index.html) is one standalone file, so it can be pinned to IPFS and opened from any gateway.
+
 ## Keep your record
 
 **Sign & download portable record** exports signed JSON. Import it again using the same wallet, or pin it independently. Every update has a revision and previous CID; stale/conflicting edits must reload the latest version before signing again.

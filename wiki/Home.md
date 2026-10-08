@@ -4,7 +4,7 @@ A home for independent creators to stay connected, document their projects and f
 
 | Guide | Start here when you want to... |
 | --- | --- |
-| [Creators & archive](Creators-and-Archive.md) | Put yourself on the map, edit your journey, understand sources |
+| [Creators & archive](Creators-and-Archive.md) | Put yourself on the map, edit your journey, understand sources, open your [Rabbit Hole](Creators-and-Archive.md#rabbit-hole-meeting-rooms) |
 | [Development payroll](Development-Payroll.md) | Join the whitelist, earn a bounty, contribute an idea or test |
 | [Admin playbook](Admin-Playbook.md) | Create/fund allocations, pay queued entries, settle the ledger |
 | [IPFS & pinning](IPFS-and-Pinning.md) | Keep public data available and request pinner rewards |

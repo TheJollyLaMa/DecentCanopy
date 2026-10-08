@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 100'><text y='75' font-size='80'>🧞🕳️🐇</text></svg>">
+  <title>Rabbit Hole - Web3 Lounge</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Ethers.js v5 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+  <!-- PeerJS for Zero-Server WebRTC -->
+  <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+  <style>
+    body {
+      background-color: #0c0a09;
+      color: #f8fafc;
+      font-family: sans-serif;
+      min-height: 100vh;
+      position: relative;
+    }
+    
+    /* 1. Base Sharp Background Layer (Crisp Center) */
+    .bg-tea-party {
+      position: fixed;
+      inset: 0;
+      background-image: url('https://bafybeifvsia523vhfwrdxcp3fgvb22slost57i5ljychmhuhowrcblbmya.ipfs.inbrowser.link/GreenTeaParty_underground.jpeg');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.55;
+      z-index: -2;
+      pointer-events: none;
+    }
+
+    /* 2. Blurred Edge Overlay (Sharp Center Masked Out) */
+    .bg-tea-party-blur-edges {
+      position: fixed;
+      inset: -40px;
+      background-image: url('https://bafybeifvsia523vhfwrdxcp3fgvb22slost57i5ljychmhuhowrcblbmya.ipfs.inbrowser.link/GreenTeaParty_underground.jpeg');
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.75;
+      filter: blur(18px);
+      z-index: -1;
+      pointer-events: none;
+      
+      /* Keeps center transparent and fades in blur at the edges */
+      -webkit-mask-image: radial-gradient(circle at center, transparent 35%, black 85%);
+      mask-image: radial-gradient(circle at center, transparent 35%, black 85%);
+    }
+
+    /* Ambient Vignette & Darkness Layer */
+    .bg-ambient-overlay {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at center, rgba(15, 23, 42, 0.05) 30%, rgba(12, 10, 9, 0.75) 100%);
+      z-index: -1;
+      pointer-events: none;
+    }
+
+    /* Crystal Clear Glass Panel */
+    .glass-burrow {
+      background: rgba(15, 23, 42, 0.2);
+      border: 1px solid rgba(251, 191, 36, 0.25);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    }
+
+    .eth-icon-sep img {
+      display: inline-block;
+      width: 13px;
+      height: 13px;
+      margin: 0 1px;
+      vertical-align: middle;
+      border-radius: 50%;
+    }
+
+    /* 3D Perspective Container */
+    .perspective-container {
+      perspective: 1200px;
+    }
+
+    /* Base 3D Card Style */
+    .video-card-3d {
+      transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease, opacity 0.3s ease;
+      transform-style: preserve-3d;
+    }
+
+    /* Canted Center-Facing Rotations */
+    .video-tilt-left {
+      transform: rotateY(22deg) rotateX(4deg);
+    }
+
+    .video-tilt-right {
+      transform: rotateY(-22deg) rotateX(4deg);
+    }
+
+    /* Interactive Hover Snap */
+    .video-card-3d:hover {
+      transform: rotateY(0deg) rotateX(0deg) scale(1.04) !important;
+      box-shadow: 0 20px 30px rgba(0, 0, 0, 0.6);
+      z-index: 20;
+    }
+
+    /* Genuine Transparent Video Stream Blended into Background */
+    .video-card-3d video {
+      opacity: 0.35 !important;
+      mix-blend-mode: screen; /* Blends stream into underground scene */
+      background: transparent !important;
+      transition: opacity 0.3s ease, mix-blend-mode 0.3s ease;
+    }
+
+    .video-card-3d:hover video {
+      opacity: 0.85 !important;
+      mix-blend-mode: normal; /* Restores fully visible feed on hover */
+    }
+
+    /* Resizable Side Chat Column */
+    .resizable-chat {
+      resize: horizontal;
+      overflow: auto;
+      min-width: 280px;
+      max-width: 520px;
+    }
+
+    /* Pulsing effect for active music */
+    @keyframes musicPulse {
+      0% { transform: scale(1); filter: drop-shadow(0 0 2px #fbbf24); }
+      50% { transform: scale(1.25); filter: drop-shadow(0 0 8px #f59e0b); }
+      100% { transform: scale(1); filter: drop-shadow(0 0 2px #fbbf24); }
+    }
+
+    .music-playing {
+      display: inline-block;
+      animation: musicPulse 1.8s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="flex flex-col items-center justify-start p-2 sm:p-6 min-h-screen overflow-x-hidden space-y-6">
+
+  <!-- Background Layers -->
+  <div class="bg-tea-party"></div>
+  <div class="bg-tea-party-blur-edges"></div>
+  <div class="bg-ambient-overlay"></div>
+
+  <!-- Audio Element for WQXR Classical Radio -->
+  <audio id="bg-radio" loop preload="none"></audio>
+
+  <!-- STEP 1: WALLET CONNECT / LANDING -->
+  <div id="step-connect" class="glass-burrow max-w-md w-full p-8 rounded-3xl text-center space-y-5 my-auto">
+    <h1 class="text-3xl font-bold text-amber-300 flex items-center justify-center gap-2">
+      🕳️ Rabbit Hole
+    </h1>
+    <p id="landing-text" class="text-sm text-slate-300 leading-relaxed">Connect your Web3 wallet to open your own room, or to knock on a creator's door.</p>
+    <p id="landing-room" class="hidden text-xs font-mono text-amber-200/90 break-all"></p>
+    <button onclick="connectWallet()" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-xl transition shadow-lg text-sm">
+      Connect Wallet
+    </button>
+    <p class="text-[11px] text-slate-400 leading-relaxed">You sign one short message (no transaction, no gas) so others can check this wallet is really you. Video, audio and chat go directly between browsers and are never recorded.</p>
+    <a href="https://thejollylama.github.io/DecentCanopy/?canopy=creators" class="block text-[11px] text-amber-400 underline">🌳 Back to the DecentCanopy</a>
+  </div>
+
+  <!-- STEP 2: WAITING ROOM / DOORBELL -->
+  <div id="step-waiting" class="hidden glass-burrow max-w-md w-full p-8 rounded-3xl text-center space-y-5 my-auto">
+    <h2 class="text-2xl font-semibold text-amber-400">🔔 Waiting Room</h2>
+    <p id="waiting-room-label" class="text-xs text-slate-300 eth-icon-sep"></p>
+    <p id="user-wallet-label" class="text-xs font-mono text-slate-300 truncate flex items-center justify-center gap-1 eth-icon-sep"></p>
+    
+    <!-- Display Name Field -->
+    <div class="text-left space-y-1">
+      <label class="text-xs text-slate-300 font-medium">Your Name / Handle:</label>
+      <input id="user-name-input" type="text" maxlength="40" placeholder="e.g. Anon, Alice.eth" 
+             class="w-full px-3.5 py-2.5 bg-slate-950/80 rounded-xl text-sm border border-slate-700/80 focus:outline-none focus:border-amber-500 text-slate-200">
+    </div>
+
+    <div class="relative bg-transparent rounded-2xl overflow-hidden border border-amber-400/30 h-48 video-card-3d video-tilt-right">
+      <video id="local-preview" autoplay playsinline muted class="w-full h-full object-cover"></video>
+      <span class="absolute top-2 left-2 text-[10px] bg-black/70 px-2 py-0.5 rounded text-slate-300">Your Preview</span>
+    </div>
+
+    <button id="knock-button" onclick="enterDoor()" class="w-full py-3.5 bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-xl transition shadow-lg text-sm">
+      Ring Doorbell (Knock)
+    </button>
+    <p id="waiting-status" class="text-xs text-slate-400 italic">Camera active. Ready to knock.</p>
+  </div>
+
+  <!-- STEP 3: MAIN LOUNGE (EXPANDED SCREEN COVERAGE) -->
+  <div id="step-lounge" class="hidden glass-burrow max-w-7xl w-full min-h-[80vh] p-6 sm:p-8 rounded-3xl flex flex-col md:flex-row gap-6">
+    
+    <!-- Left Column: Video Grid & Controls -->
+    <div class="flex-1 flex flex-col justify-between space-y-4">
+      <div>
+        <div class="flex justify-between items-center mb-4 flex-wrap gap-2">
+          <h2 class="text-xl font-bold text-amber-300 flex items-center gap-2">
+            🕳️🐇 Rabbit Hole Lounge 🦙⚸ 🍵🫖🧞‍♂️
+            
+            <!-- Classical Radio Button & Volume Slider -->
+            <div class="inline-flex items-center gap-1.5 ml-1 bg-slate-950/60 border border-slate-800 rounded-full px-2.5 py-1">
+              <button onclick="toggleClassicalRadio()" id="btn-music" title="Toggle WQXR Classical Radio" class="hover:scale-125 transition-transform cursor-pointer text-base leading-none">
+                🎵
+              </button>
+              <input id="radio-volume" type="range" min="0" max="1" step="0.01" value="0.15" oninput="updateRadioVolume(this.value)" 
+                     class="w-16 sm:w-20 accent-amber-400 h-1 cursor-pointer" title="Radio Volume">
+            </div>
+          </h2>
+          <span id="host-badge" class="hidden text-xs bg-amber-500/20 border border-amber-400/40 text-amber-300 px-3 py-1 rounded-full font-medium">HOST CONTROLS ACTIVE</span>
+        </div>
+        <p id="room-owner-label" class="text-[11px] text-slate-300 eth-icon-sep mb-3"></p>
+
+        <!-- Host Invite Link -->
+        <div id="invite-box" class="hidden mb-4 bg-slate-950/70 border border-amber-500/40 rounded-2xl p-3 space-y-2">
+          <p class="text-xs text-amber-300 font-semibold">🔗 Your invite link: share it with the people you want to chat with</p>
+          <div class="flex gap-2 flex-wrap">
+            <input id="invite-link" readonly class="flex-1 min-w-[220px] px-3 py-2 bg-slate-950/80 rounded-xl text-[11px] font-mono border border-slate-700/80 text-slate-200">
+            <button onclick="copyToClipboard(document.getElementById('invite-link').value, this)" class="px-3 py-2 text-xs bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-xl">📋 Copy</button>
+            <button onclick="openNewPrivateRoom()" class="px-3 py-2 text-xs bg-slate-900 hover:bg-slate-800 border border-slate-700 text-slate-200 rounded-xl" title="Start a separate room with a hard-to-guess link">🔐 New private room</button>
+          </div>
+          <p class="text-[11px] text-slate-400">The room is open only while this tab is open. Guests prove their wallet before knocking, and you choose who to buzz in. Best for up to about 6 people.</p>
+        </div>
+        
+        <!-- Center-Canted Video Grid -->
+        <div id="video-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 min-h-[380px] perspective-container pt-2">
+          <!-- Self Video Tile -->
+          <div id="self-video-wrapper" class="relative bg-transparent rounded-2xl overflow-hidden border border-amber-400/30 h-48 video-card-3d video-tilt-right">
+            <video id="self-video" autoplay playsinline muted class="w-full h-full object-cover"></video>
+            <div class="absolute bottom-2.5 left-2.5 right-2.5 flex justify-between items-center z-10">
+              <span class="text-[10px] bg-black/70 px-2 py-0.5 rounded text-slate-200">You</span>
+              <div class="flex gap-1">
+                <button onclick="toggleAudio()" id="btn-audio" class="px-2 py-1 text-[10px] bg-slate-900/80 hover:bg-slate-800 rounded text-slate-200 border border-slate-700">🎤 Mute</button>
+                <button onclick="toggleVideo()" id="btn-video" class="px-2 py-1 text-[10px] bg-slate-900/80 hover:bg-slate-800 rounded text-slate-200 border border-slate-700">📷 Cam</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Bottom Controls Area -->
+      <div class="space-y-3 pt-4 border-t border-slate-800/60">
+        <!-- REACTION BUTTONS -->
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="text-xs text-slate-400 font-medium">Reactions:</span>
+          <button onclick="spawnReaction('🍵')" class="px-2.5 py-1 bg-slate-900/80 hover:bg-slate-800 rounded-lg text-xs border border-slate-700/60">🍵 Tea</button>
+          <button onclick="spawnReaction('🍄')" class="px-2.5 py-1 bg-slate-900/80 hover:bg-slate-800 rounded-lg text-xs border border-slate-700/60">🍄 Shroom</button>
+          <button onclick="spawnReaction('⚡')" class="px-2.5 py-1 bg-slate-900/80 hover:bg-slate-800 rounded-lg text-xs border border-slate-700/60">⚡ Web3</button>
+          <button onclick="spawnReaction('🎉')" class="px-2.5 py-1 bg-slate-900/80 hover:bg-slate-800 rounded-lg text-xs border border-slate-700/60">🎉 Party</button>
+          <button onclick="spawnReaction('🧞‍♂️')" class="px-2.5 py-1 bg-slate-900/80 hover:bg-slate-800 rounded-lg text-xs border border-slate-700/60">🧞‍♂️ Genie</button>
+          <button onclick="spawnReaction('🌳')" class="px-2.5 py-1 bg-slate-900/80 hover:bg-slate-800 rounded-lg text-xs border border-slate-700/60">🌳 Decent</button>
+        </div>
+
+        <!-- HOST DOORBELL PANEL -->
+        <div id="host-doorbell-panel" class="hidden bg-slate-900/95 p-4 rounded-2xl border border-amber-500/60 space-y-2 shadow-2xl">
+          <p class="text-xs font-semibold text-amber-300 flex items-center gap-2">
+            🔔 Someone is knocking at the door: <span id="knock-queue-count" class="text-slate-400 font-normal"></span>
+          </p>
+          <div class="flex items-center justify-between gap-4">
+            <div class="space-y-0.5 min-w-0">
+              <div id="knocker-name" class="text-xs font-bold text-slate-100 truncate"></div>
+              <div id="knocker-address" class="text-xs font-mono text-slate-300 flex items-center gap-0.5 eth-icon-sep truncate"></div>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <button onclick="buzzIn()" class="px-3.5 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-500 text-slate-950 font-bold rounded-lg shadow">Buzz In</button>
+              <button onclick="rejectKnocker()" class="px-3 py-1.5 text-xs bg-rose-600 hover:bg-rose-500 text-slate-100 rounded-lg">Decline</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column: Text, Links & File Chat (Resizable) -->
+    <div class="resizable-chat flex flex-col h-[520px] md:h-auto bg-slate-950/40 rounded-2xl border border-slate-800/80 p-4">
+      <div id="chat-box" class="flex-1 overflow-y-auto space-y-2.5 text-xs p-1">
+        <div class="text-slate-500 italic">Peer-to-peer chat (WebRTC-encrypted). Nothing is stored; it disappears when you leave.</div>
+      </div>
+
+      <div class="mt-3 space-y-2.5 pt-3 border-t border-slate-800/80">
+        <input id="chat-input" type="text" placeholder="Type a message or paste a link..." 
+               class="w-full px-3.5 py-2.5 bg-slate-950/80 rounded-xl text-xs border border-slate-700/80 focus:outline-none focus:border-amber-500 text-slate-200"
+               onkeydown="if(event.key==='Enter') sendMessage()">
+        
+        <div class="flex items-center justify-between">
+          <label class="cursor-pointer text-[11px] text-slate-400 hover:text-amber-300 flex items-center gap-1 transition">
+            📎 Attach File
+            <input type="file" id="file-input" class="hidden" onchange="sendFile(this)">
+          </label>
+          <button onclick="sendMessage()" class="px-4 py-1.5 text-xs bg-amber-600 hover:bg-amber-500 text-slate-950 font-bold rounded-lg transition">Send</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEP 4: HOST ADMIN SECTION (SCROLLABLE AT BOTTOM) -->
+  <div id="host-admin-panel" class="hidden glass-burrow max-w-7xl w-full p-6 sm:p-8 rounded-3xl space-y-4">
+    <div class="flex items-center justify-between pb-3 border-b border-amber-500/30 flex-wrap gap-4">
+      <div>
+        <h3 class="text-lg font-bold text-amber-300 flex items-center gap-2">🛡️ Host Admin Panel — Guestlist</h3>
+        <p class="text-xs text-slate-400">View and manage wallet credentials for active participants in the lounge.</p>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Doorbell Volume Control Slider -->
+        <div class="flex items-center gap-2 bg-slate-950/80 border border-slate-800 px-3 py-1.5 rounded-xl">
+          <span class="text-xs text-amber-300 font-medium flex items-center gap-1" title="Doorbell Knock Chime Volume">
+            🔔 Doorbell Vol:
+          </span>
+          <input id="doorbell-volume" type="range" min="0" max="1" step="0.01" value="0.7" 
+                 class="w-20 accent-amber-400 h-1 cursor-pointer" title="Adjust Doorbell Volume">
+        </div>
+
+        <button onclick="copyAllGuestWallets()" class="px-3.5 py-2 bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/40 hover:border-amber-400 text-xs font-semibold rounded-xl flex items-center gap-2 transition">
+          📋 Copy Entire Guestlist
+        </button>
+      </div>
+    </div>
+
+    <!-- Participant Roster Table -->
+    <div class="overflow-x-auto">
+      <table class="w-full text-left text-xs border-collapse">
+        <thead>
+          <tr class="border-b border-slate-800/80 text-slate-400 font-medium">
+            <th class="py-2.5 px-3">Participant Name</th>
+            <th class="py-2.5 px-3">Formatted Wallet Address (6 + Icons + 4)</th>
+            <th class="py-2.5 px-3 text-right">Copy Full Address</th>
+          </tr>
+        </thead>
+        <tbody id="participant-table-body" class="divide-y divide-slate-800/40">
+          <!-- Dynamically populated via JS -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    'use strict';
+    // Green Tea Party asset folder (IPFS)
+    const ASSET_CID = "bafybeifvsia523vhfwrdxcp3fgvb22slost57i5ljychmhuhowrcblbmya";
+    const IPFS_GATEWAY = `https://${ASSET_CID}.ipfs.inbrowser.link`;
+    const ICON_SRC = `${IPFS_GATEWAY}/Ens_Eth_Breathe.gif`;
+    const BG_SRC = `${IPFS_GATEWAY}/GreenTeaParty_underground.jpeg`;
+
+    // Single Reliable Classical Stream (WQXR New York)
+    const CLASSICAL_STREAM = "https://stream.wqxr.org/wqxr-web";
+
+    // Rooms are addressed as ?host=<wallet>&room=<name>. Every wallet can open its own rooms.
+    const ADDRESS_RE = /^0x[0-9a-f]{40}$/;
+    const ROOM_RE = /^[a-z0-9]{1,24}$/;
+    const SESSION_MS = 12 * 60 * 60 * 1000;
+    const REACTIONS = ['🍵', '🍄', '⚡', '🎉', '🧞‍♂️', '🌳'];
+    const MAX_FILE_BYTES = 5 * 1024 * 1024;
+    const MAX_GUESTS = 12;
+
+    let roomHost = null, roomName = null, roomPeerId = null;
+    let userAddress = null;
+    let userName = "";
+    let signer = null;
+    let sessionKey = null;   // throwaway key the wallet authorizes once, so challenges need no extra prompts
+    let sessionProof = null; // { message, signature } signed by the wallet
+    let sessionRole = null;
+    let peer = null;
+    let localStream = null;
+    let isHost = false;
+    let hostInfo = null;
+    let admitted = false;
+    let isMusicPlaying = false;
+    let audioCtx = null;
+    const members = {};   // peerId -> { address, name, conn, call }
+    const vouched = {};   // guest side: peers the verified host has admitted
+    const knockers = [];  // host side: wallet-verified guests waiting at the door
+
+    const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const cleanName = value => String(value ?? '').replace(/[\u0000-\u001f\u007f]/g, '').trim().slice(0, 40) || 'Guest';
+    const byId = id => document.getElementById(id);
+
+    function readRoom() {
+      const params = new URLSearchParams(location.search);
+      const host = (params.get('host') || '').toLowerCase();
+      const room = (params.get('room') || 'lounge').toLowerCase();
+      if (!ADDRESS_RE.test(host) || !ROOM_RE.test(room)) {
+        roomHost = roomName = roomPeerId = null;
+        return false;
+      }
+      roomHost = host;
+      roomName = room;
+      roomPeerId = `decentcanopy-rh-${host.slice(2)}-${room}`;
+      return true;
+    }
+
+    function inviteUrl(room = roomName) {
+      const url = new URL(location.href);
+      url.search = '';
+      url.hash = '';
+      url.searchParams.set('host', userAddress);
+      url.searchParams.set('room', room);
+      return url.toString();
+    }
+
+    function formatAddressWithIcons(addr) {
+      if (!ADDRESS_RE.test(String(addr || ''))) return esc(addr);
+      const iconImg = `<img src="${ICON_SRC}" onerror="this.onerror=null; this.src='data:image/svg+xml;utf8,<svg xmlns=\\'http://www.w3.org/2000/svg\\' viewBox=\\'0 0 100 100\\'><circle cx=\\'50\\' cy=\\'50\\' r=\\'50\\' fill=\\'%23fbbf24\\'/></svg>'" alt="eth" class="inline w-3.5 h-3.5 mx-[1px] align-middle rounded-full border border-amber-400/30"/>`;
+      return `${addr.slice(0, 6)}${iconImg.repeat(4)}${addr.slice(-4)}`;
+    }
+
+    function identity(member) {
+      return `${formatAddressWithIcons(member.address)}${member.name ? ` (${esc(member.name)})` : ''}`;
+    }
+
+    function autoLinkText(text) {
+      return esc(text).replace(/(https?:\/\/[^\s<]+|www\.[^\s<]+)/g, url => {
+        const href = url.startsWith('www.') ? `https://${url}` : url;
+        return `<a href="${href}" target="_blank" rel="noopener noreferrer" class="text-amber-400 underline hover:text-amber-300 break-all">${url}</a>`;
+      });
+    }
+    /* AUDIBLE DOORBELL KNOCK CHIME (Web Audio API) */
+    function playDoorbellChime() {
+      try {
+        const volSlider = document.getElementById('doorbell-volume');
+        const masterVol = volSlider ? parseFloat(volSlider.value) : 0.7;
+        if (masterVol <= 0) return;
+
+        if (!audioCtx) {
+          audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        }
+        if (audioCtx.state === 'suspended') {
+          audioCtx.resume();
+        }
+
+        const now = audioCtx.currentTime;
+
+        // Tone 1 (Ding) - High pitch
+        const osc1 = audioCtx.createOscillator();
+        const gain1 = audioCtx.createGain();
+        osc1.type = 'sine';
+        osc1.frequency.setValueAtTime(659.25, now); // E5
+        gain1.gain.setValueAtTime(masterVol * 0.4, now);
+        gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.8);
+        osc1.connect(gain1);
+        gain1.connect(audioCtx.destination);
+        osc1.start(now);
+        osc1.stop(now + 0.8);
+
+        // Tone 2 (Dong) - Lower pitch delayed
+        const osc2 = audioCtx.createOscillator();
+        const gain2 = audioCtx.createGain();
+        osc2.type = 'sine';
+        osc2.frequency.setValueAtTime(523.25, now + 0.35); // C5
+        gain2.gain.setValueAtTime(masterVol * 0.5, now + 0.35);
+        gain2.gain.exponentialRampToValueAtTime(0.0001, now + 1.4);
+        osc2.connect(gain2);
+        gain2.connect(audioCtx.destination);
+        osc2.start(now + 0.35);
+        osc2.stop(now + 1.4);
+      } catch (err) {
+        console.warn("Doorbell audio error:", err);
+      }
+    }
+
+    /* WQXR CLASSICAL RADIO & VOLUME SLIDER */
+    function toggleClassicalRadio() {
+      const radio = document.getElementById('bg-radio');
+      const musicBtn = document.getElementById('btn-music');
+      const volSlider = document.getElementById('radio-volume');
+
+      if (isMusicPlaying) {
+        radio.pause();
+        isMusicPlaying = false;
+        musicBtn.classList.remove('music-playing');
+        renderSystem("🎼 Classical radio paused.");
+      } else {
+        radio.src = CLASSICAL_STREAM;
+        radio.volume = parseFloat(volSlider.value);
+        
+        radio.play().then(() => {
+          isMusicPlaying = true;
+          musicBtn.classList.add('music-playing');
+          renderSystem(`🎼 Playing WQXR Classical Radio (Vol: ${Math.round(radio.volume * 100)}%)`);
+        }).catch(err => {
+          console.warn("Audio stream playback issue:", err);
+          renderSystem("⚠️ Stream loading... click music note again if it doesn't play.");
+        });
+      }
+    }
+
+    function updateRadioVolume(val) {
+      const radio = document.getElementById('bg-radio');
+      if (radio) {
+        radio.volume = parseFloat(val);
+      }
+    }
+
+    /* WALLET PROOFS: one wallet signature per session authorizes a throwaway session key.
+       The session key then answers fresh challenges bound to this room and the guest's peer ID,
+       so a copied proof cannot be replayed by someone else. */
+    function sessionMessage(role, wallet, key, issued) {
+      return [
+        'Rabbit Hole session',
+        `Room: ${roomPeerId}`,
+        `Role: ${role}`,
+        `Wallet: ${wallet}`,
+        `Session key: ${key}`,
+        `Issued: ${issued}`,
+        '',
+        'Signing proves this wallet is in the room. It is not a transaction and costs nothing.',
+      ].join('\n');
+    }
+
+    function verifySession(proof, role, expectedWallet) {
+      if (!proof || typeof proof.message !== 'string' || typeof proof.signature !== 'string' || proof.message.length > 800) {
+        throw new Error('No wallet proof was sent.');
+      }
+      const field = name => (proof.message.split('\n').find(line => line.startsWith(`${name}: `)) || '').slice(name.length + 2);
+      const wallet = field('Wallet'), key = field('Session key'), issued = field('Issued');
+      if (!ADDRESS_RE.test(wallet) || !ADDRESS_RE.test(key) || sessionMessage(role, wallet, key, issued) !== proof.message) {
+        throw new Error('The wallet proof is for a different room.');
+      }
+      const time = Date.parse(issued);
+      if (!(time > Date.now() - SESSION_MS && time < Date.now() + 5 * 60 * 1000)) throw new Error('The wallet proof has expired.');
+      if (ethers.utils.verifyMessage(proof.message, proof.signature).toLowerCase() !== wallet) throw new Error('The wallet signature does not match.');
+      if (expectedWallet && wallet !== expectedWallet) throw new Error('That is not the wallet that owns this room.');
+      return { wallet, key };
+    }
+
+    const challengeMessage = (role, nonce, guestPeerId) =>
+      `Rabbit Hole ${role} challenge\nRoom: ${roomPeerId}\nGuest peer: ${guestPeerId}\nNonce: ${nonce}`;
+    const signChallenge = (role, nonce, guestPeerId) => sessionKey.signMessage(challengeMessage(role, nonce, guestPeerId));
+    const newNonce = () => ethers.utils.hexlify(ethers.utils.randomBytes(16));
+
+    function checkChallenge(signature, role, nonce, guestPeerId, key) {
+      try {
+        return typeof signature === 'string' && typeof nonce === 'string'
+          && ethers.utils.verifyMessage(challengeMessage(role, nonce, guestPeerId), signature).toLowerCase() === key;
+      } catch {
+        return false;
+      }
+    }
+
+    async function authorizeSession(role) {
+      const fresh = sessionProof && sessionRole === role
+        && Date.parse(sessionProof.message.match(/Issued: (.*)/)[1]) > Date.now() - SESSION_MS + 10 * 60 * 1000;
+      if (fresh) return;
+      sessionKey = ethers.Wallet.createRandom();
+      const message = sessionMessage(role, userAddress, sessionKey.address.toLowerCase(), new Date().toISOString());
+      sessionProof = { message, signature: await signer.signMessage(message) };
+      sessionRole = role;
+    }
+
+    /* ENTRY */
+    async function connectWallet() {
+      if (!window.ethereum) return alert("Please install MetaMask or another Web3 wallet.");
+      try {
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        await provider.send("eth_requestAccounts", []);
+        signer = provider.getSigner();
+        userAddress = (await signer.getAddress()).toLowerCase();
+        if (!roomHost) {
+          history.replaceState(null, '', inviteUrl('lounge'));
+          readRoom();
+        }
+        byId('user-wallet-label').innerHTML = `Wallet: ${formatAddressWithIcons(userAddress)}`;
+        try {
+          localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+        } catch {
+          localStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        }
+        byId('local-preview').srcObject = localStream;
+
+        const hosting = userAddress === roomHost;
+        byId('waiting-room-label').innerHTML = hosting
+          ? `Your room <b>${esc(roomName)}</b>`
+          : `Room <b>${esc(roomName)}</b> of ${formatAddressWithIcons(roomHost)}`;
+        byId('knock-button').innerText = hosting ? '🕳️ Open my Rabbit Hole' : 'Ring Doorbell (Knock)';
+        setWaitingStatus(hosting ? 'Camera active. Open your room, then share the invite link.' : 'Camera active. Ready to knock.');
+        byId('step-connect').classList.add('hidden');
+        byId('step-waiting').classList.remove('hidden');
+      } catch (err) {
+        console.error(err);
+        alert(err.message || String(err));
+      }
+    }
+
+    function setWaitingStatus(text) {
+      byId('waiting-status').innerText = text;
+    }
+
+    async function enterDoor() {
+      userName = cleanName(byId('user-name-input').value);
+      const button = byId('knock-button');
+      button.disabled = true;
+      try {
+        if (userAddress === roomHost) await openRoomAsHost();
+        else await knockOnDoor();
+      } catch (err) {
+        console.error(err);
+        setWaitingStatus(`⚠️ ${err.message || err}`);
+        button.disabled = false;
+      }
+    }
+
+    /* HOST */
+    async function openRoomAsHost() {
+      setWaitingStatus('Sign the message in your wallet to prove this room is yours…');
+      await authorizeSession('host');
+      isHost = true;
+      if (peer) peer.destroy();
+      peer = new Peer(roomPeerId);
+      peer.on('open', () => {
+        byId('host-badge').classList.remove('hidden');
+        byId('host-admin-panel').classList.remove('hidden');
+        byId('invite-box').classList.remove('hidden');
+        byId('invite-link').value = inviteUrl();
+        enterLounge();
+        renderSystem('Your Rabbit Hole is open. Share the invite link; knocks will chime here.');
+      });
+      peer.on('connection', hostHandleConnection);
+      peer.on('call', call => {
+        if (!members[call.peer]) return call.close();
+        answerCall(call);
+      });
+      peer.on('disconnected', () => { if (!peer.destroyed) peer.reconnect(); });
+      peer.on('error', err => {
+        if (err.type === 'unavailable-id') {
+          setWaitingStatus('This room is already open in another tab or device. Close it there, or open a new private room.');
+          byId('knock-button').disabled = false;
+        } else {
+          console.warn('[Rabbit Hole]', err);
+          renderSystem(`⚠️ Connection issue: ${err.type || err.message}`);
+        }
+      });
+    }
+
+    function hostHandleConnection(conn) {
+      const state = { stage: 'hello' };
+      conn.rhState = state;
+      const timer = setTimeout(() => { if (state.stage === 'hello' || state.stage === 'auth') conn.close(); }, 120000);
+      conn.on('data', async data => {
+        if (!data || typeof data !== 'object') return;
+        try {
+          if (state.stage === 'hello' && data.type === 'HELLO') {
+            const guest = verifySession(data.proof, 'guest');
+            if (guest.wallet === userAddress) throw new Error('That is the host wallet.');
+            if (typeof data.nonce !== 'string' || data.nonce.length > 80) throw new Error('Malformed knock.');
+            if (Object.keys(members).length + knockers.length >= MAX_GUESTS) throw new Error('This room is full right now.');
+            state.guest = { ...guest, name: cleanName(data.name), nonce: newNonce() };
+            state.stage = 'auth';
+            conn.send({
+              type: 'HOST_PROOF', name: userName, proof: sessionProof, nonce: state.guest.nonce,
+              signature: await signChallenge('host', data.nonce, conn.peer),
+            });
+          } else if (state.stage === 'auth' && data.type === 'AUTH') {
+            if (!checkChallenge(data.signature, 'guest', state.guest.nonce, conn.peer, state.guest.key)) {
+              throw new Error('The wallet check failed.');
+            }
+            state.stage = 'waiting';
+            clearTimeout(timer);
+            knockers.push({ peerId: conn.peer, address: state.guest.wallet, name: state.guest.name, conn });
+            showNextKnocker();
+            playDoorbellChime();
+          } else if (state.stage === 'member') {
+            handleRoomData(conn.peer, data);
+          }
+        } catch (err) {
+          console.warn('[Rabbit Hole] declined a knock:', err.message);
+          if (conn.open) conn.send({ type: 'REJECTED', reason: err.message });
+          setTimeout(() => conn.close(), 500);
+        }
+      });
+      conn.on('close', () => {
+        clearTimeout(timer);
+        dropKnocker(conn.peer);
+        if (members[conn.peer]) {
+          removeMember(conn.peer);
+          broadcast({ type: 'LEFT', peerId: conn.peer });
+        }
+      });
+    }
+
+    function showNextKnocker() {
+      const panel = byId('host-doorbell-panel');
+      const next = knockers[0];
+      if (!next) return panel.classList.add('hidden');
+      byId('knocker-name').innerText = next.name;
+      byId('knocker-address').innerHTML = `${formatAddressWithIcons(next.address)} <span class="text-emerald-400 ml-1">✓ wallet verified</span>`;
+      byId('knock-queue-count').innerText = knockers.length > 1 ? `(${knockers.length - 1} more waiting)` : '';
+      panel.classList.remove('hidden');
+    }
+
+    function dropKnocker(peerId) {
+      const index = knockers.findIndex(k => k.peerId === peerId);
+      if (index >= 0) {
+        knockers.splice(index, 1);
+        showNextKnocker();
+      }
+    }
+
+    function buzzIn() {
+      const knocker = knockers.shift();
+      showNextKnocker();
+      if (!knocker || !knocker.conn.open) return;
+      const roster = Object.entries(members).map(([peerId, m]) => ({ peerId, address: m.address, name: m.name }));
+      // Existing guests learn about the newcomer first, so they accept its direct call.
+      roster.forEach(r => members[r.peerId].conn.send({ type: 'MEMBER', peerId: knocker.peerId, address: knocker.address, name: knocker.name }));
+      members[knocker.peerId] = { address: knocker.address, name: knocker.name, conn: knocker.conn };
+      knocker.conn.rhState.stage = 'member';
+      knocker.conn.send({ type: 'BUZZ_IN', roster });
+      renderSystem(`${knocker.name} joined.`);
+      updateAdminGuestlist();
+    }
+
+    function rejectKnocker() {
+      const knocker = knockers.shift();
+      showNextKnocker();
+      if (!knocker) return;
+      if (knocker.conn.open) knocker.conn.send({ type: 'DECLINED' });
+      setTimeout(() => knocker.conn.close(), 500);
+    }
+
+    function openNewPrivateRoom() {
+      const alphabet = 'abcdefghijkmnpqrstuvwxyz23456789';
+      const room = Array.from(ethers.utils.randomBytes(10), b => alphabet[b % alphabet.length]).join('');
+      window.open(inviteUrl(room), '_blank', 'noopener');
+    }
+
+    /* GUEST */
+    async function knockOnDoor() {
+      setWaitingStatus('Sign the message in your wallet so the host knows it is really you…');
+      await authorizeSession('guest');
+      setWaitingStatus('Knocking…');
+      if (peer) peer.destroy();
+      admitted = false;
+      peer = new Peer();
+      peer.on('open', () => {
+        const nonce = newNonce();
+        const hostConn = peer.connect(roomPeerId, { reliable: true });
+        let stage = 'hello', closedReason = null;
+        hostConn.on('open', () => hostConn.send({ type: 'HELLO', name: userName, proof: sessionProof, nonce }));
+        hostConn.on('data', async data => {
+          if (!data || typeof data !== 'object') return;
+          try {
+            if (stage === 'hello' && data.type === 'HOST_PROOF') {
+              const host = verifySession(data.proof, 'host', roomHost);
+              if (!checkChallenge(data.signature, 'host', nonce, peer.id, host.key)) throw new Error('The room failed the host wallet check.');
+              hostInfo = { address: host.wallet, name: cleanName(data.name) };
+              stage = 'waiting';
+              hostConn.send({ type: 'AUTH', signature: await signChallenge('guest', data.nonce, peer.id) });
+              setWaitingStatus(`✓ Host wallet verified. Waiting for ${hostInfo.name} to buzz you in…`);
+            } else if (stage === 'waiting' && data.type === 'BUZZ_IN') {
+              stage = 'member';
+              admitted = true;
+              members[roomPeerId] = { ...hostInfo, conn: hostConn };
+              enterLounge();
+              callPeer(roomPeerId);
+              (Array.isArray(data.roster) ? data.roster.slice(0, MAX_GUESTS) : []).forEach(r => {
+                if (vouch(r)) connectToMember(r.peerId);
+              });
+              renderSystem('You are in. Say hello!');
+            } else if (data.type === 'DECLINED') {
+              closedReason = 'The host declined this knock.';
+            } else if (data.type === 'REJECTED') {
+              closedReason = `The host could not let you in: ${String(data.reason).slice(0, 120)}`;
+            } else if (stage === 'member' && data.type === 'MEMBER') {
+              vouch(data);
+            } else if (stage === 'member' && data.type === 'LEFT') {
+              removeMember(String(data.peerId));
+            } else if (stage === 'member') {
+              handleRoomData(roomPeerId, data);
+            }
+          } catch (err) {
+            closedReason = `⚠️ ${err.message} Not joining.`;
+            hostConn.close();
+          }
+        });
+        hostConn.on('close', () => {
+          if (admitted) {
+            renderSystem('The host closed the room.');
+            Object.keys(members).forEach(removeMember);
+          } else {
+            setWaitingStatus(closedReason || 'The host is no longer at the door. Try again later.');
+            byId('knock-button').disabled = false;
+          }
+        });
+      });
+      peer.on('connection', conn => whenVouched(conn.peer, info => attachMember(conn.peer, info, conn), () => conn.close()));
+      peer.on('call', call => whenVouched(call.peer, () => answerCall(call), () => call.close()));
+      peer.on('disconnected', () => { if (!peer.destroyed) peer.reconnect(); });
+      peer.on('error', err => {
+        if (err.type === 'peer-unavailable' && String(err.message).includes(roomPeerId) && !admitted) {
+          setWaitingStatus('Nobody is home: this room is not open right now. Try again later.');
+          byId('knock-button').disabled = false;
+        } else if (err.type !== 'peer-unavailable') {
+          console.warn('[Rabbit Hole]', err);
+          if (admitted) renderSystem(`⚠️ Connection issue: ${err.type || err.message}`);
+          else { setWaitingStatus(`⚠️ Connection issue: ${err.type || err.message}`); byId('knock-button').disabled = false; }
+        }
+      });
+    }
+
+    function vouch(entry) {
+      if (!entry || typeof entry.peerId !== 'string' || entry.peerId.length > 64 || entry.peerId === peer.id
+        || entry.peerId === roomPeerId || !ADDRESS_RE.test(String(entry.address))) return false;
+      vouched[entry.peerId] = { address: entry.address, name: cleanName(entry.name) };
+      return true;
+    }
+
+    // A newcomer's call can arrive just before the host's introduction; give it a moment.
+    function whenVouched(peerId, accept, deny, waited = 0) {
+      if (admitted && vouched[peerId]) return accept(vouched[peerId]);
+      if (admitted && peerId === roomPeerId && members[peerId]) return accept(members[peerId]);
+      if (waited >= 5000) return deny();
+      setTimeout(() => whenVouched(peerId, accept, deny, waited + 500), 500);
+    }
+
+    function connectToMember(peerId) {
+      attachMember(peerId, vouched[peerId], peer.connect(peerId, { reliable: true }));
+      callPeer(peerId);
+    }
+
+    function attachMember(peerId, info, conn) {
+      members[peerId] = Object.assign(members[peerId] || {}, info, { conn });
+      conn.on('data', data => handleRoomData(peerId, data));
+      conn.on('close', () => removeMember(peerId));
+      updateAdminGuestlist();
+    }
+
+    /* SHARED ROOM */
+    function callPeer(peerId) {
+      wireCall(peer.call(peerId, localStream));
+    }
+
+    function answerCall(call) {
+      call.answer(localStream);
+      wireCall(call);
+    }
+
+    function wireCall(call) {
+      if (!call) return;
+      if (members[call.peer]) members[call.peer].call = call;
+      call.on('stream', stream => addVideoFeed(call.peer, stream));
+      call.on('close', () => removeVideoFeed(call.peer));
+      call.on('error', () => removeVideoFeed(call.peer));
+    }
+
+    function removeMember(peerId) {
+      removeVideoFeed(peerId);
+      const member = members[peerId];
+      if (!member) return;
+      delete members[peerId];
+      delete vouched[peerId];
+      try { if (member.call) member.call.close(); } catch {}
+      try { if (member.conn && member.conn.open) member.conn.close(); } catch {}
+      renderSystem(`${member.name || 'A guest'} left.`);
+      updateAdminGuestlist();
+    }
+
+    function enterLounge() {
+      byId('step-connect').classList.add('hidden');
+      byId('step-waiting').classList.add('hidden');
+      byId('step-lounge').classList.remove('hidden');
+      byId('self-video').srcObject = localStream;
+      byId('room-owner-label').innerHTML = isHost
+        ? `You are hosting room <b>${esc(roomName)}</b> as ${formatAddressWithIcons(userAddress)}`
+        : `Room <b>${esc(roomName)}</b> hosted by ${identity(hostInfo)} <span class="text-emerald-400">✓ wallet verified</span>`;
+      updateAdminGuestlist();
+      recalculateTilts();
+    }
+    function updateTileTilt(element) {
+      const rect = element.getBoundingClientRect();
+      const screenCenterX = window.innerWidth / 2;
+      const elementCenterX = rect.left + rect.width / 2;
+
+      element.classList.remove('video-tilt-left', 'video-tilt-right');
+      if (elementCenterX < screenCenterX) {
+        element.classList.add('video-tilt-left');
+      } else {
+        element.classList.add('video-tilt-right');
+      }
+    }
+
+    function recalculateTilts() {
+      const tiles = document.querySelectorAll('#video-grid .video-card-3d');
+      tiles.forEach(tile => updateTileTilt(tile));
+    }
+
+    function addVideoFeed(peerId, stream) {
+      if (byId(`vid-${peerId}`)) return;
+      const grid = byId('video-grid');
+      const wrap = document.createElement('div');
+      wrap.id = `vid-${peerId}`;
+      wrap.className = "relative bg-transparent rounded-2xl overflow-hidden border border-amber-400/30 h-48 video-card-3d";
+
+      const vid = document.createElement('video');
+      vid.autoplay = true;
+      vid.playsInline = true;
+      vid.srcObject = stream;
+      vid.className = "w-full h-full object-cover";
+
+      const label = document.createElement('span');
+      label.className = "absolute bottom-2.5 left-2.5 text-[10px] bg-black/70 px-2 py-0.5 rounded text-slate-200 eth-icon-sep";
+      label.innerHTML = members[peerId] ? identity(members[peerId]) : 'Guest';
+
+      const videoTrack = stream.getVideoTracks()[0];
+      if (videoTrack) videoTrack.onended = () => removeVideoFeed(peerId);
+
+      wrap.append(vid, label);
+      grid.appendChild(wrap);
+      recalculateTilts();
+    }
+
+    function removeVideoFeed(peerId) {
+      const el = byId(`vid-${peerId}`);
+      if (el) el.remove();
+      recalculateTilts();
+    }
+
+    /* HOST ADMIN GUESTLIST MANAGEMENT */
+    function participants() {
+      const list = Object.values(members).map(m => ({ address: m.address, name: m.name }));
+      if (userAddress) list.unshift({ address: userAddress, name: `${userName || 'Host'} (you)` });
+      return list;
+    }
+
+    function updateAdminGuestlist() {
+      if (!isHost) return;
+      const tbody = byId('participant-table-body');
+      tbody.innerHTML = '';
+      participants().forEach(info => {
+        const tr = document.createElement('tr');
+        tr.className = "hover:bg-slate-900/50 transition";
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 font-semibold text-amber-300">${esc(info.name)}</td>
+          <td class="py-2.5 px-3 font-mono eth-icon-sep">${formatAddressWithIcons(info.address)}</td>
+          <td class="py-2.5 px-3 text-right">
+            <button data-address="${esc(info.address)}" onclick="copyToClipboard(this.dataset.address, this)" class="px-2.5 py-1 bg-slate-900 hover:bg-slate-800 border border-slate-700/80 rounded-lg text-slate-300 hover:text-amber-300 transition text-[11px] inline-flex items-center gap-1">
+              📋 Copy
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function copyToClipboard(text, btnElement) {
+      navigator.clipboard.writeText(text).then(() => {
+        if (btnElement) {
+          const originalText = btnElement.innerHTML;
+          btnElement.innerHTML = '✅ Copied!';
+          btnElement.classList.add('text-emerald-400');
+          setTimeout(() => {
+            btnElement.innerHTML = originalText;
+            btnElement.classList.remove('text-emerald-400');
+          }, 1500);
+        }
+      });
+    }
+
+    function copyAllGuestWallets() {
+      const addresses = Object.values(members).map(m => m.address);
+      if (addresses.length === 0) return alert("No guests on the roster yet.");
+      navigator.clipboard.writeText(addresses.join('\n')).then(() => {
+        alert(`Copied ${addresses.length} wallet address(es) to clipboard!`);
+      });
+    }
+
+    /* CHAT, FILES & REACTIONS (sent directly to every participant; nothing is relayed or stored) */
+    function broadcast(payload) {
+      Object.values(members).forEach(m => { if (m.conn && m.conn.open) m.conn.send(payload); });
+    }
+
+    function handleRoomData(peerId, data) {
+      const member = members[peerId];
+      if (!member || !data || typeof data !== 'object') return;
+      if (data.type === 'CHAT' && typeof data.text === 'string' && data.text.length <= 2000) {
+        renderChat(member, data.text);
+      } else if (data.type === 'FILE' && typeof data.fileName === 'string' && typeof data.fileData === 'string'
+        && /^data:[^,]*;base64,/.test(data.fileData) && data.fileData.length <= MAX_FILE_BYTES * 1.4) {
+        renderFile(member, data.fileName, data.fileData);
+      } else if (data.type === 'REACTION' && REACTIONS.includes(data.emoji)) {
+        animateReaction(data.emoji);
+      }
+    }
+
+    function self() {
+      return { address: userAddress, name: `${userName || (isHost ? 'Host' : 'Guest')} (you)` };
+    }
+
+    function sendMessage() {
+      const input = byId('chat-input');
+      const text = input.value.trim().slice(0, 2000);
+      if (!text) return;
+      broadcast({ type: 'CHAT', text });
+      renderChat(self(), text);
+      input.value = '';
+    }
+
+    function sendFile(input) {
+      const file = input.files[0];
+      input.value = '';
+      if (!file) return;
+      if (file.size > MAX_FILE_BYTES) return alert('Files up to 5 MB can be shared in the room.');
+      const reader = new FileReader();
+      reader.onload = e => {
+        broadcast({ type: 'FILE', fileName: file.name.slice(0, 120), fileData: e.target.result });
+        renderFile(self(), file.name, e.target.result);
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function appendChat(html) {
+      const box = byId('chat-box');
+      const msg = document.createElement('div');
+      msg.className = "eth-icon-sep leading-relaxed";
+      msg.innerHTML = html;
+      box.appendChild(msg);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    function renderSystem(text) {
+      appendChat(`<span class="text-slate-400 italic">${esc(text)}</span>`);
+    }
+
+    function renderChat(member, text) {
+      appendChat(`<b class="text-amber-400">${identity(member)}:</b> ${autoLinkText(text)}`);
+    }
+
+    function renderFile(member, fileName, fileData) {
+      // Shared files are always offered as downloads, never opened as pages.
+      const href = `data:application/octet-stream;base64,${fileData.slice(fileData.indexOf(',') + 1)}`;
+      const name = fileName.slice(0, 120);
+      appendChat(`<b class="text-amber-400">${identity(member)}:</b> 📁 <a href="${esc(href)}" download="${esc(name)}" class="underline text-emerald-400 font-semibold">${esc(name)}</a>`);
+    }
+
+    function toggleAudio() {
+      if (!localStream) return;
+      const audioTrack = localStream.getAudioTracks()[0];
+      if (audioTrack) {
+        audioTrack.enabled = !audioTrack.enabled;
+        byId('btn-audio').innerText = audioTrack.enabled ? "🎤 Mute" : "🔇 Unmute";
+      }
+    }
+
+    function toggleVideo() {
+      if (!localStream) return;
+      const videoTrack = localStream.getVideoTracks()[0];
+      if (videoTrack) {
+        videoTrack.enabled = !videoTrack.enabled;
+        byId('btn-video').innerText = videoTrack.enabled ? "📷 Cam" : "🚫 Cam Off";
+      }
+    }
+
+    function spawnReaction(emoji) {
+      if (!REACTIONS.includes(emoji)) return;
+      animateReaction(emoji);
+      broadcast({ type: 'REACTION', emoji });
+    }
+
+    function animateReaction(emoji) {
+      const particle = document.createElement('div');
+      particle.innerText = emoji;
+      particle.className = "fixed text-3xl pointer-events-none animate-bounce z-50 transition-all duration-1000";
+      particle.style.left = `${Math.random() * (window.innerWidth - 100) + 50}px`;
+      particle.style.bottom = "20px";
+      document.body.appendChild(particle);
+
+      let opacity = 1;
+      let bottom = 20;
+      const interval = setInterval(() => {
+        bottom += 4;
+        opacity -= 0.02;
+        particle.style.bottom = `${bottom}px`;
+        particle.style.opacity = opacity;
+        if (opacity <= 0) {
+          clearInterval(interval);
+          particle.remove();
+        }
+      }, 16);
+    }
+
+    window.addEventListener('resize', recalculateTilts);
+    window.addEventListener('pagehide', () => { if (peer && !peer.destroyed) peer.destroy(); });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const bgEl = document.querySelector('.bg-tea-party');
+      const bgBlurEl = document.querySelector('.bg-tea-party-blur-edges');
+      if (bgEl) bgEl.style.backgroundImage = `url('${BG_SRC}')`;
+      if (bgBlurEl) bgBlurEl.style.backgroundImage = `url('${BG_SRC}')`;
+
+      if (readRoom()) {
+        byId('landing-text').innerText = "You're at the door of a Rabbit Hole. Connect your wallet to knock, or to open it if it's yours.";
+        const label = byId('landing-room');
+        label.innerHTML = `Room <b>${esc(roomName)}</b> of ${formatAddressWithIcons(roomHost)}`;
+        label.classList.remove('hidden');
+        label.classList.add('eth-icon-sep');
+      }
+    });
+  </script>
+</body>
+</html>

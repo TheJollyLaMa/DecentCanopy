@@ -154,3 +154,14 @@ test('verified proofs are cached and checks are capped', async () => {
   assert.equal(claimEdge(capped, PROJECT_REF, FUND_REF).ledgerCandidates[0].proof.unchecked, true);
   assert.equal(calls, 1);
 });
+
+test('Rabbit Hole opt-in is signed only when enabled and keeps older records byte-identical', async () => {
+  const off = stewardRecord({ rabbitHole: false });
+  assert.equal('rabbitHole' in off, false);
+  assert.equal(Records.message(off), Records.message(stewardRecord()));
+  const on = stewardRecord({ rabbitHole: true }), message = Records.message(on);
+  assert.equal(on.rabbitHole, true);
+  assert.deepEqual(Records.verify({ message, signature: await steward.signMessage(message) }, verifyMessage), on);
+  assert.throws(() => stewardRecord({ rabbitHole: 'yes' }), /true or false/);
+  assert.throws(() => Records.validate({ ...base(steward.address), version: 1, funds: undefined, rabbitHole: true }), /version 2/);
+});

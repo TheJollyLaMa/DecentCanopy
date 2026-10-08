@@ -154,6 +154,7 @@
       website: byId('creator-website').value, avatar: byId('creator-avatar').value,
       location: byId('creator-location-consent').checked ? { consent: true, label: byId('creator-location').value, precision: byId('creator-location-precision').value } : null,
       projects, funds: readRows('funds'), funding: readRows('funding'), journey: readRows('journey'),
+      rabbitHole: byId('creator-rabbit-hole').checked,
     });
   }
   function fill(record) {
@@ -164,6 +165,7 @@
     byId('creator-location').value = record?.location?.label || '';
     byId('creator-location-consent').checked = Boolean(record?.location);
     byId('creator-location-precision').value = record?.location?.precision || 'city';
+    byId('creator-rabbit-hole').checked = record?.rabbitHole === true;
     ['projects', 'funds', 'funding', 'journey'].forEach(kind => {
       byId(`creator-${kind}`).replaceChildren();
       (record?.[kind] || []).forEach(row => addRow(kind, row));
@@ -259,6 +261,24 @@
         <small>${a.type === 'funding-pool' ? 'Funding' : 'Related project'} · ${e(a.note)}</small>${(a.ledgerCandidates || []).map(proof).join('')}</li>`;
     }).join('')}</ul><p class="details-muted">Dashed lines are one-sided claims, solid lines are confirmed by both wallets, glowing lines have a matching on-chain transfer.</p></div>`;
   }
+  function rabbitHoleUrl(address, room = 'lounge') {
+    const url = new URL('rabbit-hole/', location.href);
+    url.searchParams.set('host', address);
+    url.searchParams.set('room', room);
+    return url.toString();
+  }
+  function rabbitHole(r, e, own) {
+    if (!own && r.rabbitHole !== true) return '';
+    const url = rabbitHoleUrl(r.wallet);
+    const body = own
+      ? `<p>Your own small, peer-to-peer video room. Open it, then share the invite link with the people you want to chat with.</p>
+        <a class="toolbar-btn" href="${e(url)}" target="_blank" rel="noopener">🕳️ Open my Rabbit Hole</a>
+        <button type="button" class="toolbar-btn" data-copy-rabbit-hole="${e(url)}">📋 Copy invite link</button>
+        ${r.rabbitHole === true ? '' : '<p class="details-muted">Only people you send the link to can find it. Turn on the canopy knock button in My creator to list it on your blip.</p>'}`
+      : `<p>${e(r.name)} hosts a small, peer-to-peer video room. You can knock while it is open; they decide who to let in.</p>
+        <a class="toolbar-btn" href="${e(url)}" target="_blank" rel="noopener">🕳️ Knock on ${e(r.name)}’s Rabbit Hole</a>`;
+    return `<div class="details-group"><h3>Rabbit Hole</h3>${body}<p class="details-muted">Both sides sign in with their wallet. Video and chat go directly between browsers and are never recorded.</p></div>`;
+  }
   function renderDetails(node, escape) {
     const r = node.creatorRecord, e = escape;
     const projectKey = node.creatorProjectKey, fundingKey = node.creatorFundingKey, fundKey = node.creatorFundKey;
@@ -280,6 +300,7 @@
       <p class="details-muted">Wallet ${e(r.wallet)} · revision ${r.revision} · ${e(r.updatedAt.slice(0, 10))}. A signature proves wallet control, not real-world identity, project ownership, or payout truth.</p>
       ${node.creatorCid ? link(`https://gateway.pinata.cloud/ipfs/${node.creatorCid}`, 'Portable signed IPFS record') : ''}
       ${wallet() === r.wallet ? '<button type="button" class="toolbar-btn" data-creator-open>Edit my creator / projects / funds / journey</button>' : ''}
+      ${projectKey || fundingKey || fundKey || node.creatorDraft ? '' : rabbitHole(r, e, wallet() === r.wallet)}
       ${funds.length ? `<div class="details-group"><h3>Decent funds stewarded</h3><ul>${funds.map(f => `<li><strong>${e(f.name)}</strong> · ${e(f.status)}<p>${e(f.description)}</p>${treasury(f)}${link(f.website, 'Fund website')}</li>`).join('')}</ul></div>` : ''}
       ${projects.length ? `<div class="details-group"><h3>Projects going forward</h3><ul>${projects.map(p => `<li><strong>${e(p.name)}</strong> · ${e(p.status)}<p>${e(p.description)}</p>${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}</li>`).join('')}</ul></div>` : ''}
       ${connections(node, e, link)}
@@ -291,6 +312,12 @@
     const form = byId('creator-form');
     document.addEventListener('click', event => {
       if (event.target.closest('[data-creator-open]')) openEditor();
+      const copy = event.target.closest('[data-copy-rabbit-hole]');
+      if (copy) {
+        navigator.clipboard.writeText(copy.dataset.copyRabbitHole)
+          .then(() => { copy.textContent = '✅ Invite link copied'; setTimeout(() => { copy.textContent = '📋 Copy invite link'; }, 1500); })
+          .catch(() => window.prompt('Copy your Rabbit Hole invite link:', copy.dataset.copyRabbitHole));
+      }
     });
     byId('creator-connect').addEventListener('click', () => byId('wallet-connect-button').click());
     byId('creator-close').addEventListener('click', () => byId('creator-dialog').close());

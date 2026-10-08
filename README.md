@@ -58,6 +58,7 @@ See [Features](#features) and [Artizen Canopy](#artizen-canopy).
   - Glowing green = ledger-verified. A public-chain transfer was found from the steward's signing-wallet treasury to the creator's signing wallet.
   - See [Creators & the archive](wiki/Creators-and-Archive.md#how-lines-earn-trust).
 - **Your journey:** add project progress and milestones. Optionally choose **Artizen experience**, write your account, attach an evidence URL, and select a self-reported payout experience—or leave it **Not shared**. No payout status is inferred. Do not publish anyone else's private information.
+- **Rabbit Hole meeting room:** connect your wallet and open your creator blip. Choose **🕳️ Open my Rabbit Hole**, then **📋 Copy invite link** (or copy it from inside the room) and send it to the people you want to talk with. Each wallet gets its own room at `rabbit-hole/?host=<wallet>&room=lounge`; **🔐 New private room** creates an unlisted room name. Tick **Show a "Knock on my Rabbit Hole" button** in **My creator** to put a knock button on your public blip. See [Rabbit Hole](wiki/Creators-and-Archive.md#rabbit-hole-meeting-rooms).
 - **Preview:** consent to local storage and choose **Save draft & preview my blip**. This creates a browser-local, unsigned preview, not a public update.
 - **Publish:** consent to public publication, then **Sign & publish to the canopy**. No payment, gas, GitHub account, Artizen identity, or token holding is required. A signature proves wallet control, not factual truth. The workflow verifies, pins and indexes the record; the dialog distinguishes pending, published and failed states.
 - **Take your data with you:** **Sign & download portable record** exports the readable signed message. Restore it with the signed-import control while using the same wallet, or independently pin the JSON using Pinata/IPFS Desktop. Public IPFS copies and previous versions may persist permanently; clearing a local draft cannot recall them.
@@ -96,6 +97,8 @@ See [Features](#features) and [Artizen Canopy](#artizen-canopy).
 DecentCanopy/
 ├── index.html                    Main constellation view (app entrypoint)
 ├── .env.example                  Environment variable template
+rabbit-hole/
+└── index.html                    Per-creator, wallet-verified peer-to-peer video room (standalone; can be pinned to IPFS)
 styles/
 ├── spiral.css                    Canvas, toolbar, sidepanel & legend styling
 ├── decent-head.css               Forest header and responsive wallet/IPFS controls

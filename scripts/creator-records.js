@@ -137,11 +137,14 @@
       consent: raw.location.consent === true,
     };
     if (location && !location.consent) throw new Error('Sharing a location requires explicit consent.');
+    if (raw.rabbitHole != null && typeof raw.rabbitHole !== 'boolean') throw new Error('Rabbit Hole opt-in must be true or false.');
+    if (raw.rabbitHole === true && !v2) throw new Error('Rabbit Hole rooms require a version 2 record.');
     const result = {
       format: 'decentcanopy-creator', version: raw.version, consent: true, wallet: signer,
       revision: raw.revision, previousCid: raw.previousCid, updatedAt: new Date(raw.updatedAt).toISOString(),
       name: text(raw.name, 'Creator name', 100), bio: text(raw.bio, 'Bio', 1200, true),
       website: url(raw.website), avatar: url(raw.avatar), location, projects, ...(v2 ? { funds } : {}), funding, journey,
+      ...(raw.rabbitHole === true ? { rabbitHole: true } : {}),
     };
     if (new TextEncoder().encode(JSON.stringify(result)).length > MAX_BYTES) throw new Error('This profile exceeds 16 KB. Shorten notes or export older updates separately.');
     return result;

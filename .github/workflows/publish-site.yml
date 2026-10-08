@@ -29,7 +29,7 @@ jobs:
         run: |
           mkdir _site
           cp index.html _site/
-          cp -R assets styles scripts data _site/
+          cp -R assets styles scripts data rabbit-hole _site/
           cp contributor-accounts.json payroll-assets.json payroll-queue.json community-rewards.json _site/
       - uses: actions/upload-pages-artifact@v3
         with:
