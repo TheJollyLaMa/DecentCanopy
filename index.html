@@ -294,6 +294,21 @@
     </dialog>
 
     <dialog id="creator-publishing-dialog" class="creator-publishing-dialog" aria-labelledby="creator-publishing-title" aria-describedby="creator-publishing-message creator-publishing-help">
+      <div class="creator-publishing-forest" aria-hidden="true">
+        <svg class="creator-publishing-connections" viewBox="0 0 480 300" preserveAspectRatio="xMidYMid slice">
+          <g fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M0 190 55 95 120 170 185 45 240 125 305 45 365 170 425 95 480 190M55 95 185 45 305 45 425 95M0 190 120 170 240 125 365 170 480 190M55 95 240 125 425 95M120 170 95 270 240 230 385 270 365 170M185 45 240 230 305 45" />
+          </g>
+          <g fill="currentColor">
+            <circle cx="55" cy="95" r="3" /><circle cx="120" cy="170" r="3" /><circle cx="185" cy="45" r="3" />
+            <circle cx="240" cy="125" r="4" /><circle cx="305" cy="45" r="3" /><circle cx="365" cy="170" r="3" />
+            <circle cx="425" cy="95" r="3" /><circle cx="95" cy="270" r="2" /><circle cx="240" cy="230" r="3" /><circle cx="385" cy="270" r="2" />
+          </g>
+        </svg>
+        <span class="creator-publishing-critter">🐿️</span><span class="creator-publishing-critter">🐦</span>
+        <span class="creator-publishing-critter">🦋</span><span class="creator-publishing-critter">🦉</span>
+        <span class="creator-publishing-tree">🌲</span><span class="creator-publishing-tree">🌳</span>
+      </div>
       <div class="creator-publishing-orbit" aria-hidden="true">
         <div class="creator-publishing-ring">
           <span class="creator-publishing-icon"><img src="assets/ipfs-logo.png" alt="" /></span>
@@ -303,7 +318,9 @@
           <span class="creator-publishing-icon"><img src="assets/metamask-logo.png" alt="" /></span>
           <span class="creator-publishing-icon">🌳</span>
         </div>
-        <span class="creator-publishing-center">DecentCanopy</span>
+        <span class="creator-publishing-center">
+          <span style="--rise:-4px;--lean:-12deg;--delay:0s">D</span><span style="--rise:-14px;--lean:-9deg;--delay:-.3s">e</span><span style="--rise:-23px;--lean:-6deg;--delay:-.6s">c</span><span style="--rise:-30px;--lean:-3deg;--delay:-.9s">e</span><span style="--rise:-35px;--lean:-1deg;--delay:-1.2s">n</span><span style="--rise:-37px;--lean:0deg;--delay:-1.5s">t</span><span style="--rise:-35px;--lean:1deg;--delay:-1.8s">C</span><span style="--rise:-30px;--lean:3deg;--delay:-2.1s">a</span><span style="--rise:-23px;--lean:6deg;--delay:-2.4s">n</span><span style="--rise:-14px;--lean:9deg;--delay:-2.7s">o</span><span style="--rise:-4px;--lean:12deg;--delay:-3s">p</span><span style="--rise:5px;--lean:15deg;--delay:-3.3s">y</span>
+        </span>
       </div>
       <h2 id="creator-publishing-title" tabindex="-1">Preparing your canopy record</h2>
       <p id="creator-publishing-message" role="status" aria-live="polite"></p>

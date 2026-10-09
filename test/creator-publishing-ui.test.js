@@ -184,6 +184,17 @@ test('focused project editing offers only publishing and restores extra tools in
   assert.equal(h.element('creator-publish-heading').textContent, 'Save, sign, or publish');
 });
 
+test('publishing canopy decoration is hidden from assistive technology and respects motion preferences', () => {
+  const html = fs.readFileSync(require.resolve('../index.html'), 'utf8');
+  const css = fs.readFileSync(require.resolve('../styles/creators.css'), 'utf8');
+  assert.match(html, /class="creator-publishing-forest" aria-hidden="true"/);
+  assert.match(html, /class="creator-publishing-orbit" aria-hidden="true"/);
+  const letters = html.match(/class="creator-publishing-center">([\s\S]*?)<\/span>\s*<\/div>/)[1];
+  assert.equal([...letters.matchAll(/>([A-Za-z])<\/span>/g)].map(m => m[1]).join(''), 'DecentCanopy');
+  assert.match(css, /\[open\]\[data-state="working"\][\s\S]*?animation-play-state: running/);
+  assert.match(css, /prefers-reduced-motion: reduce[\s\S]*?creator-publishing-center > span \{ animation: none; \}/);
+});
+
 test('creator project cards have collapsed artwork summaries, websites, and owner-only focused edit actions', () => {
   const h = harness();
   const record = {
