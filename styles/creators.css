@@ -120,6 +120,8 @@
   color: #cbd5e1;
   margin-top: 5px;
 }
+.creator-image-unavailable { color: #fbbf24; font-size: .75rem; }
+img[data-creator-image][hidden] { display: none !important; }
 .creator-profile-details > .toolbar-btn {
   display: block;
   margin: 12px 0;

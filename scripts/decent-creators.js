@@ -375,9 +375,9 @@
     const projectBody = (p, describe = true) => `${describe ? `<p>${e(p.description)}</p>` : `<small>Progress: ${e(p.status)}</small>`}${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}
       ${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}`;
     const projectCards = projects.map(p => `<details class="creator-project-card">
-      <summary>${p.image ? `<img class="creator-project-thumb" src="${e(p.image)}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}
+      <summary>${p.image ? `<img data-creator-image class="creator-project-thumb" src="${e(window.DecentCreatorImages.imageUrl(p.image))}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}
         <span><strong>${e(p.name)}</strong><small>${e(p.status)}</small></span></summary>
-      <div class="creator-project-card-body">${p.image ? `<figure class="details-artwork"><img src="${e(p.image)}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" /></figure>` : ''}
+      <div class="creator-project-card-body">${p.image ? `<figure class="details-artwork"><img data-creator-image src="${e(window.DecentCreatorImages.imageUrl(p.image))}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" /></figure>` : ''}
         ${projectBody(p)}<div class="participation-actions"><button type="button" class="toolbar-btn" data-creator-view="decent-project:${e(r.wallet)}:${e(p.key)}">Open project blip</button>
         ${own ? `<button type="button" class="toolbar-btn" data-creator-project-edit="${e(p.key)}">Edit project</button>` : ''}</div></div></details>`).join('');
     return `<div class="creator-profile-details"><p class="data-provenance">${node.creatorDraft ? 'Browser-local draft · not signed or public' : 'Wallet-authorized publication · self-reported claims'}</p>

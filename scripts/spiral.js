@@ -1848,9 +1848,9 @@
 
   function showArtizenDetails(node, color) {
     if (node.creatorRecord) {
-      const image = safeUrl(node.image);
+      const image = window.DecentCreatorImages.imageUrl(safeUrl(node.image));
       detailsContentEl.innerHTML = `<p class="details-track" style="color:${color}">Decent ${escHtml(capitalize(node.kind))}</p>` +
-        (image ? `<figure class="${node.kind === 'creator' ? 'details-avatar' : 'details-artwork'}"><img src="${escAttr(image)}" alt="${escAttr(node.name)}" loading="lazy" referrerpolicy="no-referrer" /></figure>` : '') +
+        (image ? `<figure class="${node.kind === 'creator' ? 'details-avatar' : 'details-artwork'}"><img data-creator-image src="${escAttr(image)}" alt="${escAttr(node.name)}" loading="${node.kind === 'creator' ? 'eager' : 'lazy'}" referrerpolicy="no-referrer" /></figure>` : '') +
         `<h2 class="details-title">${escHtml(node.name)}</h2><p class="details-desc">${escHtml(node.description)}</p>` +
         window.DecentCreators.renderDetails(node, escHtml);
       detailsPanel.classList.add('open');

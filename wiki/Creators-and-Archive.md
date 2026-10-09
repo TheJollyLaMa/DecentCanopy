@@ -71,4 +71,6 @@ Limits: 20 projects, 10 Decent funds (30 supported projects each), 10 related pr
 
 Publish only information you mean to make public. Wallets, links, signatures and public history can be copied permanently. Clearing a local draft cannot remove IPFS copies. There is no signing-key recovery or public removal flow yet.
 
+Signed image URLs stay unchanged. The canopy can serve a bundled copy of a known IPFS image when its bytes have been verified against its CID; this avoids public-gateway rate limits and includes the image in the whole-site IPFS pin. Currently TheJollyLaMa's avatar is bundled this way. Other images still load from their declared URLs; a failed image shows **Artwork unavailable** rather than a broken-image icon.
+
 Local card edits and participation imports are a separate prototype: browser-only, explicitly unverified and not publication. Location consent does not cause the app to invent coordinates from city names.

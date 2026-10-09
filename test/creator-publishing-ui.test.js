@@ -4,6 +4,7 @@ const test = require('node:test');
 const fs = require('node:fs');
 const vm = require('node:vm');
 const Records = require('../scripts/creator-records');
+const Images = require('../scripts/creator-images');
 
 const wallet = '0x' + '11'.repeat(20);
 const cid = 'bafy' + 'a'.repeat(55);
@@ -32,6 +33,7 @@ function harness({ signatureError, postError, receipt = { status: 'published', c
   }
   const response = value => ({ ok: true, json: async () => value });
   const window = {
+    DecentCreatorImages: Images,
     decentCanopyWallet: { address: wallet },
     addEventListener: (name, fn) => { callbacks[name] = fn; },
     ethereum: { request: async ({ method }) => {
