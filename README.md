@@ -314,6 +314,10 @@ The Artizen matching index used for this snapshot does not include creator field
 
 The browser reads the checked-in `data/artizen.json` rather than requesting Artizen. All existing seasons and relationship labels are retained unchanged. The archive manifest records the source date and freeze policy. Source labels such as `funded`, historical fund availability and dated totals **do not establish that any payout was or was not made**. No further Artizen refresh is expected; the old sync command is explicitly disabled.
 
+The Whole canopy can additionally display a **separate financial capture** from the public [artizen.fyi Season 7 leaderboard](https://artizen.fyi/projects?season=7), stored in `data/artizen-financial-captures.json`. The first bounded batch checks ten archived projects outside the existing curation: three have reported totals and seven are not listed (unknown, not zero). It includes sales, Venus sales, match, Venus extras, prize and bonus; “Raised” is their sum, not proof of payment. The capture timestamp is our retrieval date, not proof that the underlying source is current. Frozen files and the archive-only view are unchanged. In the Whole canopy, reported totals affect glow and appear in project details; node size still reflects connections.
+
+`node scripts/captureArtizenFinancials.js` explicitly recaptures that same ten-project batch from the public leaderboard. It validates season, table columns, exact numeric sort values, and reconciliation before writing only the supplementary file. It does not access Artizen accounts, browser login data, or the blocked project pages. No scheduled refresh is enabled.
+
 Choose **Green Tea canopy** in the canopy switch (or open `/?canopy=green-tea`) to focus on The Green Tea Party and directly associated projects such as DecentCanopy, Green Tea Party Kiln, and Green Tea Hut #1. This focused view uses the same Artizen snapshot and only includes locally curated `associated-project` links for this cluster.
 
 ### Opt-in participation prototype

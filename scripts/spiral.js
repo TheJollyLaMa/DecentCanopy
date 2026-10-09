@@ -1018,7 +1018,7 @@
         ctx.fill();
       }
 
-      const haloRaised = node.funding ? node.funding.raised : node.publicStats ? node.publicStats.total : null;
+      const haloRaised = node.funding ? node.funding.raised : node.financialCapture?.status === 'captured' ? node.financialCapture.metrics.raised : node.publicStats ? node.publicStats.total : null;
       if (isArtizenMode && haloRaised != null && !isDimmed) {
         const intensity = Math.min(1, Math.log10(1 + haloRaised) / 6);
         ctx.beginPath();
@@ -1967,10 +1967,11 @@
       imageHtml +
       `<h2 class="details-title">${escHtml(node.name)}</h2>` +
       recordLabel +
-      '<p class="details-muted">Frozen historical record. No further Artizen updates. Relationship labels and reported totals do not establish whether any payout was or was not made.</p>' +
+      '<p class="details-muted">Frozen historical base record. Any supplementary captures are dated and labeled separately. Relationship labels and reported totals do not establish whether any payout was or was not made.</p>' +
       `<p class="details-desc">${escHtml(node.description || '')}</p>` +
       curationNoteHtml +
       publicStatsHtml +
+      (window.ArtizenFinancials ? window.ArtizenFinancials.render(node.financialCapture, escHtml, formatCurrency) : '') +
       curatedLinksHtml +
       valueHtml +
       importedFunding +

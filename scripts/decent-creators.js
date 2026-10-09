@@ -79,6 +79,16 @@
       byId('creator-service-status').textContent = `Local creator preview could not be loaded: ${error.message}. Open My creator to clear it.`;
     }
     lastGraph = DecentCreatorRecords.apply(base, entries);
+    if (window.ArtizenFinancials) {
+      try {
+        const response = await fetch('data/artizen-financial-captures.json');
+        if (!response.ok) throw new Error(`Supplementary financial capture could not be loaded (${response.status}).`);
+        lastGraph = window.ArtizenFinancials.apply(lastGraph, await response.json());
+      } catch (error) {
+        console.error('[Artizen financial captures]', error);
+        byId('creator-service-status').textContent = `${error.message} Frozen archive figures are unchanged.`;
+      }
+    }
     if (window.DecentENS) lastGraph = window.DecentENS.decorateGraph(lastGraph);
     if (typeof DecentLedgerProof !== 'undefined' && typeof ethers !== 'undefined') {
       const providers = {};

@@ -105,6 +105,7 @@ var GTPData = (function () {
       curatedLinks: Array.isArray(raw.curatedLinks) ? raw.curatedLinks.slice() : [],
       artizenPageUrl: raw.artizenPageUrl || null,
       publicStats: raw.publicStats || null,
+      financialCapture: raw.financialCapture || null,
       curationNote: raw.curationNote || null,
       artizenProfile: raw.artizenProfile || null,
       funding: raw.funding || null,
