@@ -6,6 +6,8 @@
 
 Use the canopy switch to view the whole canopy, independent creators or the historical archive. Scroll to zoom, drag to pan, search by name, and click a blip for its card. Project/fund artwork links to its historical source page where available; those external pages and images may disappear. The data-notes tab explains the snapshot, and the Tour can be replayed from the toolbar.
 
+The small radio under the header subtitle starts on WQXR classical at 8% volume. Browsers may block autoplay; use **Play** when the status says to tap it. Use the station button to hear **DecentBusking** live JukeLoop instead, or switch back to classical. The slider changes volume and Play/Pause stops or resumes audio. JukeLoop follows the same IPFS tracks and live position as the Rabbit Hole radio, polling every eight seconds. Station choice resets to classical on a new page load; audio stays local to your browser and requires the external radio services to be reachable.
+
 The archived project and fund dataset is frozen by [the archive manifest](../data/artizen-archive.json). It retains Seasons 4-7; it is not a Season 6-only dataset. Submitted, curated and funded links mean different things. A submission does not establish fund membership. Neither a relationship nor an archived amount establishes that a payout was actually received. The refresh script refuses to overwrite the frozen snapshot.
 
 ## Add your Decent Creator

@@ -270,10 +270,49 @@
 }
 
 .decent-head-brand {
-  display: flex;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   justify-content: center;
   gap: 0.48rem;
+}
+.canopy-radio {
+  grid-column: 2;
+  min-width: 0;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  max-width: 230px;
+}
+.canopy-radio-controls { display: flex; align-items: center; gap: 5px; }
+.canopy-radio button {
+  padding: 3px 5px;
+  border: 1px solid rgba(122, 240, 198, .18);
+  border-radius: 7px;
+  color: #b0c5c1;
+  background: rgba(4, 10, 25, .65);
+  font: 600 10px/1.2 system-ui, sans-serif;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.canopy-radio button:hover, .canopy-radio button:focus-visible { color: #86efac; border-color: #86efac; }
+.canopy-radio button[aria-pressed="true"] { color: #86efac; }
+.canopy-radio input { width: 48px; height: 16px; margin: 0; accent-color: #6ee7b7; cursor: pointer; }
+.canopy-radio-status {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #8192a6;
+  font: 500 9px/1.2 system-ui, sans-serif;
+}
+.canopy-radio-status.is-error { color: #fbbf24; }
+@media (max-width: 620px) {
+  .canopy-radio { max-width: 160px; }
+  .canopy-radio-controls { gap: 3px; flex-wrap: wrap; justify-content: center; }
+  .canopy-radio button { font-size: 9px; padding: 3px; }
+  .canopy-radio input { width: 36px; }
+  .canopy-radio-status { font-size: 8px; }
 }
 
 .head-tree-grove.admin-ready {
@@ -647,7 +686,8 @@
   }
 
   .header-control-dock {
-    width: 84px;
+    width: 100%;
+    max-width: 84px;
     height: 76px;
   }
 
@@ -670,9 +710,10 @@
 
   .dock-caption {
     top: 49px;
-    max-width: min(110px, calc(50vw - 18px));
+    max-width: 100%;
     font-size: 0.55rem;
   }
+  .dock-caption > span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
   .orb-state,
   .wallet-caption .orb-state {
