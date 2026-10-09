@@ -436,6 +436,8 @@
         <div class="toolbar-sep" role="separator"></div>
 
         <button id="tour-open" class="toolbar-btn tour-open" type="button" aria-haspopup="dialog" aria-controls="canopy-tour-dialog">🧭 Tour</button>
+        <button id="share-view" class="toolbar-btn" type="button" title="Copy a link to this map view">Share view</button>
+        <span id="share-view-status" class="creator-service-status" role="status"></span>
         <button data-creator-open class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="creator-dialog">My creator</button>
         <span id="creator-service-status" class="creator-service-status" role="status"></span>
         <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false" hidden>
@@ -559,6 +561,7 @@
       >
         <div class="details-header">
           <h3>Project details</h3>
+          <button id="share-details-view" class="toolbar-btn" type="button" title="Copy a link to this map view">Share view</button>
           <button
             id="close-details"
             class="close-btn"
@@ -566,6 +569,7 @@
             aria-label="Close project details"
           >✕</button>
         </div>
+        <span id="share-details-status" class="creator-service-status" role="status"></span>
         <div class="details-body">
           <div id="details-content" class="details-content"></div>
         </div>
@@ -769,6 +773,7 @@
     <script src="scripts/ledger-proof.js"></script>
     <script src="scripts/decent-creators.js"></script>
     <script src="scripts/onboarding.js"></script>
+    <script src="scripts/share-view.js"></script>
     <script src="scripts/spiral.js"></script>
     <script src="scripts/reward-messages.js"></script>
     <script src="scripts/community-rewards-ui.js"></script>

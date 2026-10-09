@@ -225,8 +225,97 @@
     applyHomeCamera(false);
     updateBreadcrumbs();
     updateBackButton();
+    restoreSharedView();
     scheduleRender();
     window.dispatchEvent(new CustomEvent('decentcanopy:ready', { detail: { artizen: isArtizenMode, greenTea: isGreenTeaMode } }));
+  }
+
+  function restoreSharedView() {
+    const note = document.getElementById('share-view-status');
+    try {
+      const state = window.CanopyShareView.read(window.location.href);
+      if (!state) return;
+      if (state.fund) {
+        const fund = allEntitiesById[state.fund];
+        if (!fund || fund.kind !== 'fund') throw new Error('The shared fund is not available in this canopy.');
+        fundCanopyId = fund.id;
+        updateFundCanopyDescription();
+      }
+      for (const [key, select] of [['track', trackSel], ['status', statusSel]]) {
+        if (state[key] && ![...select.options].some(option => option.value === state[key])) {
+          throw new Error(`The shared ${key} filter is not available.`);
+        }
+      }
+      filterTrack = state.track || 'all';
+      filterStatus = state.status || 'all';
+      filterSearch = state.q || '';
+      trackSel.value = filterTrack;
+      statusSel.value = filterStatus;
+      searchInput.value = filterSearch;
+      buildLayout();
+      if (state.entity) {
+        if (!nodeMap[state.entity]) throw new Error('The shared project or creator is unavailable in this view. Browser-local data is not included in shared links.');
+        selectedNode = nodeMap[state.entity];
+      }
+      focusMode = Boolean(selectedNode && state.focus);
+      showAssoc = state.lines !== false;
+      focusBtn.classList.toggle('active', focusMode);
+      focusBtn.setAttribute('aria-pressed', String(focusMode));
+      assocBtn.classList.toggle('active', showAssoc);
+      assocBtn.setAttribute('aria-pressed', String(showAssoc));
+      if (selectedNode && state.details) showDetails(selectedNode);
+      cameraAnimation = null;
+      if (state.z !== undefined) {
+        zoom = clamp(state.z, MIN_ZOOM, MAX_ZOOM);
+        pan = { x: -state.x * zoom, y: -state.y * zoom };
+      } else applyHomeCamera(false);
+      updateBreadcrumbs();
+      updateBackButton();
+      note.textContent = 'Shared view opened.';
+    } catch (error) {
+      console.error('[Canopy shared view]', error);
+      note.textContent = `Could not fully open shared view: ${error.message}`;
+    }
+  }
+
+  async function shareView(event) {
+    const note = document.getElementById(event?.currentTarget?.id === 'share-details-view' ? 'share-details-status' : 'share-view-status');
+    try {
+      if (searchTimeout !== null) {
+        window.clearTimeout(searchTimeout);
+        applySearch();
+      }
+      if (selectedNode?.creatorDraft || selectedNode?.id.startsWith('local-') || fundCanopyId?.startsWith('local-')) {
+        throw new Error('Browser-local imported blips and private drafts cannot be shared as public data.');
+      }
+      const camera = cameraAnimation ? { pan: cameraAnimation.toPan, zoom: cameraAnimation.toZoom } : { pan, zoom };
+      const url = window.CanopyShareView.create(window.location.href, {
+        q: filterSearch, entity: selectedNode?.id, fund: fundCanopyId,
+        track: filterTrack, status: filterStatus, focus: focusMode, lines: showAssoc,
+        details: detailsPanel.classList.contains('open'),
+        x: -camera.pan.x / camera.zoom, y: -camera.pan.y / camera.zoom, z: camera.zoom
+      });
+      window.history.replaceState(null, '', url);
+      await navigator.clipboard.writeText(url);
+      note.textContent = 'View link copied. Local imports and private drafts are not included.';
+    } catch (error) {
+      console.error('[Canopy share view]', error);
+      note.textContent = `Could not copy view link: ${error.message} You can copy the address bar if it contains the shared view.`;
+    }
+  }
+
+  function applySearch() {
+    searchTimeout = null;
+    if (isArtizenMode && selectedNode) closeDetails({ clearSelection: true });
+    buildLayout();
+    const term = filterSearch.trim().toLowerCase();
+    const exactNameMatches = term ? nodes.filter(node => node.name.trim().toLowerCase() === term) : [];
+    const partialNameMatches = term ? nodes.filter(node => node.name.toLowerCase().includes(term)) : [];
+    const uniqueMatch = exactNameMatches.length === 1 ? exactNameMatches[0]
+      : partialNameMatches.length === 1 ? partialNameMatches[0] : null;
+    if (isArtizenMode && uniqueMatch) focusNode(uniqueMatch, { recordHistory: false, openDetails: true });
+    else if (!selectedNode) applyHomeCamera(true);
+    scheduleRender();
   }
 
   function filterToGreenTeaCluster() {
@@ -1172,6 +1261,8 @@
   // ---- Events -------------------------------------------------------------------
 
   function bindEvents() {
+    document.getElementById('share-view')?.addEventListener('click', shareView);
+    document.getElementById('share-details-view')?.addEventListener('click', shareView);
     canvas.addEventListener('mousemove', onMouseMove);
     canvas.addEventListener('mousedown', onMouseDown);
     canvas.addEventListener('mouseup', onMouseUp);
@@ -1227,22 +1318,7 @@
     searchInput?.addEventListener('input', () => {
       filterSearch = searchInput.value;
       window.clearTimeout(searchTimeout);
-      searchTimeout = window.setTimeout(() => {
-        if (isArtizenMode && selectedNode) closeDetails({ clearSelection: true });
-        buildLayout();
-        const term = filterSearch.trim().toLowerCase();
-        const exactNameMatches = term ? nodes.filter((node) => node.name.trim().toLowerCase() === term) : [];
-        const partialNameMatches = term ? nodes.filter((node) => node.name.toLowerCase().includes(term)) : [];
-        const uniqueMatch = exactNameMatches.length === 1
-          ? exactNameMatches[0]
-          : partialNameMatches.length === 1 ? partialNameMatches[0] : null;
-        if (isArtizenMode && uniqueMatch) {
-          focusNode(uniqueMatch, { recordHistory: false, openDetails: true });
-        } else if (!selectedNode) {
-          applyHomeCamera(true);
-        }
-        scheduleRender();
-      }, 180);
+      searchTimeout = window.setTimeout(applySearch, 180);
     });
 
     detailsContentEl?.addEventListener('click', (event) => {
