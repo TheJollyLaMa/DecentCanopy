@@ -31,6 +31,16 @@ test('weekly reminders trigger at the exact seven-day threshold', () => {
   assert.equal(ENS.due(100, 100 + week), true);
   assert.equal(ENS.due(NaN), true);
 });
+test('latest site CID lookup bypasses stale CDN copies and rejects missing or invalid manifests', async () => {
+  const uri = await ENS.latestCanopy(async (url, options) => {
+    assert.equal(new URL(url).searchParams.get('t'), '1234');
+    assert.equal(options.cache, 'no-store');
+    return { ok: true, json: async () => ({ format: 'decentcanopy-site-pin', cid }) };
+  }, 1234);
+  assert.equal(uri, `ipfs://${cid}`);
+  await assert.rejects(ENS.latestCanopy(async () => ({ ok: false, status: 503 })), /503/);
+  await assert.rejects(ENS.latestCanopy(async () => ({ ok: true, json: async () => ({ cid }) })), /Invalid/);
+});
 test('ENS reads resolver records and handles missing resolvers and RPC errors explicitly', async () => {
   const resolver = {
     getAddress: async () => wallet, getContentHash: async () => `ipfs://${cid}`,

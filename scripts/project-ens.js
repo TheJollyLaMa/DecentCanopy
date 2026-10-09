@@ -69,8 +69,8 @@
     pending.set(name, promise);
     return promise;
   }
-  async function latestCanopy() {
-    const response = await fetch('https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/ipfs-site.json', {
+  async function latestCanopy(fetchImpl = fetch, now = Date.now()) {
+    const response = await fetchImpl(`https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/ipfs-site.json?t=${now}`, {
       cache: 'no-store', signal: AbortSignal.timeout(15000),
     });
     if (!response.ok) throw new Error(`Latest site pin could not be read (${response.status}).`);
@@ -185,7 +185,7 @@
       hydrate(section);
     });
   }
-  const api = { nameFor, imageUrl, contentUri, due, section, readProfile, mount };
+  const api = { nameFor, imageUrl, contentUri, due, section, readProfile, latestCanopy, mount };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.DecentENS = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));
