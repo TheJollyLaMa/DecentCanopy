@@ -10,6 +10,7 @@
     const audio = byId('canopy-radio-audio'), play = byId('canopy-radio-play');
     const stationButton = byId('canopy-radio-station'), volume = byId('canopy-radio-volume'), status = byId('canopy-radio-status');
     let station = 'wqxr', listening = false, token = 0, timer = null, request = null, track = null, metadata = null;
+    let classicalRetries = 0, classicalRetryPending = false;
     function announce(text, error = false) {
       status.textContent = text;
       status.title = text;
@@ -31,6 +32,7 @@
     function stop() {
       token++;
       clearTimeout(timer);
+      classicalRetryPending = false;
       request?.abort();
       request = null;
       clearMetadata();
@@ -44,12 +46,37 @@
     function playbackError(error, current) {
       if (current !== token || !listening) return;
       console.warn('[Canopy radio] Playback failed:', error);
+      if (station === 'wqxr' && error.name !== 'NotAllowedError' && error.name !== 'AbortError'
+        && classicalRetries < 2) {
+        if (classicalRetryPending) return;
+        classicalRetryPending = true;
+        classicalRetries++;
+        // A failed media request may reject play() as well as emitting error.
+        token++;
+        const retryToken = token;
+        audio.pause();
+        audio.removeAttribute('src');
+        audio.load();
+        announce(`WQXR stream interrupted · retrying ${classicalRetries}/2…`, true);
+        timer = setTimeout(() => {
+          if (retryToken !== token || !listening || station !== 'wqxr') return;
+          classicalRetryPending = false;
+          tuneClassical(retryToken);
+        }, classicalRetries * 1500);
+        return;
+      }
       stop();
       announce(error.name === 'NotAllowedError' ? 'Tap ▶ to listen · autoplay blocked' : 'Radio unavailable · tap ▶ to retry', true);
     }
     async function playAudio(current) {
       try { await audio.play(); }
       catch (error) { playbackError(error, current); }
+    }
+    function tuneClassical(current) {
+      audio.loop = false;
+      audio.src = CLASSICAL;
+      announce(classicalRetries ? `Reconnecting to WQXR · attempt ${classicalRetries}/2…` : 'Tuning in to WQXR…');
+      void playAudio(current);
     }
     function schedule(current, delay = 8000) {
       if (current === token && listening && station === 'busking') timer = setTimeout(() => poll(current), delay);
@@ -122,6 +149,7 @@
     }
     function start() {
       stop();
+      classicalRetries = 0;
       listening = true;
       audio.volume = Number(volume.value);
       render();
@@ -130,10 +158,7 @@
         announce('Tuning in to JukeLoop…');
         void poll(current);
       } else {
-        audio.loop = true;
-        audio.src = CLASSICAL;
-        announce('WQXR classical · quiet');
-        void playAudio(current);
+        tuneClassical(current);
       }
     }
     play.addEventListener('click', () => {
@@ -150,9 +175,16 @@
       volume.title = `Radio volume: ${Math.round(audio.volume * 100)}%`;
     });
     audio.addEventListener('error', () => {
-      if (listening) playbackError(new Error(`Audio stream failed (${audio.error?.code || 'unknown'}).`), token);
+      if (listening && !classicalRetryPending) playbackError(new Error(`Audio stream failed (${audio.error?.code || 'unknown'}).`), token);
+    });
+    audio.addEventListener('playing', () => {
+      if (listening && station === 'wqxr' && !classicalRetryPending) announce('WQXR classical · quiet');
     });
     audio.addEventListener('ended', () => {
+      if (listening && station === 'wqxr') {
+        playbackError(new Error('WQXR live stream ended.'), token);
+        return;
+      }
       if (listening && station === 'busking') {
         clearTimeout(timer);
         if (!request) schedule(token, 1500);

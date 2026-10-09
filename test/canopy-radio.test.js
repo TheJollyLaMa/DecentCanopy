@@ -47,7 +47,10 @@ test('radio defaults to classical at 8% volume and exposes pause, resume and vol
   await flush();
   assert.equal(audio.src, 'https://stream.wqxr.org/wqxr-web');
   assert.equal(audio.volume, .08);
-  assert.equal(audio.loop, true);
+  assert.equal(audio.loop, false);
+  assert.match(h.element('canopy-radio-status').textContent, /Tuning in/);
+  audio.fire('playing');
+  assert.match(h.element('canopy-radio-status').textContent, /WQXR classical · quiet/);
   assert.equal(button.getAttribute('aria-pressed'), 'true');
   assert.equal(h.fetches(), 0);
   button.fire('click');
@@ -61,6 +64,40 @@ test('radio defaults to classical at 8% volume and exposes pause, resume and vol
   h.callbacks.pagehide();
   assert.equal(audio.paused, true);
   assert.equal(audio.src, '');
+});
+test('classical transient media failures reconnect twice then surface failure instead of retrying forever', async () => {
+  const h = setup(); await flush();
+  const audio = h.element('canopy-radio-audio'), status = h.element('canopy-radio-status');
+  audio.fire('error');
+  assert.match(status.textContent, /retrying 1\/2/);
+  audio.fire('error');
+  assert.equal([...h.timers.values()].filter(t => t.delay === 1500).length, 1);
+  h.tick(1500); await flush();
+  assert.equal(audio.src, 'https://stream.wqxr.org/wqxr-web');
+  audio.fire('error');
+  assert.match(status.textContent, /retrying 2\/2/);
+  h.tick(3000); await flush();
+  audio.fire('error');
+  assert.equal(h.timers.size, 0);
+  assert.match(status.textContent, /unavailable/);
+  assert.equal(h.element('canopy-radio-play').getAttribute('aria-pressed'), 'false');
+});
+test('classical retry is canceled on pause or station change and stream endings reconnect', async () => {
+  for (const action of ['pause', 'switch', 'hide']) {
+    const h = setup(); await flush();
+    const audio = h.element('canopy-radio-audio');
+    audio.fire('ended');
+    assert.match(h.element('canopy-radio-status').textContent, /retrying 1\/2/);
+    const retry = [...h.timers.values()].find(t => t.delay === 1500).fn;
+    if (action === 'pause') h.element('canopy-radio-play').fire('click');
+    else if (action === 'switch') h.element('canopy-radio-station').fire('click');
+    else h.callbacks.pagehide();
+    await flush();
+    const src = audio.src;
+    retry(); await flush();
+    assert.equal(audio.src, src);
+    assert.notEqual(audio.src, 'https://stream.wqxr.org/wqxr-web');
+  }
 });
 test('autoplay rejection is visible and does not claim radio is playing', async () => {
   const error = Object.assign(new Error('Blocked'), { name: 'NotAllowedError' });

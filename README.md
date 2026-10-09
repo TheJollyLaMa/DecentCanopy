@@ -432,6 +432,8 @@ Location and wallet drafts persist only in browser storage with the rest of part
 - The canopy is at the root and the Rabbit Hole at `/rabbit-hole/`; its back link returns to the same IPFS copy.
 - **Works without GitHub/Pages:** the frozen Artizen archive, the bundled signed creator index (signatures are re-verified in the browser), funds/projects ledgers shipped with that version, the Rabbit Hole, and wallet signing.
 - **Still uses servers:** the newest creator index (raw GitHub, with fallback to the bundled copy), the publishing relay on Render (accepts `*.ipfs.inbrowser.link`, `*.ipfs.dweb.link`, `*.ipfs.w3s.link` origins; disable with `ALLOW_IPFS_GATEWAYS=false`), Pinata, PeerJS signalling for video rooms, radio streams and Base RPCs.
+
+The header radio starts with WQXR at 8% volume; DecentBusking remains selectable. Classical audio is loaded directly by the browser’s audio element, without requiring a CORS fetch or proxy. A transient stream/media failure triggers at most two reconnects (after 1.5 and 3 seconds), with explicit tuning/retrying status before a final retry button. Autoplay denial still requires a user click. Pausing, switching stations or leaving the page cancels pending reconnects. IPFS preserves the player code, not the external live station’s availability.
 - A CID is a fixed version. Pin it yourself (`ipfs pin add <cid>`) to help keep it alive. A stable name (IPNS/DNSLink) is future work.
 
 ### IPFS Backup
