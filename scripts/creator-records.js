@@ -71,6 +71,12 @@
         status: choice(p.status, ['planning', 'active', 'paused', 'completed'], 'project status'),
         archiveId: text(p.archiveId, 'Historical reference', 120, true),
       };
+      if (p.ens != null && p.ens !== '') {
+        if (!v2) throw new Error('Project ENS names require a version 2 record.');
+        const ens = text(p.ens, 'ENS name', 255).toLowerCase();
+        if (!/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+eth$/.test(ens)) throw new Error('Enter an ASCII ENS name ending in .eth, without a URL.');
+        project.ens = ens;
+      }
       if (v2) Object.assign(project, { wallet: address(p.wallet, 'Project receiving wallet'), related: refs(p.related, 'project', 'Related Decent projects', 10) });
       return project;
     });

@@ -47,6 +47,24 @@ Recipient wallet = the project's receiving wallet, or your signing wallet if lef
 
 Unresolved references (to a fund or project not on the canopy) are kept in your record, but no line is drawn. Unlinked funding sources still appear as private funding-source blips.
 
+## ENS project profiles and website updates
+
+Project editors accept an optional ASCII `.eth` name, including subnames. It is included in the wallet-signed record only when filled in; existing signed records remain unchanged. ENS names can also be inferred from a project's `.eth.limo` website. DecentCanopy's existing project has an explicitly scoped public association with `decentcanopy.eth` (not a rewrite of its signed record).
+
+Project cards read the ENS resolver on Ethereum for the address, avatar, `header` banner, and website contenthash. Artwork appears alongside the saved project artwork and is labeled as a live ENS profile. Matching address records are not proof of name ownership. HTTPS-hosted artwork remains dependent on its host; using IPFS artwork in ENS is more portable. RPC or image failures are shown explicitly.
+
+When viewing your own project, enter a pinned root CID and choose **Copy CID & open ENS**. This copies an `ipfs://CID` value and opens ENS Manager; paste it into Website / Contenthash and approve with the ENS owner wallet. **This button does not submit an ENS transaction.** DecentCanopy pre-fills its latest Pinata site manifest, not the signed creator-profile CID. Other projects require their own website CID. **Remind me next week** snoozes the on-card weekly review prompt in this browser; reminders appear when you revisit the card, not as background notifications. Opening the manager or snoozing does not claim that ENS was updated.
+
+Canopy already pins successful Pages deployments and performs a scheduled daily check. Immutable IPFS snapshots do not automatically move an ENS pointer. Fully automatic alternatives include:
+
+- Set ENS contenthash once to an **IPNS** name, then automate publishing that signed IPNS pointer. Keep both site pins and the IPNS key/record available and regularly republish the record. Test gateway support and caching before switching.
+- Authorize a dedicated publisher through a compatible resolver's per-name approval. It still signs transactions and pays Ethereum gas. Standard per-name resolver delegation can change other records on that name, not just contenthash; use a carefully designed restricted controller for contenthash-only authority.
+- A keeper/relayer can execute updates, but it needs permission, gas funding, and an authenticated source of new CIDs. ENS renewal automation is separate from website publishing; neither Alchemix nor Gelato removes those requirements.
+
+No resolver delegation, contract deployment, private-key storage, IPNS pointer change, or ENS transaction is performed by these controls.
+
+References: [ENS decentralized websites](https://docs.ens.domains/dweb/intro), [resolver writes](https://docs.ens.domains/resolvers/writing), [Public Resolver](https://docs.ens.domains/resolvers/public), and [community Alchemix/Gelato renewal example](https://github.com/The-Wary-One/self-repaying-ens).
+
 ## Rabbit Hole meeting rooms
 
 Every creator wallet has its own small video, voice and chat room.

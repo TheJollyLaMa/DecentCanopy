@@ -1853,6 +1853,7 @@
         (image ? `<figure class="${node.kind === 'creator' ? 'details-avatar' : 'details-artwork'}"><img data-creator-image src="${escAttr(image)}" alt="${escAttr(node.name)}" loading="${node.kind === 'creator' ? 'eager' : 'lazy'}" referrerpolicy="no-referrer" /></figure>` : '') +
         `<h2 class="details-title">${escHtml(node.name)}</h2><p class="details-desc">${escHtml(node.description)}</p>` +
         window.DecentCreators.renderDetails(node, escHtml);
+      window.DecentENS?.mount(detailsContentEl);
       detailsPanel.classList.add('open');
       detailsPanel.setAttribute('aria-hidden', 'false');
       return;
