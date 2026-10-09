@@ -6,6 +6,7 @@
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   let index = { creators: [] }, editingWallet = null, signed = null, generation = 0, lastGraph = { projects: [], associations: [] };
   let publishing = false;
+  let editingProjectKey = null, editingRecord = null;
   const wallet = () => window.decentCanopyWallet?.address?.toLowerCase() || null;
   const local = () => ['localhost', '127.0.0.1'].includes(location.hostname);
   const indexUrl = () => local() ? 'data/decent-creators.json' : 'https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/data/decent-creators.json';
@@ -54,6 +55,11 @@
   function drafts() {
     const value = localStorage.getItem(KEY);
     return value ? JSON.parse(value) : {};
+  }
+  function projectDraft(record, saved) {
+    if (!saved) return record;
+    if (!saved.projects.some(p => p.key === editingProjectKey)) return saved;
+    return DecentCreatorRecords.replaceProject({ ...saved, version: 2 }, record.projects.find(p => p.key === editingProjectKey));
   }
   async function overlay(base) {
     let entries = [];
@@ -158,7 +164,7 @@
   function collect() {
     if (!editingWallet || wallet() !== editingWallet) throw new Error('Connect the wallet that owns this profile.');
     const existing = index.creators.find(e => e.record.wallet === editingWallet);
-    const readRows = kind => [...byId(`creator-${kind}`).children].map(row => {
+    const readRows = kind => [...byId(`creator-${kind}`).children].filter(row => kind !== 'projects' || !editingProjectKey || row.dataset.key === editingProjectKey).map(row => {
       const result = { key: row.dataset.key };
       row.querySelectorAll('[data-field]').forEach(el => { result[el.dataset.field] = el.multiple ? [...el.selectedOptions].map(o => o.value) : el.value; });
       if (kind === 'funding') result.amount = result.amount === '' ? null : Number(result.amount);
@@ -170,10 +176,14 @@
     });
     const projects = readRows('projects');
     if (projects.some(p => p.archiveId && !GTPData.getProjectById(p.archiveId))) throw new Error('Choose an existing historical project reference, or remove that reference.');
+    const revision = existing ? existing.record.revision + 1 : 1, previousCid = existing?.cid || null, updatedAt = new Date().toISOString();
+    if (editingProjectKey) {
+      if (projects.length !== 1 || projects[0].key !== editingProjectKey) throw new Error('The selected project could not be found. Reopen its editor.');
+      return DecentCreatorRecords.replaceProject({ ...editingRecord, version: 2, revision, previousCid, updatedAt }, projects[0]);
+    }
     return DecentCreatorRecords.validate({
       format: 'decentcanopy-creator', version: 2, consent: true, wallet: editingWallet,
-      revision: existing ? existing.record.revision + 1 : 1, previousCid: existing?.cid || null,
-      updatedAt: new Date().toISOString(), name: byId('creator-name').value, bio: byId('creator-bio').value,
+      revision, previousCid, updatedAt, name: byId('creator-name').value, bio: byId('creator-bio').value,
       website: byId('creator-website').value, avatar: byId('creator-avatar').value,
       location: byId('creator-location-consent').checked ? { consent: true, label: byId('creator-location').value, precision: byId('creator-location-precision').value } : null,
       projects, funds: readRows('funds'), funding: readRows('funding'), journey: readRows('journey'),
@@ -196,12 +206,36 @@
     byId('creator-public-consent').checked = false;
     signed = null;
   }
-  async function openEditor() {
+  function editorScope() {
+    const focused = Boolean(editingProjectKey), dialog = byId('creator-dialog');
+    dialog.querySelectorAll('[data-creator-profile-only]').forEach(el => {
+      el.hidden = focused;
+      if ('disabled' in el) el.disabled = focused;
+      el.querySelectorAll('input, select, textarea, button').forEach(control => { control.disabled = focused; });
+    });
+    [...byId('creator-projects').children].forEach(row => {
+      row.hidden = focused && row.dataset.key !== editingProjectKey;
+      row.disabled = row.hidden;
+      const remove = row.querySelector('[data-remove-entry]');
+      remove.hidden = focused;
+      remove.disabled = focused;
+    });
+    const project = editingRecord?.projects.find(p => p.key === editingProjectKey);
+    byId('creator-title').textContent = focused ? `Edit project: ${project?.name || 'your project'}` : 'Your Decent Creator';
+    byId('creator-editor-description').textContent = focused
+      ? 'Edit just this project. Your signature publishes an updated creator profile with your other published details unchanged. Unrelated local draft edits stay in this browser.'
+      : 'A living home for your projects and what comes next. An Artizen account, token balance, or payment is not required.';
+    byId('creator-publish').textContent = focused ? 'Sign & publish project update' : 'Sign & publish to the canopy';
+  }
+  async function openEditor(projectKey = null) {
     if (publishing) return;
     if (byId('canopy-about-dialog').open) byId('canopy-about-dialog').close();
     const dialog = byId('creator-dialog');
     if (!dialog.open) dialog.showModal();
     editingWallet = wallet();
+    editingProjectKey = typeof projectKey === 'string' ? projectKey : null;
+    editingRecord = null;
+    editorScope();
     byId('creator-wallet').textContent = editingWallet || 'Connect a wallet using the button below. No Artizen account needed.';
     byId('creator-form').hidden = true;
     byId('creator-connect').hidden = Boolean(editingWallet);
@@ -213,9 +247,16 @@
       await readIndex();
       if (generation !== request || wallet() !== selected) return;
       const saved = drafts()[selected];
-      fill(saved || index.creators.find(e => e.record.wallet === selected)?.record);
+      const published = index.creators.find(e => e.record.wallet === selected)?.record;
+      editingRecord = editingProjectKey ? published || saved : saved || published;
+      if (editingProjectKey && !editingRecord?.projects.some(p => p.key === editingProjectKey)) throw new Error('This project is no longer in your profile. Open your creator profile to check the latest projects.');
+      const savedProject = saved?.projects.find(p => p.key === editingProjectKey);
+      fill(editingProjectKey && savedProject ? DecentCreatorRecords.replaceProject({ ...editingRecord, version: 2 }, savedProject) : editingRecord);
+      editorScope();
       byId('creator-form').hidden = false;
-      status(saved ? 'Restored your browser-local draft. Publishing requires a new signature.' : 'Edit your profile, projects, funding sources and journey. Nothing publishes until you consent and sign.');
+      status(editingProjectKey
+        ? 'Only this project is editable here. Review it, consent, and sign to update it on your creator profile.'
+        : saved ? 'Restored your browser-local draft. Publishing requires a new signature.' : 'Edit your profile, projects, funding sources and journey. Nothing publishes until you consent and sign.');
     } catch (error) { byId('creator-form').hidden = true; status(error.message, true); }
   }
   function download(value) {
@@ -263,9 +304,16 @@
     if (!DecentCreatorRecords.CID.test(result.cid || '')) throw new Error('Publication status did not include a valid CID. Check the public index before retrying.');
     if (wallet() !== selected) throw new Error('Wallet changed. The signed request may still publish; reopen the original wallet profile to check.');
     index.creators = index.creators.filter(entry => entry.record.wallet !== selected).concat({ record, ...envelope, cid: result.cid });
-    const saved = drafts(); delete saved[selected];
-    if (saved.previewWallet === selected) delete saved.previewWallet;
+    const saved = drafts();
+    if (editingProjectKey && saved[selected]) {
+      const draft = DecentCreatorRecords.validate({ ...projectDraft(record, saved[selected]), version: 2,
+        revision: record.revision, previousCid: record.previousCid, updatedAt: record.updatedAt });
+      if (JSON.stringify(draft) !== JSON.stringify(record)) saved[selected] = draft;
+      else delete saved[selected];
+    } else delete saved[selected];
+    if (!saved[selected] && saved.previewWallet === selected) delete saved.previewWallet;
     localStorage.setItem(KEY, JSON.stringify(saved));
+    editingRecord = record;
     status(`Published at ipfs://${result.cid}. Your wallet authorized this record; its claims are self-reported. Reload the canopy to see it (site deployment may still be running).`);
   }
   function connections(node, e, link) {
@@ -323,13 +371,23 @@
         <span class="claim-badge ${signerTreasury ? 'is-ledger' : 'is-claimed'}">${signerTreasury ? 'Steward’s signing wallet' : 'Declared, not the signing wallet'}</span></p>`;
     };
     const payoutLabels = { 'not-shared': 'Not shared', received: 'Received', 'partially-received': 'Partially received', 'not-received': 'Not received', uncertain: 'Uncertain', 'not-applicable': 'Not applicable' };
+    const own = wallet() === r.wallet;
+    const projectBody = (p, describe = true) => `${describe ? `<p>${e(p.description)}</p>` : `<small>Progress: ${e(p.status)}</small>`}${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}
+      ${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}`;
+    const projectCards = projects.map(p => `<details class="creator-project-card">
+      <summary>${p.image ? `<img class="creator-project-thumb" src="${e(p.image)}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}
+        <span><strong>${e(p.name)}</strong><small>${e(p.status)}</small></span></summary>
+      <div class="creator-project-card-body">${p.image ? `<figure class="details-artwork"><img src="${e(p.image)}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" /></figure>` : ''}
+        ${projectBody(p)}<div class="participation-actions"><button type="button" class="toolbar-btn" data-creator-view="decent-project:${e(r.wallet)}:${e(p.key)}">Open project blip</button>
+        ${own ? `<button type="button" class="toolbar-btn" data-creator-project-edit="${e(p.key)}">Edit project</button>` : ''}</div></div></details>`).join('');
     return `<div class="creator-profile-details"><p class="data-provenance">${node.creatorDraft ? 'Browser-local draft · not signed or public' : 'Wallet-authorized publication · self-reported claims'}</p>
       <p class="details-muted">Wallet ${e(r.wallet)} · revision ${r.revision} · ${e(r.updatedAt.slice(0, 10))}. A signature proves wallet control, not real-world identity, project ownership, or payout truth.</p>
       ${node.creatorCid ? link(`https://gateway.pinata.cloud/ipfs/${node.creatorCid}`, 'Portable signed IPFS record') : ''}
-      ${wallet() === r.wallet ? '<button type="button" class="toolbar-btn" data-creator-open>Edit my creator / projects / funds / journey</button>' : ''}
+      ${projectKey ? `<button type="button" class="toolbar-btn" data-creator-view="decent-creator:${e(r.wallet)}">View ${e(r.name)}’s creator profile</button>` : ''}
+      ${own ? projectKey ? `<button type="button" class="toolbar-btn" data-creator-project-edit="${e(projectKey)}">Edit this project</button>` : '<button type="button" class="toolbar-btn" data-creator-open>Edit my creator / projects / funds / journey</button>' : ''}
       ${projectKey || fundingKey || fundKey || node.creatorDraft ? '' : rabbitHole(r, e, wallet() === r.wallet)}
       ${funds.length ? `<div class="details-group"><h3>Decent funds stewarded</h3><ul>${funds.map(f => `<li><strong>${e(f.name)}</strong> · ${e(f.status)}<p>${e(f.description)}</p>${treasury(f)}${link(f.website, 'Fund website')}</li>`).join('')}</ul></div>` : ''}
-      ${projects.length ? `<div class="details-group"><h3>Projects going forward</h3><ul>${projects.map(p => `<li><strong>${e(p.name)}</strong> · ${e(p.status)}<p>${e(p.description)}</p>${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}</li>`).join('')}</ul></div>` : ''}
+      ${projects.length ? projectKey ? `<div class="details-group">${projectBody(projects[0], false)}</div>` : `<div class="details-group"><h3>Projects going forward</h3><div class="creator-project-list">${projectCards}</div></div>` : ''}
       ${connections(node, e, link)}
       ${funding.length ? `<div class="details-group"><h3>Funding sources · self-reported</h3><ul>${funding.map(f => `<li><strong>${e(f.name)}</strong> · ${e(f.status)}${f.amount !== null ? ` · ${e(f.amount)} ${e(f.currency)}` : ''}<small>As of ${e(f.asOf)}${f.projectKey ? ` · ${e(r.projects.find(p => p.key === f.projectKey)?.name)}` : ''}${f.fundRef ? ` · via ${e(fundName(f.fundRef))}` : ''}</small><p>${e(f.note)}</p>${link(f.website, 'Source')}${f.txHash ? link(`${DecentLedgerProof.CHAINS[f.chain].explorer}/tx/${f.txHash}`, 'Payment transaction') : ''}</li>`).join('')}</ul><p class="details-muted">Exploring, applying, and pledges are not receipts. Only transfers checked on the public ledger are verified.</p></div>` : ''}
       ${journey.length ? `<div class="details-group"><h3>Journey &amp; progress</h3><ul>${journey.map(j => `<li><strong>${e(j.date)} · ${j.type === 'artizen-experience' ? 'Artizen experience · creator’s account' : e(j.type)}</strong>${j.projectKey ? `<small>${e(r.projects.find(p => p.key === j.projectKey)?.name)}</small>` : ''}<p>${e(j.note)}</p>${j.type === 'artizen-experience' ? `<p>Self-reported payout experience: ${e(payoutLabels[j.payout])}. Not independently verified.</p>` : ''}${link(j.evidence, 'Evidence / update')}</li>`).join('')}</ul></div>` : ''}</div>`;
@@ -339,6 +397,10 @@
     const form = byId('creator-form');
     document.addEventListener('click', event => {
       if (event.target.closest('[data-creator-open]')) openEditor();
+      const editProject = event.target.closest('[data-creator-project-edit]');
+      if (editProject) openEditor(editProject.dataset.creatorProjectEdit);
+      const view = event.target.closest('[data-creator-view]');
+      if (view) window.dispatchEvent(new CustomEvent('decentcanopy:select-entity', { detail: view.dataset.creatorView }));
       const copy = event.target.closest('[data-copy-rabbit-hole]');
       if (copy) {
         navigator.clipboard.writeText(copy.dataset.copyRabbitHole)
@@ -357,6 +419,7 @@
     byId('creator-dialog').addEventListener('close', () => { generation++; });
     form.addEventListener('click', event => {
       const add = event.target.closest('[data-add-entry]'), remove = event.target.closest('[data-remove-entry]');
+      if (editingProjectKey) return;
       if (add) { addRow(add.dataset.addEntry); signed = null; if (add.dataset.addEntry === 'projects') refreshProjects(); }
       if (remove) { remove.closest('fieldset').remove(); signed = null; refreshProjects(); refreshRefs(); }
     });
@@ -420,7 +483,12 @@
     }
     byId('creator-preview').addEventListener('click', event => action(event.currentTarget, () => {
       if (!byId('creator-local-consent').checked) throw new Error('Consent to browser-local draft storage first.');
-      const record = collect(), saved = drafts(); saved[record.wallet] = record; saved.previewWallet = record.wallet;
+      const record = collect(), saved = drafts();
+      if (editingProjectKey && saved[record.wallet] && !saved[record.wallet].projects.some(p => p.key === editingProjectKey)) {
+        throw new Error('Your full-profile draft removed this project. Restore it in My creator before previewing this project, or publish the project update without changing that draft.');
+      }
+      saved[record.wallet] = editingProjectKey ? projectDraft(record, saved[record.wallet]) : record;
+      saved.previewWallet = record.wallet;
       localStorage.setItem(KEY, JSON.stringify(saved));
       location.href = 'index.html?canopy=creators';
     }));

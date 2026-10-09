@@ -1278,7 +1278,7 @@
     });
 
     window.addEventListener('decentcanopy:wallet-change', () => {
-      if (selectedNode?.kind === 'creator' && detailsPanel?.classList.contains('open')) showDetails(selectedNode);
+      if ((selectedNode?.kind === 'creator' || selectedNode?.creatorRecord) && detailsPanel?.classList.contains('open')) showDetails(selectedNode);
     });
 
     window.addEventListener('decentcanopy:focus-entity', event => {

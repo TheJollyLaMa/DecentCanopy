@@ -231,10 +231,12 @@
     <dialog id="creator-dialog" class="participation-dialog creator-dialog" aria-labelledby="creator-title">
       <button id="creator-close" class="toolbar-btn" type="button">Close editor ×</button>
       <h2 id="creator-title">Your Decent Creator</h2>
-      <p>A living home for your projects and what comes next. An Artizen account, token balance, or payment is not required.</p>
+      <p id="creator-editor-description">A living home for your projects and what comes next. An Artizen account, token balance, or payment is not required.</p>
       <p id="creator-wallet"></p>
       <button id="creator-connect" class="toolbar-btn" type="button">Connect my wallet</button>
       <form id="creator-form" class="reward-form" hidden>
+        <fieldset class="creator-profile-section" data-creator-profile-only>
+        <legend>Creator profile</legend>
         <label>Display name <input id="creator-name" required maxlength="100" /></label>
         <label>About you <textarea id="creator-bio" rows="3" maxlength="1200"></textarea></label>
         <label>Website (HTTPS) <input id="creator-website" type="url" /></label>
@@ -242,10 +244,13 @@
         <label>Optional location label <input id="creator-location" maxlength="120" /></label>
         <label>Location precision <select id="creator-location-precision"><option value="city">City</option><option value="country">Country</option></select></label>
         <label class="reward-check"><input id="creator-location-consent" type="checkbox" /> Include this location publicly. Label-only locations appear in the globe list, not at guessed coordinates.</label>
+        </fieldset>
         <h3>Projects going forward</h3>
         <p>New project records are yours to edit. Linking an archived project does not edit it or prove ownership.</p>
         <div id="creator-projects"></div>
-        <button class="toolbar-btn" type="button" data-add-entry="projects">Add project</button>
+        <button class="toolbar-btn" type="button" data-add-entry="projects" data-creator-profile-only>Add project</button>
+        <fieldset class="creator-profile-section" data-creator-profile-only>
+        <legend>Funds, funding and journey</legend>
         <h3>Decent funds you steward</h3>
         <p>Run or organize a fund? Publish it as its own blip. Projects you support get a line; it turns solid when the project confirms it. If your treasury is this signing wallet, transfers you list can be checked on-chain.</p>
         <div id="creator-funds"></div>
@@ -261,6 +266,7 @@
         <h3>Rabbit Hole meeting room</h3>
         <p>Every wallet can open its own small, peer-to-peer video room from its creator panel and share an invite link. Video and chat go directly between browsers and are never recorded. You decide who to buzz in.</p>
         <label class="reward-check"><input id="creator-rabbit-hole" type="checkbox" /> Show a "Knock on my Rabbit Hole" button on my public blip. Visitors can only get in while your room is open and you let them in.</label>
+        </fieldset>
         <h3>Save, sign, or publish</h3>
         <label class="reward-check"><input id="creator-local-consent" type="checkbox" /> Save a draft in this browser. This is not a public or signed update.</label>
         <button id="creator-preview" class="toolbar-btn" type="button">Save draft &amp; preview my blip</button>
@@ -270,9 +276,9 @@
           <button id="creator-publish" class="toolbar-btn" type="submit">Sign &amp; publish to the canopy</button>
         </div>
         <p id="creator-publish-status" class="creator-publish-status" role="status" aria-live="polite"></p>
-        <label>Restore a signed export <input id="creator-import" type="file" accept=".json,application/json" /></label>
+        <label data-creator-profile-only>Restore a signed export <input id="creator-import" type="file" accept=".json,application/json" /></label>
       </form>
-      <button id="creator-clear" class="toolbar-btn" type="button">Clear my local draft / preview</button>
+      <button id="creator-clear" class="toolbar-btn" type="button" data-creator-profile-only>Clear my local draft / preview</button>
       <p>Only the signing wallet can publish a replacement profile. Wallet control is not proof of legal identity or historical project ownership. Never share private keys, seed phrases, Artizen credentials, or anyone else’s private information.</p>
       <p>Community IPFS pinning keeps onboarding simple; the repo index and relay currently provide discovery and publishing access. Signed exports can be independently retained and pinned. External avatar/evidence sites may change or disappear.</p>
       <p id="creator-status" role="status" aria-live="polite"></p>

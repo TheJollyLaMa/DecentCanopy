@@ -232,7 +232,11 @@
     });
     return { ...base, projects, associations };
   }
-  const api = { validate, message, parse, verify, assertNext, apply, CID, MAX_BYTES, CHAINS, REF };
+  function replaceProject(record, project) {
+    if (!record.projects.some(p => p.key === project.key)) throw new Error('This project is no longer in your profile. Reopen your latest profile before editing.');
+    return validate({ ...record, projects: record.projects.map(p => p.key === project.key ? project : p) });
+  }
+  const api = { validate, message, parse, verify, assertNext, apply, replaceProject, CID, MAX_BYTES, CHAINS, REF };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.DecentCreatorRecords = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));

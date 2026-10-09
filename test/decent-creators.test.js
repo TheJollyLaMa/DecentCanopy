@@ -54,6 +54,22 @@ test('consent, URLs, amounts, limits and dates are enforced', () => {
   assert.throws(() => record({ journey: [{ ...record().journey[0], date: '2026-02-30' }] }), /valid date/);
   assert.throws(() => record({ journey: [{ ...record().journey[0], projectKey: 'missing' }] }), /missing project/);
 });
+test('focused project replacement preserves the complete profile, keys and connections', () => {
+  const r = record({
+    version: 2, rabbitHole: true, funds: [],
+    projects: [record().projects[0], { ...record().projects[0], key: 'music', name: 'Music',
+      related: [`decent-project:${owner.address.toLowerCase()}:forest`] }],
+  });
+  const before = JSON.stringify(r), project = { ...r.projects[0], name: 'Forest updated', image: 'https://forest.example/art.png' };
+  const updated = Records.replaceProject(r, project);
+  assert.equal(JSON.stringify(r), before);
+  assert.equal(updated.projects[0].name, 'Forest updated');
+  assert.equal(updated.projects[0].key, r.projects[0].key);
+  assert.deepEqual(updated.projects[1], r.projects[1]);
+  for (const field of Object.keys(r).filter(key => key !== 'projects')) assert.deepEqual(updated[field], r[field], field);
+  assert.throws(() => Records.replaceProject(r, { ...project, key: 'missing' }), /no longer in your profile/);
+  assert.throws(() => Records.replaceProject(r, { ...project, website: 'javascript:alert(1)' }), /HTTPS/);
+});
 test('Artizen experiences make no payout assertion unless explicitly selected', () => {
   const entry = { ...record().journey[0], type: 'artizen-experience' };
   assert.equal(record({ journey: [entry] }).journey[0].payout, 'not-shared');

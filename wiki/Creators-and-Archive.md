@@ -23,6 +23,10 @@ Publishing opens a glowing, rotating icon-ring modal adapted from DecentJukebox.
 
 Only your wallet can revise its signed record. Referencing an archived project does not transfer ownership or edit the historical graph. A new funding source is a reported connection, not automatic fund membership.
 
+Creator cards show projects as compact artwork-and-name dropdown cards. Expand one to see the full artwork, description, website and project actions. **Open project blip** takes you to its map card; **View creator profile** on a project card returns to its creator. Project artwork fits inside its frame without cropping.
+
+With the owning wallet connected, **Edit project** (or **Edit this project** on its blip) opens only that project's fields. The project keeps its key and creator connection; your signature still authorizes a complete updated creator record, not an independent unsigned project. Other published profile fields, projects, funds, funding sources and journey entries are preserved. A saved draft for the selected project is restored, but unrelated browser-local draft edits are not published by this action and remain saved. Use **My creator** for whole-profile edits, adding/removing projects, funds and journey updates.
+
 ## Publish a Decent fund
 
 Anyone who runs or organizes a fund can publish it as its own blip. Open **My creator** and choose **Add a Decent fund**. Enter the fund's name, purpose, website, status (open, invite only, paused, closed), an optional treasury (chain + address), and the Decent projects it supports. The fund is signed by your wallet, which becomes its steward (shown by a steward line from your creator blip).

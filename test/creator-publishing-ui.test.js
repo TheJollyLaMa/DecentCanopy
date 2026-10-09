@@ -43,7 +43,7 @@ function harness({ signatureError, postError, receipt = { status: 'published', c
   };
   vm.runInNewContext(source, {
     window, document: { getElementById: element, addEventListener: (name, fn) => { callbacks[name] = fn; } },
-    location: { hostname: 'localhost' }, console, TextEncoder, AbortSignal, Date,
+    location: { hostname: 'localhost', href: 'http://localhost/index.html' }, console, TextEncoder, AbortSignal, Date, URL,
     localStorage: { getItem: () => null, setItem() {} },
     DecentLedgerProof: { CHAINS: {} }, GTPData: { load: async () => {} },
     ethers: { verifyMessage: () => wallet },
@@ -146,4 +146,33 @@ test('wallet changes during publication do not refill the editor and are not rep
   await flush();
   assertUnlocked(h, 'error');
   assert.match(h.element('creator-publishing-message').textContent, /Wallet changed/);
+});
+
+test('creator project cards have collapsed artwork summaries, websites, and owner-only focused edit actions', () => {
+  const h = harness();
+  const record = {
+    wallet, revision: 1, updatedAt: '2026-10-09T10:00:00Z', name: 'Forest Maker',
+    projects: [{ key: 'forest', name: 'Forest <script>', status: 'active', description: 'A living map',
+      image: 'https://forest.example/art.png', website: 'https://forest.example/', archiveId: '', wallet: '' },
+    { key: 'music', name: 'Music', status: 'planning', description: '', image: '', website: '', archiveId: '', wallet: '' }],
+    funds: [], funding: [], journey: [],
+  };
+  const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const creator = { creatorRecord: record };
+  const html = h.window.DecentCreators.renderDetails(creator, escape);
+  assert.equal((html.match(/<details class="creator-project-card">/g) || []).length, 2);
+  assert.match(html, /class="creator-project-thumb" src="https:\/\/forest.example\/art.png"/);
+  assert.match(html, /Forest &lt;script&gt;/);
+  assert.doesNotMatch(html, /<script>|<details[^>]*\bopen\b/);
+  assert.match(html, /data-creator-project-edit="forest"/);
+  assert.match(html, /data-creator-view="decent-project:/);
+  assert.match(html, /href="https:\/\/forest.example\/"/);
+  const projectHtml = h.window.DecentCreators.renderDetails({ ...creator, creatorProjectKey: 'forest' }, escape);
+  assert.match(projectHtml, /Edit this project/);
+  assert.match(projectHtml, /data-creator-view="decent-creator:/);
+  assert.doesNotMatch(projectHtml, /Edit my creator|creator-project-card/);
+  h.window.decentCanopyWallet.address = '0x' + '22'.repeat(20);
+  const visitorHtml = h.window.DecentCreators.renderDetails(creator, escape);
+  assert.doesNotMatch(visitorHtml, /data-creator-project-edit|data-creator-open/);
+  assert.match(visitorHtml, /Project website/);
 });

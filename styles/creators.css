@@ -26,6 +26,54 @@
 .creator-dialog [hidden] {
   display: none !important;
 }
+.creator-profile-section {
+  border: 0;
+  padding: 0;
+  margin: 0;
+  min-width: 0;
+  display: grid;
+  gap: 10px;
+}
+.creator-profile-section > legend { color: #86efac; margin-bottom: 10px; }
+.creator-project-list { display: grid; gap: 8px; }
+.creator-project-card {
+  border: 1px solid rgba(52, 211, 153, .3);
+  border-radius: 10px;
+  background: rgba(15, 23, 42, .45);
+  overflow: hidden;
+}
+.creator-project-card summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  list-style: none;
+}
+.creator-project-card summary::-webkit-details-marker { display: none; }
+.creator-project-card summary::after {
+  content: "+";
+  margin-left: auto;
+  color: #86efac;
+}
+.creator-project-card[open] summary::after { content: "-"; }
+.creator-project-card summary:focus-visible { outline: 2px solid #86efac; outline-offset: -3px; }
+.creator-project-thumb {
+  box-sizing: border-box;
+  flex: 0 0 56px;
+  width: 56px;
+  height: 56px;
+  padding: 4px;
+  object-fit: contain;
+  border-radius: 6px;
+  background: #0b1920;
+  display: grid;
+  place-items: center;
+  color: #86efac;
+}
+.creator-project-card summary > span:not(.creator-project-thumb) { min-width: 0; overflow-wrap: anywhere; }
+.creator-project-card-body { padding: 0 12px 12px; }
+.creator-project-card-body .toolbar-btn { margin: 8px 0 0; white-space: normal; }
 .creator-entry {
   border: 1px solid rgba(52, 211, 153, .4);
   border-radius: 10px;
