@@ -269,12 +269,31 @@
           <button id="creator-export" class="toolbar-btn" type="button">Sign &amp; download portable record</button>
           <button id="creator-publish" class="toolbar-btn" type="submit">Sign &amp; publish to the canopy</button>
         </div>
+        <p id="creator-publish-status" class="creator-publish-status" role="status" aria-live="polite"></p>
         <label>Restore a signed export <input id="creator-import" type="file" accept=".json,application/json" /></label>
       </form>
       <button id="creator-clear" class="toolbar-btn" type="button">Clear my local draft / preview</button>
       <p>Only the signing wallet can publish a replacement profile. Wallet control is not proof of legal identity or historical project ownership. Never share private keys, seed phrases, Artizen credentials, or anyone else’s private information.</p>
       <p>Community IPFS pinning keeps onboarding simple; the repo index and relay currently provide discovery and publishing access. Signed exports can be independently retained and pinned. External avatar/evidence sites may change or disappear.</p>
       <p id="creator-status" role="status" aria-live="polite"></p>
+    </dialog>
+
+    <dialog id="creator-publishing-dialog" class="creator-publishing-dialog" aria-labelledby="creator-publishing-title" aria-describedby="creator-publishing-message creator-publishing-help">
+      <div class="creator-publishing-orbit" aria-hidden="true">
+        <div class="creator-publishing-ring">
+          <span class="creator-publishing-icon"><img src="assets/ipfs-logo.png" alt="" /></span>
+          <span class="creator-publishing-icon"><img src="assets/metamask-logo.png" alt="" /></span>
+          <span class="creator-publishing-icon">🌲</span>
+          <span class="creator-publishing-icon"><img src="assets/ipfs-logo.png" alt="" /></span>
+          <span class="creator-publishing-icon"><img src="assets/metamask-logo.png" alt="" /></span>
+          <span class="creator-publishing-icon">🌳</span>
+        </div>
+        <span class="creator-publishing-center">DecentCanopy</span>
+      </div>
+      <h2 id="creator-publishing-title" tabindex="-1">Preparing your canopy record</h2>
+      <p id="creator-publishing-message" role="status" aria-live="polite"></p>
+      <p id="creator-publishing-help">Please keep this tab open. Editing is paused while we publish. Approve the signature in your wallet when prompted; no gas or payment is needed.</p>
+      <button id="creator-publishing-done" class="toolbar-btn" type="button" hidden>Back to editor</button>
     </dialog>
 
     <dialog id="canopy-tour-dialog" class="canopy-tour-dialog" aria-labelledby="canopy-tour-title">

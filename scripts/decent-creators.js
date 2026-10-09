@@ -5,12 +5,24 @@
   const byId = id => document.getElementById(id);
   const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   let index = { creators: [] }, editingWallet = null, signed = null, generation = 0, lastGraph = { projects: [], associations: [] };
+  let publishing = false;
   const wallet = () => window.decentCanopyWallet?.address?.toLowerCase() || null;
   const local = () => ['localhost', '127.0.0.1'].includes(location.hostname);
   const indexUrl = () => local() ? 'data/decent-creators.json' : 'https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/data/decent-creators.json';
   function status(message, error = false) {
-    const el = byId('creator-status');
-    if (el) { el.textContent = message; el.classList.toggle('is-error', error); }
+    ['creator-status', 'creator-publish-status'].forEach(id => {
+      const el = byId(id);
+      if (el) { el.textContent = message; el.classList.toggle('is-error', error); }
+    });
+    byId('creator-status').hidden = !byId('creator-form').hidden;
+    if (publishing) byId('creator-publishing-message').textContent = message;
+  }
+  function publicationStage(title, message, help = 'Please keep this tab open. Editing is paused while we publish. There is nothing else to click here.') {
+    if (publishing) {
+      byId('creator-publishing-title').textContent = title;
+      byId('creator-publishing-help').textContent = help;
+    }
+    status(message);
   }
   async function fetchIndex(url) {
     const response = await fetch(`${url}?t=${Date.now()}`, { cache: 'no-store', signal: AbortSignal.timeout(20000) });
@@ -185,6 +197,7 @@
     signed = null;
   }
   async function openEditor() {
+    if (publishing) return;
     if (byId('canopy-about-dialog').open) byId('canopy-about-dialog').close();
     const dialog = byId('creator-dialog');
     if (!dialog.open) dialog.showModal();
@@ -203,7 +216,7 @@
       fill(saved || index.creators.find(e => e.record.wallet === selected)?.record);
       byId('creator-form').hidden = false;
       status(saved ? 'Restored your browser-local draft. Publishing requires a new signature.' : 'Edit your profile, projects, funding sources and journey. Nothing publishes until you consent and sign.');
-    } catch (error) { status(error.message, true); byId('creator-form').hidden = true; }
+    } catch (error) { byId('creator-form').hidden = true; status(error.message, true); }
   }
   function download(value) {
     const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2)], { type: 'application/json' }));
@@ -214,7 +227,8 @@
     if (!byId('creator-public-consent').checked) throw new Error('Consent to public, permanently copyable IPFS publication before signing.');
     const record = collect(), message = DecentCreatorRecords.message(record);
     const hex = '0x' + [...new TextEncoder().encode(message)].map(b => b.toString(16).padStart(2, '0')).join('');
-    status('Review the profile in your wallet. Signing is free and authorizes publication, not a payment.');
+    publicationStage('Approve the signature in your wallet', 'Review the profile in your wallet. Signing is free and authorizes publication, not a payment.',
+      'Approve the signature in your wallet when prompted. No gas or payment is needed. Please keep this tab open; editing is paused.');
     const signature = await window.ethereum.request({ method: 'personal_sign', params: [hex, record.wallet] });
     const accounts = await window.ethereum.request({ method: 'eth_accounts' });
     if (wallet() !== record.wallet || accounts[0]?.toLowerCase() !== record.wallet) throw new Error('Wallet changed while signing. Please sign again.');
@@ -224,6 +238,7 @@
   }
   async function publish() {
     const envelope = await sign(), record = DecentCreatorRecords.parse(envelope.message), selected = record.wallet;
+    publicationStage('Sending your signed record', 'Signature checked. Sending your record to the publishing relay…');
     const configResponse = await fetch('community-rewards.json', { cache: 'no-store' });
     if (!configResponse.ok) throw new Error('Publishing configuration could not be loaded.');
     const config = await configResponse.json(), relay = config.relay?.url?.replace(/\/+$/, '');
@@ -233,7 +248,7 @@
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || `Publishing failed (${response.status}).`);
-    status('Signed record sent; not yet published. Waiting for signature verification and IPFS pinning…');
+    publicationStage('Verifying & pinning to IPFS', 'Signed record sent; not yet published. Waiting for signature verification and IPFS pinning…');
     for (let attempt = 0; attempt < 30; attempt++) {
       if (wallet() !== selected) throw new Error('Wallet changed. The signed request may still publish; reopen the original wallet profile to check.');
       if (result.status === 'published') break;
@@ -246,6 +261,7 @@
     }
     if (result.status !== 'published') throw new Error('Publication has not been confirmed yet. Keep your signed export and check again before resubmitting.');
     if (!DecentCreatorRecords.CID.test(result.cid || '')) throw new Error('Publication status did not include a valid CID. Check the public index before retrying.');
+    if (wallet() !== selected) throw new Error('Wallet changed. The signed request may still publish; reopen the original wallet profile to check.');
     index.creators = index.creators.filter(entry => entry.record.wallet !== selected).concat({ record, ...envelope, cid: result.cid });
     const saved = drafts(); delete saved[selected];
     if (saved.previewWallet === selected) delete saved.previewWallet;
@@ -331,7 +347,13 @@
       }
     });
     byId('creator-connect').addEventListener('click', () => byId('wallet-connect-button').click());
-    byId('creator-close').addEventListener('click', () => byId('creator-dialog').close());
+    byId('creator-close').addEventListener('click', () => { if (!publishing) byId('creator-dialog').close(); });
+    byId('creator-dialog').addEventListener('cancel', event => { if (publishing) event.preventDefault(); });
+    byId('creator-publishing-dialog').addEventListener('cancel', event => { if (publishing) event.preventDefault(); });
+    byId('creator-publishing-done').addEventListener('click', () => {
+      byId('creator-publishing-dialog').close();
+      byId('creator-publish').focus();
+    });
     byId('creator-dialog').addEventListener('close', () => { generation++; });
     form.addEventListener('click', event => {
       const add = event.target.closest('[data-add-entry]'), remove = event.target.closest('[data-remove-entry]');
@@ -360,10 +382,41 @@
       signed = null;
       if (event.target.matches('[data-field="type"]')) event.target.closest('fieldset').querySelector('[data-payout-field]').hidden = event.target.value !== 'artizen-experience';
     });
-    async function action(button, fn) {
+    async function action(button, fn, showPublication = false) {
+      if (publishing) return;
       button.disabled = true;
-      try { await fn(); } catch (error) { status(error.message, true); }
-      finally { button.disabled = false; }
+      const dialog = byId('creator-publishing-dialog');
+      try {
+        if (showPublication) {
+          publishing = true;
+          form.inert = true;
+          byId('creator-close').disabled = true;
+          form.setAttribute('aria-busy', 'true');
+          dialog.dataset.state = 'working';
+          byId('creator-publishing-done').hidden = true;
+          byId('creator-publishing-help').hidden = false;
+          publicationStage('Preparing your canopy record', 'Checking your profile before requesting a signature…');
+          dialog.showModal();
+          byId('creator-publishing-title').focus();
+        }
+        await fn();
+        if (showPublication) dialog.dataset.state = 'success';
+      } catch (error) {
+        status(error.message, true);
+        if (showPublication) dialog.dataset.state = 'error';
+      } finally {
+        button.disabled = false;
+        if (showPublication) {
+          publishing = false;
+          form.inert = false;
+          form.removeAttribute('aria-busy');
+          byId('creator-close').disabled = false;
+          byId('creator-publishing-title').textContent = dialog.dataset.state === 'success' ? 'Your creator record is published' : 'Publication was not confirmed';
+          byId('creator-publishing-help').hidden = true;
+          byId('creator-publishing-done').hidden = false;
+          byId('creator-publishing-done').focus();
+        }
+      }
     }
     byId('creator-preview').addEventListener('click', event => action(event.currentTarget, () => {
       if (!byId('creator-local-consent').checked) throw new Error('Consent to browser-local draft storage first.');
@@ -376,7 +429,7 @@
       download({ format: 'decentcanopy-signed-creator', version: 1, ...signed });
       status('Downloaded your signed, portable record. It has not been published by this action.');
     }));
-    form.addEventListener('submit', event => { event.preventDefault(); action(byId('creator-publish'), publish); });
+    form.addEventListener('submit', event => { event.preventDefault(); action(byId('creator-publish'), publish, true); });
     byId('creator-clear').addEventListener('click', event => action(event.currentTarget, () => {
       const saved = drafts(); if (editingWallet) delete saved[editingWallet]; delete saved.previewWallet;
       localStorage.setItem(KEY, JSON.stringify(saved));
@@ -393,7 +446,7 @@
     }));
     window.addEventListener('decentcanopy:wallet-change', () => {
       generation++; signed = null;
-      if (byId('creator-dialog').open) openEditor();
+      if (byId('creator-dialog').open && !publishing) openEditor();
     });
   });
 }());

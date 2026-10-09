@@ -19,6 +19,8 @@ The archived project and fund dataset is frozen by [the archive manifest](../dat
 
 Drafts are browser-local, unsigned and wallet-specific. Public publication requires a readable signature, not gas or payment. It needs an operational relay and community pinning service. The editor reports pending, published or failed rather than treating submission as publication.
 
+Publishing opens a glowing, rotating icon-ring modal adapted from DecentJukebox. It shows the wallet-signature, relay submission, and verification/IPFS-pinning stages; editing and dismissal are paused until the operation finishes. Approve the signature in your wallet when prompted, then keep the tab open. The result stays visible until you choose **Back to editor**, and the same status appears beside **Sign & publish to the canopy**. Errors or a confirmation timeout unlock the editor without claiming publication succeeded; check the public profile before resubmitting a pending request. Reduced-motion settings stop the ring animation.
+
 Only your wallet can revise its signed record. Referencing an archived project does not transfer ownership or edit the historical graph. A new funding source is a reported connection, not automatic fund membership.
 
 ## Publish a Decent fund
