@@ -12,8 +12,71 @@ test('ENS association is scoped to the exact project or declared name, not displ
   assert.equal(ENS.nameFor('0x' + '11'.repeat(20), canopy), '');
   assert.equal(ENS.nameFor(wallet, { key: 'copy', name: 'DecentCanopy', website: '' }), '');
   assert.equal(ENS.nameFor(wallet, { ...canopy, ens: 'custom.eth' }), 'custom.eth');
+  assert.equal(ENS.nameFor(wallet, { key: 'bb15e18e-41de-4f79-9479-9ebcc3e5e467' }), 'thegreenteaparty.thejollylama.eth');
+  assert.equal(ENS.nameFor(wallet, { key: 'cd695985-650e-472e-8f3b-64cbb9a7f682' }), 'decentbusking.thejollylama.eth');
+  assert.equal(ENS.nameFor('0x' + '11'.repeat(20), { key: 'cd695985-650e-472e-8f3b-64cbb9a7f682' }), '');
   assert.equal(ENS.nameFor(wallet, { website: 'https://bignuten.thejollylama.eth.limo/' }), 'bignuten.thejollylama.eth');
   assert.equal(ENS.nameFor(wallet, { website: 'https://example.eth.limo.evil.test/' }), '');
+});
+test('ENS namespace family adds parent-child links across creators without changing signed data', () => {
+  const parentName = 'thegreenteaparty.thejollylama.eth';
+  const childName = `green-tea-party-kiln-001.${parentName}`;
+  const makeNode = (id, wallet, name, ens) => ({ id, name, creatorProjectKey: id, creatorRecord: { wallet, projects: [{ key: id, name, ens }] } });
+  const parent = makeNode('parent', wallet, 'The Green Tea Party', parentName);
+  const child = makeNode('kiln', '0x' + '22'.repeat(20), 'Kiln', childName);
+  const unrelated = makeNode('unrelated', wallet, 'Sibling', 'other.thejollylama.eth');
+  const graph = { projects: [parent, child, unrelated], associations: [] };
+  const original = JSON.stringify(graph);
+  const result = ENS.decorateGraph(graph);
+  assert.equal(JSON.stringify(graph), original);
+  assert.deepEqual(result.projects, graph.projects);
+  assert.equal(result.associations.length, 1);
+  assert.equal(result.associations[0].source, 'parent');
+  assert.equal(result.associations[0].target, 'kiln');
+  assert.equal(result.associations[0].type, 'parent-child');
+  assert.equal(result.associations[0].ensNamespace, true);
+  assert.match(result.associations[0].note, /not proof/);
+  assert.equal(ENS.decorateGraph(result).associations.length, 1);
+  const escaped = value => String(value).replace(/</g, '&lt;').replace(/"/g, '&quot;');
+  const parentSection = ENS.section(wallet, parent.creatorRecord.projects[0], false, escaped, result);
+  assert.match(parentSection, /data-creator-view="kiln"/);
+  assert.match(parentSection, /Mama’s project/);
+  const childSection = ENS.section(child.creatorRecord.wallet, child.creatorRecord.projects[0], false, escaped, result);
+  assert.match(childSection, /Under <button[^>]*data-creator-view="parent"/);
+  const duplicate = makeNode('impostor', wallet, 'Other', parentName);
+  assert.equal(ENS.decorateGraph({ ...graph, projects: [...graph.projects, duplicate] }).associations.length, 0);
+});
+test('known Green Tea children link to ENS when no signed project blips exist', () => {
+  const section = ENS.section(wallet, { key: 'bb15e18e-41de-4f79-9479-9ebcc3e5e467' }, false, value => value);
+  assert.match(section, /https:\/\/app\.ens\.domains\/green-tea-party-kiln-001\.thegreenteaparty\.thejollylama\.eth/);
+  assert.match(section, /Green Tea Hut #1/);
+  assert.doesNotMatch(section, /data-creator-view=/);
+});
+test('raw-codec IPFS contenthash decodes without hiding resolver errors', async () => {
+  const { toUtf8Bytes, sha256 } = require('../relay/node_modules/ethers');
+  const raw = '0xe301015512206aaad159d7f4c386bfce288d683706f02559f6962bbf4b5ff2c2a174cbbd157d';
+  const decoded = ENS.decodeIpfsContenthash(raw);
+  assert.match(decoded, /^ipfs:\/\/bafkrei[a-z2-7]+$/);
+  assert.equal(ENS.decodeIpfsContenthash(`0xe30101551220${sha256(toUtf8Bytes('abc')).slice(2)}`),
+    'ipfs://bafkreif2pall7dybz7vecqka3zo24irdwabwdi4wc55jznaq75q7eaavvu');
+  assert.throws(() => ENS.decodeIpfsContenthash('0xe5011234'), /unsupported/);
+  assert.throws(() => ENS.decodeIpfsContenthash(raw + '00'), /unsupported/);
+  const error = Object.assign(new Error('Unsupported raw contenthash'), { code: 'UNSUPPORTED_OPERATION', operation: 'getContentHash()', info: { data: raw } });
+  const resolver = { getAddress: async () => null, getText: async () => null, getContentHash: async () => { throw error; } };
+  assert.equal((await ENS.readProfile('example.eth', { getResolver: async () => resolver })).contenthash, decoded);
+  await assert.rejects(ENS.readProfile('example.eth', { getResolver: async () => ({ ...resolver, getContentHash: async () => { throw new Error('RPC failed'); } }) }), /RPC failed/);
+});
+test('favicon is a bundled PNG derived from ENS avatar and ships in both site formats', () => {
+  const fs = require('node:fs');
+  const path = require('node:path');
+  const html = fs.readFileSync(require.resolve('../index.html'), 'utf8');
+  assert.match(html, /rel="icon" href="assets\/decentcanopy-ens-favicon\.png"/);
+  assert.match(html, /rel="apple-touch-icon" href="assets\/decentcanopy-ens-favicon\.png"/);
+  const png = fs.readFileSync(path.join(__dirname, '../assets/decentcanopy-ens-favicon.png'));
+  assert.equal(png.subarray(0, 8).toString('hex'), '89504e470d0a1a0a');
+  assert.equal(png.readUInt32BE(16), 180);
+  assert.equal(png.readUInt32BE(20), 180);
+  assert.ok(require('../scripts/siteFiles').listSiteFiles().includes('assets/decentcanopy-ens-favicon.png'));
 });
 test('ENS artwork and proposed contenthash reject unsafe schemes and malformed values', () => {
   assert.equal(ENS.imageUrl(`ipfs://${cid}/art.png`), `https://ipfs.io/ipfs/${cid}/art.png`);

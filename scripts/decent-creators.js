@@ -79,6 +79,7 @@
       byId('creator-service-status').textContent = `Local creator preview could not be loaded: ${error.message}. Open My creator to clear it.`;
     }
     lastGraph = DecentCreatorRecords.apply(base, entries);
+    if (window.DecentENS) lastGraph = window.DecentENS.decorateGraph(lastGraph);
     if (typeof DecentLedgerProof !== 'undefined' && typeof ethers !== 'undefined') {
       const providers = {};
       const providerFor = chain => {
@@ -375,7 +376,7 @@
     const own = wallet() === r.wallet;
     const projectBody = (p, describe = true) => `${describe ? `<p>${e(p.description)}</p>` : `<small>Progress: ${e(p.status)}</small>`}${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}
       ${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}
-      ${window.DecentENS ? window.DecentENS.section(r.wallet, p, own, e) : ''}`;
+      ${window.DecentENS ? window.DecentENS.section(r.wallet, p, own, e, lastGraph) : ''}`;
     const projectCards = projects.map(p => `<details class="creator-project-card">
       <summary>${p.image ? `<img data-creator-image class="creator-project-thumb" src="${e(window.DecentCreatorImages.imageUrl(p.image))}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}
         <span><strong>${e(p.name)}</strong><small>${e(p.status)}</small></span></summary>

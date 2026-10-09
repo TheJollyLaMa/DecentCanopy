@@ -156,7 +156,10 @@ img[data-creator-image][hidden] { display: none !important; }
   border-radius: 12px;
   background: rgba(52, 211, 153, .04);
 }
-.project-ens h4 { margin: 0 0 8px; }
+.project-ens h4 { margin: 0 0 8px; overflow-wrap: anywhere; }
+.project-ens-family { margin: 14px 0; padding-top: 12px; border-top: 1px solid rgba(110, 231, 183, .2); }
+.project-ens-family li { margin-bottom: 10px; }
+.project-ens-family small { display: block; overflow-wrap: anywhere; color: #94a3b8; }
 .project-ens [data-ens-art] { position: relative; }
 .project-ens-header { display: block; width: 100%; max-height: 180px; object-fit: contain; border-radius: 8px; }
 .project-ens-avatar { display: block; width: 80px; height: 80px; margin: 8px 0; object-fit: contain; border-radius: 12px; }

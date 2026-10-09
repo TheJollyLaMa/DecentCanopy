@@ -1,13 +1,24 @@
 (function (root) {
   'use strict';
   const CANOPY = 'decent-project:0x807061df657a7697c04045da7d16d941861caabc:0e78af11-6bb7-4907-aeb4-23f6ce3ed0e6';
+  const PUBLISHED_NAMES = {
+    [CANOPY]: 'decentcanopy.eth',
+    'decent-project:0x807061df657a7697c04045da7d16d941861caabc:bb15e18e-41de-4f79-9479-9ebcc3e5e467': 'thegreenteaparty.thejollylama.eth',
+    'decent-project:0x807061df657a7697c04045da7d16d941861caabc:cd695985-650e-472e-8f3b-64cbb9a7f682': 'decentbusking.thejollylama.eth',
+  };
+  const GREEN_TEA = 'thegreenteaparty.thejollylama.eth';
+  const FAMILY = [
+    { name: `green-tea-party-kiln-001.${GREEN_TEA}`, label: 'Green Tea Party Kiln · Mama’s project' },
+    { name: `green-tea-hut-001.${GREEN_TEA}`, label: 'Green Tea Hut #1' },
+  ];
   const NAME = /^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+eth$/;
   const CID = /^(?:Qm[1-9A-HJ-NP-Za-km-z]{44}|baf[a-z2-7]{20,100})$/;
   const WEEK = 7 * 24 * 60 * 60 * 1000;
   const cache = new Map(), pending = new Map();
   function nameFor(wallet, project) {
     if (project.ens && NAME.test(project.ens)) return project.ens;
-    if (`decent-project:${wallet}:${project.key}` === CANOPY) return 'decentcanopy.eth';
+    const publishedName = PUBLISHED_NAMES[`decent-project:${wallet}:${project.key}`];
+    if (publishedName) return publishedName;
     try {
       const host = new URL(project.website).hostname;
       const name = host.endsWith('.eth.limo') ? host.slice(0, -5) : '';
@@ -33,22 +44,84 @@
   function due(last, now = Date.now()) {
     return !Number.isFinite(last) || now - last >= WEEK;
   }
-  function section(wallet, project, own, escape) {
+  function namedProjects(graph) {
+    const nodes = new Map();
+    for (const node of graph.projects || []) {
+      if (!node.creatorProjectKey || !node.creatorRecord) continue;
+      const project = node.creatorRecord.projects.find(p => p.key === node.creatorProjectKey);
+      const name = nameFor(node.creatorRecord.wallet, project);
+      if (name) nodes.set(name, nodes.has(name) ? null : node);
+    }
+    return nodes;
+  }
+  function family(name, graph, escape) {
+    const nodes = namedProjects(graph), members = new Map();
+    if (name === GREEN_TEA) FAMILY.forEach(item => members.set(item.name, item.label));
+    for (const [child, node] of nodes) {
+      if (node && child.split('.').slice(1).join('.') === name) members.set(child, members.get(child) || node.name);
+    }
+    const parent = name.split('.').slice(1).join('.');
+    const parentNode = nodes.get(parent);
+    const isGreenTeaChild = FAMILY.some(item => item.name === name);
+    if (!members.size && !parentNode && !isGreenTeaChild) return '';
+    const entry = (ens, label) => {
+      const node = nodes.get(ens);
+      return node
+        ? `<button type="button" class="toolbar-btn" data-creator-view="${escape(node.id)}">${escape(label)}</button>`
+        : `<a href="https://app.ens.domains/${escape(ens)}" target="_blank" rel="noopener noreferrer">${escape(label)} ↗</a>`;
+    };
+    return `<div class="project-ens-family"><h4>ENS project family</h4>
+      ${parentNode || isGreenTeaChild ? `<p>Under ${entry(parent, parentNode?.name || 'The Green Tea Party')}</p>` : ''}
+      ${members.size ? `<ul>${[...members].map(([ens, label]) => `<li>${entry(ens, label)}<small>${escape(ens)}</small></li>`).join('')}</ul>` : ''}
+      <small>ENS subname structure, not a transfer of project ownership. Each project keeps its own creator.</small></div>`;
+  }
+  function decorateGraph(graph) {
+    const nodes = namedProjects(graph), associations = graph.associations.slice();
+    for (const [name, child] of nodes) {
+      const parent = nodes.get(name.split('.').slice(1).join('.'));
+      if (!child || !parent) continue;
+      if (associations.some(a => a.type === 'parent-child' && a.source === parent.id && a.target === child.id)) continue;
+      associations.push({ source: parent.id, target: child.id, type: 'parent-child', sourceLabel: 'ENS-name hierarchy',
+        note: 'Parent/subproject inferred from associated ENS names; not proof of ENS or project ownership.', ensNamespace: true });
+    }
+    return { ...graph, associations };
+  }
+  function section(wallet, project, own, escape, graph = { projects: [] }) {
     const name = nameFor(wallet, project);
     if (!name) return own ? '<p class="project-ens-setup"><a class="toolbar-btn" href="https://app.ens.domains/" target="_blank" rel="noopener noreferrer">Set up ENS ↗</a><small>Add your ENS name in Edit project.</small></p>' : '';
     const id = `decent-project:${wallet}:${project.key}`;
     return `<section class="project-ens" data-project-ens="${escape(name)}" data-ens-project="${escape(id)}" data-ens-wallet="${escape(wallet)}" data-ens-own="${own ? 'true' : 'false'}">
       <h4>ENS · <a href="https://${escape(name)}.limo/" target="_blank" rel="noopener noreferrer">${escape(name)} ↗</a></h4>
       <p data-ens-status role="status" aria-live="polite">Reading Ethereum profile…</p>
-      <div data-ens-art></div><div data-ens-controls></div>
+      <div data-ens-art></div>${family(name, graph, escape)}<div data-ens-controls></div>
     </section>`;
+  }
+  function decodeIpfsContenthash(value) {
+    if (!/^0xe30101(?:55|70)1220[0-9a-f]{64}$/i.test(value || '')) throw new Error('ENS contains an unsupported contenthash encoding.');
+    const bytes = value.slice(6).match(/../g).map(byte => parseInt(byte, 16));
+    const alphabet = 'abcdefghijklmnopqrstuvwxyz234567';
+    let result = 'b', bits = 0, buffer = 0;
+    for (const byte of bytes) {
+      buffer = (buffer << 8) | byte;
+      bits += 8;
+      while (bits >= 5) { bits -= 5; result += alphabet[(buffer >>> bits) & 31]; }
+    }
+    if (bits) result += alphabet[(buffer << (5 - bits)) & 31];
+    return `ipfs://${result}`;
+  }
+  async function readContenthash(resolver) {
+    try { return await resolver.getContentHash(); }
+    catch (error) {
+      if (error.code !== 'UNSUPPORTED_OPERATION' || error.operation !== 'getContentHash()' || !error.info?.data) throw error;
+      return decodeIpfsContenthash(error.info.data);
+    }
   }
   async function readProfile(name, provider) {
     if (!NAME.test(name)) throw new Error('Invalid ENS name.');
     const resolver = await provider.getResolver(name);
     if (!resolver) throw new Error('This ENS name has no resolver.');
     const [address, avatar, header, contenthash] = await Promise.all([
-      resolver.getAddress(), resolver.getText('avatar'), resolver.getText('header'), resolver.getContentHash(),
+      resolver.getAddress(), resolver.getText('avatar'), resolver.getText('header'), readContenthash(resolver),
     ]);
     const avatarUrl = avatar?.startsWith('eip155:') ? await resolver.getAvatar() : avatar;
     if (avatar && !avatarUrl) throw new Error('ENS NFT avatar could not be verified or resolved.');
@@ -159,7 +232,9 @@
       const value = await profile(section.dataset.projectEns);
       if (!section.isConnected) return;
       const matches = value.address?.toLowerCase() === section.dataset.ensWallet;
-      notice(section, matches ? 'Live ENS profile · address matches the creator wallet (not proof of ownership).' : 'Live ENS profile · address differs from the creator wallet; project association is not verified.');
+      notice(section, matches ? 'Live ENS profile · address matches the creator wallet (not proof of ownership).'
+        : value.address ? 'Live ENS profile · address differs from the creator wallet; project association is not verified.'
+          : 'Live ENS profile · no Ethereum address record set; project association is not verified.');
       artwork(section, value);
       let candidate = '', pinError = '';
       if (section.dataset.ensProject === CANOPY && section.dataset.ensOwn === 'true') {
@@ -185,7 +260,7 @@
       hydrate(section);
     });
   }
-  const api = { nameFor, imageUrl, contentUri, due, section, readProfile, latestCanopy, mount };
+  const api = { nameFor, imageUrl, contentUri, due, section, readProfile, latestCanopy, decodeIpfsContenthash, decorateGraph, mount };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.DecentENS = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));
