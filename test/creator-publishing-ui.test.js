@@ -11,7 +11,7 @@ const cid = 'bafy' + 'a'.repeat(55);
 const source = fs.readFileSync(require.resolve('../scripts/decent-creators.js'), 'utf8');
 const flush = () => new Promise(resolve => setImmediate(resolve));
 
-function harness({ signatureError, postError, receipt = { status: 'published', cid }, pending = false } = {}) {
+function harness({ signatureError, postError, receipt = { status: 'published', cid }, pending = false, load = async () => {} } = {}) {
   const elements = new Map(), callbacks = {}, requests = [], timers = [];
   let snapshot, signCalls = 0;
   function element(id) {
@@ -24,7 +24,14 @@ function harness({ signatureError, postError, receipt = { status: 'published', c
       addEventListener: (name, fn) => { listeners[name] = fn; },
       fire(name) { const event = { preventDefault() { this.prevented = true; } }; listeners[name]?.(event); return event; },
       showModal() { this.open = true; }, close() { this.open = false; }, focus() {},
-      querySelectorAll: () => [], replaceChildren() { this.children = []; },
+      querySelectorAll: selector => {
+        if (id === 'creator-dialog' && selector === '[data-creator-profile-only]') {
+          return ['creator-local-consent-label', 'creator-preview', 'creator-export', 'creator-clear'].map(element);
+        }
+        if (id === 'creator-local-consent-label') return [element('creator-local-consent')];
+        return [];
+      },
+      replaceChildren() { this.children = []; },
       setAttribute(name, value) { this.attributes[name] = value; },
       removeAttribute(name) { delete this.attributes[name]; },
     };
@@ -47,7 +54,7 @@ function harness({ signatureError, postError, receipt = { status: 'published', c
     window, document: { getElementById: element, addEventListener: (name, fn) => { callbacks[name] = fn; } },
     location: { hostname: 'localhost', href: 'http://localhost/index.html' }, console, TextEncoder, AbortSignal, Date, URL,
     localStorage: { getItem: () => null, setItem() {} },
-    DecentLedgerProof: { CHAINS: {} }, GTPData: { load: async () => {} },
+    DecentLedgerProof: { CHAINS: {} }, GTPData: { load },
     ethers: { verifyMessage: () => wallet },
     DecentCreatorRecords: {
       ...Records,
@@ -148,6 +155,33 @@ test('wallet changes during publication do not refill the editor and are not rep
   await flush();
   assertUnlocked(h, 'error');
   assert.match(h.element('creator-publishing-message').textContent, /Wallet changed/);
+});
+
+test('focused project editing offers only publishing and restores extra tools in the full-profile editor', () => {
+  const h = harness({ load: () => new Promise(() => {}) });
+  const html = fs.readFileSync(require.resolve('../index.html'), 'utf8');
+  for (const id of ['creator-local-consent-label', 'creator-preview', 'creator-export']) {
+    assert.match(html, new RegExp(`<[^>]*id="${id}"[^>]*data-creator-profile-only`));
+  }
+  h.window.DecentCreators.openEditor('forest');
+  for (const id of ['creator-local-consent', 'creator-preview', 'creator-export', 'creator-clear']) {
+    assert.equal(h.element(id).disabled, true);
+  }
+  for (const id of ['creator-local-consent-label', 'creator-preview', 'creator-export', 'creator-clear']) {
+    assert.equal(h.element(id).hidden, true);
+  }
+  assert.equal(h.element('creator-publish').textContent, 'Sign & publish');
+  assert.equal(h.element('creator-publish').disabled, false);
+  assert.equal(h.element('creator-public-consent').disabled, false);
+  assert.equal(h.element('creator-publish-heading').textContent, 'Publish update');
+  h.window.DecentCreators.openEditor();
+  for (const id of ['creator-local-consent-label', 'creator-preview', 'creator-export', 'creator-clear']) {
+    assert.equal(h.element(id).hidden, false);
+    assert.equal(h.element(id).disabled, false);
+  }
+  assert.equal(h.element('creator-local-consent').disabled, false);
+  assert.equal(h.element('creator-publish').textContent, 'Sign & publish to the canopy');
+  assert.equal(h.element('creator-publish-heading').textContent, 'Save, sign, or publish');
 });
 
 test('creator project cards have collapsed artwork summaries, websites, and owner-only focused edit actions', () => {

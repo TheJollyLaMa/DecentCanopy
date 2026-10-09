@@ -276,20 +276,20 @@
         <p>Every wallet can open its own small, peer-to-peer video room from its creator panel and share an invite link. Video and chat go directly between browsers and are never recorded. You decide who to buzz in.</p>
         <label class="reward-check"><input id="creator-rabbit-hole" type="checkbox" /> Show a "Knock on my Rabbit Hole" button on my public blip. Visitors can only get in while your room is open and you let them in.</label>
         </fieldset>
-        <h3>Save, sign, or publish</h3>
-        <label class="reward-check"><input id="creator-local-consent" type="checkbox" /> Save a draft in this browser. This is not a public or signed update.</label>
-        <button id="creator-preview" class="toolbar-btn" type="button">Save draft &amp; preview my blip</button>
+        <h3 id="creator-publish-heading">Save, sign, or publish</h3>
+        <label id="creator-local-consent-label" class="reward-check" data-creator-profile-only><input id="creator-local-consent" type="checkbox" /> Save a draft in this browser. This is not a public or signed update.</label>
+        <button id="creator-preview" class="toolbar-btn" type="button" data-creator-profile-only>Save draft &amp; preview my blip</button>
         <label class="reward-check"><input id="creator-public-consent" type="checkbox" /> I authorize publishing these records, links and my wallet address publicly. IPFS copies and previous versions may persist permanently. I share only my own experience and information I have permission to publish.</label>
         <div class="participation-actions">
-          <button id="creator-export" class="toolbar-btn" type="button">Sign &amp; download portable record</button>
+          <button id="creator-export" class="toolbar-btn" type="button" data-creator-profile-only>Sign &amp; download portable record</button>
           <button id="creator-publish" class="toolbar-btn" type="submit">Sign &amp; publish to the canopy</button>
         </div>
         <p id="creator-publish-status" class="creator-publish-status" role="status" aria-live="polite"></p>
         <label data-creator-profile-only>Restore a signed export <input id="creator-import" type="file" accept=".json,application/json" /></label>
       </form>
       <button id="creator-clear" class="toolbar-btn" type="button" data-creator-profile-only>Clear my local draft / preview</button>
-      <p>Only the signing wallet can publish a replacement profile. Wallet control is not proof of legal identity or historical project ownership. Never share private keys, seed phrases, Artizen credentials, or anyone else’s private information.</p>
-      <p>Community IPFS pinning keeps onboarding simple; the repo index and relay currently provide discovery and publishing access. Signed exports can be independently retained and pinned. External avatar/evidence sites may change or disappear.</p>
+      <p data-creator-profile-only>Only the signing wallet can publish a replacement profile. Wallet control is not proof of legal identity or historical project ownership. Never share private keys, seed phrases, Artizen credentials, or anyone else’s private information.</p>
+      <p data-creator-profile-only>Community IPFS pinning keeps onboarding simple; the repo index and relay currently provide discovery and publishing access. Signed exports can be independently retained and pinned. External avatar/evidence sites may change or disappear.</p>
       <p id="creator-status" role="status" aria-live="polite"></p>
     </dialog>
 

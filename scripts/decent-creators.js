@@ -223,9 +223,10 @@
     const project = editingRecord?.projects.find(p => p.key === editingProjectKey);
     byId('creator-title').textContent = focused ? `Edit project: ${project?.name || 'your project'}` : 'Your Decent Creator';
     byId('creator-editor-description').textContent = focused
-      ? 'Edit just this project. Your signature publishes an updated creator profile with your other published details unchanged. Unrelated local draft edits stay in this browser.'
+      ? 'Update this project. Your other profile details stay unchanged.'
       : 'A living home for your projects and what comes next. An Artizen account, token balance, or payment is not required.';
-    byId('creator-publish').textContent = focused ? 'Sign & publish project update' : 'Sign & publish to the canopy';
+    byId('creator-publish-heading').textContent = focused ? 'Publish update' : 'Save, sign, or publish';
+    byId('creator-publish').textContent = focused ? 'Sign & publish' : 'Sign & publish to the canopy';
   }
   async function openEditor(projectKey = null) {
     if (publishing) return;
@@ -255,7 +256,7 @@
       editorScope();
       byId('creator-form').hidden = false;
       status(editingProjectKey
-        ? 'Only this project is editable here. Review it, consent, and sign to update it on your creator profile.'
+        ? ''
         : saved ? 'Restored your browser-local draft. Publishing requires a new signature.' : 'Edit your profile, projects, funding sources and journey. Nothing publishes until you consent and sign.');
     } catch (error) { byId('creator-form').hidden = true; status(error.message, true); }
   }
