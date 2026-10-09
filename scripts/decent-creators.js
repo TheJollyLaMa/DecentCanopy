@@ -384,8 +384,12 @@
     };
     const payoutLabels = { 'not-shared': 'Not shared', received: 'Received', 'partially-received': 'Partially received', 'not-received': 'Not received', uncertain: 'Uncertain', 'not-applicable': 'Not applicable' };
     const own = wallet() === r.wallet;
+    const financials = p => window.ArtizenFinancials ? window.ArtizenFinancials.render(
+      lastGraph.projects.find(n => n.id === `decent-project:${r.wallet}:${p.key}`)?.financialCapture,
+      e, amount => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)) : '';
     const projectBody = (p, describe = true) => `${describe ? `<p>${e(p.description)}</p>` : `<small>Progress: ${e(p.status)}</small>`}${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}
       ${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}
+      ${financials(p)}
       ${window.DecentENS ? window.DecentENS.section(r.wallet, p, own, e, lastGraph) : ''}`;
     const projectCards = projects.map(p => `<details class="creator-project-card">
       <summary>${p.image ? `<img data-creator-image class="creator-project-thumb" src="${e(window.DecentCreatorImages.imageUrl(p.image))}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}

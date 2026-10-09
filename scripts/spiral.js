@@ -1967,7 +1967,9 @@
       imageHtml +
       `<h2 class="details-title">${escHtml(node.name)}</h2>` +
       recordLabel +
-      '<p class="details-muted">Frozen historical base record. Any supplementary captures are dated and labeled separately. Relationship labels and reported totals do not establish whether any payout was or was not made.</p>' +
+      (node.id.startsWith('artizen-supplement:')
+        ? '<p class="details-muted">Separate public leaderboard capture, not part of the frozen archive. No creator or fund relationships were supplied by this source. Reported totals do not establish whether any payout was or was not made.</p>'
+        : '<p class="details-muted">Frozen historical base record. Any supplementary captures are dated and labeled separately. Relationship labels and reported totals do not establish whether any payout was or was not made.</p>') +
       `<p class="details-desc">${escHtml(node.description || '')}</p>` +
       curationNoteHtml +
       publicStatsHtml +
