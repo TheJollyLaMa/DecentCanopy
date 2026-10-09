@@ -51,7 +51,7 @@ Unresolved references (to a fund or project not on the canopy) are kept in your 
 
 Every creator wallet has its own small video, voice and chat room.
 
-1. **Open it:** connect your wallet, open your creator blip and choose **🕳️ Open my Rabbit Hole**. Enter a name and sign one message. Signing is free and needs no gas. The room stays open while that tab is open.
+1. **Open it:** connect your wallet, open your creator blip and choose **🕳️🐇** (hover for the room description). Enter a name and sign one message. Signing is free and needs no gas. The room stays open while that tab is open.
 2. **Share it:** use **📋 Copy invite link** on your blip or the **Copy** button inside the room. The link looks like `…/rabbit-hole/?host=<your wallet>&room=lounge`. **🔐 New private room** opens a second room with a random name that only people holding that link can find.
 3. **List it (optional):** in **My creator**, tick **Show a "Knock on my Rabbit Hole" button** and publish. Visitors then see **Knock on <name>'s Rabbit Hole** on your blip. This is the signed `rabbitHole: true` field. It is omitted when off, so older signed records don't change.
 4. **Knock:** guests connect their wallet and sign too. Before knocking, the guest's browser checks that the room is really held by the host wallet in the link. The host sees each knocker's verified wallet, then chooses **Buzz In** or **Decline**.

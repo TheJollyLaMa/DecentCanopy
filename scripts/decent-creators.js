@@ -346,8 +346,7 @@
     if (!own && r.rabbitHole !== true) return '';
     const url = rabbitHoleUrl(r.wallet);
     const body = own
-      ? `<p>Your own small, peer-to-peer video room. Open it, then share the invite link with the people you want to chat with.</p>
-        <a class="toolbar-btn" href="${e(url)}" target="_blank" rel="noopener">🕳️ Open my Rabbit Hole</a>
+      ? `<a class="toolbar-btn" href="${e(url)}" target="_blank" rel="noopener" title="Your own small, peer-to-peer video room. Open it, then share the invite link with the people you want to chat with." aria-label="Open my Rabbit Hole">🕳️🐇</a>
         <button type="button" class="toolbar-btn" data-copy-rabbit-hole="${e(url)}">📋 Copy invite link</button>
         ${r.rabbitHole === true ? '' : '<p class="details-muted">Only people you send the link to can find it. Turn on the canopy knock button in My creator to list it on your blip.</p>'}`
       : `<p>${e(r.name)} hosts a small, peer-to-peer video room. You can knock while it is open; they decide who to let in.</p>

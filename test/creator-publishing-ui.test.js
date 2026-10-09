@@ -169,6 +169,9 @@ test('creator project cards have collapsed artwork summaries, websites, and owne
   assert.match(html, /data-creator-project-edit="forest"/);
   assert.match(html, /data-creator-view="decent-project:/);
   assert.match(html, /href="https:\/\/forest.example\/"/);
+  assert.match(html, /title="Your own small, peer-to-peer video room\. Open it, then share the invite link with the people you want to chat with\." aria-label="Open my Rabbit Hole">🕳️🐇<\/a>/);
+  assert.doesNotMatch(html, /<p>Your own small, peer-to-peer video room/);
+  assert.match(html, /data-copy-rabbit-hole=/);
   const projectHtml = h.window.DecentCreators.renderDetails({ ...creator, creatorProjectKey: 'forest' }, escape);
   assert.match(projectHtml, /Edit this project/);
   assert.match(projectHtml, /data-creator-view="decent-creator:/);
