@@ -19,6 +19,8 @@ test('IPFS backup covers every checked-in canopy snapshot and curated data file'
     'data/artizen-curation.json',
     'data/artizen.json',
     'data/artizen-archive.json',
+    'data/artizen-comprehensive-capture.json',
+    'data/artizen-financial-captures.json',
     'data/decent-creators.json',
     'data/associations.json',
     'data/community-creators.json',

@@ -19,52 +19,83 @@
       throw new Error(`Unsupported HTML entity ${match} in leaderboard project details.`);
     }).trim();
   }
-  function parseLeaderboard(html, identities = new Map()) {
+  function parseLeaderboard(html, identities = new Map(), season = 7) {
+    if (!Number.isInteger(season) || season < 0 || season > 7) throw new Error('Unsupported Artizen season.');
     const table = /<table\b[^>]*id="artizen-projects-table"[^>]*>([\s\S]*?)<\/table>/.exec(html)?.[1];
-    if (!table || !/<option value="7" selected>/.test(html)) throw new Error('Expected the public Season 7 project leaderboard.');
+    if (!table || !html.includes(`<option value="${season}" selected>`)) throw new Error(`Expected the public Season ${season} project leaderboard.`);
     const headers = [...table.matchAll(/<th\b[^>]*>([^<]*)<\/th>/g)].map(m => m[1]);
-    if (JSON.stringify(headers) !== JSON.stringify(['Project', ...COLUMNS])) throw new Error('Leaderboard columns changed; refusing ambiguous financial data.');
+    const columns = season === 7 ? COLUMNS : COLUMNS.filter(c => !['Bonus', 'B/S'].includes(c));
+    const fields = season === 7 ? FIELDS : FIELDS.filter(f => f !== 'bonus');
+    if (JSON.stringify(headers) !== JSON.stringify(['Project', ...columns])) throw new Error('Leaderboard columns changed; refusing ambiguous financial data.');
     const result = new Map();
     for (const row of table.matchAll(/<tr\b[^>]*>([\s\S]*?)<\/tr>/g)) {
       const cells = [...row[1].matchAll(/<td\b([^>]*)>([\s\S]*?)<\/td>/g)];
       if (!cells.length) continue;
-      if (cells.length !== 15) throw new Error('Unexpected leaderboard row shape.');
+      if (cells.length !== columns.length + 1) throw new Error('Unexpected leaderboard row shape.');
       const slug = decodeURIComponent(/href="\/projects\/([^"?]+)"/.exec(cells[0][2])?.[1] || '');
       if (!slug || result.has(slug)) throw new Error('Missing or duplicate project identity in leaderboard.');
       const name = plainText(/<a\b[^>]*>([\s\S]*?)<\/a>/.exec(cells[0][2])?.[1] || '');
       if (!name) throw new Error('Missing leaderboard project name.');
       identities.set(slug, { name, description: plainText(/<small\b[^>]*>([\s\S]*?)<\/small>/.exec(cells[0][2])?.[1] || '') });
-      const values = cells.slice(1, 10).map(cell => {
+      const values = cells.slice(1, fields.length + 1).map(cell => {
         const raw = /\bdata-order="([^"]*)"/.exec(cell[1])?.[1];
         if (!raw || !/^\d+(?:\.\d+)?$/.test(raw) || !Number.isFinite(Number(raw))) throw new Error(`Invalid financial value for ${slug}.`);
         return Number(raw);
       });
-      const metrics = Object.fromEntries(FIELDS.map((field, i) => [field, values[i]]));
-      const expected = metrics.sales + metrics.venusSales + metrics.match + metrics.venusExtras + metrics.prize + metrics.bonus;
+      const metrics = Object.fromEntries(fields.map((field, i) => [field, values[i]]));
+      if (season !== 7) metrics.bonus = null;
+      const expected = metrics.sales + metrics.venusSales + metrics.match + metrics.venusExtras + metrics.prize + (metrics.bonus ?? 0);
       if (Math.abs(expected - metrics.raised) > .01) throw new Error(`Raised breakdown does not reconcile for ${slug}.`);
+      if (Math.abs(metrics.sales + metrics.venusSales - metrics.salesWithVenus) > .01
+        || Math.abs(metrics.salesWithVenus + metrics.match - metrics.salesWithMatch) > .01) throw new Error(`Sales breakdown does not reconcile for ${slug}.`);
       result.set(slug, metrics);
     }
-    if (!result.size) throw new Error('Leaderboard contains no usable project rows.');
+    if (!result.size && !/<tbody>\s*<\/tbody>/.test(table)) throw new Error('Leaderboard contains no usable project rows.');
     return result;
   }
   function validate(data) {
-    if (data?.format !== 'decentcanopy-artizen-financial-captures' || data.version !== 1 || data.source !== SOURCE
-      || !Number.isFinite(Date.parse(data.capturedAt)) || data.season !== 7 || !Array.isArray(data.projects)) throw new Error('Invalid supplementary financial capture.');
+    if (data?.format !== 'decentcanopy-artizen-financial-captures' || data.version !== 1
+      || !Number.isInteger(data.season) || data.season < 0 || data.season > 7 || data.source !== `https://artizen.fyi/projects?season=${data.season}`
+      || !Number.isFinite(Date.parse(data.capturedAt)) || !Array.isArray(data.projects)) throw new Error('Invalid supplementary financial capture.');
     const ids = new Set();
     for (const p of data.projects) {
       if (typeof p.id !== 'string' || !/^(artizen-project|curated-project|artizen-supplement):[^\s]+$/.test(p.id) || ids.has(p.id) || !p.slug) throw new Error('Invalid or duplicate financial project identity.');
       ids.add(p.id);
-      if (p.id.startsWith('artizen-supplement:') && (p.id !== `artizen-supplement:${p.slug}` || !p.name || p.status !== 'captured')) throw new Error('Invalid supplemental leaderboard project.');
+      if (p.id.startsWith('artizen-supplement:') && (p.id !== `artizen-supplement:${p.slug}` || !p.name)) throw new Error('Invalid supplemental leaderboard project.');
       if (!['captured', 'not-in-season-leaderboard'].includes(p.status)) throw new Error('Invalid capture status.');
       if (p.status !== 'captured') {
         if (p.metrics !== null) throw new Error('Missing project totals must be unknown, not zero.');
         continue;
       }
-      if (!p.metrics || FIELDS.some(field => typeof p.metrics[field] !== 'number' || !Number.isFinite(p.metrics[field]) || p.metrics[field] < 0)) throw new Error('Invalid captured financial numbers.');
+      if (!p.metrics || FIELDS.some(field => field === 'bonus' && data.season !== 7 && p.metrics[field] === null ? false
+        : typeof p.metrics[field] !== 'number' || !Number.isFinite(p.metrics[field]) || p.metrics[field] < 0)) throw new Error('Invalid captured financial numbers.');
       const m = p.metrics;
-      if (Math.abs(m.sales + m.venusSales + m.match + m.venusExtras + m.prize + m.bonus - m.raised) > .01) throw new Error('Captured financial breakdown does not reconcile.');
+      if (Math.abs(m.sales + m.venusSales + m.match + m.venusExtras + m.prize + (m.bonus ?? 0) - m.raised) > .01
+        || Math.abs(m.sales + m.venusSales - m.salesWithVenus) > .01
+        || Math.abs(m.salesWithVenus + m.match - m.salesWithMatch) > .01) throw new Error('Captured financial breakdown does not reconcile.');
     }
     return data;
+  }
+  function applyComprehensive(graph, data) {
+    if (data?.format !== 'decentcanopy-artizen-comprehensive-capture' || data.version !== 1
+      || data.seasons?.length !== 8 || data.seasons.some((s, i) => s.season !== i)) throw new Error('Invalid all-seasons financial capture.');
+    data.seasons.forEach(validate);
+    let result = { ...graph, projects: graph.projects.map(p => ({ ...p, financialCaptures: [] })) };
+    for (const season of data.seasons) {
+      const ids = new Set(season.projects.map(p => p.id));
+      result = apply(result, season);
+      result = { ...result, projects: result.projects.map(p => {
+        const capture = p.financialCapture;
+        if (!capture || !ids.has(capture.id) || capture.season !== season.season) return p;
+        return { ...p, financialCaptures: [...(p.financialCaptures || []), capture] };
+      }) };
+    }
+    return result;
+  }
+  function renderHistory(captures, escape, currency) {
+    if (!captures?.length) return '';
+    return '<div class="details-group"><h3>Public Artizen financial history</h3><p class="details-muted">Separate season tables, not a verified lifetime total. Missing seasons are unknown; no amounts are inferred or added across seasons. <a href="data/artizen-comprehensive-capture.json" target="_blank" rel="noopener noreferrer">Source metadata and coverage report ↗</a></p>'
+      + captures.slice().reverse().map(c => `<details${c.season === 7 ? ' open' : ''}><summary>Season ${c.season} · ${c.status === 'captured' ? `${currency(c.metrics.raised)} reported raised` : 'not listed'}</summary>${render(c, escape, currency)}</details>`).join('') + '</div>';
   }
   function apply(graph, data) {
     validate(data);
@@ -92,13 +123,13 @@
     if (!capture) return '';
     const source = `<a href="${escape(capture.source)}" target="_blank" rel="noopener noreferrer">artizen.fyi Season ${capture.season} leaderboard ↗</a>`;
     const reference = capture.historicalReference ? `<p class="details-muted">Figures for ${escape(capture.name)}, linked by ${capture.referenceKind === 'locally-curated' ? 'a locally curated historical association' : 'the creator’s self-reported historical reference'}; not verified project ownership.</p>` : '';
-    if (capture.status !== 'captured') return `<div class="details-group"><h3>Supplementary financial check</h3>${reference}<p>Not listed in the checked Season 7 leaderboard. Amount unknown, not $0.</p><small>${source} · checked ${escape(capture.capturedAt.slice(0, 10))}</small></div>`;
+    if (capture.status !== 'captured') return `<div class="details-group"><h3>Supplementary financial check</h3>${reference}<p>Not listed in the checked Season ${capture.season} leaderboard. Amount unknown, not $0.</p><small>${source} · checked ${escape(capture.capturedAt.slice(0, 10))}</small></div>`;
     const m = capture.metrics;
-    return `<div class="details-funding"><h3>Separate Season 7 financial capture</h3>${reference}<strong>${currency(m.raised)} reported raised</strong>
-      <dl>${[['Sales (excluding Venus)', m.sales], ['Venus sales', m.venusSales], ['Match', m.match], ['Venus extras', m.venusExtras], ['Prize', m.prize], ['Bonus', m.bonus]].map(([label, amount]) => `<dt>${label}</dt><dd>${currency(amount)}</dd>`).join('')}</dl>
-      <p class="participation-card-note">${source} · captured ${escape(capture.capturedAt.slice(0, 10))} · USD. Raised = sales + Venus sales + match + Venus extras + prize + bonus. Page-reported figures, not verified payments or payouts. Underlying source freshness is unknown; this is not a live feed.</p></div>`;
+    return `<div class="details-funding"><h3>Separate Season ${capture.season} financial capture</h3>${reference}<strong>${currency(m.raised)} reported raised</strong>
+      <dl>${[['Sales (excluding Venus)', m.sales], ['Venus sales', m.venusSales], ['Match', m.match], ['Venus extras', m.venusExtras], ['Prize', m.prize], ['Bonus', m.bonus]].map(([label, amount]) => `<dt>${label}</dt><dd>${amount === null ? 'Not supplied by this table' : currency(amount)}</dd>`).join('')}</dl>
+      <p class="participation-card-note">${source} · captured ${escape(capture.capturedAt.slice(0, 10))} · USD. Raised = sales + Venus sales + match + Venus extras + prize${m.bonus === null ? '; this table has no bonus column' : ' + bonus'}. Page-reported figures, not verified payments or payouts. Underlying source freshness is unknown; this is not a live feed.</p></div>`;
   }
-  const api = { SOURCE, parseLeaderboard, validate, apply, render };
+  const api = { SOURCE, parseLeaderboard, validate, apply, applyComprehensive, render, renderHistory };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.ArtizenFinancials = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));

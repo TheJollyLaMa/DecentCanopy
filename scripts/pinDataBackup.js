@@ -11,6 +11,8 @@ const DATA_FILES = [
   'data/artizen-curation.json',
   'data/artizen.json',
   'data/artizen-archive.json',
+  'data/artizen-comprehensive-capture.json',
+  'data/artizen-financial-captures.json',
   'data/decent-creators.json',
   'data/associations.json',
   'data/community-creators.json',

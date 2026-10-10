@@ -2049,7 +2049,7 @@
       `<p class="details-desc">${escHtml(node.description || '')}</p>` +
       curationNoteHtml +
       publicStatsHtml +
-      (window.ArtizenFinancials ? window.ArtizenFinancials.render(node.financialCapture, escHtml, formatCurrency) : '') +
+      (window.ArtizenFinancials ? window.ArtizenFinancials.renderHistory(node.financialCaptures, escHtml, formatCurrency) : '') +
       curatedLinksHtml +
       valueHtml +
       importedFunding +

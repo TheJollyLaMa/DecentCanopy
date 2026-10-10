@@ -8,6 +8,10 @@
 - **The whole site:** [Pin Canopy Site to IPFS](../.github/workflows/pin-site-ipfs.yml) pins the website as one folder after each Pages publish. Open `https://<cid>.ipfs.inbrowser.link/` using the CID in [ipfs-site.json](../ipfs-site.json) or the header IPFS popover. Use a subdomain gateway so wallets and publishing work. The archive, bundled signed creators and Rabbit Hole (`/rabbit-hole/`) work from that copy; the relay, newest index, Pinata, PeerJS and RPCs are still servers. See [the README](../README.md#the-whole-canopy-on-ipfs).
 - **Canopy backup:** [Pin Canopy Data to IPFS](../.github/workflows/pin-ipfs-backup.yml) packages the public dataset, creator index, archive manifest and reward settings. The IPFS header popover shows its CID/status.
 
+The original frozen Artizen archive is preserved unchanged. A separate [all-seasons capture](../data/artizen-comprehensive-capture.json) records the public catalog and Season 0–7 financial tables, retrieval dates, source hashes and coverage gaps. Compressed original responses live in [source captures](../data/artizen-source-captures/) and are included in the whole-site IPFS snapshot; the JSON data backup includes the parsed comprehensive capture and earlier Season 7 capture. Empty tables and absent rows are not zero balances. This preserves the returned public evidence, not a guarantee that upstream Artizen records are complete or current.
+
+The October 10 capture contains 3,251 distinct projects, including all 3,116 frozen catalog projects and curated/supplemental projects. 1,823 have at least one financial row; 1,428 have none. Returned financial rows by season: 0–3: zero rows, 4: 89, 5: 95, 6: 1,025, 7: 1,212. The public catalog is still dated September 7 and contains 250 funds and 9,547 relationships. These counts describe the available sources, not certified completeness of Artizen’s underlying records.
+
 The community `PINATA_JWT` belongs in GitHub Actions secrets. It is never committed or supplied to the browser. A CID identifies content; it does not guarantee someone will keep serving it.
 
 ## Pin your own copy

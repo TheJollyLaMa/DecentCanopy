@@ -81,9 +81,9 @@
     lastGraph = DecentCreatorRecords.apply(base, entries);
     if (window.ArtizenFinancials) {
       try {
-        const response = await fetch('data/artizen-financial-captures.json');
+        const response = await fetch('data/artizen-comprehensive-capture.json');
         if (!response.ok) throw new Error(`Supplementary financial capture could not be loaded (${response.status}).`);
-        lastGraph = window.ArtizenFinancials.apply(lastGraph, await response.json());
+        lastGraph = window.ArtizenFinancials.applyComprehensive(lastGraph, await response.json());
       } catch (error) {
         console.error('[Artizen financial captures]', error);
         byId('creator-service-status').textContent = `${error.message} Frozen archive figures are unchanged.`;
@@ -384,8 +384,8 @@
     };
     const payoutLabels = { 'not-shared': 'Not shared', received: 'Received', 'partially-received': 'Partially received', 'not-received': 'Not received', uncertain: 'Uncertain', 'not-applicable': 'Not applicable' };
     const own = wallet() === r.wallet;
-    const financials = p => window.ArtizenFinancials ? window.ArtizenFinancials.render(
-      lastGraph.projects.find(n => n.id === `decent-project:${r.wallet}:${p.key}`)?.financialCapture,
+    const financials = p => window.ArtizenFinancials ? window.ArtizenFinancials.renderHistory(
+      lastGraph.projects.find(n => n.id === `decent-project:${r.wallet}:${p.key}`)?.financialCaptures,
       e, amount => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)) : '';
     const projectBody = (p, describe = true) => `${describe ? `<p>${e(p.description)}</p>` : `<small>Progress: ${e(p.status)}</small>`}${p.wallet ? `<small>Receiving wallet ${e(p.wallet)}${p.wallet === r.wallet ? ' (signing wallet)' : ' (declared)'}</small>` : ''}
       ${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}
