@@ -1,18 +1,20 @@
 {
   "provider": "Pinata",
-  "cid": "bafybeic4svx4kxinw2rzhasvdp745lu7hufbjsadtv36acftes6mln3ymq",
-  "uri": "ipfs://bafybeic4svx4kxinw2rzhasvdp745lu7hufbjsadtv36acftes6mln3ymq",
-  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeic4svx4kxinw2rzhasvdp745lu7hufbjsadtv36acftes6mln3ymq",
-  "pinnedAt": "2026-10-09T14:51:29.217Z",
-  "dataSha256": "52b29d94d48df9af255dc5ccd0cbd66d134a45d893149f9878f716caf186fbc1",
-  "payloadSha256": "d86474cf966f800a6a77728d624c7fd03b132619fc0a209bccbb403b2be91b44",
-  "payloadBytes": 3868189,
+  "cid": "bafybeih4gcj57hffxmxbqdnd4iwneqeoqtccwf4wpnxvhkora54qj6q4de",
+  "uri": "ipfs://bafybeih4gcj57hffxmxbqdnd4iwneqeoqtccwf4wpnxvhkora54qj6q4de",
+  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeih4gcj57hffxmxbqdnd4iwneqeoqtccwf4wpnxvhkora54qj6q4de",
+  "pinnedAt": "2026-10-10T09:42:41.177Z",
+  "dataSha256": "33d9d2b3f32cd841458e2b16ec594c557961d470b3d008c9d9f6c1806eee65a0",
+  "payloadSha256": "5f6a0104ba365df471f4cdb4e1728ccef43f6b63242a9e2cc79a7bf7e9f7965b",
+  "payloadBytes": 5948772,
   "files": [
     "contributor-accounts.json",
     "data/activity.json",
     "data/artizen-curation.json",
     "data/artizen.json",
     "data/artizen-archive.json",
+    "data/artizen-comprehensive-capture.json",
+    "data/artizen-financial-captures.json",
     "data/decent-creators.json",
     "data/associations.json",
     "data/community-creators.json",
@@ -23,6 +25,11 @@
     "community-rewards.json"
   ],
   "recentCids": [
+    {
+      "cid": "bafybeih4gcj57hffxmxbqdnd4iwneqeoqtccwf4wpnxvhkora54qj6q4de",
+      "pinnedAt": "2026-10-10T09:42:41.177Z",
+      "payloadSha256": "5f6a0104ba365df471f4cdb4e1728ccef43f6b63242a9e2cc79a7bf7e9f7965b"
+    },
     {
       "cid": "bafybeic4svx4kxinw2rzhasvdp745lu7hufbjsadtv36acftes6mln3ymq",
       "pinnedAt": "2026-10-09T14:51:29.217Z",
