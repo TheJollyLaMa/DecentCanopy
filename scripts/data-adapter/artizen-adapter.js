@@ -21,7 +21,7 @@ var GTPArtizenDataAdapter = (function () {
     if (project.note) entity.curationNote = project.note;
   }
 
-  function transform(snapshot, curation, community) {
+  function transform(snapshot, curation, community, details) {
     if (!snapshot || typeof snapshot !== 'object') {
       throw new Error('[GTPArtizenDataAdapter] Artizen snapshot is missing or invalid');
     }
@@ -129,6 +129,15 @@ var GTPArtizenDataAdapter = (function () {
         dataState: 'not-in-feed'
       });
       applyCuratedPublicData(entities[entities.length - 1], project);
+    });
+
+    // Supplement existing registrations without rewriting the frozen archive.
+    (details && Array.isArray(details.projects) ? details.projects : []).forEach(function (record) {
+      var entity = entities.find(function (item) { return item.kind === 'project' && item.slug === record.slug; });
+      if (!entity) return;
+      entity.projectDetails = record;
+      entity.raised = record.raised;
+      entity.goal = record.goal;
     });
 
     var edges = new Map();
@@ -274,9 +283,13 @@ var GTPArtizenDataAdapter = (function () {
       }),
       fetch(basePath + 'data/community-creators.json').then(function (response) {
         return response.ok ? response.json() : null;
-      }).catch(function () { return null; })
+      }).catch(function () { return null; }),
+      fetch(basePath + 'data/project-details.json').then(function (response) {
+        if (!response.ok) throw new Error('[GTPArtizenDataAdapter] Could not load project details (HTTP ' + response.status + ')');
+        return response.json();
+      })
     ]).then(function (payloads) {
-      return transform(payloads[0], payloads[1], payloads[2]);
+      return transform(payloads[0], payloads[1], payloads[2], payloads[3]);
     });
 
     return {

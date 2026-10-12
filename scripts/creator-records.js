@@ -176,6 +176,7 @@
   }
   function apply(base, entries) {
     const projects = base.projects.slice(), associations = base.associations.slice();
+    const archiveById = new Map(base.projects.map(p => [p.id, p]));
     const known = new Set(projects.map(p => p.id)), owners = new Map(), claims = new Map();
     const link = (source, target, type, note) => associations.push({ source, target, type, note, sourceLabel: 'Wallet-signed self-report' });
     const commonFor = entry => ({ sourceLabel: entry.draft ? 'Browser-local creator draft · not public' : 'Wallet-signed creator report · not independently verified', raised: 0, goal: 0, creatorRecord: entry.record, creatorCid: entry.cid, creatorSignature: entry.signature, creatorMessage: entry.message, creatorDraft: Boolean(entry.draft) });
@@ -185,7 +186,9 @@
       add({ id: creatorId, name: r.name, kind: 'creator', track: 'Creators', status: 'active', description: r.bio, websiteUrl: r.website, image: r.avatar, publicWallet: { address: r.wallet, chainId: 8453 }, sharedLocation: r.location });
       r.projects.forEach(p => {
         const id = `decent-project:${r.wallet}:${p.key}`;
-        add({ id, name: p.name, kind: 'project', track: 'Projects', status: p.status, description: p.description, websiteUrl: p.website, image: p.image, creatorProjectKey: p.key });
+        const projectDetails = archiveById.get(p.archiveId)?.projectDetails || null;
+        add({ id, name: p.name, kind: 'project', track: 'Projects', status: p.status, description: p.description, websiteUrl: p.website, image: p.image, creatorProjectKey: p.key,
+          ...(projectDetails ? { projectDetails, raised: projectDetails.raised, goal: projectDetails.goal } : {}) });
         link(creatorId, id, 'creator-associated', 'Project association claimed by this wallet; not independently verified ownership.');
         if (p.archiveId && known.has(p.archiveId)) link(id, p.archiveId, 'research-link', 'Creator-reported historical reference; the archive remains unchanged.');
       });

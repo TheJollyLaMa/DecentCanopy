@@ -55,8 +55,8 @@ var GTPData = (function () {
       console.warn('[GTPData] projects[' + index + '] missing required fields: ' + missing.join(', '), raw);
       return false;
     }
-    if (typeof raw.raised !== 'number' || typeof raw.goal !== 'number') {
-      console.warn('[GTPData] projects[' + index + '] raised/goal must be numbers', raw);
+    if ((raw.raised !== null && typeof raw.raised !== 'number') || (raw.goal !== null && typeof raw.goal !== 'number')) {
+      console.warn('[GTPData] projects[' + index + '] raised/goal must be numbers or null (unavailable)', raw);
       return false;
     }
     if (!raw.id || typeof raw.id !== 'string') {
@@ -73,8 +73,8 @@ var GTPData = (function () {
       name: String(raw.name || '(Unnamed)'),
       track: String(raw.track || 'Unknown'),
       status: String(raw.status || 'curation'),
-      raised: Number(raw.raised) || 0,
-      goal: Number(raw.goal) || 0,
+      raised: raw.raised === null ? null : Number(raw.raised) || 0,
+      goal: raw.goal === null ? null : Number(raw.goal) || 0,
       season: raw.season != null ? Number(raw.season) : null,
       seasonTitle: raw.seasonTitle || raw.track || null,
       phase: raw.phase || null,
@@ -110,6 +110,7 @@ var GTPData = (function () {
       curationNote: raw.curationNote || null,
       artizenProfile: raw.artizenProfile || null,
       funding: raw.funding || null,
+      projectDetails: raw.projectDetails || null,
       participationEvents: Array.isArray(raw.participationEvents) ? raw.participationEvents.slice() : [],
       importCoverage: raw.importCoverage || null,
       publicWallet: raw.publicWallet || null,

@@ -18,6 +18,7 @@ const DATA_FILES = [
   'data/community-creators.json',
   'data/community-pinners.json',
   'data/projects.json',
+  'data/project-details.json',
   'payroll-assets.json',
   'payroll-queue.json',
   'community-rewards.json'

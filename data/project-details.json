@@ -1,0 +1,35 @@
+{
+  "projects": [
+    {
+      "slug": "green-tea-hut-1",
+      "name": "Green Tea Hut #1",
+      "sourceLabel": "Repository-curated project details; separate from the frozen Artizen archive and wallet-signed profile",
+      "summary": "The first Green Tea Party project, with transparent milestone funding and spending.",
+      "stage": "Materials & Equipment Gathering",
+      "raised": null,
+      "goal": null,
+      "location": null,
+      "outcomes": null,
+      "repoUrl": "https://github.com/TheJollyLaMa/GreenTeaHut_01",
+      "ledgerUrl": "https://thejollylama.github.io/GreenTeaHut_01/web/",
+      "campaignUrl": "https://artizen.fund/index/p/green-tea-hut-1?season=7",
+      "accountingLedger": {
+        "chainId": 10,
+        "address": "0x44500FFd99B621620f393FCdbcF55D5137A55A23",
+        "role": "accounting-only"
+      },
+      "treasury": {
+        "chainId": 8453,
+        "contract": "ProjectTreasuryLedger",
+        "status": "deployed-tested",
+        "address": "0x757B1F856f2Faea5a661820f9da56af032B1F9a1",
+        "explorerUrl": "https://basescan.org/address/0x757B1F856f2Faea5a661820f9da56af032B1F9a1",
+        "owner": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+        "url": "https://thejollylama.github.io/GreenTeaHut_01/web/treasury.html",
+        "assets": ["ETH", "USDC"],
+        "payoutAuthority": "Owner-approved managers may pay",
+        "tests": ["ETH deposit and payout", "Base USDC deposit and payout"]
+      }
+    }
+  ]
+}
