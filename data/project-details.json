@@ -12,7 +12,6 @@
       "outcomes": null,
       "repoUrl": "https://github.com/TheJollyLaMa/GreenTeaHut_01",
       "ledgerUrl": "https://thejollylama.github.io/GreenTeaHut_01/web/",
-      "campaignUrl": "https://artizen.fund/index/p/green-tea-hut-1?season=7",
       "accountingLedger": {
         "chainId": 10,
         "address": "0x44500FFd99B621620f393FCdbcF55D5137A55A23",
@@ -20,15 +19,22 @@
       },
       "treasury": {
         "chainId": 8453,
-        "contract": "ProjectTreasuryLedger",
-        "status": "deployed-tested",
-        "address": "0x757B1F856f2Faea5a661820f9da56af032B1F9a1",
-        "explorerUrl": "https://basescan.org/address/0x757B1F856f2Faea5a661820f9da56af032B1F9a1",
+        "contract": "ProjectTreasuryV2",
+        "status": "active",
+        "address": "0xf75d1688D01fE29235B3bde450B615e4f3d2254A",
+        "explorerUrl": "https://basescan.org/address/0xf75d1688D01fE29235B3bde450B615e4f3d2254A",
         "owner": "0x807061DF657A7697c04045dA7d16D941861cAABc",
         "url": "https://thejollylama.github.io/GreenTeaHut_01/web/treasury.html",
         "assets": ["ETH", "USDC"],
         "payoutAuthority": "Owner-approved managers may pay",
-        "tests": ["ETH deposit and payout", "Base USDC deposit and payout"]
+        "tests": ["ETH deposit and payout", "Base USDC deposit and payout"],
+        "previousBaseTreasury": {
+          "contract": "ProjectTreasuryLedger",
+          "status": "retired",
+          "address": "0x757B1F856f2Faea5a661820f9da56af032B1F9a1",
+          "explorerUrl": "https://basescan.org/address/0x757B1F856f2Faea5a661820f9da56af032B1F9a1",
+          "role": "history imported; do not deposit"
+        }
       }
     }
   ]
