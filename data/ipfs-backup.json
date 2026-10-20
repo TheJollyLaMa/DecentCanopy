@@ -1,12 +1,12 @@
 {
   "provider": "Pinata",
-  "cid": "bafybeif6zabmwcymvqe7i6vpnip6zivmgo2ezcwq3kctfp5bmabb7jad5m",
-  "uri": "ipfs://bafybeif6zabmwcymvqe7i6vpnip6zivmgo2ezcwq3kctfp5bmabb7jad5m",
-  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeif6zabmwcymvqe7i6vpnip6zivmgo2ezcwq3kctfp5bmabb7jad5m",
-  "pinnedAt": "2026-10-20T14:49:30.000Z",
-  "dataSha256": "7d07afbe71d2c24f1787b27ed9313094ee4cd273d83d3eab95a0818e11d05f2e",
-  "payloadSha256": "955fb783ca7bd06497faf1605022609885066987b4a3b904b7b6b1d220f62ae7",
-  "payloadBytes": 5964303,
+  "cid": "bafybeigpzmv6pvoadpj4doszzsnrt36xu7aced4tffcgxf4ijkwbary2u4",
+  "uri": "ipfs://bafybeigpzmv6pvoadpj4doszzsnrt36xu7aced4tffcgxf4ijkwbary2u4",
+  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeigpzmv6pvoadpj4doszzsnrt36xu7aced4tffcgxf4ijkwbary2u4",
+  "pinnedAt": "2026-10-20T21:41:03.075Z",
+  "dataSha256": "492e4d1d19171499361bb65f300cb21e10dd5c011c27d95f29e4ed7ad56b5ce9",
+  "payloadSha256": "fa5bc0381dc531989234b33fac22e424bb6cf41941704db8891ccd55eb805e01",
+  "payloadBytes": 6027492,
   "files": [
     "contributor-accounts.json",
     "data/activity.json",
@@ -27,6 +27,11 @@
     "community-rewards.json"
   ],
   "recentCids": [
+    {
+      "cid": "bafybeigpzmv6pvoadpj4doszzsnrt36xu7aced4tffcgxf4ijkwbary2u4",
+      "pinnedAt": "2026-10-20T21:41:03.075Z",
+      "payloadSha256": "fa5bc0381dc531989234b33fac22e424bb6cf41941704db8891ccd55eb805e01"
+    },
     {
       "cid": "bafybeif6zabmwcymvqe7i6vpnip6zivmgo2ezcwq3kctfp5bmabb7jad5m",
       "pinnedAt": "2026-10-20T14:49:30.000Z",
