@@ -30,7 +30,8 @@ test('all requested names survive as projects, with separate public repo identit
   ];
   assert.deepEqual(graph.projects.filter(n => n.kind !== 'repository').map(n => n.name).sort(), expected.sort());
   assert.equal(new Set(graph.projects.map(n => n.id)).size, graph.projects.length);
-  assert.equal(graph.projects.filter(n => n.kind === 'repository').length, data.projects.filter(p => p.repo).length);
+  assert.equal(graph.projects.filter(n => n.kind === 'repository').length,
+    new Set(data.projects.filter(p => p.repo).map(p => p.repo.toLowerCase())).size);
   graph.projects.forEach(node => {
     assert.equal(node.raised, null);
     assert.equal(node.goal, null);
@@ -55,11 +56,12 @@ test('focus, external scope, unresolved identities, and reported payouts remain 
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name), ['BigNuten_Vanilla']);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
   assert.equal(graph.projects.find(n => n.name === 'Bean').repoUrl, null);
-  assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, null);
+  assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, 'https://github.com/TheJollyLaMa/BabelBet');
+  assert.equal(graph.projects.find(n => n.name === 'Decent_UCANN_Play').repoUrl, 'https://github.com/TheJollyLaMa/Decent_UCAN_Play');
   const busking = graph.projects.find(n => n.id === id('decent-busking'));
   assert.match(busking.agencyDetails.currentState, /steward reports/);
-  assert.match(busking.agencyDetails.currentState, /not reconciled/);
-  const reuse = graph.associations.find(a => a.source === id('decent-busking') && a.target === id('big-nuten'));
+  assert.match(busking.agencyDetails.currentState, /not an independent chain audit/);
+  const reuse = graph.associations.find(a => a.type === 'could-reuse' && a.source === id('decent-busking') && a.target === id('big-nuten'));
   assert.equal(reuse.relationshipState, 'proposed');
   assert.ok(reuse.evidence.some(row => row.url.endsWith('/issues/337')));
   const lineage = graph.associations.find(a => a.source === id('decent-jukebox') && a.target === busking.id);
@@ -116,6 +118,105 @@ test('cards explain direction, uncertainty, reuse context, existing issues, and 
   assert.doesNotMatch(html, /<img|Frozen historical|Artizen record|\$0|0% funded|ledger-verified/i);
 });
 
+test('capabilities require evidence and candidate matches resolve the exact offer and need', () => {
+  const data = fixture();
+  const graph = Model.transform(data);
+  const matches = graph.associations.filter(edge => edge.type === 'capability-match');
+  assert.ok(matches.length >= 3);
+  matches.forEach(edge => {
+    assert.equal(edge.relationshipState, 'proposed');
+    assert.ok(graph.projects.find(p => p.id === edge.source).agencyDetails.offers.some(o => o.id === edge.offer));
+    assert.ok(graph.projects.find(p => p.id === edge.target).agencyDetails.needs.some(n => n.id === edge.need));
+    assert.ok(edge.nextTest);
+  });
+  for (const mutate of [
+    d => { d.projects[1].offers[0].evidence = []; },
+    d => { d.projects[1].offers[0].state = 'production-ready'; },
+    d => { d.projects[1].reviewCaveats = 'not an array'; },
+    d => { d.projects[1].offers.push(d.projects[1].offers[0]); },
+    d => { d.relationships[0].offer = 'missing'; },
+    d => { d.relationships[0].need = 'missing'; },
+    d => { d.relationships[0].nextTest = ''; },
+    d => { d.relationships[0].state = 'observed'; },
+    d => { d.relationships[0].evidence = []; },
+    d => { d.relationships.push(d.relationships[0]); }
+  ]) {
+    const invalid = fixture();
+    mutate(invalid);
+    assert.throws(() => Model.transform(invalid));
+  }
+});
+
+test('public capability inventory keeps private/local review payloads outside publication', () => {
+  const data = fixture();
+  assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 39);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 29);
+  assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 11);
+  assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
+  for (const project of data.projects) {
+    for (const item of [...(project.offers || []), ...(project.needs || [])]) {
+      assert.ok(item.evidence.length);
+      item.evidence.forEach(source => assert.ok(source.url.startsWith('https://github.com/')));
+    }
+  }
+});
+
+test('older agency inventories remain readable without capability fields', () => {
+  const data = fixture();
+  data.relationships = data.relationships.filter(edge => edge.type !== 'capability-match');
+  data.projects.forEach(project => {
+    delete project.offers;
+    delete project.needs;
+    delete project.reviewNote;
+    delete project.reviewCaveats;
+  });
+  const graph = Model.transform(data);
+  assert.ok(graph.projects.length);
+  assert.equal(Model.lensIds(graph.projects, graph.associations, 'crossovers').size, 0);
+  const entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
+  assert.match(Cards.overview(entities, graph.associations, escape), /No evidence-linked candidates/);
+});
+
+test('capability cards and overview escape offer, caution, and candidate text', () => {
+  const data = fixture();
+  const markup = '<img src=x onerror=alert(1)>';
+  data.projects.find(p => p.id === 'decent-canopy').offers[0].label = markup;
+  data.projects.find(p => p.id === 'artfi').reviewCaveats.push(markup);
+  data.relationships.find(edge => edge.type === 'capability-match').nextTest = markup;
+  const graph = Model.transform(data);
+  const entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
+  const card = Cards.render(entities[id('artfi')], entities, graph.associations, escape, Model);
+  assert.match(card, /&lt;img/);
+  assert.doesNotMatch(card, /<img/);
+  const overview = Cards.overview(entities, graph.associations, escape);
+  assert.match(overview, /&lt;img/);
+  assert.doesNotMatch(overview, /<img/);
+});
+
+test('capability lenses exclude repo duplicates and overview states coverage without impact scoring', () => {
+  const graph = Model.transform(fixture());
+  const offers = Model.lensIds(graph.projects, graph.associations, 'offers');
+  assert.ok(offers.has(id('big-nuten')));
+  assert.ok(![...offers].some(key => key.startsWith('github-repo:')));
+  const crossovers = Model.lensIds(graph.projects, graph.associations, 'crossovers');
+  graph.associations.filter(edge => edge.type === 'capability-match').forEach(edge => {
+    assert.ok(crossovers.has(edge.source) && crossovers.has(edge.target));
+  });
+  assert.equal(Model.lensIds(graph.projects, graph.associations, 'all').size, graph.projects.length);
+  assert.throws(() => Model.lensIds(graph.projects, graph.associations, 'invented'));
+  const entities = Object.fromEntries(graph.projects.map(n => [n.id, n]));
+  const html = Cards.overview(entities, graph.associations, escape);
+  assert.match(html, /not impact scores/);
+  assert.match(html, /Next validation/);
+  assert.match(html, /Private\/local findings are excluded/);
+  const card = Cards.render(entities[id('big-nuten')], entities, graph.associations, escape, Model);
+  assert.match(card, /Code \/ patterns to offer/);
+  assert.match(card, /Expressed needs/);
+  assert.match(card, /Offer:/);
+  assert.match(card, /Need:/);
+});
+
 test('agency adapter fetches once across shared selectors and does not replace unavailable data', async () => {
   let requests = 0;
   const sandbox = {
@@ -159,6 +260,10 @@ test('shared data layer preserves map metadata without overlaying creators or fr
   assert.ok(sandbox.GTPData.getProjectById(id('big-nuten')).agencyDetails);
   assert.equal(sandbox.GTPData.getAdapterMetrics().availableFunds, null);
   assert.ok(sandbox.GTPData.getAssociations().some(a => a.relationshipState === 'proposed' && a.evidence.length));
+  const match = sandbox.GTPData.getAssociations().find(a => a.type === 'capability-match' && a.offer === 'radio-media-proxy');
+  assert.equal(match.offer, 'radio-media-proxy');
+  assert.equal(match.need, 'radio-media-route');
+  assert.match(match.nextTest, /decoder/);
   sandbox.GTPData.setFilter('status', 'now');
   assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 2);
 });
