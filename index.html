@@ -406,6 +406,7 @@
         <span class="mode-badge mode-badge--prototype" aria-live="polite"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" /><span class="mode-badge-label">Artizen-backed Prototype Snapshot</span></span>
 
         <div class="canopy-switch" role="group" aria-label="Choose a canopy">
+          <a href="?canopy=agency">DecentAgency map</a>
           <a href="?canopy=green-tea">Green Tea canopy</a>
           <a href="index.html">Whole canopy</a>
           <a href="?canopy=creators">Decent Creators</a>
@@ -432,6 +433,12 @@
           <span class="sr-only">Search projects, funds, creators, and tags</span>
           <input id="spiral-search" type="search" placeholder="Search projects, funds, creators…" autocomplete="off" />
         </label>
+        <div id="agency-index-control" class="toolbar-filter" hidden>
+          <label for="agency-index">Project / repo index</label>
+          <select id="agency-index" aria-label="Open a project or repository">
+            <option value="">Choose a project or repository</option>
+          </select>
+        </div>
 
         <div class="toolbar-sep" role="separator"></div>
 
@@ -762,11 +769,14 @@
     <script src="scripts/data-adapter/mock-adapter.js"></script>
     <script src="scripts/data-adapter/app-adapter.js"></script>
     <script src="scripts/data-adapter/artizen-adapter.js"></script>
+    <script src="scripts/data-adapter/agency-adapter.js"></script>
+    <script src="scripts/agency-map.js"></script>
     <script src="scripts/participation-model.js"></script>
     <script src="scripts/participation.js"></script>
     <script src="scripts/data-layer.js"></script>
     <script src="scripts/canopy-globe.js"></script>
     <script src="scripts/creator-records.js"></script>
+    <script src="scripts/github-repositories.js"></script>
     <script src="scripts/creator-images.js"></script>
     <script src="scripts/project-details.js"></script>
     <script src="scripts/artizen-financials.js"></script>

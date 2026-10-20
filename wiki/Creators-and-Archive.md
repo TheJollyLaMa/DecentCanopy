@@ -35,6 +35,56 @@ Anyone who runs or organizes a fund can publish it as its own blip. Open **My cr
 
 Supported chains: Base, Ethereum and Optimism. Use your signing wallet as the treasury if you want payments to be ledger-verifiable. Any other address is shown as **declared, not the signing wallet**.
 
+## Public GitHub repository links
+
+This is the first, public-linking slice of [connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11),
+not GitHub account authentication or automatic repository synchronization.
+
+1. Open **My creator**, add/edit a project, or use **Edit this project / link repositories** on your own project blip.
+2. Enter up to five public `https://github.com/owner/repository` URLs, one per line.
+   Do not enter tokens, private repository names, source contents, or personal health data.
+   Repository subpages, credentials, queries, fragments, and duplicate links are rejected.
+3. Optionally choose **Preview public GitHub metadata**. This explicitly contacts
+   `api.github.com` from your browser without authentication, cookies, or a referrer.
+   GitHub can observe that request's network information. The preview shows the public
+   owner, repository name, URL, visibility, and check time. It requests neither
+   repository contents nor issue data. Metadata is transient, not added to the signed record.
+4. Review the selected URLs, consent to publication, and sign the existing creator update.
+   URLs become public in the creator index and portable signed IPFS record. Local preview
+   still requires separate browser-local storage consent.
+5. The creator/whole canopy shows distinct repository blips with dashed, self-declared
+   project connections. Cards link to GitHub and back to the linked projects. Multiple
+   projects can share a repository node, without upgrading its ownership or verification.
+
+**Least-privilege choice:** this slice has no OAuth, GitHub account verification, tokens,
+write/admin permissions, or private-repository access. An anonymous public metadata response
+only establishes what GitHub returned at that time, not that the signing wallet controls
+the GitHub account or owns the project. Private access is unsupported; a future feature
+would require a separate explicit opt-in and credential/revocation design.
+
+Unavailable GitHub, rate limits, timeouts, private/inaccessible repositories, and renamed or
+inconsistent identities produce an explicit preview error. No unavailable metadata is
+presented as success. You can still choose a self-declared public URL without a successful
+preview; Canopy does not certify its current visibility. Check it yourself before publishing.
+Repository metadata/visibility can change after checking and is not polled live.
+
+Edit/remove individual lines or choose **Unlink all repositories**, then sign and publish a
+new revision. A remaining link from another project keeps its shared repo node visible.
+Closing the editor without saving/publishing does not publish an edit. There is no GitHub
+authorization to revoke in this slice. Unlinking updates the current profile; it cannot
+delete old public IPFS records or copies others retain.
+
+### Signed record compatibility
+
+Version 2 project records optionally contain `repositories`, an array of at most five
+canonical lowercase HTTPS GitHub repository URLs. Empty arrays are omitted so existing
+version 1/2 canonical messages and signatures remain byte-identical. Version 1 records
+cannot carry repository links; editing upgrades through the existing version 2 flow.
+No GitHub metadata or verification claims are added to signed records.
+Repository node IDs are `github-repo:owner/repository`; project-to-repository edges
+remain `claimed` regardless of how many creators link the same repo.
+The curated DecentAgency inventory is separate and is not rewritten by creator edits.
+
 ## How lines earn trust
 
 | Line | Meaning |

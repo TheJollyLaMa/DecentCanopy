@@ -164,7 +164,8 @@
     dialog.addEventListener('cancel', () => store(TOUR_KEY, 'done'));
   });
 
-  window.addEventListener('decentcanopy:ready', () => {
+  window.addEventListener('decentcanopy:ready', event => {
+    if (event.detail?.agency) return;
     if (!load(TOUR_KEY)) {
       openTour();
       return;

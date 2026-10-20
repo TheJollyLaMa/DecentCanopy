@@ -298,3 +298,7 @@ img[data-creator-image][hidden] { display: none !important; }
   .creator-publishing-center > span { animation: none; }
   .creator-publishing-center > span { color: #86efac; background: none; }
 }
+.creator-entry [data-repository-preview] {
+  white-space: pre-line;
+  overflow-wrap: anywhere;
+}

@@ -56,6 +56,22 @@
     if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) throw new Error('Amount must be a non-negative number or left blank.');
     return value;
   }
+  function repository(value) {
+    const parsed = new URL(text(value, 'Repository URL', 200));
+    const parts = parsed.pathname.replace(/\/$/, '').split('/').slice(1);
+    if (parsed.protocol !== 'https:' || parsed.hostname !== 'github.com' || parsed.port ||
+        parsed.username || parsed.password || parsed.search || parsed.hash || parts.length !== 2 ||
+        !/^[a-z0-9][a-z0-9-]{0,38}$/i.test(parts[0]) || !/^[a-z0-9_.-]{1,100}$/i.test(parts[1]) ||
+        ['.', '..'].includes(parts[1])) {
+      throw new Error('Use a public repository URL: https://github.com/owner/repository, without credentials, query, or fragment.');
+    }
+    return `https://github.com/${parts.join('/').toLowerCase()}`;
+  }
+  function repositories(value) {
+    const result = rows(value == null ? [] : value, 'Public repositories', 5).map(repository);
+    if (new Set(result).size !== result.length) throw new Error('Remove duplicate repository links.');
+    return result;
+  }
   function validate(raw) {
     if (!raw || raw.format !== 'decentcanopy-creator' || ![1, 2].includes(raw.version) || raw.consent !== true) throw new Error('A version 1 or 2 creator record with public-publication consent is required.');
     const v2 = raw.version === 2;
@@ -78,6 +94,11 @@
         project.ens = ens;
       }
       if (v2) Object.assign(project, { wallet: address(p.wallet, 'Project receiving wallet'), related: refs(p.related, 'project', 'Related Decent projects', 10) });
+      if (p.repositories != null) {
+        if (!v2) throw new Error('Repository links require a version 2 record.');
+        const links = repositories(p.repositories);
+        if (links.length) project.repositories = links;
+      }
       return project;
     });
     if (new Set(projects.map(p => p.key)).size !== projects.length) throw new Error('Project keys must be unique.');
@@ -178,6 +199,7 @@
     const projects = base.projects.slice(), associations = base.associations.slice();
     const archiveById = new Map(base.projects.map(p => [p.id, p]));
     const known = new Set(projects.map(p => p.id)), owners = new Map(), claims = new Map();
+    const repositoryNodes = new Map();
     const link = (source, target, type, note) => associations.push({ source, target, type, note, sourceLabel: 'Wallet-signed self-report' });
     const commonFor = entry => ({ sourceLabel: entry.draft ? 'Browser-local creator draft · not public' : 'Wallet-signed creator report · not independently verified', raised: 0, goal: 0, creatorRecord: entry.record, creatorCid: entry.cid, creatorSignature: entry.signature, creatorMessage: entry.message, creatorDraft: Boolean(entry.draft) });
     entries.forEach(entry => {
@@ -190,6 +212,25 @@
         add({ id, name: p.name, kind: 'project', track: 'Projects', status: p.status, description: p.description, websiteUrl: p.website, image: p.image, creatorProjectKey: p.key,
           ...(projectDetails ? { projectDetails, raised: projectDetails.raised, goal: projectDetails.goal } : {}) });
         link(creatorId, id, 'creator-associated', 'Project association claimed by this wallet; not independently verified ownership.');
+        (p.repositories || []).forEach(repoUrl => {
+          const fullName = repoUrl.slice('https://github.com/'.length), repoId = `github-repo:${fullName}`;
+          if (!repositoryNodes.has(repoId)) {
+            const repositoryNode = {
+              ...common, id: repoId, kind: 'repository', track: 'Repositories', status: 'not-reported',
+              name: fullName, repoUrl, raised: null, goal: null,
+              description: 'Self-declared public repository association; GitHub identity, authorship, and ownership are not verified.',
+              github: { fullName, url: repoUrl }
+            };
+            repositoryNodes.set(repoId, repositoryNode);
+            projects.push(repositoryNode);
+          }
+          associations.push({
+            source: id, target: repoId, type: 'repository-link',
+            sourceLabel: entry.draft ? 'Browser-local self-declared repository link' : 'Wallet-signed self-declared repository link',
+            note: 'Discovery link only; not GitHub account verification, ownership, affiliation, endorsement, or proof of contribution.',
+            decentClaim: 'claimed'
+          });
+        });
         if (p.archiveId && known.has(p.archiveId)) link(id, p.archiveId, 'research-link', 'Creator-reported historical reference; the archive remains unchanged.');
       });
       (r.funds || []).forEach(f => {
@@ -245,7 +286,7 @@
     if (!record.projects.some(p => p.key === project.key)) throw new Error('This project is no longer in your profile. Reopen your latest profile before editing.');
     return validate({ ...record, projects: record.projects.map(p => p.key === project.key ? project : p) });
   }
-  const api = { validate, message, parse, verify, assertNext, apply, replaceProject, CID, MAX_BYTES, CHAINS, REF };
+  const api = { validate, message, parse, verify, assertNext, apply, replaceProject, repository, repositories, CID, MAX_BYTES, CHAINS, REF };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.DecentCreatorRecords = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));

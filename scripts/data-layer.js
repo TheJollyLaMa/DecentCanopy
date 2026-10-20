@@ -111,6 +111,7 @@ var GTPData = (function () {
       artizenProfile: raw.artizenProfile || null,
       funding: raw.funding || null,
       projectDetails: raw.projectDetails || null,
+      agencyDetails: raw.agencyDetails || null,
       participationEvents: Array.isArray(raw.participationEvents) ? raw.participationEvents.slice() : [],
       importCoverage: raw.importCoverage || null,
       publicWallet: raw.publicWallet || null,
@@ -144,6 +145,9 @@ var GTPData = (function () {
       type: String(raw.type || 'collaboration'),
       sourceLabel: raw.sourceLabel || null,
       note: raw.note || null,
+      relationshipState: raw.relationshipState || null,
+      evidence: Array.isArray(raw.evidence) ? raw.evidence.slice() : [],
+      reviewedAt: raw.reviewedAt || null,
       seasonNumbers: Array.isArray(raw.seasonNumbers) ? raw.seasonNumbers.slice() : [],
       createdAt: raw.createdAt || null,
       records: Number(raw.records) || 1,
@@ -168,6 +172,10 @@ var GTPData = (function () {
   function createAdapter(basePath) {
     _modeInfo = GTPModeRouter.getModeInfo(window.location);
     var canopy = new URLSearchParams(window.location.search).get('canopy');
+    if (canopy === 'agency') {
+      _modeInfo = { mode: 'agency', source: 'curated-repository-map', label: 'DecentAgency map', isPrototype: false, isApp: false };
+      return GTPDataAdapterInterface.assertAdapter(window.GTPAgencyDataAdapter.create({ basePath: basePath }), 'agency');
+    }
     if (canopy === 'artizen' || canopy === 'green-tea' || canopy === 'creators' || (!canopy && _modeInfo.mode === 'prototype')) {
       _modeInfo = {
         mode: 'artizen',
@@ -264,7 +272,7 @@ var GTPData = (function () {
   function getModeInfo() { return _modeInfo ? Object.assign({}, _modeInfo) : GTPModeRouter.getModeInfo(window.location); }
   function getAdapterMetrics() {
     return {
-      availableFunds: Number(_adapterMetrics.availableFunds) || 0,
+      availableFunds: _adapterMetrics.availableFunds === null ? null : Number(_adapterMetrics.availableFunds) || 0,
       placeholder: !!_adapterMetrics.placeholder,
       reason: _adapterMetrics.reason || '',
       source: _adapterMetrics.source || '',

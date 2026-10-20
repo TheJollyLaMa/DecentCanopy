@@ -1,0 +1,172 @@
+{
+  "format": "decentcanopy-agency-map",
+  "version": 1,
+  "reviewedAt": "2026-10-20",
+  "sourceLabel": "Steward-curated planning map; public repository identities and linked sources checked 2026-10-20",
+  "mission": "Help humans connect and regain, maintain, sustain, or enhance their agency.",
+  "projects": [
+    {
+      "id": "decent-agency",
+      "name": "DecentAgency",
+      "kind": "initiative",
+      "focus": "inventory",
+      "repo": "TheJollyLaMa/DecentAgency",
+      "purpose": "The steward-described umbrella for these Decent Frankensteins, not a claim of legal ownership or GitHub organization membership.",
+      "nextAction": "Use Canopy and Busking as the current delivery focus; adapt their work to BigNuten next, then review the rest of the inventory.",
+      "tags": ["agency", "coordination"]
+    },
+    {
+      "id": "decent-canopy",
+      "name": "DecentCanopy",
+      "focus": "now",
+      "repo": "TheJollyLaMa/DecentCanopy",
+      "purpose": "Make projects, repositories, creators, funding relationships, and useful next steps understandable.",
+      "currentState": "Existing constellation, creator sidepanels, wallet-signed creator records, site/data IPFS publication, and community pinning rewards. GitHub identity linking and generic fund adapters remain open work.",
+      "nextAction": "Use this curated map to guide optional public GitHub linking (#11), the shared evidence schema (#17), and Busking fund/ledger discovery (#14).",
+      "tags": ["github", "ipfs", "pinning rewards", "repo development", "sponsor funds"],
+      "evidence": [
+        {"label": "Existing Canopy capabilities", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"},
+        {"label": "GitHub connector #11", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/11"},
+        {"label": "Shared schema #17", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/17"},
+        {"label": "Evidence-backed visualization #13", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/13"},
+        {"label": "Busking fund and ledger adapter #14", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"},
+        {"label": "Supported radio endpoint #15", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"}
+      ]
+    },
+    {
+      "id": "decent-busking",
+      "name": "DecentBusking",
+      "focus": "now",
+      "repo": "TheJollyLaMa/DecentBusking",
+      "purpose": "Support music participation, scheduled radio, and accountable creator and contributor earnings.",
+      "currentState": "The steward reports the first week's schedule and payroll completed. Public code documents media uploads, recoverable IPFS checkpoints, fund indexing, and payment ledgers. This map has not reconciled week-one payout receipts.",
+      "nextAction": "Review week-one outcomes and receipts, resolve the reported browser playback problem (#244), and define the next schedule/payroll slice against existing performance and playlist issues.",
+      "tags": ["ipfs", "media", "music", "payroll", "sponsor funds", "schedule", "recovery"],
+      "evidence": [
+        {"label": "Busking capabilities and participation", "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/README.md"},
+        {"label": "Scoped media upload implementation", "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-worker.js"},
+        {"label": "IPFS checkpoint and recovery implementation", "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-state.js"},
+        {"label": "Browser playback investigation #244", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/244"},
+        {"label": "Live performance readiness #210", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/210"},
+        {"label": "Performance administration #223", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/223"},
+        {"label": "Scheduled playlists #240", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/240"},
+        {"label": "Shareable playlists #241", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/241"},
+        {"label": "Schedule announcements #242", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/242"}
+      ]
+    },
+    {
+      "id": "big-nuten",
+      "name": "BigNuten_Vanilla",
+      "focus": "next",
+      "repo": "TheJollyLaMa/BigNuten_Vanilla",
+      "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
+      "currentState": "The steward reports an IPFS stall motivated the wider storage work. BigNuten already has an open Busking-adaptation epic; its README documents personal IPFS storage and bounty operations. The current stall has not been reproduced by this map.",
+      "nextAction": "Reproduce the stalled save/restore path, then adapt scoped uploads (#339) and snapshot recovery (#341), coordinating with the existing storage issues instead of copying Busking wholesale.",
+      "tags": ["ipfs", "wellness", "body care", "payroll", "sponsor funds", "recovery"],
+      "evidence": [
+        {"label": "Busking adaptation epic #337", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337"},
+        {"label": "Receipt-verified payroll #338", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/338"},
+        {"label": "Scoped wallet-authorized uploads #339", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/339"},
+        {"label": "Treasury coverage and verified payments #340", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/340"},
+        {"label": "Snapshot recovery and history #341", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"},
+        {"label": "Funded-work lifecycle #342", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/342"}
+      ]
+    },
+    {"id": "decent-jukebox", "name": "DecentJukebox", "repo": "A-Decent-Agency/DecentJukebox", "purpose": "Steward-reported ancestor of DecentBusking; implementation carry-over has not been audited."},
+    {"id": "green-tea-party", "name": "TheGreenTeaParty", "repo": "TheJollyLaMa/TheGreenTeaParty", "purpose": "Existing Canopy project cluster and the documented source of Canopy's extracted visualization."},
+    {"id": "green-tea-hut", "name": "GreenTeaHut_01", "repo": "TheJollyLaMa/GreenTeaHut_01", "purpose": "The Green Tea Party's first project, with an existing curated Canopy status and public treasury card.", "evidence": [
+      {"label": "Existing Canopy project details", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/data/project-details.json"}
+    ]},
+    {"id": "artfi", "name": "ArtFi", "repo": "TheJollyLaMa/ArtFi", "purpose": "Candidate funding and relationship integration already tracked in Canopy; deployment and flow verification remain separate work.", "tags": ["sponsor funds", "funding"], "evidence": [
+      {"label": "Existing ArtFi integration epic #10", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/10"},
+      {"label": "Verify deployments and funding flow #20", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/20"}
+    ]},
+    {"id": "jacobs-ladder", "name": "JacobsLadder26", "repositoryNote": "Public repository identity unresolved; the relationship to DecentMaker needs clarification."},
+    {"id": "decent-maker", "name": "DecentMaker", "repositoryNote": "Public repository identity unresolved. No equivalence with JacobsLadder26 is asserted."},
+    {"id": "jolly-sim-siddhi", "name": "JollySimSiddhi", "repo": "TheJollyLaMa/jolly-sim-siddhi", "repositoryNote": "Public name differs from the supplied project label; this curated mapping does not resolve other local variants.", "purpose": "Steward-described evolution of Arduino Smarthome, with a proposed cadCAD integration."},
+    {"id": "arduino-smarthome", "name": "Arduino Smarthome", "repo": "TheJollyLaMa/Arduino_Smarthome", "purpose": "Steward-reported ancestor of JollySimSiddhi."},
+    {"id": "cadcad", "name": "cadCAD", "repo": "cadCAD-org/cadCAD", "external": true, "purpose": "External integration candidate named by the steward; not part of the DecentAgency umbrella."},
+    {"id": "umbrella-academy", "name": "TheUmbrellaAcademy", "repo": "TheJollyLaMa/UmbrellaAcademy", "repositoryNote": "The public repository is named UmbrellaAcademy.", "purpose": "Steward-proposed development from AJollyDecentCodeCamp and JollySandbox."},
+    {"id": "code-camp", "name": "AJollyDecentCodeCamp", "repo": "TheJollyLaMa/AJollyDecentCodeCamp"},
+    {"id": "jolly-sandbox", "name": "JollySandbox", "repo": "TheJollyLaMa/JollySandbox"},
+    {"id": "subscriptions", "name": "DecentSubscriptions", "repo": "TheJollyLaMa/DecentSubscriptions"},
+    {"id": "pilgrimages", "name": "DecentPilgrimages", "repo": "TheJollyLaMa/DecentPilgrimages"},
+    {"id": "head", "name": "DecentHead", "repo": "TheJollyLaMa/DecentHead", "purpose": "Canopy documents a DecentHead header. Whether the standalone repository is interchangeable with current embedded versions needs inspection."},
+    {"id": "canvas", "name": "DecentCanvas", "repositoryNote": "Public repository identity unresolved."},
+    {"id": "footer", "name": "DecentFooter", "repositoryNote": "Public repository identity unresolved; no equivalence with similarly named local checkouts is assumed."},
+    {"id": "market", "name": "DecentMarket", "repo": "TheJollyLaMa/DecentMarket"},
+    {"id": "escrow", "name": "DecentEscrow", "repo": "TheJollyLaMa/DecentEscrow"},
+    {"id": "invoice", "name": "DecentInvoice", "repo": "TheJollyLaMa/DecentInvoice"},
+    {"id": "airdrop", "name": "DecentAirdrop", "repo": "TheJollyLaMa/DecentAirdrop"},
+    {"id": "calendar", "name": "DecentCalendar", "repositoryNote": "Public repository identity unresolved."},
+    {"id": "nda", "name": "Decent_NDA", "repo": "TheJollyLaMa/Decent_NDA"},
+    {"id": "ucann", "name": "Decent_UCANN_Play", "repositoryNote": "Exact public identity unresolved. A similarly named public repository is not assumed to be the same project."},
+    {"id": "duo-duel", "name": "DuoDuel", "repositoryNote": "Public repository identity unresolved."},
+    {"id": "babel-bet", "name": "BabelBet", "repo": "TheJollyLaMa/BabelBet"},
+    {"id": "babel-prototype", "name": "BabelBet_OG_Prototype", "repositoryNote": "Distinct public repository identity unresolved; not merged with BabelBet based on a checkout name."},
+    {"id": "joker", "name": "TheJokerWillPlay", "repositoryNote": "Public repository identity unresolved."},
+    {"id": "bean", "name": "Bean", "repositoryNote": "Public repository identity unresolved."},
+    {"id": "asteroid", "name": "Asteroid", "repo": "TheJollyLaMa/AsteRoid", "repositoryNote": "The public repository is named AsteRoid. No integration with Busking's proposed game mode is established."}
+  ],
+  "relationships": [
+    {
+      "source": "decent-jukebox", "target": "decent-busking", "type": "grew-into", "state": "reported",
+      "note": "Steward-reported lineage; code ancestry and current dependencies have not been compared."
+    },
+    {
+      "source": "arduino-smarthome", "target": "jolly-sim-siddhi", "type": "grew-into", "state": "reported",
+      "note": "Steward-reported lineage, not a verified active dependency."
+    },
+    {
+      "source": "jolly-sim-siddhi", "target": "cadcad", "type": "could-integrate", "state": "proposed",
+      "note": "Explore a bounded integration experiment; no current interoperability is established."
+    },
+    {
+      "source": "code-camp", "target": "umbrella-academy", "type": "desired-foundation", "state": "proposed",
+      "note": "Steward's desired foundation, not an implemented dependency."
+    },
+    {
+      "source": "jolly-sandbox", "target": "umbrella-academy", "type": "desired-foundation", "state": "proposed",
+      "note": "Steward's desired foundation, not an implemented dependency."
+    },
+    {
+      "source": "jacobs-ladder", "target": "decent-maker", "type": "relationship-to-clarify", "state": "unresolved",
+      "note": "The steward associated these names; direction and meaning are not yet known."
+    },
+    {
+      "source": "green-tea-party", "target": "decent-canopy", "type": "grew-into", "state": "observed",
+      "note": "Canopy's README explicitly documents extraction of the visualization and sidepanel subsystem.",
+      "evidence": [{"label": "Documented extraction", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"}]
+    },
+    {
+      "source": "green-tea-party", "target": "green-tea-hut", "type": "supports", "state": "observed",
+      "note": "Canopy documents Green Tea Hut #1 as The Green Tea Party's first project; no payout or ownership is inferred.",
+      "evidence": [{"label": "Existing project cluster", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"}]
+    },
+    {
+      "source": "decent-busking", "target": "decent-canopy", "type": "provides-capability", "state": "observed",
+      "note": "Canopy consumes Busking radio. Arrow means source provides a capability to target; the supported media endpoint still has open integration work.",
+      "evidence": [{"label": "Existing Canopy radio consumer", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/scripts/canopy-radio.js"}]
+    },
+    {
+      "source": "decent-busking", "target": "decent-canopy", "type": "could-reuse", "state": "proposed",
+      "note": "Use public fund and payroll evidence through a generic adapter, not a shared treasury or a promise of payment.",
+      "evidence": [{"label": "Busking adapter #14", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"}]
+    },
+    {
+      "source": "decent-busking", "target": "big-nuten", "type": "could-reuse", "state": "proposed",
+      "note": "Adapt scoped IPFS uploads, recoverable snapshots, receipt-verified payroll, funded-work lifecycle, and treasury coverage to BigNuten's context. The epic is a plan, not evidence that integration is complete.",
+      "evidence": [{"label": "Existing adaptation epic #337", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337"}]
+    },
+    {
+      "source": "decent-canopy", "target": "big-nuten", "type": "could-reuse", "state": "proposed",
+      "note": "Evaluate public project/repository discovery and pinning-reward patterns. Keep private health data out of public profiles and IPFS maps; do not assume one dapp's reward rules apply to another.",
+      "evidence": [{"label": "Public linking boundaries #11", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/11"}]
+    },
+    {
+      "source": "artfi", "target": "decent-canopy", "type": "could-integrate", "state": "proposed",
+      "note": "Existing integration backlog; verify contracts, funding flows, and evidence before showing financial activity.",
+      "evidence": [{"label": "ArtFi integration epic #10", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/10"}]
+    }
+  ]
+}

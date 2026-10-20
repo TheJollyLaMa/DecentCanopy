@@ -15,6 +15,20 @@
 
 Never commit JWTs, GitHub tokens or private keys. A static site cannot hide a secret. Render's token can also write to the repo: restrict scope, consider branch protection and rotate compromised credentials.
 
+### Deploying public repository linking
+
+Deploy the updated [creator record validator](../scripts/creator-records.js) to both
+the relay and the publication workflow checkout before publishing repository-bearing
+profiles from the updated site. An older validator cannot parse those new canonical
+messages; deploying only the frontend is insufficient. Existing signed profiles
+remain valid without rewrites.
+
+The public GitHub preview needs no GitHub secret or additional relay endpoint. The
+browser performs an explicit anonymous read against `api.github.com`. Verify a public
+repository preview, signed publication receipt/index, project-to-repository navigation,
+and a signed unlink revision after deployment. Do not treat passing local tests or
+mocked pinning as proof of successful production publication.
+
 ## Diagnose the right layer
 
 | Symptom | Check |
