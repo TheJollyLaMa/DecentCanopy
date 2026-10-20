@@ -276,6 +276,7 @@ test('map ships through both publication paths and view links preserve agency co
   assert.ok(require('../scripts/pinDataBackup').DATA_FILES.includes('data/agency-map.json'));
   assert.match(read('.github/workflows/pin-ipfs-backup.yml'), /data\/agency-map\.json/);
   assert.match(read('.github/workflows/validate-payroll-queue.yml'), /node --test .*test\/agency-map\.test\.js/);
+  assert.match(read('.github/workflows/validate-payroll-queue.yml'), /node --test .*test\/share-view\.test\.js/);
   const html = read('index.html');
   assert.ok(html.indexOf('scripts/data-adapter/agency-adapter.js') < html.indexOf('scripts/data-layer.js'));
   assert.ok(html.includes('id="agency-index"'));
