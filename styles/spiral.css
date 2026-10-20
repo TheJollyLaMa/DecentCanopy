@@ -199,6 +199,10 @@ body {
   max-width: min(22rem, 58vw);
 }
 
+.agency-mode .details-content {
+  overflow-wrap: anywhere;
+}
+
 .agency-mode .spiral-toolbar :is(#tour-open, #participation-open, #participation-replay, #globe-open, [data-creator-open], #creator-service-status) {
   display: none;
 }

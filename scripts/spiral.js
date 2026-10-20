@@ -80,6 +80,7 @@
   let isGreenTeaMode = false;
   let isCreatorMode = false;
   let isAgencyMode = false;
+  let agencyLens = 'all';
   let archiveOnly = false;
   let fundCanopyId = null;
   let artizenMetrics = null;
@@ -256,6 +257,8 @@
       filterTrack = state.track || 'all';
       filterStatus = state.status || 'all';
       filterSearch = state.q || '';
+      agencyLens = state.lens || 'all';
+      if (isAgencyMode) document.getElementById('agency-lens').value = agencyLens;
       trackSel.value = filterTrack;
       statusSel.value = filterStatus;
       searchInput.value = filterSearch;
@@ -299,6 +302,7 @@
       const url = window.CanopyShareView.create(window.location.href, {
         q: filterSearch, entity: selectedNode?.id, fund: fundCanopyId,
         track: filterTrack, status: filterStatus, focus: focusMode, lines: showAssoc,
+        ...(isAgencyMode ? { lens: agencyLens } : {}),
         details: detailsPanel.classList.contains('open'),
         x: -camera.pan.x / camera.zoom, y: -camera.pan.y / camera.zoom, z: camera.zoom
       });
@@ -462,6 +466,7 @@
     const visibleIds = new Set(nodes.map((node) => node.id));
     relationEdges = allAssociations
       .filter((edge) => visibleIds.has(edge.source) && visibleIds.has(edge.target))
+      .filter((edge) => !isAgencyMode || agencyLens !== 'crossovers' || edge.type === 'capability-match')
       .map((edge) => {
         adjacency[edge.source].add(edge.target);
         adjacency[edge.target].add(edge.source);
@@ -823,6 +828,7 @@
 
   function filteredProjects() {
     const search = filterSearch.trim().toLowerCase();
+    const lensIds = isAgencyMode ? window.GTPAgencyDataAdapter.lensIds(allProjects, allAssociations, agencyLens) : null;
     const fundCanopyIds = fundCanopyId ? fundCanopyEntityIds(fundCanopyId) : null;
     let creatorContext = null;
     if (filterTrack === 'creator') {
@@ -844,6 +850,7 @@
     }
 
     const matchingProjects = allProjects.filter((project) => {
+      if (lensIds && !lensIds.has(project.id)) return false;
       if (fundCanopyIds && !fundCanopyIds.has(project.id)) return false;
       const okTrack = filterTrack === 'all'
         || project.kind === filterTrack
@@ -856,7 +863,7 @@
       return okTrack && okStatus && (!search || haystack.includes(search));
     });
 
-    if (!isArtizenMode || !search) return matchingProjects;
+    if (!isArtizenMode || !search || isAgencyMode) return matchingProjects;
     const matchingIds = new Set(matchingProjects.map((project) => project.id));
     const visibleIds = new Set(matchingIds);
     allAssociations.forEach((edge) => {
@@ -1437,6 +1444,10 @@
     window.addEventListener('decentcanopy:select-entity', event => {
       const entity = allEntitiesById[event.detail];
       if (!entity) return;
+      if (isAgencyMode) {
+        agencyLens = 'all';
+        document.getElementById('agency-lens').value = 'all';
+      }
       if (fundCanopyId) returnToArtizenCanopy();
       if (isAgencyMode || entity.kind === 'repository' || selectedNode?.kind === 'repository') {
         filterStatus = 'all';
@@ -2182,6 +2193,8 @@
   // ---- Breadcrumbs + filters ----------------------------------------------------
 
   function clearAgencyFilters() {
+    agencyLens = 'all';
+    document.getElementById('agency-lens').value = 'all';
     filterTrack = 'all';
     filterStatus = 'all';
     filterSearch = '';
@@ -2193,6 +2206,27 @@
 
   function populateAgencyIndex() {
     document.getElementById('agency-index-control').hidden = false;
+    document.getElementById('agency-lens-control').hidden = false;
+    document.getElementById('agency-lens').addEventListener('change', event => {
+      agencyLens = event.target.value;
+      closeDetails({ clearSelection: true });
+      filterTrack = 'all';
+      filterStatus = 'all';
+      filterSearch = '';
+      trackSel.value = 'all';
+      statusSel.value = 'all';
+      searchInput.value = '';
+      buildLayout();
+      applyHomeCamera(true);
+      scheduleRender();
+    });
+    document.getElementById('agency-overview').addEventListener('click', () => {
+      closeDetails({ clearSelection: true });
+      detailsContentEl.innerHTML = window.CanopyAgencyMap.overview(allEntitiesById, allAssociations, escHtml);
+      detailsPanel.classList.add('open');
+      detailsPanel.setAttribute('aria-hidden', 'false');
+      document.getElementById('close-details').focus({ preventScroll: true });
+    });
     const index = document.getElementById('agency-index');
     for (const kind of ['initiative', 'project', 'repository']) {
       const group = document.createElement('optgroup');
@@ -2258,7 +2292,7 @@
       modeBadgeEl.querySelector('.mode-badge-label').textContent = 'DecentAgency · purpose, repositories & reuse';
       modeBadgeEl.classList.remove('mode-badge--prototype');
       const summary = document.createElement('p');
-      summary.textContent = `Reviewed ${artizenMetrics.generatedAt}. Now: DecentCanopy + DecentBusking. Next: BigNuten. Other projects are inventory, not declared inactive. This is a curated snapshot, not live GitHub linking. Blue solid lines: source-observed; amber dashed: steward-reported; purple dashed: proposed only; gray dashed: unresolved. Every connection's direction, meaning, and evidence appear in its sidepanel. No balance or payout is inferred.`;
+      summary.textContent = `Reviewed ${artizenMetrics.generatedAt}. Now: DecentCanopy + DecentBusking. Next: BigNuten. Other projects are inventory, not declared inactive. Use the capability lens and Offers & needs overview to explore inspected code, expressed needs, and evidence-linked candidate crossovers. Candidates are not verified compatibility or an impact ranking. This is a curated snapshot, not live GitHub synchronization. Blue solid lines: source-observed; amber dashed: steward-reported; purple dashed: proposed only; gray dashed: unresolved. No balance or payout is inferred.`;
       visionNoteEl.replaceChildren(summary);
       visionNoteEl.setAttribute('aria-label', 'DecentAgency scope, focus, and evidence legend');
       document.querySelector('.spiral-status-legend').hidden = true;

@@ -1,5 +1,27 @@
 # DecentCanopy
 
+### Ecosystem offers, needs, and crossovers
+
+In the **DecentAgency map** (`?canopy=agency`), use **Capability lens** to show
+projects with inspected offers, expressed needs, or explicit candidate crossovers.
+**Offers & needs overview** opens an accessible portfolio index; project and
+repository sidepanels carry source links and the next validation step for each
+candidate.
+
+These are curated findings, not live GitHub synchronization or proof that two
+codebases interoperate. Implementations, documented examples, and issue-reported
+needs are labeled separately. A missing entry means unreviewed or unestablished,
+not no capability or no need. Counts measure review coverage, not project worth
+or impact. Private/local review results stay outside the repository and site
+until the steward approves publication.
+
+The optional `offers`/`needs` arrays in `data/agency-map.json` use stable local IDs,
+labels, details, evidence, and a review state. Each `capability-match` relationship
+must reference a specific source offer and target need, remain `proposed`, and
+include evidence and a concrete `nextTest`. Matches are curated deliberately,
+not inferred automatically from shared tags. Signed creator records are unchanged;
+this map does not publish associations under a creator's wallet.
+
 > **Extracted from [TheJollyLaMa/TheGreenTeaParty](https://github.com/TheJollyLaMa/TheGreenTeaParty)** — the fractal map + sidepanel + contract graph sub-system now lives here as its own standalone project.
 
 **DecentCanopy** is a fractal constellation visualization and data layer for mapping multi-project stewardship, coordination, and public ledger associations across decentralized networks.

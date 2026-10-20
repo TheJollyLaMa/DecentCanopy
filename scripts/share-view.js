@@ -1,6 +1,6 @@
 (function (root) {
   'use strict';
-  const KEYS = ['q', 'entity', 'fund', 'track', 'status', 'focus', 'lines', 'details', 'x', 'y', 'z'];
+  const KEYS = ['q', 'entity', 'fund', 'track', 'status', 'lens', 'focus', 'lines', 'details', 'x', 'y', 'z'];
   function read(url) {
     const params = new URL(url).searchParams;
     if (!params.has('view')) return null;
@@ -16,6 +16,10 @@
       } else if (['x', 'y', 'z'].includes(key)) {
         if (!value.trim() || !Number.isFinite(Number(value))) throw new Error('Invalid shared view camera.');
         state[key] = Number(value);
+      } else if (key === 'lens') {
+        if (!['all', 'offers', 'needs', 'crossovers'].includes(value)) throw new Error('Invalid shared capability lens.');
+        if (params.get('canopy') !== 'agency') throw new Error('Capability lenses require the agency map.');
+        state[key] = value;
       } else state[key] = value;
     }
     if (['x', 'y', 'z'].some(key => key in state)) {

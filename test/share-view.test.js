@@ -27,3 +27,10 @@ test('invalid shared input surfaces errors and normal URLs have no view to resto
     assert.throws(() => Share.read(`https://example.org/?${query}`));
   }
 });
+test('agency capability lenses roundtrip and reject invalid or non-agency use', () => {
+  for (const lens of ['all', 'offers', 'needs', 'crossovers']) {
+    assert.deepEqual(Share.read(Share.create('https://example.org/?canopy=agency', { lens })), { lens });
+  }
+  assert.throws(() => Share.create('https://example.org/?canopy=agency', { lens: 'invented' }));
+  assert.throws(() => Share.create('https://example.org/?canopy=creators', { lens: 'needs' }));
+});

@@ -16,9 +16,16 @@
     'relationship-to-clarify': 'Relationship to clarify',
     supports: 'Supports',
     'provides-capability': 'Provides capability to',
-    'could-reuse': 'Could provide reusable patterns to'
+    'could-reuse': 'Could provide reusable patterns to',
+    'capability-match': 'Candidate offer-to-need crossover'
   };
   const FOCUS = { now: 'Now', next: 'Next', inventory: 'Inventory / not prioritized' };
+  const CAPABILITY_STATES = {
+    'code-observed': 'Implementation inspected; not integration-tested',
+    documented: 'Documented design or example; readiness unverified',
+    'issue-reported': 'Need expressed in an issue; resolution not verified'
+  };
+  const LENSES = ['all', 'offers', 'needs', 'crossovers'];
   const projectId = id => `agency-project:${id}`;
   const repositoryId = repo => `github-repo:${repo.toLowerCase()}`;
   const text = value => typeof value === 'string' && value.trim().length > 0;
@@ -32,6 +39,29 @@
         throw new Error('Agency map evidence must use public HTTPS links without credentials.');
       }
     });
+  }
+
+  function validateCapabilities(project, field) {
+    if (project[field] === undefined) return;
+    if (!Array.isArray(project[field])) throw new Error(`Agency ${field} must be an array.`);
+    const ids = new Set();
+    project[field].forEach(item => {
+      if (!item || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.id || '') ||
+          ids.has(item.id) || !text(item.label) || !text(item.detail) ||
+          !Object.hasOwn(CAPABILITY_STATES, item.state)) throw new Error(`Invalid agency ${field} entry.`);
+      ids.add(item.id);
+      validateEvidence(item.evidence);
+      if (!item.evidence?.length) throw new Error(`Agency ${field} require public evidence.`);
+    });
+  }
+
+  function lensIds(projects, associations, lens) {
+    if (!LENSES.includes(lens)) throw new Error('Unsupported agency lens.');
+    if (lens === 'all') return new Set(projects.map(project => project.id));
+    if (lens === 'crossovers') return new Set(associations.filter(edge => edge.type === 'capability-match')
+      .flatMap(edge => [edge.source, edge.target]));
+    return new Set(projects.filter(project => project.kind !== 'repository' && project.agencyDetails?.[lens]?.length)
+      .map(project => project.id));
   }
 
   function transform(data) {
@@ -62,11 +92,17 @@
       if (project.repo !== undefined && (!/^[a-z0-9][a-z0-9-]{0,38}\/[\w.-]+$/i.test(project.repo) ||
           ['.', '..'].includes(project.repo.split('/')[1]))) throw new Error('Invalid public repository identity.');
       if (project.tags !== undefined && (!Array.isArray(project.tags) || !project.tags.every(text))) throw new Error('Invalid agency tags.');
+      validateCapabilities(project, 'offers');
+      validateCapabilities(project, 'needs');
+      if (project.reviewNote !== undefined && !text(project.reviewNote)) throw new Error('Invalid agency review note.');
+      if (project.reviewCaveats !== undefined &&
+          (!Array.isArray(project.reviewCaveats) || !project.reviewCaveats.every(text))) throw new Error('Invalid agency review caveats.');
       validateEvidence(project.evidence);
     });
     if (data.projects.filter(project => project.kind === 'initiative').length !== 1) {
       throw new Error('Agency map must declare one umbrella initiative.');
     }
+    const matches = new Set();
     data.relationships.forEach(edge => {
       if (!edge || !ids.has(edge.source) || !ids.has(edge.target) || edge.source === edge.target ||
           !Object.hasOwn(TYPES, edge.type) || !Object.hasOwn(STATES, edge.state) || !text(edge.note)) {
@@ -74,6 +110,19 @@
       }
       validateEvidence(edge.evidence);
       if (edge.state === 'observed' && !edge.evidence?.length) throw new Error('Observed agency relationships require source evidence.');
+      if (edge.type === 'capability-match') {
+        const key = JSON.stringify([edge.source, edge.offer, edge.target, edge.need]);
+        if (matches.has(key)) throw new Error('Duplicate agency capability match.');
+        matches.add(key);
+        const source = data.projects.find(project => project.id === edge.source);
+        const target = data.projects.find(project => project.id === edge.target);
+        if (edge.state !== 'proposed' || !source.offers?.some(item => item.id === edge.offer) ||
+            !target.needs?.some(item => item.id === edge.need) || !text(edge.nextTest) || !edge.evidence?.length) {
+          throw new Error('Candidate crossovers need a source offer, target need, public evidence, and next validation step.');
+        }
+      } else if (edge.offer !== undefined || edge.need !== undefined || edge.nextTest !== undefined) {
+        throw new Error('Offer/need references belong only on capability matches.');
+      }
     });
 
     const projects = [];
@@ -101,7 +150,8 @@
         ...common, id: projectId(project.id), name: project.name,
         kind: project.kind || 'project', track: project.kind === 'initiative' ? 'Initiatives' : 'Projects',
         status: focus, description: project.purpose || 'Purpose and current implementation not yet reviewed.',
-        nextAction: details.nextAction, tags: project.tags || [],
+        nextAction: details.nextAction, tags: [...(project.tags || []),
+          ...[...(project.offers || []), ...(project.needs || [])].map(item => `${item.label} ${item.detail}`)],
         repoUrl: project.repo ? `https://github.com/${project.repo}` : null,
         agencyDetails: details
       });
@@ -144,7 +194,10 @@
     data.relationships.forEach(edge => associations.push({
       source: projectId(edge.source), target: projectId(edge.target), type: edge.type,
       sourceLabel: STATES[edge.state].label, relationshipState: edge.state,
-      note: edge.note, evidence: edge.evidence || [], reviewedAt: data.reviewedAt
+      note: edge.note, evidence: edge.evidence || [], reviewedAt: data.reviewedAt,
+      ...(edge.type === 'capability-match' ? {
+        offer: edge.offer, need: edge.need, nextTest: edge.nextTest
+      } : {})
     }));
     return {
       projects, associations, activity: [],
@@ -177,7 +230,7 @@
     };
   }
 
-  const api = { create, transform, STATES, TYPES, FOCUS };
+  const api = { create, transform, STATES, TYPES, FOCUS, CAPABILITY_STATES, LENSES, lensIds };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.GTPAgencyDataAdapter = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));

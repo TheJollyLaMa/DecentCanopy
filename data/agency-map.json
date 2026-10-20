@@ -13,7 +13,40 @@
       "repo": "TheJollyLaMa/DecentAgency",
       "purpose": "The steward-described umbrella for these Decent Frankensteins, not a claim of legal ownership or GitHub organization membership.",
       "nextAction": "Use Canopy and Busking as the current delivery focus; adapt their work to BigNuten next, then review the rest of the inventory.",
-      "tags": ["agency", "coordination"]
+      "tags": [
+        "agency",
+        "coordination"
+      ],
+      "reviewNote": "Public committed source inspected 2026-10-20 at b1cced01. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "README contains only a short tagline and the issue listing returned no open issues, so current project intent/status is unclear.",
+        "Reviewer suggestion, not an expressed need: confirm the intended supported status before proposing this route/template shell for reuse."
+      ],
+      "currentState": "Legacy Express/Angular/web3 application shell with route modules and an agency/mentor-facing frontend.",
+      "offers": [
+        {
+          "id": "decent-agency-express-shell",
+          "label": "Legacy Express route/template scaffold",
+          "state": "code-observed",
+          "detail": "The server wires Express middleware, route modules, rendered HTML views, and static web3 assets; the frontend includes an Angular wallet-connect display. This is historical scaffolding rather than a ready-to-deploy product module.",
+          "evidence": [
+            {
+              "label": "README",
+              "url": "https://github.com/TheJollyLaMa/DecentAgency/blob/b1cced0171a0ed515ddc28580d8994641b7b2831/README.md"
+            },
+            {
+              "label": "Express server",
+              "url": "https://github.com/TheJollyLaMa/DecentAgency/blob/b1cced0171a0ed515ddc28580d8994641b7b2831/index.js"
+            },
+            {
+              "label": "Agency wallet view",
+              "url": "https://github.com/TheJollyLaMa/DecentAgency/blob/b1cced0171a0ed515ddc28580d8994641b7b2831/public/DecentAgency/decent_agency.html"
+            }
+          ]
+        }
+      ],
+      "needs": []
     },
     {
       "id": "decent-canopy",
@@ -21,16 +54,109 @@
       "focus": "now",
       "repo": "TheJollyLaMa/DecentCanopy",
       "purpose": "Make projects, repositories, creators, funding relationships, and useful next steps understandable.",
-      "currentState": "Existing constellation, creator sidepanels, wallet-signed creator records, site/data IPFS publication, and community pinning rewards. GitHub identity linking and generic fund adapters remain open work.",
-      "nextAction": "Use this curated map to guide optional public GitHub linking (#11), the shared evidence schema (#17), and Busking fund/ledger discovery (#14).",
-      "tags": ["github", "ipfs", "pinning rewards", "repo development", "sponsor funds"],
+      "currentState": "The Agency map and self-declared public GitHub repository linking shipped in PR #23. A real signed repository-bearing creator record was published. GitHub account verification, synchronization, and generic fund adapters remain open work.",
+      "nextAction": "Use evidence-backed offers and needs to select bounded cross-repository work; exercise the shared evidence schema (#17) with Busking fund/ledger discovery (#14).",
+      "reviewNote": "Public code and live repository-link publication reviewed 2026-10-20. Source inspection is not an exhaustive audit.",
+      "offers": [
+        {
+          "id": "public-discovery",
+          "label": "Signed public project/repository discovery",
+          "state": "code-observed",
+          "detail": "Canonical creator records and a separate curated graph connect projects to repositories with explicit self-report boundaries. No GitHub identity verification or automatic repository enrollment.",
+          "evidence": [
+            {
+              "label": "Shipped creator-record implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/58623bdfd7eaadbf3714a8a1b5c40aa44b4b7088/scripts/creator-records.js"
+            }
+          ]
+        },
+        {
+          "id": "evidence-map",
+          "label": "Evidence-aware graph and sidepanels",
+          "state": "code-observed",
+          "detail": "Adapters and graph cards distinguish reported, observed, proposed, and unresolved connections. Reuse requires an application-specific adapter, not copying public records into private contexts.",
+          "evidence": [
+            {
+              "label": "Curated map adapter",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/58623bdfd7eaadbf3714a8a1b5c40aa44b4b7088/scripts/data-adapter/agency-adapter.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "public-fund-evidence",
+          "label": "Validated external fund and payout evidence",
+          "state": "issue-reported",
+          "detail": "Exercise a provider-neutral schema with real external data; distinguish exact units, unavailable history, source verification, and incomplete indexing.",
+          "evidence": [
+            {
+              "label": "Busking adapter requirements #14",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"
+            },
+            {
+              "label": "Shared schema #17",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/17"
+            }
+          ]
+        },
+        {
+          "id": "integration-onboarding",
+          "label": "Reusable integration and provenance guidance",
+          "state": "issue-reported",
+          "detail": "A repeatable onboarding path for other projects must explain participation, public-data boundaries, and evidence interpretation.",
+          "evidence": [
+            {
+              "label": "Integration onboarding #16",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/16"
+            }
+          ]
+        },
+        {
+          "id": "radio-media-route",
+          "label": "Supported radio media routing",
+          "state": "issue-reported",
+          "detail": "Route Canopy's JukeLoop playback through the supported source media endpoint without confusing network reachability with browser codec support.",
+          "evidence": [
+            {
+              "label": "Radio endpoint integration #15",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"
+            }
+          ]
+        }
+      ],
+      "tags": [
+        "github",
+        "ipfs",
+        "pinning rewards",
+        "repo development",
+        "sponsor funds"
+      ],
       "evidence": [
-        {"label": "Existing Canopy capabilities", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"},
-        {"label": "GitHub connector #11", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/11"},
-        {"label": "Shared schema #17", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/17"},
-        {"label": "Evidence-backed visualization #13", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/13"},
-        {"label": "Busking fund and ledger adapter #14", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"},
-        {"label": "Supported radio endpoint #15", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"}
+        {
+          "label": "Existing Canopy capabilities",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"
+        },
+        {
+          "label": "GitHub connector #11",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/11"
+        },
+        {
+          "label": "Shared schema #17",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/17"
+        },
+        {
+          "label": "Evidence-backed visualization #13",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/13"
+        },
+        {
+          "label": "Busking fund and ledger adapter #14",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"
+        },
+        {
+          "label": "Supported radio endpoint #15",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"
+        }
       ]
     },
     {
@@ -39,19 +165,161 @@
       "focus": "now",
       "repo": "TheJollyLaMa/DecentBusking",
       "purpose": "Support music participation, scheduled radio, and accountable creator and contributor earnings.",
-      "currentState": "The steward reports the first week's schedule and payroll completed. Public code documents media uploads, recoverable IPFS checkpoints, fund indexing, and payment ledgers. This map has not reconciled week-one payout receipts.",
+      "currentState": "The steward reports the first week's schedule and payroll completed. On 2026-10-20, all 10 payable entries for NY-2026-10-12 matched recipient/amount/work-reference entries marked verified by the public worker ledger (33.511773 USDC allocated). This is source-reported reconciliation, not an independent chain audit. Public code includes uploads, recoverable checkpoints, and fund/payment indexing.",
+      "reviewNote": "Public storage, payroll, and schedule code inspected; worker ledger reconciliation is source-reported, not independent chain verification. Browser decoder issue #244 remains unresolved.",
+      "offers": [
+        {
+          "id": "scoped-uploads",
+          "label": "Wallet-scoped media upload flow",
+          "state": "code-observed",
+          "detail": "Browser authorization binds wallet, origin and file metadata; the worker handles provider access. Adaptation must review replay, expiry and purpose policy; public music upload is not health-data confidentiality.",
+          "evidence": [
+            {
+              "label": "Upload client",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/js/ipfs-upload.js"
+            },
+            {
+              "label": "Worker authorization and uploads",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-worker.js"
+            }
+          ]
+        },
+        {
+          "id": "durable-checkpoints",
+          "label": "Recoverable IPFS worker checkpoints",
+          "state": "code-observed",
+          "detail": "Checkpoint and recovery mechanics for shared radio state are an adaptation reference, not a drop-in personal snapshot format or encryption scheme.",
+          "evidence": [
+            {
+              "label": "IPFS checkpoint implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-state.js"
+            }
+          ]
+        },
+        {
+          "id": "fund-ledgers",
+          "label": "Public fund and payment indexers",
+          "state": "code-observed",
+          "detail": "Read-only fund and payment sources expose exact-unit accounting and indexing state. Consumers must validate coverage, source errors and unmatched payouts before claiming completeness.",
+          "evidence": [
+            {
+              "label": "Fund ledger",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/fund-ledger.js"
+            },
+            {
+              "label": "Payment ledger",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/payment-ledger.js"
+            }
+          ]
+        },
+        {
+          "id": "radio-media-proxy",
+          "label": "Catalog-scoped radio media endpoint",
+          "state": "code-observed",
+          "detail": "The worker proxies known playlist media and forwards ranges without exposing provider credentials. It serves original media rather than browser-compatible transcoding.",
+          "evidence": [
+            {
+              "label": "Worker media route",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-worker.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "browser-media",
+          "label": "Browser-compatible recording playback",
+          "state": "issue-reported",
+          "detail": "Recover the exact affected recording and reproduce decoder behavior in normal and embedded browsers before selecting a codec/loading remedy.",
+          "evidence": [
+            {
+              "label": "Decoder investigation #244",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/244"
+            }
+          ]
+        },
+        {
+          "id": "event-promotion",
+          "label": "Explicit schedule-to-Discord promotion",
+          "state": "issue-reported",
+          "detail": "Admin-selected dated radio-hour occurrences need preview, confirmed sending, duplicate protection and current-event revalidation.",
+          "evidence": [
+            {
+              "label": "Calendar announcements #242",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/242"
+            }
+          ]
+        },
+        {
+          "id": "asteroid-game-proposal",
+          "label": "Proposed asteroid game experience",
+          "state": "issue-reported",
+          "detail": "A game mode is proposed, not committed as the next development priority. Existing game code should be evaluated before starting another implementation; NFT/reward and radio mechanics remain separate design work.",
+          "evidence": [
+            {
+              "label": "Game proposal #243",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/243"
+            }
+          ]
+        },
+        {
+          "id": "performer-escrow",
+          "label": "Visible performer escrow, review and claim lifecycle",
+          "state": "issue-reported",
+          "detail": "Issue #210 asks for funds committed before a performance, admin review afterward, and performer claims. Existing push-payment paths are not evidence of this escrow/claim lifecycle.",
+          "evidence": [
+            {"label":"Performance readiness #210","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/210"},
+            {"label":"Performance administration #223","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/223"}
+          ]
+        }
+      ],
       "nextAction": "Review week-one outcomes and receipts, resolve the reported browser playback problem (#244), and define the next schedule/payroll slice against existing performance and playlist issues.",
-      "tags": ["ipfs", "media", "music", "payroll", "sponsor funds", "schedule", "recovery"],
+      "tags": [
+        "ipfs",
+        "media",
+        "music",
+        "payroll",
+        "sponsor funds",
+        "schedule",
+        "recovery"
+      ],
       "evidence": [
-        {"label": "Busking capabilities and participation", "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/README.md"},
-        {"label": "Scoped media upload implementation", "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-worker.js"},
-        {"label": "IPFS checkpoint and recovery implementation", "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-state.js"},
-        {"label": "Browser playback investigation #244", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/244"},
-        {"label": "Live performance readiness #210", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/210"},
-        {"label": "Performance administration #223", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/223"},
-        {"label": "Scheduled playlists #240", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/240"},
-        {"label": "Shareable playlists #241", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/241"},
-        {"label": "Schedule announcements #242", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/242"}
+        {
+          "label": "Busking capabilities and participation",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/README.md"
+        },
+        {
+          "label": "Scoped media upload implementation",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-worker.js"
+        },
+        {
+          "label": "IPFS checkpoint and recovery implementation",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-state.js"
+        },
+        {
+          "label": "Browser playback investigation #244",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/244"
+        },
+        {
+          "label": "Live performance readiness #210",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/210"
+        },
+        {
+          "label": "Performance administration #223",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/223"
+        },
+        {
+          "label": "Scheduled playlists #240",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/240"
+        },
+        {
+          "label": "Shareable playlists #241",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/241"
+        },
+        {
+          "label": "Schedule announcements #242",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/242"
+        }
       ]
     },
     {
@@ -61,112 +329,1484 @@
       "repo": "TheJollyLaMa/BigNuten_Vanilla",
       "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
       "currentState": "The steward reports an IPFS stall motivated the wider storage work. BigNuten already has an open Busking-adaptation epic; its README documents personal IPFS storage and bounty operations. The current stall has not been reproduced by this map.",
+      "reviewNote": "Public provider abstraction and snapshot lifecycle inspected at a remote-existing commit. Current checkout has unrelated local edits, excluded from this review. No personal health records inspected.",
+      "offers": [
+        {
+          "id": "storage-interface",
+          "label": "Provider-neutral snapshot interface",
+          "state": "code-observed",
+          "detail": "StorageProvider and a local JSON provider separate backup operations from vendors; deterministic snapshot hashing provides an integration reference. End-to-end remote restore is not established by source inspection.",
+          "evidence": [
+            {
+              "label": "Storage provider interface",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/0a520c1783bb1b0b6fb38904952b8bf5ec5cb5f8/js/storageProvider.js"
+            }
+          ]
+        },
+        {
+          "id": "snapshot-retention",
+          "label": "Snapshot manifest and retention tiers",
+          "state": "code-observed",
+          "detail": "Manifest, pointer, and hourly/monthly/annual retention code offer lifecycle ideas for user-owned recovery. Verification defaults and last-known-good behavior require review before adopting.",
+          "evidence": [
+            {
+              "label": "Snapshot lifecycle implementation",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/0a520c1783bb1b0b6fb38904952b8bf5ec5cb5f8/js/snapshotLifecycle.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "upload-authorization",
+          "label": "Scoped wallet-authorized backup uploads",
+          "state": "issue-reported",
+          "detail": "Preserve provider choice and local-first operation while scoping trusted-service upload authorization. Decide confidentiality requirements separately; no public health-data migration is authorized.",
+          "evidence": [
+            {
+              "label": "Scoped upload adaptation #339",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/339"
+            },
+            {
+              "label": "Provider architecture #328",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/328"
+            }
+          ]
+        },
+        {
+          "id": "snapshot-recovery",
+          "label": "Reliable, validated backup and restore",
+          "state": "issue-reported",
+          "detail": "Reproduce the reported stall; retain last-known-good snapshots and prove export/restore coverage without destructive migration or invented success states.",
+          "evidence": [
+            {
+              "label": "Recovery work #341",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"
+            },
+            {
+              "label": "Provider trial #330",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/330"
+            }
+          ]
+        }
+      ],
       "nextAction": "Reproduce the stalled save/restore path, then adapt scoped uploads (#339) and snapshot recovery (#341), coordinating with the existing storage issues instead of copying Busking wholesale.",
-      "tags": ["ipfs", "wellness", "body care", "payroll", "sponsor funds", "recovery"],
+      "tags": [
+        "ipfs",
+        "wellness",
+        "body care",
+        "payroll",
+        "sponsor funds",
+        "recovery"
+      ],
       "evidence": [
-        {"label": "Busking adaptation epic #337", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337"},
-        {"label": "Receipt-verified payroll #338", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/338"},
-        {"label": "Scoped wallet-authorized uploads #339", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/339"},
-        {"label": "Treasury coverage and verified payments #340", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/340"},
-        {"label": "Snapshot recovery and history #341", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"},
-        {"label": "Funded-work lifecycle #342", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/342"}
+        {
+          "label": "Busking adaptation epic #337",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337"
+        },
+        {
+          "label": "Receipt-verified payroll #338",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/338"
+        },
+        {
+          "label": "Scoped wallet-authorized uploads #339",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/339"
+        },
+        {
+          "label": "Treasury coverage and verified payments #340",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/340"
+        },
+        {
+          "label": "Snapshot recovery and history #341",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"
+        },
+        {
+          "label": "Funded-work lifecycle #342",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/342"
+        }
       ]
     },
-    {"id": "decent-jukebox", "name": "DecentJukebox", "repo": "A-Decent-Agency/DecentJukebox", "purpose": "Steward-reported ancestor of DecentBusking; implementation carry-over has not been audited."},
-    {"id": "green-tea-party", "name": "TheGreenTeaParty", "repo": "TheJollyLaMa/TheGreenTeaParty", "purpose": "Existing Canopy project cluster and the documented source of Canopy's extracted visualization."},
-    {"id": "green-tea-hut", "name": "GreenTeaHut_01", "repo": "TheJollyLaMa/GreenTeaHut_01", "purpose": "The Green Tea Party's first project, with an existing curated Canopy status and public treasury card.", "evidence": [
-      {"label": "Existing Canopy project details", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/data/project-details.json"}
-    ]},
-    {"id": "artfi", "name": "ArtFi", "repo": "TheJollyLaMa/ArtFi", "purpose": "Candidate funding and relationship integration already tracked in Canopy; deployment and flow verification remain separate work.", "tags": ["sponsor funds", "funding"], "evidence": [
-      {"label": "Existing ArtFi integration epic #10", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/10"},
-      {"label": "Verify deployments and funding flow #20", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/20"}
-    ]},
-    {"id": "jacobs-ladder", "name": "JacobsLadder26", "repositoryNote": "Public repository identity unresolved; the relationship to DecentMaker needs clarification."},
-    {"id": "decent-maker", "name": "DecentMaker", "repositoryNote": "Public repository identity unresolved. No equivalence with JacobsLadder26 is asserted."},
-    {"id": "jolly-sim-siddhi", "name": "JollySimSiddhi", "repo": "TheJollyLaMa/jolly-sim-siddhi", "repositoryNote": "Public name differs from the supplied project label; this curated mapping does not resolve other local variants.", "purpose": "Steward-described evolution of Arduino Smarthome, with a proposed cadCAD integration."},
-    {"id": "arduino-smarthome", "name": "Arduino Smarthome", "repo": "TheJollyLaMa/Arduino_Smarthome", "purpose": "Steward-reported ancestor of JollySimSiddhi."},
-    {"id": "cadcad", "name": "cadCAD", "repo": "cadCAD-org/cadCAD", "external": true, "purpose": "External integration candidate named by the steward; not part of the DecentAgency umbrella."},
-    {"id": "umbrella-academy", "name": "TheUmbrellaAcademy", "repo": "TheJollyLaMa/UmbrellaAcademy", "repositoryNote": "The public repository is named UmbrellaAcademy.", "purpose": "Steward-proposed development from AJollyDecentCodeCamp and JollySandbox."},
-    {"id": "code-camp", "name": "AJollyDecentCodeCamp", "repo": "TheJollyLaMa/AJollyDecentCodeCamp"},
-    {"id": "jolly-sandbox", "name": "JollySandbox", "repo": "TheJollyLaMa/JollySandbox"},
-    {"id": "subscriptions", "name": "DecentSubscriptions", "repo": "TheJollyLaMa/DecentSubscriptions"},
-    {"id": "pilgrimages", "name": "DecentPilgrimages", "repo": "TheJollyLaMa/DecentPilgrimages"},
-    {"id": "head", "name": "DecentHead", "repo": "TheJollyLaMa/DecentHead", "purpose": "Canopy documents a DecentHead header. Whether the standalone repository is interchangeable with current embedded versions needs inspection."},
-    {"id": "canvas", "name": "DecentCanvas", "repositoryNote": "Public repository identity unresolved."},
-    {"id": "footer", "name": "DecentFooter", "repositoryNote": "Public repository identity unresolved; no equivalence with similarly named local checkouts is assumed."},
-    {"id": "market", "name": "DecentMarket", "repo": "TheJollyLaMa/DecentMarket"},
-    {"id": "escrow", "name": "DecentEscrow", "repo": "TheJollyLaMa/DecentEscrow"},
-    {"id": "invoice", "name": "DecentInvoice", "repo": "TheJollyLaMa/DecentInvoice"},
-    {"id": "airdrop", "name": "DecentAirdrop", "repo": "TheJollyLaMa/DecentAirdrop"},
-    {"id": "calendar", "name": "DecentCalendar", "repositoryNote": "Public repository identity unresolved."},
-    {"id": "nda", "name": "Decent_NDA", "repo": "TheJollyLaMa/Decent_NDA"},
-    {"id": "ucann", "name": "Decent_UCANN_Play", "repositoryNote": "Exact public identity unresolved. A similarly named public repository is not assumed to be the same project."},
-    {"id": "duo-duel", "name": "DuoDuel", "repositoryNote": "Public repository identity unresolved."},
-    {"id": "babel-bet", "name": "BabelBet", "repo": "TheJollyLaMa/BabelBet"},
-    {"id": "babel-prototype", "name": "BabelBet_OG_Prototype", "repositoryNote": "Distinct public repository identity unresolved; not merged with BabelBet based on a checkout name."},
-    {"id": "joker", "name": "TheJokerWillPlay", "repositoryNote": "Public repository identity unresolved."},
-    {"id": "bean", "name": "Bean", "repositoryNote": "Public repository identity unresolved."},
-    {"id": "asteroid", "name": "Asteroid", "repo": "TheJollyLaMa/AsteRoid", "repositoryNote": "The public repository is named AsteRoid. No integration with Busking's proposed game mode is established."}
+    {
+      "id": "decent-jukebox",
+      "name": "DecentJukebox",
+      "repo": "A-Decent-Agency/DecentJukebox",
+      "purpose": "Steward-reported ancestor of DecentBusking; implementation carry-over has not been audited.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at af01de5a. Not executed, deployment-verified, or integration-tested in this review. The inspected payroll work is on a public feature branch, not asserted to be deployed from main.",
+      "reviewCaveats": [
+        "Commit is ahead of main on branch feature/artfi-payroll-flow (compare to main: ahead); it exists on the remote but is not on main. Pin to it only if that branch is intended.",
+        "Worktree had uncommitted .DS_Store changes; none used."
+      ],
+      "currentState": "Web3 jukebox front end plus GitHub-Actions ART bounty/payroll bookkeeping.",
+      "offers": [
+        {
+          "id": "dj-payroll",
+          "label": "Bounty/payroll ledger automation with tests",
+          "state": "code-observed",
+          "detail": "payroll.js, workflows and node --test tests present; README says it never sends tokens. Tests not run.",
+          "evidence": [
+            {
+              "label": "payroll.js",
+              "url": "https://github.com/A-Decent-Agency/DecentJukebox/blob/af01de5a73fa5c16cd67b280fbbf20d29ce10e84/scripts/payroll.js"
+            },
+            {
+              "label": "payroll.test.js",
+              "url": "https://github.com/A-Decent-Agency/DecentJukebox/blob/af01de5a73fa5c16cd67b280fbbf20d29ce10e84/test/payroll.test.js"
+            },
+            {
+              "label": "bounty-bot workflow",
+              "url": "https://github.com/A-Decent-Agency/DecentJukebox/blob/af01de5a73fa5c16cd67b280fbbf20d29ce10e84/.github/workflows/bounty-bot.yml"
+            }
+          ]
+        },
+        {
+          "id": "dj-jukebox",
+          "label": "Jukebox web UI with versioned contract ABIs",
+          "state": "code-observed",
+          "detail": "index.html loads ethers; versioned ABIs for Polygon/Optimism/MintMe are committed. Deployment state not checked.",
+          "evidence": [
+            {
+              "label": "index.html",
+              "url": "https://github.com/A-Decent-Agency/DecentJukebox/blob/af01de5a73fa5c16cd67b280fbbf20d29ce10e84/public/index.html"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "dj-issue2",
+          "label": "AddAlbum modal for multi-owner percentages and w3up flow",
+          "state": "issue-reported",
+          "detail": "Open issue #2.",
+          "evidence": [
+            {
+              "label": "issue #2",
+              "url": "https://github.com/A-Decent-Agency/DecentJukebox/issues/2"
+            }
+          ]
+        },
+        {
+          "id": "dj-issue1",
+          "label": "Squid Router multi-chain integration",
+          "state": "issue-reported",
+          "detail": "Open issue #1 with a bounty.",
+          "evidence": [
+            {
+              "label": "issue #1",
+              "url": "https://github.com/A-Decent-Agency/DecentJukebox/issues/1"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "green-tea-party",
+      "name": "TheGreenTeaParty",
+      "repo": "TheJollyLaMa/TheGreenTeaParty",
+      "purpose": "Existing Canopy project cluster and the documented source of Canopy's extracted visualization.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at b0a39e97. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "Local branch is feature/artfi-payroll-flow and one commit ahead of origin/main, but the exact HEAD commit is present remotely.",
+        "Current issue listing returned no open issues. Direct issue reads show #11 and #12 CLOSED, while the README status table still labels both Open.",
+        "README roadmap status conflicts with later implementation/changelog sections and the current issue states.",
+        "Reviewer suggestion, not an expressed need: pinned app-adapter.js always returns availableFunds: 0 and an empty associations list; confirm whether those are intentional placeholders before assigning work."
+      ],
+      "currentState": "Agency-first stewardship dashboard with prototype and app modes, shared data adapters, and an on-chain registry integration scaffold.",
+      "offers": [
+        {
+          "id": "gtp-app-data-adapter",
+          "label": "Wallet-aware project/activity adapter scaffold",
+          "state": "code-observed",
+          "detail": "Reusable adapter interface and app-mode project/activity reads, with registry mutation hooks. In the pinned code, getMetrics always returns availableFunds: 0 (the placeholder flag only reflects contract readiness) and getAssociations always returns an empty list, so treat this as an integration scaffold rather than a live treasury feed.",
+          "evidence": [
+            {
+              "label": "README mode architecture and roadmap",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/blob/b0a39e97fa77baeb7b05c7c9154fddb05f407946/README.md"
+            },
+            {
+              "label": "App data adapter",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/blob/b0a39e97fa77baeb7b05c7c9154fddb05f407946/scripts/data-adapter/app-adapter.js"
+            },
+            {
+              "label": "Adapter contract",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/blob/b0a39e97fa77baeb7b05c7c9154fddb05f407946/scripts/data-adapter/interface.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "gtp-live-contract-roadmap",
+          "label": "Wallet/contract integration is documented as future app-mode work",
+          "state": "documented",
+          "detail": "README says wallet connection and contract read/write hooks land in issues #11/#12 and that app mode needs those integrations. The issues are currently CLOSED, though the README still labels them Open; this is a documented but stale need, not a claim that the closed milestones remain open.",
+          "evidence": [
+            {
+              "label": "README roadmap, app-mode caveats, and stale issue-status table",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/blob/b0a39e97fa77baeb7b05c7c9154fddb05f407946/README.md"
+            },
+            {
+              "label": "App adapter metrics and association placeholders",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/blob/b0a39e97fa77baeb7b05c7c9154fddb05f407946/scripts/data-adapter/app-adapter.js"
+            },
+            {
+              "label": "Contract adapter read/write scaffolding",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/blob/b0a39e97fa77baeb7b05c7c9154fddb05f407946/scripts/contract-adapter.js"
+            },
+            {
+              "label": "Issue #11 is closed",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/issues/11"
+            },
+            {
+              "label": "Issue #12 is closed",
+              "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/issues/12"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "green-tea-hut",
+      "name": "GreenTeaHut_01",
+      "repo": "TheJollyLaMa/GreenTeaHut_01",
+      "purpose": "The Green Tea Party's first project, with an existing curated Canopy status and public treasury card.",
+      "evidence": [
+        {
+          "label": "Existing Canopy project details",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/data/project-details.json"
+        }
+      ],
+      "reviewNote": "Public committed source inspected 2026-10-20 at 64f22221. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "README documents an active Base deployment, but this inspection did not independently verify live chain state.",
+        "README feature claims and the open payout issue title appear out of sync."
+      ],
+      "currentState": "Base-based public project ledger and treasury with imported-history controls, contributor payroll, and a storefront/escrow path.",
+      "offers": [
+        {
+          "id": "green-tea-hut-treasury",
+          "label": "Public ledger and project treasury implementation",
+          "state": "code-observed",
+          "detail": "ProjectTreasuryV2 models project accounting entries and status transitions, imported-history validation, manager authorization, unique payroll references, and storefront orders with reserved/refundable USDC. README identifies V2 as the active Base deployment and the old Optimism ledger as read-only history; source is a concrete project-specific implementation, not a drop-in generic treasury.",
+          "evidence": [
+            {
+              "label": "README deployment, settlement, payroll, and storefront status",
+              "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/blob/64f2222190aad88b400871366a3d31add4773f80/README.md"
+            },
+            {
+              "label": "ProjectTreasuryV2 contract",
+              "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/blob/64f2222190aad88b400871366a3d31add4773f80/contracts/ProjectTreasuryV2.sol"
+            },
+            {
+              "label": "Ledger frontend and contract configuration",
+              "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/blob/64f2222190aad88b400871366a3d31add4773f80/web/app.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "green-tea-hut-payouts-mvp",
+          "label": "Resolve payout MVP scope/status",
+          "state": "issue-reported",
+          "detail": "Open issue #36 requests a QR clock-in/out, accrual, reviewer-settlement, and anti-double-pay MVP in the existing payout view. The README already describes signed QR shifts, accrual, reviewer approval, and single-confirmation guards, so confirm whether the issue is stale or identifies remaining work.",
+          "evidence": [
+            {
+              "label": "Open payout MVP issue",
+              "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/issues/36"
+            },
+            {
+              "label": "README labor and services payout description",
+              "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/blob/64f2222190aad88b400871366a3d31add4773f80/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "artfi",
+      "name": "ArtFi",
+      "repo": "TheJollyLaMa/ArtFi",
+      "purpose": "Candidate funding and relationship integration already tracked in Canopy; deployment and flow verification remain separate work.",
+      "tags": [
+        "sponsor funds",
+        "funding"
+      ],
+      "evidence": [
+        {
+          "label": "Existing ArtFi integration epic #10",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/10"
+        },
+        {
+          "label": "Verify deployments and funding flow #20",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/20"
+        }
+      ],
+      "reviewNote": "Public committed source inspected 2026-10-20 at b14e7c62. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "Issue #58 warns that deployed registry bytecode may predate functions present in the local source; deployment compatibility was not checked.",
+        "Automated test files cover protocol, router, registry, payroll, and related JavaScript behavior, but no tests were run for this read-only review. Reviewer suggestion: run these suites and verify deployed-bytecode parity before relying on the workflows."
+      ],
+      "currentState": "Public Solidity/Hardhat and JavaScript project for Artizen creator advances, contributor settlement, registry publishing, and node-check tracking. Contract and backend implementations are present; the README describes live workflows, while open issue #58 records significant public onboarding, index-refresh, and reward-payout gaps. Automated tests exist but were not run.",
+      "offers": [
+        {
+          "id": "artfi-advance-contract-flow",
+          "label": "On-chain creator advances",
+          "state": "code-observed",
+          "detail": "Solidity supports advance requests, funded offers, creator acceptance, repayment, and payout settlement, with request/offer records represented by NFTs. Likely consumers are Artizen participants seeking short-term payout runway and sponsors funding those requests.",
+          "evidence": [
+            {
+              "label": "ArtFiProtocol implementation",
+              "url": "https://github.com/TheJollyLaMa/ArtFi/blob/b14e7c62931c9d2a5079d9971420c0064b8fb109/contracts/ArtFiProtocol.sol"
+            }
+          ]
+        },
+        {
+          "id": "artfi-funded-settlement-and-registry",
+          "label": "Funded contributor settlement and network registry",
+          "state": "code-observed",
+          "detail": "The Solidity router supports native/token fund deposits and individual or batch payouts; the registry supports content publication and node registration/check tracking. Likely consumers are project maintainers paying approved contributors and operators publishing network records. Node eligibility tracking should not be represented as an automatic reward transfer.",
+          "evidence": [
+            {
+              "label": "Settlement router implementation",
+              "url": "https://github.com/TheJollyLaMa/ArtFi/blob/b14e7c62931c9d2a5079d9971420c0064b8fb109/contracts/ArtFiSettlementRouter.sol"
+            },
+            {
+              "label": "Network registry implementation",
+              "url": "https://github.com/TheJollyLaMa/ArtFi/blob/b14e7c62931c9d2a5079d9971420c0064b8fb109/contracts/ArtFiNetworkRegistry.sol"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "artfi-public-onboarding-and-index",
+          "label": "Complete public onboarding and Canopy publishing",
+          "state": "issue-reported",
+          "detail": "Open issue #58 says public-origin onboarding/upload and secure profile recovery need work, and the generated Canopy index is not automatically refreshed from registry events. This is an explicit project need, not a claim that these workflows are implemented.",
+          "evidence": [
+            {
+              "label": "Open public-readiness issue #58",
+              "url": "https://github.com/TheJollyLaMa/ArtFi/issues/58"
+            }
+          ]
+        },
+        {
+          "id": "artfi-node-reward-payout",
+          "label": "Make eligible node rewards transfer and testable",
+          "state": "issue-reported",
+          "detail": "Issue #58 states that current registry records eligibility/payment references while pilot payments remain manual; it requests accountable treasury payouts, transfer-linked records, and eligibility/duplicate/failure tests.",
+          "evidence": [
+            {
+              "label": "Open public-readiness issue #58",
+              "url": "https://github.com/TheJollyLaMa/ArtFi/issues/58"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jacobs-ladder",
+      "name": "JacobsLadder26",
+      "repositoryNote": "Public repository identity unresolved; the relationship to DecentMaker needs clarification."
+    },
+    {
+      "id": "decent-maker",
+      "name": "DecentMaker",
+      "repositoryNote": "Public repository identity unresolved. No equivalence with JacobsLadder26 is asserted."
+    },
+    {
+      "id": "jolly-sim-siddhi",
+      "name": "JollySimSiddhi",
+      "repo": "TheJollyLaMa/jolly-sim-siddhi",
+      "repositoryNote": "Public name differs from the supplied project label; this curated mapping does not resolve other local variants.",
+      "purpose": "Steward-described evolution of Arduino Smarthome, with a proposed cadCAD integration.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at e6438005. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "Reviewer suggestion (not an expressed need): add tests/CI; none found at the commit.",
+        "Several README features are plans (🚧), not implementation.",
+        "Worktree had uncommitted changes; none used."
+      ],
+      "currentState": "Decent Smarthome 4.0: React + Express app combining MetaMask, web3.storage/IPFS and OpenAI chat assistants.",
+      "offers": [
+        {
+          "id": "jss-express-api",
+          "label": "Express API for OpenAI assistants, vector store and web3.storage",
+          "state": "code-observed",
+          "detail": "Route modules mounted in server.js for Sim Siddhi / Doctor Buddha / WotserWell chat, vector store, web3.storage setup, rewards and token balances. Not executed.",
+          "evidence": [
+            {
+              "label": "server.js",
+              "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/server/server.js"
+            },
+            {
+              "label": "vectorStore route",
+              "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/server/routes/vectorStore.js"
+            }
+          ]
+        },
+        {
+          "id": "jss-w3storage-flow",
+          "label": "web3.storage data-upload / rewards flow",
+          "state": "documented",
+          "detail": "README documents uploading data to W3Up and a rewards-opportunity UI; route files exist at the commit but end-to-end behavior is unverified.",
+          "evidence": [
+            {
+              "label": "README",
+              "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/README.md"
+            },
+            {
+              "label": "setupWeb3Storage route",
+              "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/server/routes/setupWeb3Storage.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "jss-need-contracts",
+          "label": "Rewards contracts tied to web3.storage DIDs",
+          "state": "documented",
+          "detail": "README lists 'Smart Contracts: integrate rewards contracts with w3 data store DIDs' as an upcoming milestone.",
+          "evidence": [
+            {
+              "label": "README Upcoming Milestones",
+              "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/README.md"
+            }
+          ]
+        },
+        {
+          "id": "jss-need-asteroid-game",
+          "label": "Make Asteroid Belt a functional game",
+          "state": "documented",
+          "detail": "README states the Asteroid Belt is a visual for now and will soon be a game.",
+          "evidence": [
+            {
+              "label": "README",
+              "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "arduino-smarthome",
+      "name": "Arduino Smarthome",
+      "repo": "TheJollyLaMa/Arduino_Smarthome",
+      "purpose": "Steward-reported ancestor of JollySimSiddhi.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 425e942e. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "Legacy hardware (Arduino Yun) and AngularJS dependency; prototype.",
+        "Reviewer suggestion (not an expressed need): modernization/hardware setup docs.",
+        "Uncommitted local edits to SmartHomeController.js and dashboard.html were excluded."
+      ],
+      "currentState": "Legacy 2021 greenhouse prototype: Arduino Yun/Mega sketches, Morningstar TriStar power data, AngularJS dashboard.",
+      "offers": [
+        {
+          "id": "ard-sketches",
+          "label": "Arduino greenhouse + power-management firmware",
+          "state": "code-observed",
+          "detail": "Sketch includes Bridge.h, DHT sensors, datalog and a ~280-line powerManagement.ino. Not compiled or run.",
+          "evidence": [
+            {
+              "label": "main sketch",
+              "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/blob/425e942e18b045a3bc2ce077245b49ddfaca649f/jonesGreenHouse2021/jonesGreenHouse2021.ino"
+            },
+            {
+              "label": "powerManagement.ino",
+              "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/blob/425e942e18b045a3bc2ce077245b49ddfaca649f/jonesGreenHouse2021/powerManagement.ino"
+            }
+          ]
+        },
+        {
+          "id": "ard-dashboard",
+          "label": "AngularJS dashboard with Bridge service",
+          "state": "code-observed",
+          "detail": "Committed controller and BridgeFactory service exist; depends on legacy AngularJS and the hardware bridge.",
+          "evidence": [
+            {
+              "label": "SmartHomeController",
+              "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/blob/425e942e18b045a3bc2ce077245b49ddfaca649f/mnt/sda1/arduino/www/jonesGreenHouse/js/controllers/SmartHomeController.js"
+            },
+            {
+              "label": "BridgeFactory",
+              "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/blob/425e942e18b045a3bc2ce077245b49ddfaca649f/mnt/sda1/arduino/www/jonesGreenHouse/js/services/BridgeFactory.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "ard-issue1",
+          "label": "Exception handling for TheMainProgram",
+          "state": "issue-reported",
+          "detail": "Open issue #1 contains a suggested try/catch version of TheMainProgram.",
+          "evidence": [
+            {
+              "label": "issue #1",
+              "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/issues/1"
+            }
+          ]
+        },
+        {
+          "id": "ard-readme-scope",
+          "label": "Ledger, inventory, weather and storefront features",
+          "state": "documented",
+          "detail": "README lists these as dashboard features; repo description says 'Just Prototyped, a lot of room to build'. Implementation of each not verified.",
+          "evidence": [
+            {
+              "label": "README",
+              "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/blob/425e942e18b045a3bc2ce077245b49ddfaca649f/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cadcad",
+      "name": "cadCAD",
+      "repo": "cadCAD-org/cadCAD",
+      "external": true,
+      "purpose": "External integration candidate named by the steward; not part of the DecentAgency umbrella."
+    },
+    {
+      "id": "umbrella-academy",
+      "name": "TheUmbrellaAcademy",
+      "repo": "TheJollyLaMa/UmbrellaAcademy",
+      "repositoryNote": "The public repository is named UmbrellaAcademy.",
+      "purpose": "Steward-proposed development from AJollyDecentCodeCamp and JollySandbox.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at fa9c0dcc. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "README is only a slogan and the issue listing is empty.",
+        "Reviewer suggestion, not an expressed need: classify the flash-loan files as historical/instructional exploration, not deployable or reusable financial code. The pinned frontend uses a placeholder address and empty ABI, and its displayed call does not match the Solidity interface. Sources: https://github.com/TheJollyLaMa/UmbrellaAcademy/blob/fa9c0dccdf97e7920999f37996383be77e2630e7/README.md ; https://github.com/TheJollyLaMa/UmbrellaAcademy/blob/fa9c0dccdf97e7920999f37996383be77e2630e7/contracts/flashLoan_001.sol ; https://github.com/TheJollyLaMa/UmbrellaAcademy/blob/fa9c0dccdf97e7920999f37996383be77e2630e7/public/js/flashLoan.js"
+      ],
+      "currentState": "Sparse repository containing an experimental flash-loan contract and a placeholder browser interaction.",
+      "offers": [],
+      "needs": []
+    },
+    {
+      "id": "code-camp",
+      "name": "AJollyDecentCodeCamp",
+      "repo": "TheJollyLaMa/AJollyDecentCodeCamp",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 492c4090. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "Issue listing returned no open issues.",
+        "Repository contains a tracked virtual-environment subtree; its contents were not inspected or treated as reusable application code."
+      ],
+      "currentState": "Instructional full-stack code-camp repository organized as beginner Python lessons and snippets.",
+      "offers": [
+        {
+          "id": "codecamp-learning-snippets",
+          "label": "Teaching examples for introductory coding",
+          "state": "code-observed",
+          "detail": "README invites learners to follow lessons and contribute snippets; the calendar lesson demonstrates Python's calendar module and basic input validation. These are instructional examples, not deployable modules.",
+          "evidence": [
+            {
+              "label": "README course and contribution instructions",
+              "url": "https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/blob/492c4090b85e71467c789fd301a68710e854b46f/README.md"
+            },
+            {
+              "label": "Calendar lesson",
+              "url": "https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/blob/492c4090b85e71467c789fd301a68710e854b46f/Class2/Calendar/MyImprovedCalendar.py"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "codecamp-contributions",
+          "label": "Learner-contributed snippets and documentation",
+          "state": "documented",
+          "detail": "README explicitly invites contributors to add code snippets or improve documentation and to record learning experiences for later groups.",
+          "evidence": [
+            {
+              "label": "README getting-started steps",
+              "url": "https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/blob/492c4090b85e71467c789fd301a68710e854b46f/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "jolly-sandbox",
+      "name": "JollySandbox",
+      "repo": "TheJollyLaMa/JollySandbox",
+      "reviewNote": "Public committed source inspected 2026-10-20 at a044a609. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "Issue listing returned no open issues.",
+        "README deployment claims were not independently verified against chain state."
+      ],
+      "currentState": "Interactive Polygon producer-payout demonstration with an ERC-20 reward contract and event timeline.",
+      "offers": [
+        {
+          "id": "jolly-sandbox-payout-demo",
+          "label": "Producer payout and event-timeline demonstration",
+          "state": "code-observed",
+          "detail": "The Solidity contract records class/recruitment/engagement milestones and issues configured token payouts; the browser code connects a wallet and renders contract events. README documents a live demo and contract address. Reuse as a teaching/demo reference only, not as a production payroll or audited payout system.",
+          "evidence": [
+            {
+              "label": "README feature and deployment description",
+              "url": "https://github.com/TheJollyLaMa/JollySandbox/blob/a044a609fe1d219e9dbb29ead06ef5452f0e8e37/README.md"
+            },
+            {
+              "label": "Producer payout contract",
+              "url": "https://github.com/TheJollyLaMa/JollySandbox/blob/a044a609fe1d219e9dbb29ead06ef5452f0e8e37/contracts/SandboxProducer.sol"
+            },
+            {
+              "label": "Browser contract/event client",
+              "url": "https://github.com/TheJollyLaMa/JollySandbox/blob/a044a609fe1d219e9dbb29ead06ef5452f0e8e37/public/scripts/contract.js"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "subscriptions",
+      "name": "DecentSubscriptions",
+      "repo": "TheJollyLaMa/DecentSubscriptions",
+      "reviewNote": "Public committed source inspected 2026-10-20 at c8b7a5c6. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "The implementation defines a period as 30 days; cancellation sets expiry to now and does not implement refunds.",
+        "README instructions and an address in the frontend do not establish a currently working deployment.",
+        "No automated test suite was found or run. Reviewer suggestion: add tests for payment, renewal, cancellation, and fee/withdrawal behavior."
+      ],
+      "currentState": "Public Solidity and HTML/CSS/JavaScript/ethers project for prepaid native-token subscriptions, documented for Polygon. The contract records expiry, allows renewal, cancellation, owner fee updates, and owner withdrawal. No automated tests were found or run.",
+      "offers": [
+        {
+          "id": "decent-subscription-prepay",
+          "label": "Prepaid subscription primitive",
+          "state": "code-observed",
+          "detail": "Subscribers pay for a positive number of periods, extending from the current expiry when active; the contract exposes subscription status and owner fee/withdrawal functions. The frontend presents subscribe, cancel, status, and fee controls. Likely consumers are small dapps seeking a simple on-chain access-period gate.",
+          "evidence": [
+            {
+              "label": "Subscription contract",
+              "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/blob/c8b7a5c6fb806dd0410ae80d4f81af9d93f1713f/contracts/DecentSubscription.sol"
+            },
+            {
+              "label": "Subscription frontend",
+              "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/blob/c8b7a5c6fb806dd0410ae80d4f81af9d93f1713f/public/scripts/subscriptionApp.js"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "pilgrimages",
+      "name": "DecentPilgrimages",
+      "repo": "TheJollyLaMa/DecentPilgrimages",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 7b97c4ae. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "No automated test cases were found; package.json's test script exits with 'no test specified'. Reviewer suggestion: add tests for whitelist authorization, sponsor accounting, claim/recovery, and token transfer behavior.",
+        "Claiming is whitelist-gated, and token transfer behavior depends on the selected ERC-20 token."
+      ],
+      "currentState": "Public Solidity and browser JavaScript/ethers/Leaflet project for sponsored token pools assigned to map locations, with owner/sponsor controls and whitelisted participant claims. Implementation files are present, but no automated tests were found; the package test command is a placeholder rather than a test suite.",
+      "offers": [
+        {
+          "id": "decentpilgrimages-sponsored-location-rewards",
+          "label": "Map-based sponsored token claims",
+          "state": "code-observed",
+          "detail": "Sponsors can fund token balances; an owner or whitelisted sponsor can create token-bearing locations; whitelisted participants claim a location's allocations, which the contract transfers and records. The browser UI displays landmark/token markers. Likely consumers are pilgrimage or community organizers, sponsors, and approved participants.",
+          "evidence": [
+            {
+              "label": "Pilgrimage contract implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/blob/7b97c4ae045a2b54cfa1dccdf4bfcace2eb6f15f/public/contracts/DecentPilgrimage.sol"
+            },
+            {
+              "label": "Map and claim interface",
+              "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/blob/7b97c4ae045a2b54cfa1dccdf4bfcace2eb6f15f/public/scripts/main.js"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "head",
+      "name": "DecentHead",
+      "repo": "TheJollyLaMa/DecentHead",
+      "purpose": "Canopy documents a DecentHead header. Whether the standalone repository is interchangeable with current embedded versions needs inspection.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 8c4ea12d. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
+        "Current issue listing returned no open issues.",
+        "No independent build/runtime validation was performed.",
+        "Reviewer suggestion, not an expressed need: verify account/chain change handling and wallet lifecycle before reusing the direct injected-provider component."
+      ],
+      "currentState": "Static-site Web Component header offering a wallet-connect UI, configurable branding, and an IPFS-related component set.",
+      "offers": [
+        {
+          "id": "decent-head-web-component",
+          "label": "Drop-in static-site header",
+          "state": "code-observed",
+          "detail": "The README describes a no-build-step <decent-header>; the implementation uses Web Components and Shadow DOM and composes separate wallet and IPFS status elements. README labels v1.0.0 stable.",
+          "evidence": [
+            {
+              "label": "README quick start and v1.0.0 scope",
+              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/8c4ea12d96ed8c442b9f9100e95da9a681ef30a9/README.md"
+            },
+            {
+              "label": "Header custom element",
+              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/8c4ea12d96ed8c442b9f9100e95da9a681ef30a9/js/components/Header.js"
+            },
+            {
+              "label": "Wallet connect element",
+              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/8c4ea12d96ed8c442b9f9100e95da9a681ef30a9/js/components/Header/WalletConnect.js"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "canvas",
+      "name": "DecentCanvas",
+      "repositoryNote": "Public repository identity unresolved."
+    },
+    {
+      "id": "footer",
+      "name": "DecentFooter",
+      "repositoryNote": "Public repository identity unresolved; no equivalence with similarly named local checkouts is assumed."
+    },
+    {
+      "id": "market",
+      "name": "DecentMarket",
+      "repo": "TheJollyLaMa/DecentMarket",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 2942cf84. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "README says sale listings and subscription plans still need configuration; deployed addresses and code do not prove a configured/live sale flow.",
+        "Automated Hardhat tests exist for NFT, escrow, and related contracts, but were not run. Reviewer suggestion: run the targeted suites and validate the actual deployment configuration before relying on sales."
+      ],
+      "currentState": "Public Solidity/Hardhat and browser JavaScript marketplace project with ERC-1155 product NFTs and escrow purchases. Implementations and test files exist. README says Base is the current default but NFT metadata, listings, and subscription plans still need configuration; open issue #47 describes creator permissions and payout features that are not yet supplied by the current v0.3 batch-mint implementation. Tests exist but were not run.",
+      "offers": [
+        {
+          "id": "decentmarket-product-nft-mint",
+          "label": "Product NFT registration and batch minting",
+          "state": "code-observed",
+          "detail": "Solidity v0.3 provides an admin-only atomic register-and-mint batch operation over product recipient, amount, supply, URI, and royalty parameters. Likely consumers are collection administrators publishing licensed software, tools, or datasets; this is not the creator self-service flow requested in issue #47.",
+          "evidence": [
+            {
+              "label": "DecentNFT v0.3 batch implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/blob/2942cf84692bc6752039b68fb425711703fe4927/contracts/DecentNFT_v0.3.sol"
+            },
+            {
+              "label": "DecentNFT v0.2 registration and mint primitives",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/blob/2942cf84692bc6752039b68fb425711703fe4927/contracts/DecentNFT_v0.2.sol"
+            }
+          ]
+        },
+        {
+          "id": "decentmarket-escrow-sales",
+          "label": "ERC-1155 escrow sales",
+          "state": "code-observed",
+          "detail": "The escrow contract has ETH and ERC-20 purchase paths for listed ERC-1155 editions, plus subscription-plan primitives. Likely consumers are product/NFT issuers and buyers; actual sale readiness depends on listing and metadata configuration.",
+          "evidence": [
+            {
+              "label": "DecentEscrow purchase and subscription implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/blob/2942cf84692bc6752039b68fb425711703fe4927/contracts/DecentEscrow_v001.sol"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "decentmarket-creator-minting",
+          "label": "Add bounded creator self-service minting",
+          "state": "issue-reported",
+          "detail": "Open issue #47 requests creator authorization that does not grant collection-wide admin privileges, recipient/royalty constraints, and per-creator limits and revocation.",
+          "evidence": [
+            {
+              "label": "Open DecentNFT v0.3 issue #47",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/issues/47"
+            }
+          ]
+        },
+        {
+          "id": "decentmarket-payout-and-migration",
+          "label": "Specify batch payouts, royalties, and migration",
+          "state": "issue-reported",
+          "detail": "Issue #47 requests enforceable multi-artist royalty settlement, batch payout behavior, provenance/rollback tests, and coordination for deployments, ABIs, indexers, and existing v0.2 tokens.",
+          "evidence": [
+            {
+              "label": "Open DecentNFT v0.3 issue #47",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/issues/47"
+            },
+            {
+              "label": "README deployment and listing caveats",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/blob/2942cf84692bc6752039b68fb425711703fe4927/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "escrow",
+      "name": "DecentEscrow",
+      "repo": "TheJollyLaMa/DecentEscrow",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 7b894af7. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "README describes an incomplete Base migration; the legacy Optimism address is retained for historical/recovery use.",
+        "No automated test suite was found or run. Reviewer suggestion: add contract/UI tests for token transfer, timelock, and refund behavior before deployment."
+      ],
+      "currentState": "Public Solidity and browser JavaScript/ethers project for time-locked ERC-20 work orders. The contract supports client verification for full payment and post-timelock partial release/refund; the UI connects a wallet and submits work orders. No automated tests were found or run.",
+      "offers": [
+        {
+          "id": "decentes-erc20-work-orders",
+          "label": "Time-locked work-order escrow",
+          "state": "code-observed",
+          "detail": "A client can deposit ERC-20 funds for a named worker and work reference, release the full amount after verification, or after the lock expires choose a partial worker payout and refund the remainder. Likely consumers are clients and independent workers managing discrete paid tasks.",
+          "evidence": [
+            {
+              "label": "Escrow contract implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentEscrow/blob/7b894af72ce57835a9554c64084d856bbe7d61b7/contracts/DecentEscrow.sol"
+            },
+            {
+              "label": "Wallet and work-order UI",
+              "url": "https://github.com/TheJollyLaMa/DecentEscrow/blob/7b894af72ce57835a9554c64084d856bbe7d61b7/js/app.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "decentes-base-migration",
+          "label": "Complete documented Base migration",
+          "state": "documented",
+          "detail": "The README identifies Base as the target but says the Base contract address remains unset pending deployment; the frontend also reports the missing deployment when that network is selected. This is a documented deployment/configuration gap.",
+          "evidence": [
+            {
+              "label": "README network migration status",
+              "url": "https://github.com/TheJollyLaMa/DecentEscrow/blob/7b894af72ce57835a9554c64084d856bbe7d61b7/README.md"
+            },
+            {
+              "label": "Frontend network/address handling",
+              "url": "https://github.com/TheJollyLaMa/DecentEscrow/blob/7b894af72ce57835a9554c64084d856bbe7d61b7/js/app.js"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "invoice",
+      "name": "DecentInvoice",
+      "repo": "TheJollyLaMa/DecentInvoice",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 2e73d8b1. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "The pinned commit has no Solidity implementation at contracts/DecentInvoice.sol; local-only implementation claims were excluded from public findings.",
+        "The ABI alone cannot establish authorization, payment, expiry, or confidentiality semantics.",
+        "No automated test suite was found or run; README provides little implementation or deployment guidance. Reviewer suggestion: publish/verify the matching contract source and add workflow tests before relying on invoice behavior."
+      ],
+      "currentState": "Public browser JavaScript/ethers frontend and ABI for an invoice flow. The pinned public commit contains no Solidity source, so contract behavior is not confirmed from this checkout's source. The UI exposes invoice creation and payment calls. No automated tests were found or run.",
+      "offers": [
+        {
+          "id": "decentinvoice-erc20-invoicing",
+          "label": "Invoice creation and payment frontend",
+          "state": "code-observed",
+          "detail": "The pinned browser frontend calls ABI methods for invoice creation and payment and requests ERC-20 approval before submitting payment. The committed ABI includes invoice and preview/solution CID getters. Likely consumers are contractors and clients exploring issue-linked invoices; the deployed contract's transfer, expiry, or CID access semantics are not established by the committed source.",
+          "evidence": [
+            {
+              "label": "Committed invoice browser client",
+              "url": "https://github.com/TheJollyLaMa/DecentInvoice/blob/2e73d8b1f0f759c52a1fe2d68b1613325733acda/js/app.js"
+            },
+            {
+              "label": "Committed invoice ABI",
+              "url": "https://github.com/TheJollyLaMa/DecentInvoice/blob/2e73d8b1f0f759c52a1fe2d68b1613325733acda/abis/DecentInvoice_ABI.json"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "airdrop",
+      "name": "DecentAirdrop",
+      "repo": "TheJollyLaMa/DecentAirdrop",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 0c2d4d48. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "No Solidity source was found in this checkout; the ABI JSON alone cannot establish actual contract behavior.",
+        "The Ethereum contract address in the frontend is a placeholder, and token amount parsing uses 18 decimals for ERC-20s.",
+        "README's multi-chain and gas-efficiency statements are documentation claims, not independently verified deployment/test results. Reviewer suggestion: add UI/contract integration tests and validate each configured address/asset-decimal assumption."
+      ],
+      "currentState": "Public browser JavaScript/ethers interface for sending native currency and ERC-20 amounts to multiple wallets, with chain-based contract selection and an ABI JSON artifact. A matching Solidity contract source was not found in this checkout. README milestone claims are documentation, not proof of deployed behavior. Two open issues report send and album-loading failures; no tests were found or run.",
+      "offers": [
+        {
+          "id": "decentairdrop-bulk-transfer-ui",
+          "label": "Multi-recipient airdrop interface",
+          "state": "code-observed",
+          "detail": "The frontend gathers recipient wallets, token amounts, and a native amount, checks/requests ERC-20 allowance, then submits a batch call using an ABI artifact. It selects an address from the connected chain. Likely consumers are community or DAO operators preparing token distributions; this describes UI code only, not verified contract behavior.",
+          "evidence": [
+            {
+              "label": "Airdrop submission implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentAirdrop/blob/0c2d4d4850b9fe24f868703aacb2f2bf76fb92d4/scripts/sendAirdrop.js"
+            },
+            {
+              "label": "Chain detection and wallet interface",
+              "url": "https://github.com/TheJollyLaMa/DecentAirdrop/blob/0c2d4d4850b9fe24f868703aacb2f2bf76fb92d4/scripts/app.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "decentairdrop-send-failure",
+          "label": "Diagnose and fix failed airdrop submissions",
+          "state": "issue-reported",
+          "detail": "Open issue #1 reports that submission failed after entering recipient wallets, including after removing two wallets. The exact cause is not established by the report.",
+          "evidence": [
+            {
+              "label": "Open send-failure issue #1",
+              "url": "https://github.com/TheJollyLaMa/DecentAirdrop/issues/1"
+            }
+          ]
+        },
+        {
+          "id": "decentairdrop-album-load-failure",
+          "label": "Resolve reported album loading failure",
+          "state": "issue-reported",
+          "detail": "Open issue #2 reports inability to load an album to version 1.2.6; the issue does not establish a root cause.",
+          "evidence": [
+            {
+              "label": "Open album-loading issue #2",
+              "url": "https://github.com/TheJollyLaMa/DecentAirdrop/issues/2"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "calendar",
+      "name": "DecentCalendar",
+      "repositoryNote": "Public repository identity unresolved."
+    },
+    {
+      "id": "nda",
+      "name": "Decent_NDA",
+      "repo": "TheJollyLaMa/Decent_NDA",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 6e07ca5c. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "The encryption function returns the encryption key alongside the ciphertext, and the decryption routine is wired to hard-coded demo inputs; the current prototype should not be treated as a confidential NDA workflow.",
+        "No automated tests were found or run; authentication, key delivery/recovery, and end-to-end confidentiality were not validated. Reviewer suggestion: design and test independent key delivery/recovery and a complete confidentiality flow before handling sensitive agreements."
+      ],
+      "currentState": "Public browser JavaScript prototype for reading a local document into JSON, AES-GCM encryption, and Web3.Storage/w3up upload. The files implement a flow, but there are no automated tests or evidence of a production confidentiality/key-management design.",
+      "offers": [
+        {
+          "id": "decentnda-browser-encryption",
+          "label": "Browser-side encrypted document prototype",
+          "state": "code-observed",
+          "detail": "The file handler converts a selected text-readable file into JSON and the encryption module uses the Web Crypto API with AES-GCM and a random 256-bit key/IV. Likely consumers are teams prototyping encrypted document exchange, not parties relying on it for legally sensitive storage without redesign.",
+          "evidence": [
+            {
+              "label": "Browser encryption implementation",
+              "url": "https://github.com/TheJollyLaMa/Decent_NDA/blob/6e07ca5c5ec89fc37f500b03d03bff5d6a9c1099/js/encryption.js"
+            },
+            {
+              "label": "File-to-JSON implementation",
+              "url": "https://github.com/TheJollyLaMa/Decent_NDA/blob/6e07ca5c5ec89fc37f500b03d03bff5d6a9c1099/js/fileHandler.js"
+            }
+          ]
+        },
+        {
+          "id": "decentnda-w3up-upload",
+          "label": "w3up storage upload integration",
+          "state": "code-observed",
+          "detail": "The browser code constructs a JSON Blob, obtains the current w3up space, and uploads the file through its store API. Likely consumers are prototype users who already have an authenticated, provisioned w3up space.",
+          "evidence": [
+            {
+              "label": "w3up initialization and upload implementation",
+              "url": "https://github.com/TheJollyLaMa/Decent_NDA/blob/6e07ca5c5ec89fc37f500b03d03bff5d6a9c1099/js/w3up.js"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "ucann",
+      "name": "Decent_UCANN_Play",
+      "repositoryNote": "Verified origin redirects to the public Decent_UCAN_Play repository (single N); the supplied project label is retained.",
+      "repo": "TheJollyLaMa/Decent_UCAN_Play",
+      "reviewNote": "Public committed source inspected 2026-10-20 at e0e7eb1d. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "Identity: local checkout origin is .../Decent_UCANN_Play.git (double N). gh repo view on that name returns canonical TheJollyLaMa/Decent_UCAN_Play (single N), PUBLIC, not a fork; GitHub redirects the renamed repo. Commit e0e7eb1 exists on the remote. Use the canonical single-N URL as the new public mapping; the old UCANN name is a local origin alias.",
+        "No expressed needs found in README or issues (0 issues). Reviewer suggestion, not a need: README clone URL is a placeholder (yourusername/Decent_UCAN_Play); no tests; vendored 2k-line w3up bundle.",
+        "Relies on a third-party service whose API may change."
+      ],
+      "currentState": "Vite/browser demo of w3up (web3.storage) UCAN login, space listing and upload browsing.",
+      "offers": [
+        {
+          "id": "ucan-login",
+          "label": "w3up email login and upload listing",
+          "state": "code-observed",
+          "detail": "script.js calls client.login and capability.upload.list via the window.w3up bundle. Not run.",
+          "evidence": [
+            {
+              "label": "script.js",
+              "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/blob/e0e7eb1d64a800fa29f587d2af092c66796d81d4/js/script.js"
+            }
+          ]
+        },
+        {
+          "id": "ucan-docs",
+          "label": "Documented UI: spaces, directory view, learning modal",
+          "state": "documented",
+          "detail": "README describes IndexedDB agent persistence, per-space upload lists with gateway links and an educational modal.",
+          "evidence": [
+            {
+              "label": "README",
+              "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/blob/e0e7eb1d64a800fa29f587d2af092c66796d81d4/README.md"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    },
+    {
+      "id": "duo-duel",
+      "name": "DuoDuel",
+      "repositoryNote": "Public repository identity unresolved."
+    },
+    {
+      "id": "babel-bet",
+      "name": "BabelBet",
+      "repo": "TheJollyLaMa/BabelBet",
+      "reviewNote": "Public committed source inspected 2026-10-20 at dbd3dd47. Not executed, deployment-verified, or integration-tested in this review. Legacy challenge/authentication and payout design requires assessment before any reuse; no production suitability is established.",
+      "reviewCaveats": [
+        "Current main tip; descendant of the OG_Prototype commit.",
+        "Reviewer suggestion (not an expressed need): credential model is unsafe, since the watcher parses Duolingo username::password from on-chain mapping data; the unofficial Duolingo API is fragile.",
+        "Worktree had uncommitted changes; none used."
+      ],
+      "currentState": "Duolingo peer-challenge dapp: Solidity token contract, Truffle/Ganache, Express + cron watcher checking Duolingo streaks and computing payouts.",
+      "offers": [
+        {
+          "id": "bb-contracts",
+          "label": "ChallengeToken with player email/Duolingo maps",
+          "state": "code-observed",
+          "detail": "tokenGenesis and Token_Player_Duo_Map present; Challenge.sol is only a struct library. Not compiled here.",
+          "evidence": [
+            {
+              "label": "ChallengeToken.sol",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/dbd3dd4719c2638b23167a1d762a3b03f7b99a22/contracts/ChallengeToken.sol"
+            }
+          ]
+        },
+        {
+          "id": "bb-watcher",
+          "label": "Cron watcher reading Duolingo streaks",
+          "state": "code-observed",
+          "detail": "index.js schedules cron, builds a payoutList and logs in to Duolingo via duolingo-js. Not run.",
+          "evidence": [
+            {
+              "label": "index.js",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/dbd3dd4719c2638b23167a1d762a3b03f7b99a22/index.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "bb-todo-contracts",
+          "label": "Finish payout contracts and dashboard fund sweeps",
+          "state": "documented",
+          "detail": "README ToDo's list finishing solidity payout contracts and a better dashboard with funds sweep.",
+          "evidence": [
+            {
+              "label": "README ToDo's",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/dbd3dd4719c2638b23167a1d762a3b03f7b99a22/README.md"
+            }
+          ]
+        },
+        {
+          "id": "bb-todo-tests",
+          "label": "Unit, E2E and Solidity tests",
+          "state": "documented",
+          "detail": "README ToDo's list unit, E2E and Solidity tests.",
+          "evidence": [
+            {
+              "label": "README ToDo's",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/dbd3dd4719c2638b23167a1d762a3b03f7b99a22/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "babel-prototype",
+      "name": "BabelBet_OG_Prototype",
+      "repositoryNote": "The local prototype is an earlier committed snapshot of the same public BabelBet repository, not a distinct GitHub repository. The historical project label remains separate.",
+      "repo": "TheJollyLaMa/BabelBet",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 72564b50. Not executed, deployment-verified, or integration-tested in this review. Evidence is from the earlier prototype commit, not current main.",
+      "reviewCaveats": [
+        "Same repo identity as BabelBet (identical origin URL, repo id 426306405). It is an earlier commit snapshot, an ancestor of the BabelBet tip, not a separate repo; the remote resolves this commit.",
+        "Reviewer suggestion (not an expressed need): credential model is unsafe, since the watcher parses Duolingo username::password from on-chain mapping data; the unofficial Duolingo API is fragile.",
+        "Worktree had uncommitted changes; none used."
+      ],
+      "currentState": "Duolingo peer-challenge dapp: Solidity token contract, Truffle/Ganache, Express + cron watcher checking Duolingo streaks and computing payouts.",
+      "offers": [
+        {
+          "id": "bb-contracts",
+          "label": "ChallengeToken with player email/Duolingo maps",
+          "state": "code-observed",
+          "detail": "tokenGenesis and Token_Player_Duo_Map present; Challenge.sol is only a struct library. Not compiled here.",
+          "evidence": [
+            {
+              "label": "ChallengeToken.sol",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/72564b50144fa302833a2bb4b05d24ac8bbcdf2e/contracts/ChallengeToken.sol"
+            }
+          ]
+        },
+        {
+          "id": "bb-watcher",
+          "label": "Cron watcher reading Duolingo streaks",
+          "state": "code-observed",
+          "detail": "index.js schedules cron, builds a payoutList and logs in to Duolingo via duolingo-js. Not run.",
+          "evidence": [
+            {
+              "label": "index.js",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/72564b50144fa302833a2bb4b05d24ac8bbcdf2e/index.js"
+            }
+          ]
+        }
+      ],
+      "needs": [
+        {
+          "id": "bb-todo-contracts",
+          "label": "Finish payout contracts and dashboard fund sweeps",
+          "state": "documented",
+          "detail": "README ToDo's list finishing solidity payout contracts and a better dashboard with funds sweep.",
+          "evidence": [
+            {
+              "label": "README ToDo's",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/72564b50144fa302833a2bb4b05d24ac8bbcdf2e/README.md"
+            }
+          ]
+        },
+        {
+          "id": "bb-todo-tests",
+          "label": "Unit, E2E and Solidity tests",
+          "state": "documented",
+          "detail": "README ToDo's list unit, E2E and Solidity tests.",
+          "evidence": [
+            {
+              "label": "README ToDo's",
+              "url": "https://github.com/TheJollyLaMa/BabelBet/blob/72564b50144fa302833a2bb4b05d24ac8bbcdf2e/README.md"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "joker",
+      "name": "TheJokerWillPlay",
+      "repositoryNote": "Public repository identity unresolved."
+    },
+    {
+      "id": "bean",
+      "name": "Bean",
+      "repositoryNote": "Public repository identity unresolved."
+    },
+    {
+      "id": "asteroid",
+      "name": "Asteroid",
+      "repo": "TheJollyLaMa/AsteRoid",
+      "repositoryNote": "The public repository is named AsteRoid. No integration with Busking's proposed game mode is established.",
+      "reviewNote": "Public committed source inspected 2026-10-20 at 0460fee1. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewCaveats": [
+        "Only one expressed need found. Reviewer suggestion, not a need: tests (npm test is a placeholder).",
+        "Committed bundle.js."
+      ],
+      "currentState": "Small browserify canvas Asteroids game.",
+      "offers": [
+        {
+          "id": "ast-game",
+          "label": "Canvas game modules",
+          "state": "code-observed",
+          "detail": "app.js, spaceship, bullet, asteroid and circle-distance collision modules. Not run.",
+          "evidence": [
+            {
+              "label": "app.js",
+              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/src/js/app.js"
+            },
+            {
+              "label": "collision.js",
+              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/src/js/collision.js"
+            }
+          ]
+        },
+        {
+          "id": "ast-readme",
+          "label": "Documented game features",
+          "state": "documented",
+          "detail": "README lists Game Over/Win screens and fragmentation on collision; browserify build script in package.json.",
+          "evidence": [
+            {
+              "label": "README",
+              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/README.md"
+            },
+            {
+              "label": "package.json",
+              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/package.json"
+            }
+          ]
+        }
+      ],
+      "needs": []
+    }
   ],
   "relationships": [
     {
-      "source": "decent-jukebox", "target": "decent-busking", "type": "grew-into", "state": "reported",
+      "source":"decent-canopy","target":"artfi","type":"capability-match","state":"proposed",
+      "offer":"public-discovery","need":"artfi-public-onboarding-and-index",
+      "note":"Canopy's shipped signed-profile discovery flow offers a working reference for ArtFi's public onboarding. It does not automatically update ArtFi's on-chain registry or solve registry-event indexing.",
+      "nextTest":"Compare deployed registry functions and authorization with the signed-profile model. Prototype a public-origin onboarding/index refresh using fixtures before requesting real signatures.",
+      "evidence":[{"label":"ArtFi public readiness #58","url":"https://github.com/TheJollyLaMa/ArtFi/issues/58"},{"label":"Existing Canopy ArtFi integration epic #10","url":"https://github.com/TheJollyLaMa/DecentCanopy/issues/10"}]
+    },
+    {
+      "source":"artfi","target":"decent-canopy","type":"capability-match","state":"proposed",
+      "offer":"artfi-funded-settlement-and-registry","need":"public-fund-evidence",
+      "note":"ArtFi offers a second, different registry/settlement source to test Canopy's evidence contract against, preventing a Busking-only schema. Source functions are not proof of matching deployed bytecode.",
+      "nextTest":"Verify deployments and readable events under #20, then normalize synthetic ArtFi and Busking records through the same interface. Preserve eligibility records separately from actual reward transfers.",
+      "evidence":[{"label":"Verify ArtFi deployments and events #20","url":"https://github.com/TheJollyLaMa/DecentCanopy/issues/20"},{"label":"Generic schema #17","url":"https://github.com/TheJollyLaMa/DecentCanopy/issues/17"}]
+    },
+    {
+      "source":"decent-busking","target":"artfi","type":"capability-match","state":"proposed",
+      "offer":"fund-ledgers","need":"artfi-node-reward-payout",
+      "note":"Busking's payment evidence/indexing patterns could inform ArtFi's transfer-linked reward records and duplicate/failure tests. Indexing is only part of this need; it does not itself transfer funds or establish eligibility.",
+      "nextTest":"Compare work-reference idempotency, receipt matching and failure states with ArtFi's manual pilot. Require a separately approved funding and eligibility policy before any payout automation.",
+      "evidence":[{"label":"ArtFi transfer-linked reward requirements #58","url":"https://github.com/TheJollyLaMa/ArtFi/issues/58"}]
+    },
+    {
+      "source":"green-tea-hut","target":"decent-busking","type":"capability-match","state":"proposed",
+      "offer":"green-tea-hut-treasury","need":"performer-escrow",
+      "note":"GreenTeaHut's project-specific reservation/refund state machine is a concrete comparison for performance escrow. Storefront escrow is not performer approval/claim behavior and cannot simply replace Busking's router.",
+      "nextTest":"Write a state-transition comparison covering funding, reservation, cancellation, review, claim and refund. Resolve role and contract differences before proposing any contract change or deployment.",
+      "evidence":[{"label":"Performance lifecycle #210","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/210"},{"label":"Inspected treasury state machine","url":"https://github.com/TheJollyLaMa/GreenTeaHut_01/blob/64f2222190aad88b400871366a3d31add4773f80/contracts/ProjectTreasuryV2.sol"}]
+    },
+    {
+      "source":"asteroid","target":"decent-busking","type":"capability-match","state":"proposed",
+      "offer":"ast-game","need":"asteroid-game-proposal",
+      "note":"Existing canvas movement/collision modules may provide a small gameplay reference for the proposed radio game. They do not implement 100 levels, NFT rewards, 3D scenes or radio combat.",
+      "nextTest":"Run an isolated licensed-code assessment and deterministic collision/input tests; compare one playable scene with #243 before choosing reuse, adaptation or rejection. Keep wallets and rewards out of the experiment.",
+      "evidence":[{"label":"Busking game proposal #243","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/243"},{"label":"Existing game modules","url":"https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/src/js/app.js"}]
+    },
+    {
+      "source":"asteroid","target":"jolly-sim-siddhi","type":"capability-match","state":"proposed",
+      "offer":"ast-game","need":"jss-need-asteroid-game",
+      "note":"The same game modules could be evaluated against Smarthome's documented Asteroid Belt intent. This is a candidate, not an established historical integration.",
+      "nextTest":"Confirm the intended front-end runtime and prototype a single read-only scene without AI keys, wallet actions, or deployment. Compare build and rendering assumptions before sharing code.",
+      "evidence":[{"label":"Consumer's expressed game intent","url":"https://github.com/TheJollyLaMa/jolly-sim-siddhi/blob/e6438005b138def6cf14c858713a27f1c877ba68/README.md"}]
+    },
+    {
+      "source":"jolly-sandbox","target":"code-camp","type":"capability-match","state":"proposed",
+      "offer":"jolly-sandbox-payout-demo","need":"codecamp-contributions",
+      "note":"A historical payout/event-timeline demo could become a bounded contributor lesson rather than another production payment system. The course currently contains introductory Python examples, so prerequisites need agreement.",
+      "nextTest":"Design one offline lesson with simulated events and explicit learning goals; verify it suits the course level and contains no wallet transactions, real reward promises or unsupported deployment instructions.",
+      "evidence":[{"label":"Course contribution invitation","url":"https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/blob/492c4090b85e71467c789fd301a68710e854b46f/README.md"},{"label":"Historical demo implementation","url":"https://github.com/TheJollyLaMa/JollySandbox/blob/a044a609fe1d219e9dbb29ead06ef5452f0e8e37/contracts/SandboxProducer.sol"}]
+    },
+    {
+      "source": "decent-busking",
+      "target": "decent-canopy",
+      "type": "capability-match",
+      "state": "proposed",
+      "offer": "radio-media-proxy",
+      "need": "radio-media-route",
+      "note": "Connect an existing supported source endpoint to Canopy's radio consumer rather than creating another upload or streaming service.",
+      "nextTest": "Test known-catalog media routing, HTTP ranges, gateway failures and the next-track transition in normal browsers. Do not claim this resolves the separate decoder investigation.",
+      "evidence": [
+        {
+          "label": "Existing consumer integration #15",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"
+        }
+      ]
+    },
+    {
+      "source": "decent-busking",
+      "target": "big-nuten",
+      "type": "capability-match",
+      "state": "proposed",
+      "offer": "scoped-uploads",
+      "need": "upload-authorization",
+      "note": "Adapt Busking's upload authorization mechanics to BigNuten's provider-neutral backup path, without adopting public music visibility for health records.",
+      "nextTest": "Reproduce the stalled backup using synthetic data, define confidentiality/provider boundaries, then test wallet, origin, purpose, expiry and replay rejection in BigNuten.",
+      "evidence": [
+        {
+          "label": "Existing adaptation issue #339",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/339"
+        }
+      ]
+    },
+    {
+      "source": "decent-busking",
+      "target": "big-nuten",
+      "type": "capability-match",
+      "state": "proposed",
+      "offer": "durable-checkpoints",
+      "need": "snapshot-recovery",
+      "note": "Compare recoverable worker checkpoints with BigNuten's existing personal snapshot lifecycle; strengthen the existing schema rather than introducing a competing one.",
+      "nextTest": "Round-trip every supported record with synthetic snapshots; inject failed uploads, malformed snapshots and restarts, proving the last known-good recovery point survives.",
+      "evidence": [
+        {
+          "label": "Recovery adaptation #341",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"
+        }
+      ]
+    },
+    {
+      "source": "decent-busking",
+      "target": "decent-canopy",
+      "type": "capability-match",
+      "state": "proposed",
+      "offer": "fund-ledgers",
+      "need": "public-fund-evidence",
+      "note": "Use Busking as the first real public fund/evidence provider for Canopy's generic adapter contract. Indexer claims and independent verification must remain distinct.",
+      "nextTest": "Normalize a real payout and a second generic provider fixture; cover stale, partial, unavailable and unmatched states without treating missing history as zero.",
+      "evidence": [
+        {
+          "label": "Public ledger adapter #14",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"
+        },
+        {
+          "label": "Generic evidence schema #17",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/17"
+        }
+      ]
+    },
+    {
+      "source": "decent-jukebox",
+      "target": "decent-busking",
+      "type": "grew-into",
+      "state": "reported",
       "note": "Steward-reported lineage; code ancestry and current dependencies have not been compared."
     },
     {
-      "source": "arduino-smarthome", "target": "jolly-sim-siddhi", "type": "grew-into", "state": "reported",
+      "source": "arduino-smarthome",
+      "target": "jolly-sim-siddhi",
+      "type": "grew-into",
+      "state": "reported",
       "note": "Steward-reported lineage, not a verified active dependency."
     },
     {
-      "source": "jolly-sim-siddhi", "target": "cadcad", "type": "could-integrate", "state": "proposed",
+      "source": "jolly-sim-siddhi",
+      "target": "cadcad",
+      "type": "could-integrate",
+      "state": "proposed",
       "note": "Explore a bounded integration experiment; no current interoperability is established."
     },
     {
-      "source": "code-camp", "target": "umbrella-academy", "type": "desired-foundation", "state": "proposed",
+      "source": "code-camp",
+      "target": "umbrella-academy",
+      "type": "desired-foundation",
+      "state": "proposed",
       "note": "Steward's desired foundation, not an implemented dependency."
     },
     {
-      "source": "jolly-sandbox", "target": "umbrella-academy", "type": "desired-foundation", "state": "proposed",
+      "source": "jolly-sandbox",
+      "target": "umbrella-academy",
+      "type": "desired-foundation",
+      "state": "proposed",
       "note": "Steward's desired foundation, not an implemented dependency."
     },
     {
-      "source": "jacobs-ladder", "target": "decent-maker", "type": "relationship-to-clarify", "state": "unresolved",
+      "source": "jacobs-ladder",
+      "target": "decent-maker",
+      "type": "relationship-to-clarify",
+      "state": "unresolved",
       "note": "The steward associated these names; direction and meaning are not yet known."
     },
     {
-      "source": "green-tea-party", "target": "decent-canopy", "type": "grew-into", "state": "observed",
+      "source": "green-tea-party",
+      "target": "decent-canopy",
+      "type": "grew-into",
+      "state": "observed",
       "note": "Canopy's README explicitly documents extraction of the visualization and sidepanel subsystem.",
-      "evidence": [{"label": "Documented extraction", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"}]
+      "evidence": [
+        {
+          "label": "Documented extraction",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"
+        }
+      ]
     },
     {
-      "source": "green-tea-party", "target": "green-tea-hut", "type": "supports", "state": "observed",
+      "source": "green-tea-party",
+      "target": "green-tea-hut",
+      "type": "supports",
+      "state": "observed",
       "note": "Canopy documents Green Tea Hut #1 as The Green Tea Party's first project; no payout or ownership is inferred.",
-      "evidence": [{"label": "Existing project cluster", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"}]
+      "evidence": [
+        {
+          "label": "Existing project cluster",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/README.md"
+        }
+      ]
     },
     {
-      "source": "decent-busking", "target": "decent-canopy", "type": "provides-capability", "state": "observed",
+      "source": "decent-busking",
+      "target": "decent-canopy",
+      "type": "provides-capability",
+      "state": "observed",
       "note": "Canopy consumes Busking radio. Arrow means source provides a capability to target; the supported media endpoint still has open integration work.",
-      "evidence": [{"label": "Existing Canopy radio consumer", "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/scripts/canopy-radio.js"}]
+      "evidence": [
+        {
+          "label": "Existing Canopy radio consumer",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/f56292460919168f59a6b2ae9986d610d8600ee6/scripts/canopy-radio.js"
+        }
+      ]
     },
     {
-      "source": "decent-busking", "target": "decent-canopy", "type": "could-reuse", "state": "proposed",
+      "source": "decent-busking",
+      "target": "decent-canopy",
+      "type": "could-reuse",
+      "state": "proposed",
       "note": "Use public fund and payroll evidence through a generic adapter, not a shared treasury or a promise of payment.",
-      "evidence": [{"label": "Busking adapter #14", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"}]
+      "evidence": [
+        {
+          "label": "Busking adapter #14",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14"
+        }
+      ]
     },
     {
-      "source": "decent-busking", "target": "big-nuten", "type": "could-reuse", "state": "proposed",
+      "source": "decent-busking",
+      "target": "big-nuten",
+      "type": "could-reuse",
+      "state": "proposed",
       "note": "Adapt scoped IPFS uploads, recoverable snapshots, receipt-verified payroll, funded-work lifecycle, and treasury coverage to BigNuten's context. The epic is a plan, not evidence that integration is complete.",
-      "evidence": [{"label": "Existing adaptation epic #337", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337"}]
+      "evidence": [
+        {
+          "label": "Existing adaptation epic #337",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337"
+        }
+      ]
     },
     {
-      "source": "decent-canopy", "target": "big-nuten", "type": "could-reuse", "state": "proposed",
+      "source": "decent-canopy",
+      "target": "big-nuten",
+      "type": "could-reuse",
+      "state": "proposed",
       "note": "Evaluate public project/repository discovery and pinning-reward patterns. Keep private health data out of public profiles and IPFS maps; do not assume one dapp's reward rules apply to another.",
-      "evidence": [{"label": "Public linking boundaries #11", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/11"}]
+      "evidence": [
+        {
+          "label": "Public linking boundaries #11",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/11"
+        }
+      ]
     },
     {
-      "source": "artfi", "target": "decent-canopy", "type": "could-integrate", "state": "proposed",
+      "source": "artfi",
+      "target": "decent-canopy",
+      "type": "could-integrate",
+      "state": "proposed",
       "note": "Existing integration backlog; verify contracts, funding flows, and evidence before showing financial activity.",
-      "evidence": [{"label": "ArtFi integration epic #10", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/10"}]
+      "evidence": [
+        {
+          "label": "ArtFi integration epic #10",
+          "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/10"
+        }
+      ]
     }
   ]
 }
