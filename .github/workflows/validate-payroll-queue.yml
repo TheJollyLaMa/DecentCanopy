@@ -19,6 +19,9 @@ on:
       - test/decent-funds.test.js
       - data/decent-creators.json
       - data/artizen-archive.json
+      - data/agency-map.json
+      - test/agency-map.test.js
+      - test/github-repositories.test.js
       - test/payroll.test.js
       - test/commentArt.test.js
       - test/community-rewards.test.js
@@ -41,6 +44,9 @@ on:
       - test/decent-funds.test.js
       - data/decent-creators.json
       - data/artizen-archive.json
+      - data/agency-map.json
+      - test/agency-map.test.js
+      - test/github-repositories.test.js
       - test/payroll.test.js
       - test/commentArt.test.js
       - test/community-rewards.test.js
@@ -70,4 +76,4 @@ jobs:
         run: npm ci --prefix relay --omit=dev
 
       - name: Test payroll automation
-        run: node --test test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js
+        run: node --test test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js test/agency-map.test.js test/github-repositories.test.js

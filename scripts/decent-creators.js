@@ -129,6 +129,38 @@
   function projectOptions() {
     return [['', 'Whole creator journey'], ...[...byId('creator-projects').children].map(row => [row.dataset.key, row.querySelector('[data-field="name"]').value || 'Unnamed project'])];
   }
+  function invalidateRepositoryPreview(row) {
+    row.dataset.repositoryRequest = String(Number(row.dataset.repositoryRequest || 0) + 1);
+    row.querySelector('[data-preview-repositories]').disabled = false;
+    row.querySelector('[data-repository-preview]').textContent = 'Links changed. Not checked; preview again or publish as self-declared. Unlinking takes effect on the current map after publishing/reloading; older IPFS records remain available.';
+  }
+  async function previewRepositories(row, button) {
+    const input = row.querySelector('[data-field="repositories"]'), output = row.querySelector('[data-repository-preview]');
+    const value = input.value, currentGeneration = generation;
+    const request = String(Number(row.dataset.repositoryRequest || 0) + 1);
+    row.dataset.repositoryRequest = request;
+    const current = () => generation === currentGeneration && row.isConnected && byId('creator-dialog').open
+      && input.value === value && row.dataset.repositoryRequest === request && !publishing;
+    button.disabled = true;
+    output.textContent = 'Checking public GitHub metadata. Your browser contacts api.github.com without credentials; nothing is published by this preview.';
+    try {
+      const urls = window.CanopyGitHubRepositories.parseInput(value);
+      if (!urls.length) throw new Error('Enter at least one public repository URL to preview.');
+      const results = [];
+      for (const url of urls) {
+        const metadata = await window.CanopyGitHubRepositories.preview(url);
+        results.push(`${metadata.owner} / ${metadata.name} | ${metadata.url} | ${metadata.visibility} | checked ${metadata.checkedAt}`);
+      }
+      if (current()) output.textContent = `${results.join('\n')}\nPublic metadata observed only. Your association remains self-declared. Preview metadata is not saved in your signed profile.`;
+    } catch (error) {
+      if (current()) {
+        console.error('[Canopy GitHub repository preview]', error);
+        output.textContent = `Preview unavailable: ${error.message} No metadata was confirmed. You may keep a self-declared public URL or remove it.`;
+      }
+    } finally {
+      if (row.dataset.repositoryRequest === request) button.disabled = false;
+    }
+  }
   function addRow(kind, value = {}) {
     const row = document.createElement('fieldset');
     row.dataset.key = value.key || crypto.randomUUID();
@@ -138,6 +170,9 @@
       html += field('name', 'Project name', value.name) + field('description', 'What you are building', value.description, 'textarea')
         + field('website', 'Project website (HTTPS)', value.website, 'url') + field('image', 'Artwork URL (HTTPS, optional)', value.image, 'url')
         + field('ens', 'ENS name (optional, e.g. yourproject.eth)', value.ens)
+        + field('repositories', 'Public GitHub repositories (up to 5 HTTPS URLs, one per line)', (value.repositories || []).join('\n'), 'textarea')
+        + '<p class="details-muted">Optional self-declared discovery links. No GitHub sign-in or permissions. Only the URLs are included in your public signed profile; do not enter private repository names, tokens, or private data. Public metadata previews do not verify your GitHub identity or ownership.</p>'
+        + '<div class="participation-actions"><button type="button" class="toolbar-btn" data-preview-repositories>Preview public GitHub metadata</button><button type="button" class="toolbar-btn" data-clear-repositories>Unlink all repositories</button></div><p data-repository-preview role="status" aria-live="polite">Not checked. Edit or remove URLs before publishing.</p>'
         + field('status', 'Progress', value.status || 'active', 'text', [['planning', 'Planning'], ['active', 'Active'], ['paused', 'Paused'], ['completed', 'Completed']])
         + field('wallet', 'Receiving wallet for this project (optional; blank = your signing wallet)', value.wallet)
         + multi('related', 'Related Decent projects (theirs or yours)', value.related, 'project')
@@ -180,6 +215,7 @@
       const result = { key: row.dataset.key };
       row.querySelectorAll('[data-field]').forEach(el => { result[el.dataset.field] = el.multiple ? [...el.selectedOptions].map(o => o.value) : el.value; });
       if (kind === 'funding') result.amount = result.amount === '' ? null : Number(result.amount);
+      if (kind === 'projects') result.repositories = window.CanopyGitHubRepositories.parseInput(result.repositories);
       if (kind === 'funds') {
         result.treasury = result.treasuryChain || result.treasuryAddress ? { chain: result.treasuryChain, address: result.treasuryAddress.trim() } : null;
         delete result.treasuryChain; delete result.treasuryAddress;
@@ -346,7 +382,7 @@
     return `<div class="details-group"><h3>Canopy connections</h3><ul>${rows.map(a => {
       const other = a.source === node.id ? a.target : a.source;
       return `<li><span class="claim-badge is-${e(a.decentClaim)}">${e(badge[a.decentClaim])}</span> <strong>${e(names.get(other) || other)}</strong>
-        <small>${a.type === 'funding-pool' ? 'Funding' : 'Related project'} · ${e(a.note)}</small>${(a.ledgerCandidates || []).map(proof).join('')}</li>`;
+        <small>${a.type === 'funding-pool' ? 'Funding' : a.type === 'repository-link' ? 'Repository' : 'Related project'} · ${e(a.note)}</small>${(a.ledgerCandidates || []).map(proof).join('')}</li>`;
     }).join('')}</ul><p class="details-muted">Dashed lines are one-sided claims, solid lines are confirmed by both wallets, glowing lines have a matching on-chain transfer.</p></div>`;
   }
   function rabbitHoleUrl(address, room = 'lounge') {
@@ -384,6 +420,10 @@
     };
     const payoutLabels = { 'not-shared': 'Not shared', received: 'Received', 'partially-received': 'Partially received', 'not-received': 'Not received', uncertain: 'Uncertain', 'not-applicable': 'Not applicable' };
     const own = wallet() === r.wallet;
+    const repositoryLinks = p => !(p.repositories || []).length ? '' : `<div class="details-group"><h3>GitHub repositories · self-declared</h3>
+      <ul>${p.repositories.map(url => `<li>${link(url, url.slice('https://github.com/'.length))}
+        <button type="button" class="toolbar-btn" data-creator-view="github-repo:${e(url.slice('https://github.com/'.length))}">Open repository blip</button></li>`).join('')}</ul>
+      <p class="details-muted">Wallet-authorized association, not GitHub identity or ownership verification. Visibility and metadata are not checked live; repositories may change or become unavailable.</p></div>`;
     const financials = p => window.ArtizenFinancials ? window.ArtizenFinancials.renderHistory(
       lastGraph.projects.find(n => n.id === `decent-project:${r.wallet}:${p.key}`)?.financialCaptures,
       e, amount => new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount)) : '';
@@ -391,6 +431,7 @@
       ${link(p.website, 'Project website')}${p.archiveId ? '<p class="details-muted">Historical association self-reported; archive unchanged.</p>' : ''}
       ${window.CanopyProjectDetails ? window.CanopyProjectDetails.render(lastGraph.projects.find(n => n.id === `decent-project:${r.wallet}:${p.key}`) || (projectKey === p.key ? node : null), e) : ''}
       ${financials(p)}
+      ${repositoryLinks(p)}
       ${window.DecentENS ? window.DecentENS.section(r.wallet, p, own, e, lastGraph) : ''}`;
     const projectCards = projects.map(p => `<details class="creator-project-card">
       <summary>${p.image ? `<img data-creator-image class="creator-project-thumb" src="${e(window.DecentCreatorImages.imageUrl(p.image))}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}
@@ -402,7 +443,7 @@
       <p class="details-muted">Wallet ${e(r.wallet)} · revision ${r.revision} · ${e(r.updatedAt.slice(0, 10))}. A signature proves wallet control, not real-world identity, project ownership, or payout truth.</p>
       ${node.creatorCid ? link(`https://gateway.pinata.cloud/ipfs/${node.creatorCid}`, 'Portable signed IPFS record') : ''}
       ${projectKey ? `<button type="button" class="toolbar-btn" data-creator-view="decent-creator:${e(r.wallet)}">View ${e(r.name)}’s creator profile</button>` : ''}
-      ${own ? projectKey ? `<button type="button" class="toolbar-btn" data-creator-project-edit="${e(projectKey)}">Edit this project</button>` : '<button type="button" class="toolbar-btn" data-creator-open>Edit my creator / projects / funds / journey</button>' : ''}
+      ${own ? projectKey ? `<button type="button" class="toolbar-btn" data-creator-project-edit="${e(projectKey)}">Edit this project / link repositories</button>` : '<button type="button" class="toolbar-btn" data-creator-open>Edit my creator / projects / funds / journey</button>' : ''}
       ${projectKey || fundingKey || fundKey || node.creatorDraft ? '' : rabbitHole(r, e, wallet() === r.wallet)}
       ${funds.length ? `<div class="details-group"><h3>Decent funds stewarded</h3><ul>${funds.map(f => `<li><strong>${e(f.name)}</strong> · ${e(f.status)}<p>${e(f.description)}</p>${treasury(f)}${link(f.website, 'Fund website')}</li>`).join('')}</ul></div>` : ''}
       ${projects.length ? projectKey ? `<div class="details-group">${projectBody(projects[0], false)}</div>` : `<div class="details-group"><h3>Projects going forward</h3><div class="creator-project-list">${projectCards}</div></div>` : ''}
@@ -436,6 +477,17 @@
     });
     byId('creator-dialog').addEventListener('close', () => { generation++; });
     form.addEventListener('click', event => {
+      const preview = event.target.closest('[data-preview-repositories]');
+      const clear = event.target.closest('[data-clear-repositories]');
+      if (preview || clear) {
+        const row = (preview || clear).closest('fieldset');
+        if (clear) {
+          row.querySelector('[data-field="repositories"]').value = '';
+          invalidateRepositoryPreview(row);
+          signed = null;
+        } else previewRepositories(row, preview);
+        return;
+      }
       const add = event.target.closest('[data-add-entry]'), remove = event.target.closest('[data-remove-entry]');
       if (editingProjectKey) return;
       if (add) { addRow(add.dataset.addEntry); signed = null; if (add.dataset.addEntry === 'projects') refreshProjects(); }
@@ -456,6 +508,7 @@
     }
     form.addEventListener('input', event => {
       signed = null;
+      if (event.target.matches('[data-field="repositories"]')) invalidateRepositoryPreview(event.target.closest('fieldset'));
       if (event.target.closest('#creator-projects')) refreshProjects();
       if (event.target.matches('[data-field="name"]') && event.target.closest('#creator-projects, #creator-funds')) refreshRefs();
     });

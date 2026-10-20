@@ -195,6 +195,25 @@ body {
   outline-offset: 1px;
 }
 
+#agency-index {
+  max-width: min(22rem, 58vw);
+}
+
+.agency-mode .spiral-toolbar :is(#tour-open, #participation-open, #participation-replay, #globe-open, [data-creator-open], #creator-service-status) {
+  display: none;
+}
+
+.agency-mode .spiral-hint {
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  white-space: normal;
+  text-align: center;
+}
+
+.canopy-switch {
+  flex-wrap: wrap;
+}
+
 .toolbar-search input {
   width: min(16rem, 30vw);
   font: inherit;

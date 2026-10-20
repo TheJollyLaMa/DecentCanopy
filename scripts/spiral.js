@@ -17,7 +17,9 @@
     'Season 6 · Cultural Commons': '#94a3b8',
     Projects: '#34d399',
     Funds: '#a78bfa',
-    Creators: '#fbbf24'
+    Creators: '#fbbf24',
+    Repositories: '#60a5fa',
+    Initiatives: '#fbbf24'
   };
 
   const TRACK_ORDER = Object.keys(TRACK_COLORS);
@@ -77,6 +79,7 @@
   let isArtizenMode = false;
   let isGreenTeaMode = false;
   let isCreatorMode = false;
+  let isAgencyMode = false;
   let archiveOnly = false;
   let fundCanopyId = null;
   let artizenMetrics = null;
@@ -168,10 +171,11 @@
     modeBadgeEl = document.querySelector('.mode-badge');
     visionNoteEl = document.querySelector('.prototype-vision-note');
     const canopy = new URLSearchParams(window.location.search).get('canopy');
+    isAgencyMode = canopy === 'agency';
     isGreenTeaMode = canopy === 'green-tea';
     isCreatorMode = canopy === 'creators';
     archiveOnly = canopy === 'artizen';
-    isArtizenMode = archiveOnly || isCreatorMode || isGreenTeaMode ||
+    isArtizenMode = isAgencyMode || archiveOnly || isCreatorMode || isGreenTeaMode ||
       (!canopy && GTPModeRouter.getModeInfo(window.location).mode === 'prototype');
     loadingEl = document.getElementById('spiral-loading');
     emptyEl = document.getElementById('spiral-empty');
@@ -208,7 +212,9 @@
       if (loadingEl) loadingEl.style.display = 'none';
       if (emptyEl) {
         emptyEl.querySelector('strong').textContent = 'Could not load project data.';
-        emptyEl.querySelector('p').textContent = isArtizenMode
+        emptyEl.querySelector('p').textContent = isAgencyMode
+          ? 'Check data/agency-map.json and the agency adapter. The curated map could not be loaded; no substitute data is shown.'
+          : isArtizenMode
           ? 'Check that the frozen archive and creator index files are available. Artizen data refreshes are disabled.'
           : 'Check that data/projects.json and data/associations.json exist.';
         emptyEl.style.display = 'block';
@@ -221,13 +227,14 @@
     buildGlobalNeighbors();
     updateCanopyDescription();
     populateFilters();
+    if (isAgencyMode) populateAgencyIndex();
     buildLayout();
     applyHomeCamera(false);
     updateBreadcrumbs();
     updateBackButton();
     restoreSharedView();
     scheduleRender();
-    window.dispatchEvent(new CustomEvent('decentcanopy:ready', { detail: { artizen: isArtizenMode, greenTea: isGreenTeaMode } }));
+    window.dispatchEvent(new CustomEvent('decentcanopy:ready', { detail: { artizen: isArtizenMode && !isAgencyMode, greenTea: isGreenTeaMode, agency: isAgencyMode } }));
   }
 
   function restoreSharedView() {
@@ -355,7 +362,10 @@
     resizeCanvas();
     window.addEventListener('resize', () => {
       resizeCanvas();
-      homeCamera = computeHomeCamera();
+      if (isAgencyMode && allProjects.length) {
+        buildLayout();
+        if (!selectedNode) applyHomeCamera(false);
+      } else homeCamera = computeHomeCamera();
       scheduleRender();
     });
   }
@@ -462,6 +472,7 @@
           type: edge.type,
           priority: associationPriority(edge.type),
           sourceLabel: edge.sourceLabel,
+          relationshipState: edge.relationshipState,
           decentClaim: edge.decentClaim
         };
       });
@@ -471,6 +482,10 @@
       if (isArtizenMode) {
         const baseSize = node.kind === 'creator' ? 11 : node.kind === 'fund' ? 6 : 4.5;
         node.size = Math.min(baseSize + Math.sqrt(node.degree) * 0.8, node.kind === 'creator' ? 13 : 10.5);
+      }
+      if (isAgencyMode) {
+        node.size = node.kind === 'initiative' ? 18 : node.kind === 'repository' ? 7
+          : node.status === 'now' ? 13 : node.status === 'next' ? 11 : 8;
       }
     });
 
@@ -604,13 +619,23 @@
   }
 
   function layoutArtizenGroups(groups) {
-    const settings = isGreenTeaMode ? {
+    const compactAgency = isAgencyMode && cw() < 720;
+    const settings = compactAgency ? {
+      Initiatives: { x: 0, y: -340, spacing: 45 },
+      Projects: { x: -190, y: 0, spacing: 45 },
+      Repositories: { x: 190, y: 0, spacing: 45 }
+    } : isAgencyMode ? {
+      Initiatives: { x: 0, y: -480, spacing: 60 },
+      Projects: { x: -360, y: 0, spacing: 65 },
+      Repositories: { x: 400, y: 0, spacing: 65 }
+    } : isGreenTeaMode ? {
       Projects: { x: 0, y: 0, spacing: 115 }
     } : {
       Projects: { x: -300, y: 30, spacing: 10.2 },
       Funds: { x: 390, y: 30, spacing: 10.4 },
       Creators: { x: 40, y: 720, spacing: 18 }
     };
+    if (!isAgencyMode) settings.Repositories = { x: -300, y: -500, spacing: 48 };
 
     groups.forEach((group, index) => {
       group.sort(compareNodePriority);
@@ -685,6 +710,12 @@
   }
 
   function compareNodePriority(a, b) {
+    if (isAgencyMode) {
+      if (a.kind === 'initiative' || b.kind === 'initiative') return a.kind === b.kind ? 0 : a.kind === 'initiative' ? -1 : 1;
+      const order = ['now', 'next', 'inventory'];
+      const focusDiff = order.indexOf(a.status) - order.indexOf(b.status);
+      if (focusDiff) return focusDiff;
+    }
     const degreeDiff = b.degree - a.degree;
     if (degreeDiff) return degreeDiff;
     const stewardDiff = (b.stewards || 0) - (a.stewards || 0);
@@ -898,7 +929,7 @@
 
     drawTrackHubs(lod, focusContext, world);
     drawBranchEdges(lod, focusContext, world);
-    if (showAssoc && lod !== 'far') drawAssociationEdges(focusContext, world);
+    if (showAssoc && (isAgencyMode || lod !== 'far')) drawAssociationEdges(focusContext, world);
     drawNodes(lod, focusContext, world);
     drawActivityReplay();
 
@@ -978,6 +1009,16 @@
   function drawTrackHubs(lod, focusContext, world) {
     ctx.save();
     trackClusters.forEach((cluster) => {
+      if (isAgencyMode) {
+        if (cluster.track === 'Initiatives') return;
+        ctx.fillStyle = hexAlpha(TRACK_COLORS[cluster.track], 0.8);
+        ctx.font = `${12 / zoom}px Inter, system-ui, sans-serif`;
+        ctx.textAlign = 'center';
+        const group = nodes.filter(node => node.track === cluster.track);
+        const top = Math.min(...group.map(node => node.y));
+        ctx.fillText(`${cluster.track} (${cluster.count})`, cluster.x, top - 35 / zoom);
+        return;
+      }
       if (!pointInBounds(cluster.x, cluster.y, world, 90 / zoom)) return;
       const root = nodeMap[cluster.rootId];
       const selectedTrack = selectedNode?.track;
@@ -1040,9 +1081,9 @@
   }
 
   function drawAssociationEdges(focusContext, world) {
-    if (isArtizenMode && !selectedNode && zoom < 0.55) return;
+    if (isArtizenMode && !isAgencyMode && !selectedNode && zoom < 0.55) return;
     ctx.save();
-    relationEdges.forEach(({ source, target, type, priority, sourceLabel, decentClaim }) => {
+    relationEdges.forEach(({ source, target, type, priority, sourceLabel, decentClaim, relationshipState }) => {
       if (!edgeVisible(source, target, world)) return;
       const touchesSelection = selectedNode && (source.id === selectedNode.id || target.id === selectedNode.id);
       const inFocusContext = !focusContext || focusContext.has(source.id) || focusContext.has(target.id);
@@ -1061,6 +1102,14 @@
       ctx.beginPath();
       ctx.moveTo(source.x, source.y);
       ctx.quadraticCurveTo(mx - dy * bend, my + dx * bend, target.x, target.y);
+      if (isAgencyMode) {
+        const style = window.GTPAgencyDataAdapter.STATES[relationshipState];
+        ctx.strokeStyle = hexAlpha(style.color, touchesSelection ? 0.95 : type === 'under-umbrella' ? 0.16 : 0.5);
+        ctx.lineWidth = (touchesSelection ? 2 : 1) / zoom;
+        ctx.setLineDash(style.dashed ? [4 / zoom, 5 / zoom] : []);
+        ctx.stroke();
+        return;
+      }
       if (decentClaim) {
         const claimColor = { claimed: '#fbbf24', mutual: '#7dd3fc', ledger: '#34d399' }[decentClaim];
         ctx.strokeStyle = hexAlpha(claimColor, touchesSelection ? 0.9 : focusMode ? 0.12 : decentClaim === 'claimed' ? 0.35 : 0.55);
@@ -1088,7 +1137,7 @@
     const visibleNodes = nodes
       .filter((node) => pointInBounds(node.x, node.y, world, node.size + 18 / zoom))
       .filter((node) => isArtizenMode || lod !== 'far' || node.depth <= 1 || hoveredNode?.id === node.id || selectedNode?.id === node.id)
-      .sort((a, b) => a.depth - b.depth || a.size - b.size);
+      .sort((a, b) => isAgencyMode ? compareNodePriority(a, b) : a.depth - b.depth || a.size - b.size);
 
     visibleNodes.forEach((node) => {
       const isHovered = hoveredNode?.id === node.id;
@@ -1150,6 +1199,14 @@
   }
 
   function traceNodeShape(node, radius) {
+    if (node.kind === 'repository') {
+      ctx.moveTo(node.x, node.y - radius);
+      ctx.lineTo(node.x + radius, node.y);
+      ctx.lineTo(node.x, node.y + radius);
+      ctx.lineTo(node.x - radius, node.y);
+      ctx.closePath();
+      return;
+    }
     if (node.kind !== 'fund' && node.kind !== 'creator') {
       if (isArtizenMode) {
         ctx.moveTo(node.x - radius * 0.18, node.y + radius);
@@ -1180,6 +1237,7 @@
   function shouldDrawLabel(node, lod, isHovered, isSelected, isDimmed) {
     if (isDimmed) return false;
     if (isHovered || isSelected) return true;
+    if (isAgencyMode) return node.kind !== 'repository' || lod !== 'far';
     if (lod === 'far') return false;
     if (lod === 'mid') return node.depth <= 1 || node.degree >= 4;
     return node.depth <= 2 || node.degree >= 3 || node.size >= 10;
@@ -1344,9 +1402,19 @@
       const related = event.target.closest('[data-related-node]');
       if (!related) return;
       let node = nodeMap[related.dataset.relatedNode];
+      if (!node && isAgencyMode) {
+        clearAgencyFilters();
+        node = nodeMap[related.dataset.relatedNode];
+      }
       if (!node && isArtizenMode) {
         filterTrack = 'all';
         if (trackSel) trackSel.value = 'all';
+        if (selectedNode?.kind === 'repository' || allEntitiesById[related.dataset.relatedNode]?.kind === 'repository') {
+          filterStatus = 'all';
+          filterSearch = '';
+          if (statusSel) statusSel.value = 'all';
+          if (searchInput) searchInput.value = '';
+        }
         buildLayout();
         node = nodeMap[related.dataset.relatedNode];
       }
@@ -1370,6 +1438,10 @@
       const entity = allEntitiesById[event.detail];
       if (!entity) return;
       if (fundCanopyId) returnToArtizenCanopy();
+      if (isAgencyMode || entity.kind === 'repository' || selectedNode?.kind === 'repository') {
+        filterStatus = 'all';
+        if (statusSel) statusSel.value = 'all';
+      }
       filterTrack = 'all';
       filterSearch = entity.name;
       if (trackSel) trackSel.value = 'all';
@@ -1715,7 +1787,9 @@
     const H = Math.max(1, ch());
     const width = maxX - minX + 160;
     const height = maxY - minY + 180;
-    const fitZoom = clamp(Math.min(W / width, H / height), MIN_ZOOM, 1.05);
+    const topInset = isAgencyMode ? Math.min(H * 0.55,
+      document.querySelector('.spiral-toolbar').getBoundingClientRect().bottom - canvas.getBoundingClientRect().top + 30) : 0;
+    const fitZoom = clamp(Math.min(W / width, (H - topInset) / height), MIN_ZOOM, 1.05);
     const centerX = (minX + maxX) / 2;
     const centerY = (minY + maxY) / 2;
 
@@ -1723,7 +1797,7 @@
       zoom: fitZoom,
       pan: {
         x: -centerX * fitZoom,
-        y: -centerY * fitZoom
+        y: -centerY * fitZoom + topInset / 2
       }
     };
   }
@@ -1830,6 +1904,14 @@
     if (!detailsPanel || !detailsContentEl) return;
 
     const color = TRACK_COLORS[node.track] || '#94a3b8';
+    if (isAgencyMode) {
+      detailsContentEl.innerHTML = window.CanopyAgencyMap.render(
+        node, allEntitiesById, allAssociations, escHtml, window.GTPAgencyDataAdapter
+      );
+      detailsPanel.classList.add('open');
+      detailsPanel.setAttribute('aria-hidden', 'false');
+      return;
+    }
     if (isArtizenMode) {
       showArtizenDetails(node, color);
       return;
@@ -1923,6 +2005,19 @@
   }
 
   function showArtizenDetails(node, color) {
+    if (node.kind === 'repository' && node.github && !node.agencyDetails) {
+      const connections = allAssociations.filter(edge => edge.type === 'repository-link' && edge.target === node.id);
+      detailsContentEl.innerHTML = `<p class="details-track">GitHub repository · self-declared links</p>
+        <h2 class="details-title">${escHtml(node.name)}</h2>
+        <p class="details-muted">Discovery links declared in creator records. A wallet signature does not verify GitHub identity, authorship, affiliation, ownership, or endorsement. Public visibility and availability are not checked live.</p>
+        <div class="details-links"><a href="${escAttr(safeUrl(node.repoUrl))}" target="_blank" rel="noopener noreferrer">Open GitHub repository</a></div>
+        <div class="details-group"><h3>Linked creator projects (${connections.length})</h3><ul>${connections.map(edge =>
+          `<li><button type="button" class="related-entity" data-related-node="${escAttr(edge.source)}">${escHtml(allEntitiesById[edge.source]?.name || edge.source)}</button><small>${escHtml(edge.sourceLabel)}</small></li>`
+        ).join('')}</ul></div>`;
+      detailsPanel.classList.add('open');
+      detailsPanel.setAttribute('aria-hidden', 'false');
+      return;
+    }
     if (node.creatorRecord) {
       const image = window.DecentCreatorImages.imageUrl(safeUrl(node.image));
       detailsContentEl.innerHTML = `<p class="details-track" style="color:${color}">Decent ${escHtml(capitalize(node.kind))}</p>` +
@@ -2086,6 +2181,38 @@
 
   // ---- Breadcrumbs + filters ----------------------------------------------------
 
+  function clearAgencyFilters() {
+    filterTrack = 'all';
+    filterStatus = 'all';
+    filterSearch = '';
+    trackSel.value = 'all';
+    statusSel.value = 'all';
+    searchInput.value = '';
+    buildLayout();
+  }
+
+  function populateAgencyIndex() {
+    document.getElementById('agency-index-control').hidden = false;
+    const index = document.getElementById('agency-index');
+    for (const kind of ['initiative', 'project', 'repository']) {
+      const group = document.createElement('optgroup');
+      group.label = capitalize(kind);
+      allProjects.filter(node => node.kind === kind).sort((a, b) => a.name.localeCompare(b.name)).forEach(node => {
+        const option = document.createElement('option');
+        option.value = node.id;
+        option.textContent = `${node.name} (${window.GTPAgencyDataAdapter.FOCUS[node.status]})`;
+        group.appendChild(option);
+      });
+      index.appendChild(group);
+    }
+    index.addEventListener('change', () => {
+      if (!index.value) return;
+      clearAgencyFilters();
+      focusNode(nodeMap[index.value], { recordHistory: true, openDetails: true });
+      document.getElementById('close-details').focus({ preventScroll: true });
+    });
+  }
+
   function populateFilters() {
     if (!trackSel || !statusSel) return;
 
@@ -2096,29 +2223,54 @@
     tracks.forEach((track) => {
       const option = document.createElement('option');
       option.value = track;
-      option.textContent = track === 'project' ? 'Projects' : track === 'fund' ? 'Funds' : track === 'creator' ? 'Creators' : track;
+      option.textContent = track === 'project' ? 'Projects' : track === 'fund' ? 'Funds' : track === 'creator' ? 'Creators'
+        : track === 'repository' ? 'Repositories' : track;
       trackSel.appendChild(option);
     });
 
     [...new Set(allProjects.map((project) => project.status))].sort().forEach((status) => {
       const option = document.createElement('option');
       option.value = status;
-      option.textContent = capitalize(status);
+      option.textContent = isAgencyMode ? window.GTPAgencyDataAdapter.FOCUS[status] : capitalize(status);
       statusSel.appendChild(option);
     });
-    if (isArtizenMode && !isCreatorMode) statusSel.closest('.toolbar-filter')?.setAttribute('hidden', '');
+    if (isAgencyMode) {
+      statusSel.closest('.toolbar-filter').querySelector('label').textContent = 'Focus';
+      statusSel.setAttribute('aria-label', 'Filter by planning focus');
+      statusSel.options[0].textContent = 'All focus levels';
+    }
+    if (isArtizenMode && !isCreatorMode && !isAgencyMode) statusSel.closest('.toolbar-filter')?.setAttribute('hidden', '');
   }
 
   function updateCanopyDescription() {
     const switchLinks = document.querySelectorAll('.canopy-switch a');
     switchLinks.forEach((link) => {
       const linkCanopy = new URL(link.href, window.location.href).searchParams.get('canopy');
-      const isCurrent = linkCanopy === (isGreenTeaMode ? 'green-tea' : isCreatorMode ? 'creators' : archiveOnly ? 'artizen' : null);
+      const isCurrent = linkCanopy === (isAgencyMode ? 'agency' : isGreenTeaMode ? 'green-tea' : isCreatorMode ? 'creators' : archiveOnly ? 'artizen' : null);
       if (isCurrent) link.setAttribute('aria-current', 'page');
       else link.removeAttribute('aria-current');
     });
     if (!isArtizenMode) return;
     document.querySelector('.spiral-shell')?.classList.add('artizen-mode');
+    if (isAgencyMode) {
+      document.querySelector('.spiral-shell').classList.add('agency-mode');
+      modeBadgeEl.querySelector('.artizen-logo').hidden = true;
+      modeBadgeEl.querySelector('.mode-badge-label').textContent = 'DecentAgency · purpose, repositories & reuse';
+      modeBadgeEl.classList.remove('mode-badge--prototype');
+      const summary = document.createElement('p');
+      summary.textContent = `Reviewed ${artizenMetrics.generatedAt}. Now: DecentCanopy + DecentBusking. Next: BigNuten. Other projects are inventory, not declared inactive. This is a curated snapshot, not live GitHub linking. Blue solid lines: source-observed; amber dashed: steward-reported; purple dashed: proposed only; gray dashed: unresolved. Every connection's direction, meaning, and evidence appear in its sidepanel. No balance or payout is inferred.`;
+      visionNoteEl.replaceChildren(summary);
+      visionNoteEl.setAttribute('aria-label', 'DecentAgency scope, focus, and evidence legend');
+      document.querySelector('.spiral-status-legend').hidden = true;
+      const legend = document.querySelector('.spiral-legend');
+      legend.innerHTML = Object.values(window.GTPAgencyDataAdapter.STATES).map(state =>
+        `<div class="legend-item"><span class="legend-dot" style="background:${state.color}"></span> ${state.label}${state.dashed ? ' (dashed)' : ' (solid)'}</div>`
+      ).join('');
+      legend.setAttribute('aria-label', 'Agency relationship evidence legend');
+      document.querySelector('.spiral-hint').textContent = 'Projects left · repositories right · umbrella above · Use the project / repo index for keyboard navigation';
+      document.getElementById('spiral-canvas').setAttribute('aria-label', 'DecentAgency project and repository map; use the project / repo index to open every node without the canvas');
+      return;
+    }
     if (modeBadgeEl) {
       modeBadgeEl.querySelector('.artizen-logo').hidden = !archiveOnly;
       modeBadgeEl.querySelector('.mode-badge-label').textContent = isGreenTeaMode
@@ -2169,7 +2321,8 @@
       legend.innerHTML =
         '<div class="legend-item"><span class="legend-dot" style="background:#34d399"></span> Projects</div>' +
         '<div class="legend-item"><span class="legend-dot" style="background:#a78bfa"></span> Funds</div>' +
-        '<div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> Creators / curated links</div>';
+        '<div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> Creators / curated links</div>' +
+        (allProjects.some(node => node.kind === 'repository') ? '<div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Repositories / self-declared links</div>' : '');
       legend.setAttribute('aria-label', 'Artizen entity legend');
     }
   }

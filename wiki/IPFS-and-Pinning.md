@@ -31,6 +31,15 @@ Qualification does not pay automatically. The approved wallet, available USDC an
 
 ## Limits
 
+### Proposed expanded profiles
+
+The [expanded profile design](Expanded-Profiles.md) separates small signed discovery
+records from larger, self-pinned public JSON sections. The chosen qualification
+requires approved pinner status, a DecentData pass within eight days, and availability
+checks of referenced profile content. **Design only:** no capacity allowance has
+been chosen, no larger profiles are enabled, and reward amounts/caps are unchanged.
+Pinning a backup does not automatically pin content referenced by CID inside it.
+
 Gateway availability is not proof of independent storage or unique participants. A gateway that fetches on demand can appear to serve a pin it does not retain. Prefer a dedicated pinned-content gateway or Kubo `Gateway.NoFetch = true`; sybil resistance and cryptographic storage proofs are not implemented.
 
 Backing up JSON does not preserve every remotely hosted image or historical website. Public profiles and older revisions may persist forever; pin only data that was intended for publication.

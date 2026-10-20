@@ -19,6 +19,7 @@ DecentCanopy provides:
 
 - **Fractal Constellation View** — A Mandelbrot-inspired interactive spiral map displaying projects as nodes with dynamic zoom and pan controls
 - **Association Mapping** — Visual representation of project relationships, shared funding pools, and curator overlap
+- **DecentAgency map** — A dated, curated project/repository inventory with Now / Next / Inventory focus, evidence-linked lineage and reuse proposals, and a keyboard-accessible node index at `?canopy=agency`
 - **Sidepanel Details** — Project information, season/phase context, parent/child relationships, and cross-project associations
 - **Shared Data Layer** — Normalized access to projects, associations, activity, and metrics via `scripts/data-layer.js`
 - **Artizen Snapshot** — Local JSON data derived from public Artizen season/funding records for deterministic rendering
@@ -48,9 +49,63 @@ A hands-on tour of what's here. Each item links to the detailed section below.
 
 See [Features](#features) and [Artizen Canopy](#artizen-canopy).
 
+### DecentAgency: mapping our current work
+
+Choose **DecentAgency map** in the canopy switch, or open
+[`?canopy=agency`](https://thejollylama.github.io/DecentCanopy/?canopy=agency).
+Projects and their public repositories are separate nodes; the DecentAgency initiative
+is the steward-described umbrella, not a claim of legal ownership or GitHub organization membership.
+External integration candidates, such as cadCAD, do not receive an umbrella association.
+
+- **Now:** DecentCanopy and DecentBusking. **Next:** BigNuten_Vanilla.
+  **Inventory** means not prioritized here, not inactive or abandoned.
+- Use **View**, **Focus**, and search to explore. The **Project / repo index** is a
+  keyboard-accessible alternative to selecting canvas nodes. Selecting an index entry
+  clears filters so every node remains reachable.
+  Creator editing, archive tours, local imports, and location tools remain in the
+  other canopy views; they do not modify this curated inventory.
+- Cards show purpose, current understanding, one candidate next move, source links,
+  and incoming/outgoing connections. Proposed reuse is not an implemented dependency.
+- **Solid blue** means source-observed; **dashed amber** steward-reported;
+  **dashed purple** proposed only; **dashed gray** unresolved.
+  These are planning evidence states, not the creator graph's wallet/transaction trust states.
+- Week-one Busking schedule/payroll completion is explicitly a steward report, not a
+  receipt reconciliation. BigNuten's IPFS stall is reported, not reproduced by the map.
+  Funding balances and payout status remain unavailable here.
+
+The inventory lives in [`data/agency-map.json`](data/agency-map.json), validated by
+[`scripts/data-adapter/agency-adapter.js`](scripts/data-adapter/agency-adapter.js).
+Update its review date, source links, and relationship notes when revisiting it.
+Public repository identities were checked at that date; issue links are not a live
+status feed. Names without resolved public identities remain project nodes with no
+guessed repository URL. Private code, repository metadata, credentials, and health
+records must not be added to this public file.
+
+This seed map does **not** complete [GitHub connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11):
+there is no OAuth, account verification, or live synchronization.
+Creators can separately publish self-declared project repository links through **My creator**;
+these appear in the creator/whole canopy, not as edits to the curated agency inventory.
+The seed map exercises the existing data-layer and sidepanel path
+without rewriting signed creator records or the frozen archive. The generic schema,
+creator linking, and public ledger adapters remain tracked in #17, #11, and #14.
+BigNuten reuse follows its existing
+[#337 epic](https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/337), not a new backlog.
+
+The normal Pages/IPFS site package includes the map and scripts; the data-backup package
+also retains the map. Validate with:
+
+```bash
+node --test test/agency-map.test.js test/ipfs-backup.test.js test/artizen-adapter.test.js test/share-view.test.js
+```
+
 ### As a creator
 
+**Expanded profiles (design only):** the proposed [pinner-qualified storage model](wiki/Expanded-Profiles.md)
+keeps small signed discovery records and references larger self-pinned public content.
+No expanded allowance is enabled yet; current size and repository-count limits remain.
+
 - **Create / edit:** connect your wallet, then choose **My creator**. Fill in your name, bio, HTTPS website/avatar and optional location label. Add projects, status updates and new funding sources. Your connected wallet controls only its own new profile; an archived project link does not prove ownership or change that project.
+- **Link GitHub repositories:** add up to five public `https://github.com/owner/repository` URLs per project (one per line). **Preview public GitHub metadata** anonymously checks owner, name, URL, visibility, and check time; it neither signs you into GitHub nor publishes anything. Consent and sign to publish the URLs as **self-declared** links. Repository blips appear in the creator/whole canopy. Edit the list or choose **Unlink all repositories** and publish again to remove current links; old signed IPFS records remain available. See [repository linking and privacy](wiki/Creators-and-Archive.md#public-github-repository-links).
 - **Connect to other Decent creators:** link a project to **related Decent projects** (any wallet's). Point a funding source at a **Decent fund** on the canopy and, once paid, add the chain + transaction hash.
 - **Run a fund:** choose **Add a Decent fund** to publish a fund blip you steward. Include its treasury (Base/Ethereum/Optimism) and the Decent projects it supports.
 - **Line meanings:**
