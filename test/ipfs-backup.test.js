@@ -27,6 +27,7 @@ test('IPFS backup covers every checked-in canopy snapshot and curated data file'
     'data/community-pinners.json',
     'data/projects.json',
     'data/project-details.json',
+    'data/supporter-dnfts.json',
     'data/agency-map.json',
     'payroll-assets.json',
     'payroll-queue.json',

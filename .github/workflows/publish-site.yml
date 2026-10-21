@@ -4,7 +4,7 @@ on:
     branches: [main]
   workflow_dispatch:
   workflow_run:
-    workflows: [Publish Decent Creator, In-App Rewards, Community Pinning Rewards, Pin Canopy Data to IPFS]
+    workflows: [Publish Decent Creator, In-App Rewards, Community Pinning Rewards, Pin Canopy Data to IPFS, Refresh Supporter DNFTs]
     types: [completed]
 permissions:
   contents: read

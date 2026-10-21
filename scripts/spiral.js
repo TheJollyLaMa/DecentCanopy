@@ -1912,6 +1912,11 @@
   // ---- Details panel ------------------------------------------------------------
 
   function showDetails(node) {
+    showDetailsContent(node);
+    window.CanopySupporterDNFTs?.mount(detailsContentEl, node);
+  }
+
+  function showDetailsContent(node) {
     if (!detailsPanel || !detailsContentEl) return;
 
     const color = TRACK_COLORS[node.track] || '#94a3b8';
