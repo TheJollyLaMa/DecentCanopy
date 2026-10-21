@@ -691,3 +691,63 @@ Files faithfully extracted from that project (commit `310c4cc`):
 
 Code: [Apache-2.0](LICENSE) · Art and docs: [CC BY 4.0](LICENSES/CC-BY-4.0.txt) · Please keep the [NOTICE](NOTICE) and give The Jolly LaMa / A Decent Agency a head nod when you reuse this work.
 Support the work with a [Supporter DNFT](https://thejollylama.github.io/DecentMarket/).
+
+## Supporter DNFT coins (Base + Optimism)
+
+Project, repository, and creator detail sidepanels show small Supporter DNFT coins;
+click/tap a coin (or use the keyboard) to expand its edition supply/minted count,
+last-observed price/stock, creator wallet, chain, contract/token ID, metadata claims,
+and DecentMarket / explorer links. Missing/broken artwork falls back to initials.
+These are cached public-ledger observations, **not ownership verification or a live
+price quote**. Creator matches use the contract's `creatorOf`, not token ownership
+or inferred GitHub repository ownership. A project panel never inherits every
+Supporter DNFT belonging to its steward.
+
+`data/supporter-dnfts.json` is a version-1 snapshot with `tokens`, `byProject`
+(normalized `owner/repo`), `byCreator` (wallet, or self-declared `github:login` when
+known), and per-chain read status. The registry/escrow addresses come from
+DecentMarket's deployed Optimism and Base contracts. No wallet is required.
+
+To refresh locally (Node 22+; ethers v6 reuses the existing relay dependency):
+
+```sh
+npm ci --prefix relay --omit=dev
+node scripts/build-supporter-dnfts.mjs
+node --test test/supporter-dnfts.test.js
+```
+
+The **Refresh Supporter DNFTs** scheduled/dispatch workflow refreshes every six
+hours. Its successful completion lets the existing Pages workflow publish the
+committed snapshot; IPFS site packaging includes it, and the daily data backup
+pins it too. Optional `SUPPORTER_RPC_10` / `SUPPORTER_RPC_8453` environment variables
+accept comma-separated RPC endpoints. Public RPCs/gateways can throttle or fail;
+chain errors retain prior observations, token errors retain prior matching tokens,
+and unavailable metadata can fall back to an explicitly labeled on-chain Supporter
+listing note (with real counters/stock and an initials coin),
+and the UI explicitly labels incomplete/stale snapshots. An empty unavailable
+snapshot is not evidence that no Supporter DNFTs exist. Registries/listings are
+bounded at 10,000 entries to avoid unbounded scheduled jobs.
+
+Matching prefers metadata `properties.repo` (GitHub URL), then
+`properties.project`, then whole-word project names in legacy names/descriptions.
+The project alias catalog comes from the existing agency map, project details,
+and creator repository declarations / GitHub Pages project URLs. A token must
+reference “Supporter” in its metadata or listing note; achievement tokens are
+excluded. This accommodates S11 releases (1,000 editions, $10 USDC on Base, 10%
+royalty; repo, version/tag, commit, code archive CID, license metadata) without
+inventing those values when they are not present on-chain. Unknown explicit repos
+remain discoverable; unmatched tokens are still indexed by their creator wallet.
+
+**Market limitation:** DecentMarket currently has no listing deep-link router.
+Support links carry `chainId`, `nftContract`, `tokenId`, and `listingId` as query
+context but open the market view; select the displayed chain and listing/token ID
+there. Canopy does not initiate a transaction. A future DecentMarket change can
+consume this context without changing the snapshot or Canopy links.
+
+Initial ledger capture (2026-10-21): **Optimism: BigNuten 3 token IDs,
+DecentHead 2, DecentBusking 1** (including BigNuten v2.0.0 token ID 5).
+Base: 70 achievement token IDs, no escrow listings or Supporter tokens observed.
+IPFS metadata was unavailable on the attempted public gateways: the six observed
+Supporter entries use on-chain listing-note names and initials artwork. Fifteen
+other Optimism IDs could not be classified (one further ID is an achievement); coverage is explicitly partial, not a
+claim that these six are every existing Supporter DNFT.

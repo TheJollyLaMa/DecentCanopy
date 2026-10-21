@@ -20,6 +20,9 @@ on:
       - data/decent-creators.json
       - data/artizen-archive.json
       - data/agency-map.json
+      - data/supporter-dnfts.json
+      - test/supporter-dnfts.test.js
+      - styles/supporter-dnfts.css
       - test/agency-map.test.js
       - test/github-repositories.test.js
       - test/share-view.test.js
@@ -46,6 +49,9 @@ on:
       - data/decent-creators.json
       - data/artizen-archive.json
       - data/agency-map.json
+      - data/supporter-dnfts.json
+      - test/supporter-dnfts.test.js
+      - styles/supporter-dnfts.css
       - test/agency-map.test.js
       - test/github-repositories.test.js
       - test/share-view.test.js
@@ -78,4 +84,4 @@ jobs:
         run: npm ci --prefix relay --omit=dev
 
       - name: Test payroll automation
-        run: node --test test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js test/agency-map.test.js test/github-repositories.test.js test/share-view.test.js
+        run: node --test test/supporter-dnfts.test.js test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js test/agency-map.test.js test/github-repositories.test.js test/share-view.test.js

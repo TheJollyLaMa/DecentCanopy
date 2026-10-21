@@ -1,0 +1,35 @@
+name: Refresh Supporter DNFTs
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: canopy-supporter-dnfts
+  cancel-in-progress: false
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: relay/package-lock.json
+      - run: npm ci --prefix relay --omit=dev
+      - run: node scripts/build-supporter-dnfts.mjs
+      - run: node --test test/supporter-dnfts.test.js
+      - name: Commit ledger snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/supporter-dnfts.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data: refresh Supporter DNFT snapshot' -m 'Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>'
+          git pull --rebase origin main
+          git push origin HEAD:main

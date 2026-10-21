@@ -1,0 +1,305 @@
+{
+  "version": 1,
+  "generatedAt": "2026-10-21T14:03:47.523Z",
+  "chains": {
+    "10": {
+      "status": "partial",
+      "registered": 22,
+      "listings": 7,
+      "issues": [
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:10: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:11: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:12: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:13: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:14: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:15: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:16: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:17: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:19: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:20: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:21: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:2: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:7: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
+      ],
+      "attemptedAt": "2026-10-21T14:01:40.684Z"
+    },
+    "8453": {
+      "status": "ok",
+      "registered": 70,
+      "listings": 0,
+      "issues": [],
+      "attemptedAt": "2026-10-21T14:03:47.523Z"
+    }
+  },
+  "tokens": [
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 10,
+      "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
+      "tokenId": "0",
+      "name": "DecentHead V1.0.0 Supporter DNFT",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/bafkreifkjda6ozx3wzwaehliansxxrx7atarhhtuccgd2yviiy5ibi5uda",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "1",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "thejollylama/decenthead",
+          "name": "DecentHead",
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "0",
+          "active": true,
+          "available": "1",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+          "priceAmount": "100000000",
+          "currency": "USDC",
+          "price": "100.0",
+          "note": "DecentHead V1.0.0 Supporter DNFT"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-21T14:00:24.272Z",
+      "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 10,
+      "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
+      "tokenId": "1",
+      "name": "BigNuten V1.0.0 Supporter DNFT",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/bafkreifvja5xenebeaktpcxngsuq7c23jrkg5t2s5hu746n7pglr437hyq",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "1",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "thejollylama/bignuten_vanilla",
+          "name": "BigNuten_Vanilla",
+          "aliases": [
+            "BigNuten"
+          ],
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "1",
+          "active": true,
+          "available": "1",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x0b2C639c533813f4Aa9D7837CAf62653d097Ff85",
+          "priceAmount": "100000000",
+          "currency": "USDC",
+          "price": "100.0",
+          "note": "BigNuten V1.0.0 Supporter DNFT"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-21T14:00:24.422Z",
+      "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 10,
+      "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
+      "tokenId": "18",
+      "name": "DecentBusking v1.0.0 Supporter Dnft",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/bafkreiagj75riftumjqstortch7y2tv6ztytess3oaymzqkufsnz7dtv4e",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "100",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "thejollylama/decentbusking",
+          "name": "DecentBusking",
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "6",
+          "active": true,
+          "available": "100",
+          "priceETH": "50000000000000000",
+          "ethPrice": "0.05",
+          "priceToken": "0x0000000000000000000000000000000000000000",
+          "priceAmount": "0",
+          "currency": "ETH",
+          "price": "0.05",
+          "note": "DecentBusking v1.0.0 Supporter Dnft"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-21T14:01:28.211Z",
+      "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 10,
+      "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
+      "tokenId": "3",
+      "name": "DecentHead v1.0.1 Supporter DNFT",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/bafkreifvmyy4r6r6xbaair3kqs6uhloriytwykwhbcj2eqr2g2xephopce",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "3",
+      "maxSupply": "3",
+      "projects": [
+        {
+          "repo": "thejollylama/decenthead",
+          "name": "DecentHead",
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "3",
+          "active": true,
+          "available": "2",
+          "priceETH": "500000000000000",
+          "ethPrice": "0.0005",
+          "priceToken": "0x0000000000000000000000000000000000000000",
+          "priceAmount": "0",
+          "currency": "ETH",
+          "price": "0.0005",
+          "note": "DecentHead v1.0.1 Supporter DNFT"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-21T14:00:36.992Z",
+      "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 10,
+      "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
+      "tokenId": "4",
+      "name": "BigNuten v1.0.0 Supporter Dnft (Eth)",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/bafkreichoczljjsy5wpctox4z7vbyg6euo4nkk5ll23zzigviq6huu57wm",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "3",
+      "maxSupply": "3",
+      "projects": [
+        {
+          "repo": "thejollylama/bignuten_vanilla",
+          "name": "BigNuten_Vanilla",
+          "aliases": [
+            "BigNuten"
+          ],
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "4",
+          "active": true,
+          "available": "3",
+          "priceETH": "5000000000000000",
+          "ethPrice": "0.005",
+          "priceToken": "0x0000000000000000000000000000000000000000",
+          "priceAmount": "0",
+          "currency": "ETH",
+          "price": "0.005",
+          "note": "BigNuten v1.0.0 Supporter Dnft (Eth)"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-21T14:00:37.371Z",
+      "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 10,
+      "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
+      "tokenId": "5",
+      "name": "BigNuten v2.0.0 Supporter Dnft (Eth)",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/bafkreic3iy6xyletoynqv3xs2h7mo5apllppqdddrjp37ctewv4i2lvzrq",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "100",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "thejollylama/bignuten_vanilla",
+          "name": "BigNuten_Vanilla",
+          "aliases": [
+            "BigNuten"
+          ],
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "5",
+          "active": true,
+          "available": "100",
+          "priceETH": "50000000000000000",
+          "ethPrice": "0.05",
+          "priceToken": "0x0000000000000000000000000000000000000000",
+          "priceAmount": "0",
+          "currency": "ETH",
+          "price": "0.05",
+          "note": "BigNuten v2.0.0 Supporter Dnft (Eth)"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-21T14:00:37.440Z",
+      "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
+      "creatorGithub": []
+    }
+  ],
+  "byProject": {
+    "thejollylama/decenthead": [
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3"
+    ],
+    "thejollylama/bignuten_vanilla": [
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5"
+    ],
+    "thejollylama/decentbusking": [
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18"
+    ]
+  },
+  "byCreator": {
+    "0x807061df657a7697c04045da7d16d941861caabc": [
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5"
+    ]
+  }
+}
