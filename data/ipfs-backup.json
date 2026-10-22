@@ -1,12 +1,12 @@
 {
   "provider": "Pinata",
-  "cid": "bafybeifahbffb4z6qzsotbhyagamuqkikx4cqaq53makheultttg5qtwaa",
-  "uri": "ipfs://bafybeifahbffb4z6qzsotbhyagamuqkikx4cqaq53makheultttg5qtwaa",
-  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeifahbffb4z6qzsotbhyagamuqkikx4cqaq53makheultttg5qtwaa",
-  "pinnedAt": "2026-10-22T10:53:06.020Z",
-  "dataSha256": "8aa803922c53a4915a8d69d6c3c321c0e3712f5bb3ee3b83cce9a8e67b77da2b",
-  "payloadSha256": "5987108de4c1143d0d47cc047345db965db6fd7046b1be04436f9f004635a8fc",
-  "payloadBytes": 6047195,
+  "cid": "bafybeienaqqgy6gmo36ury3h6jbkp463z4uxzfs4hxx2txpkx3cio22eti",
+  "uri": "ipfs://bafybeienaqqgy6gmo36ury3h6jbkp463z4uxzfs4hxx2txpkx3cio22eti",
+  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeienaqqgy6gmo36ury3h6jbkp463z4uxzfs4hxx2txpkx3cio22eti",
+  "pinnedAt": "2026-10-22T12:00:09.964Z",
+  "dataSha256": "e9e432beddeb48289555b275cb91d0c9f928b4b6b7d864a78f130f6e284babe8",
+  "payloadSha256": "2dffea75b1019f62bc4df12fbc623b2b60da71926e9101ecee51674651275196",
+  "payloadBytes": 6063287,
   "files": [
     "contributor-accounts.json",
     "data/activity.json",
@@ -23,11 +23,17 @@
     "data/project-details.json",
     "data/supporter-dnfts.json",
     "data/agency-map.json",
+    "data/repository-activity.json",
     "payroll-assets.json",
     "payroll-queue.json",
     "community-rewards.json"
   ],
   "recentCids": [
+    {
+      "cid": "bafybeienaqqgy6gmo36ury3h6jbkp463z4uxzfs4hxx2txpkx3cio22eti",
+      "pinnedAt": "2026-10-22T12:00:09.964Z",
+      "payloadSha256": "2dffea75b1019f62bc4df12fbc623b2b60da71926e9101ecee51674651275196"
+    },
     {
       "cid": "bafybeifahbffb4z6qzsotbhyagamuqkikx4cqaq53makheultttg5qtwaa",
       "pinnedAt": "2026-10-22T10:53:06.020Z",
@@ -72,11 +78,6 @@
       "cid": "bafybeic4svx4kxinw2rzhasvdp745lu7hufbjsadtv36acftes6mln3ymq",
       "pinnedAt": "2026-10-09T14:51:29.217Z",
       "payloadSha256": "d86474cf966f800a6a77728d624c7fd03b132619fc0a209bccbb403b2be91b44"
-    },
-    {
-      "cid": "bafybeibafwpepqhlhm7tvvetnvkmgqpe36nx4n4pka63z2smqhid253deu",
-      "pinnedAt": "2026-10-08T13:38:08.554Z",
-      "payloadSha256": "b5a40ce123ff5c06b71a9f289683249f1e03c00ed5ab7bfeb1affce2c9971294"
     }
   ]
 }
