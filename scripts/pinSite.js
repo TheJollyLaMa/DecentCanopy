@@ -43,9 +43,9 @@ function nextRecent(previous, current) {
   return { keep: unique.slice(0, KEEP_VERSIONS), drop: unique.slice(KEEP_VERSIONS) };
 }
 
-async function pinFolder(files, token, { root = ROOT, name, fetchImpl = fetch } = {}) {
+async function pinFolder(files, token, { root = ROOT, name, folder = FOLDER, fetchImpl = fetch } = {}) {
   const form = new FormData();
-  files.forEach(rel => form.append('file', new Blob([fs.readFileSync(path.join(root, rel))]), `${FOLDER}/${rel}`));
+  files.forEach(rel => form.append('file', new Blob([fs.readFileSync(path.join(root, rel))]), `${folder}/${rel}`));
   form.append('pinataMetadata', JSON.stringify({ name }));
   form.append('pinataOptions', JSON.stringify({ cidVersion: 1 }));
   const response = await fetchImpl(PIN_URL, {

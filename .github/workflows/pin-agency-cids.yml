@@ -6,9 +6,18 @@ on:
       label:
         description: Project or release these CIDs belong to (e.g. "DecentMarket site for decentmarket.decentagency.eth")
         required: true
+      repo:
+        description: Static-site repository to upload and pin as one folder (e.g. TheJollyLaMa/DecentHead)
+        required: false
+        default: ''
+      ref:
+        description: Branch, tag or commit of that repository
+        required: false
+        default: main
       cids:
-        description: CIDv1 values separated by spaces or commas
-        required: true
+        description: Already-published CIDv1 values to pin by hash, separated by spaces or commas
+        required: false
+        default: ''
       hosts:
         description: Optional IPFS node multiaddrs (with /p2p/ peer ID) that already hold the content
         required: false
@@ -30,17 +39,28 @@ jobs:
         with:
           ref: main
 
+      - name: Checkout the project site
+        if: inputs.repo != ''
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repo }}
+          ref: ${{ inputs.ref }}
+          path: .agency-source
+          persist-credentials: false
+
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Pin CIDs with the community Pinata account
+      - name: Pin with the community Pinata account
         env:
           PINATA_JWT: ${{ secrets.PINATA_JWT }}
           CIDS: ${{ inputs.cids }}
           LABEL: ${{ inputs.label }}
           HOSTS: ${{ inputs.hosts }}
+          SOURCE_REPO: ${{ inputs.repo }}
+          SOURCE_DIR: ${{ inputs.repo != '' && format('{0}/.agency-source', github.workspace) || '' }}
         run: node scripts/pinAgencyCids.js
 
       - name: Commit Agency pin manifest
