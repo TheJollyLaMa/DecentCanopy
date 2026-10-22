@@ -13,7 +13,7 @@ test('ENS association is scoped to the exact project or declared name, not displ
   assert.equal(ENS.nameFor(wallet, { key: 'copy', name: 'DecentCanopy', website: '' }), '');
   assert.equal(ENS.nameFor(wallet, { ...canopy, ens: 'custom.eth' }), 'custom.eth');
   assert.equal(ENS.nameFor(wallet, { key: 'bb15e18e-41de-4f79-9479-9ebcc3e5e467' }), 'thegreenteaparty.thejollylama.eth');
-  assert.equal(ENS.nameFor(wallet, { key: 'cd695985-650e-472e-8f3b-64cbb9a7f682' }), 'decentbusking.thejollylama.eth');
+  assert.equal(ENS.nameFor(wallet, { key: 'cd695985-650e-472e-8f3b-64cbb9a7f682' }), 'decentbusking.decentagency.eth');
   assert.equal(ENS.nameFor('0x' + '11'.repeat(20), { key: 'cd695985-650e-472e-8f3b-64cbb9a7f682' }), '');
   assert.equal(ENS.nameFor(wallet, { website: 'https://bignuten.thejollylama.eth.limo/' }), 'bignuten.thejollylama.eth');
   assert.equal(ENS.nameFor(wallet, { website: 'https://example.eth.limo.evil.test/' }), '');

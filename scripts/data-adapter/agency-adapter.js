@@ -17,7 +17,8 @@
     supports: 'Supports',
     'provides-capability': 'Provides capability to',
     'could-reuse': 'Could provide reusable patterns to',
-    'capability-match': 'Candidate offer-to-need crossover'
+    'capability-match': 'Candidate offer-to-need crossover',
+    'foundational-offering': 'Foundational web3 architecture offered (adoption unverified)'
   };
   const FOCUS = { now: 'Now', next: 'Next', inventory: 'Inventory / not prioritized' };
   const CAPABILITY_STATES = {
@@ -89,6 +90,13 @@
       if (project.focus !== undefined && !Object.hasOwn(FOCUS, project.focus)) throw new Error('Invalid agency focus.');
       if (project.kind !== undefined && !['project', 'initiative'].includes(project.kind)) throw new Error('Invalid agency entity kind.');
       if (project.external !== undefined && typeof project.external !== 'boolean') throw new Error('Invalid external-project flag.');
+      if (project.ens !== undefined && !/^(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+eth$/.test(project.ens)) {
+        throw new Error('Invalid agency ENS name.');
+      }
+      if (project.discordAvatar !== undefined &&
+          !/^https:\/\/cdn\.discordapp\.com\/(?:avatars|guilds)\/[\w/.-]+\.(?:png|webp|gif)(?:\?size=\d+)?$/.test(project.discordAvatar)) {
+        throw new Error('Invalid published Discord avatar.');
+      }
       if (project.repo !== undefined && (!/^[a-z0-9][a-z0-9-]{0,38}\/[\w.-]+$/i.test(project.repo) ||
           ['.', '..'].includes(project.repo.split('/')[1]))) throw new Error('Invalid public repository identity.');
       if (project.tags !== undefined && (!Array.isArray(project.tags) || !project.tags.every(text))) throw new Error('Invalid agency tags.');
@@ -101,6 +109,10 @@
     });
     if (data.projects.filter(project => project.kind === 'initiative').length !== 1) {
       throw new Error('Agency map must declare one umbrella initiative.');
+    }
+    if (data.foundationalProvider !== undefined &&
+        !data.projects.some(p => p.id === data.foundationalProvider && !p.external && p.kind !== 'initiative')) {
+      throw new Error('Foundational provider must be an internal project.');
     }
     const matches = new Set();
     data.relationships.forEach(edge => {
@@ -199,6 +211,20 @@
         offer: edge.offer, need: edge.need, nextTest: edge.nextTest
       } : {})
     }));
+    if (data.foundationalProvider) {
+      const source = projectId(data.foundationalProvider);
+      for (const project of data.projects) {
+        const target = projectId(project.id);
+        if (source === target || project.external || project.kind === 'initiative' ||
+            associations.some(edge => edge.source === source && edge.target === target)) continue;
+        associations.push({
+          source, target, type: 'foundational-offering', relationshipState: 'reported',
+          sourceLabel: 'Steward-declared ecosystem foundation',
+          note: 'DecentHead offers foundational wallet, web3 and shared-session architecture to this project. This is availability of a foundation, not evidence of adoption, compatibility or a deployed integration. Preserve each project context and test before reuse.',
+          evidence: [], reviewedAt: data.reviewedAt
+        });
+      }
+    }
     return {
       projects, associations, activity: [],
       metrics: {

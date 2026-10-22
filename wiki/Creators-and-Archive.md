@@ -189,7 +189,51 @@ Unresolved references (to a fund or project not on the canopy) are kept in your 
 
 ## ENS project profiles and website updates
 
-Project editors accept an optional ASCII `.eth` name, including subnames. It is included in the wallet-signed record only when filled in; existing signed records remain unchanged. ENS names can also be inferred from a project's `.eth.limo` website. DecentCanopy, The Green Tea Party, and DecentBusking's existing projects have explicitly scoped public ENS associations (not rewrites of their signed records): `decentcanopy.eth`, `thegreenteaparty.thejollylama.eth`, and `decentbusking.thejollylama.eth`. An explicit signed ENS field overrides these defaults.
+Project editors accept an optional ASCII `.eth` name, including subnames. It is included in the wallet-signed record only when filled in; existing signed records remain unchanged. ENS names can also be inferred from a project's `.eth.limo` website. DecentCanopy, The Green Tea Party, and DecentBusking's existing projects have explicitly scoped public ENS associations (not rewrites of their signed records): `decentcanopy.eth`, `thegreenteaparty.thejollylama.eth`, and `decentbusking.decentagency.eth`. An explicit signed ENS field overrides these defaults. The Busking display association was updated at the steward's request; this does not rename, transfer, delete or update any ENS record or historical alias.
+
+### ENS-first map blips and compact cards
+
+Map nodes use the associated project's ENS `avatar` when its resolver and image are available.
+The curated Agency identities also explicitly associate `decentagency.eth` with DecentAgency and
+`bignuten.thejollylama.eth` with BigNuten. Names are not guessed from display labels. These are
+steward/creator associations, not proof of ENS ownership. Existing signed profiles remain intact.
+
+Fallback order is the linked GitHub **owner** avatar (labeled as not project-specific), then an
+explicitly published Discord CDN avatar. No Discord login, private account lookup or invented user ID
+is used. Existing published artwork is retained as a last fallback; unavailable artwork leaves the
+original node shape. Both ENS lookup and image failures are reported in the card and console.
+Public image requests use no-referrer; ENS reads use the existing Ethereum public RPC.
+Four node identity jobs run at once, shared image requests deduplicate, and ENS artwork is cached
+for five minutes per tab. Map artwork reads do not depend on a website contenthash being set.
+
+Cards feature the ENS `header` banner and avatar with source attribution. Long review notes,
+offers/needs, source evidence and connection details remain available in keyboard-accessible
+disclosures rather than filling the initial card. Creator website/ENS management controls and saved
+artwork remain accessible separately. Opening ENS Manager does not write a record.
+
+### Connection-aware Agency layout
+
+The Agency map clusters by recorded graph connections, **not** commit count, token value, funding,
+popularity or verified impact. Duplicate edges between the same pair do not multiply attraction.
+Umbrella membership has weak attraction so it does not erase smaller communities. Broad Head
+foundational offerings have lower attraction than specific recorded project connections.
+
+`foundationalProvider` in the curated map declares the steward's internal web3 foundation. It adds
+reported offering links from DecentHead to internal projects that lack an existing outgoing Head
+relationship; self, umbrella and external projects are excluded. Existing source-observed/proposed
+relationships and their evidence states are preserved. An offering does **not** assert adoption,
+compatibility or deployment. New internal projects receive the same explicitly scoped offering.
+All links remain drawable in the whole-ecosystem view; filters, focus and the connection toggle still
+intentionally limit what is displayed. Every relationship can be inspected through the node index/card.
+
+The visible Agency tab checks its deployed curated map once per minute and on returning to the tab.
+A validated changed graph updates shared selectors, index and layout together; failure keeps the last
+validated graph with a visible status. This is not GitHub account authorization or instant graph
+inference from activity. Creator graph publication still follows its signed-record/reload flow.
+Layout solves deterministically on a bounded iteration count, preserving previous positions as soft
+anchors. Changed links settle over 1.2 seconds; reduced motion places nodes directly without animation.
+Search, lens and viewport changes reuse the same global coordinates instead of reshuffling survivors.
+No ENS transaction, treasury action, Supporter mint or Busking source change occurs.
 
 The Green Tea Party's ENS family lists `green-tea-party-kiln-001.thegreenteaparty.thejollylama.eth` (Mama's project) and `green-tea-hut-001.thegreenteaparty.thejollylama.eth`. Until a corresponding signed project exists, its link opens ENS Manager rather than inventing a creator blip. When signed project blips declare direct parent/child ENS names, the graph adds labeled namespace `parent-child` links and the family buttons open those blips. Duplicate ENS associations are ambiguous and do not produce graph links. These relationships describe associated names, not verified ownership or a transfer of the Kiln to TheJollyLaMa; different creators remain separate.
 

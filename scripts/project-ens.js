@@ -4,7 +4,7 @@
   const PUBLISHED_NAMES = {
     [CANOPY]: 'decentcanopy.eth',
     'decent-project:0x807061df657a7697c04045da7d16d941861caabc:bb15e18e-41de-4f79-9479-9ebcc3e5e467': 'thegreenteaparty.thejollylama.eth',
-    'decent-project:0x807061df657a7697c04045da7d16d941861caabc:cd695985-650e-472e-8f3b-64cbb9a7f682': 'decentbusking.thejollylama.eth',
+    'decent-project:0x807061df657a7697c04045da7d16d941861caabc:cd695985-650e-472e-8f3b-64cbb9a7f682': 'decentbusking.decentagency.eth',
   };
   const GREEN_TEA = 'thegreenteaparty.thejollylama.eth';
   const FAMILY = [
@@ -15,6 +15,7 @@
   const CID = /^(?:Qm[1-9A-HJ-NP-Za-km-z]{44}|baf[a-z2-7]{20,100})$/;
   const WEEK = 7 * 24 * 60 * 60 * 1000;
   const cache = new Map(), pending = new Map();
+  const artCache = new Map(), artPending = new Map();
   function nameFor(wallet, project) {
     if (project.ens && NAME.test(project.ens)) return project.ens;
     const publishedName = PUBLISHED_NAMES[`decent-project:${wallet}:${project.key}`];
@@ -142,6 +143,39 @@
     pending.set(name, promise);
     return promise;
   }
+  async function readArtwork(name, provider) {
+    if (!NAME.test(name)) throw new Error('Invalid ENS name.');
+    const resolver = await provider.getResolver(name);
+    if (!resolver) throw new Error('This ENS name has no resolver.');
+    const results = await Promise.allSettled(['avatar', 'header'].map(async field => {
+      const raw = await resolver.getText(field);
+      const resolved = field === 'avatar' && raw?.startsWith('eip155:') ? await resolver.getAvatar() : raw;
+      if (raw && !resolved) throw new Error('ENS NFT avatar could not be verified or resolved.');
+      return imageUrl(resolved);
+    }));
+    const value = { name, avatar: '', header: '', notices: [] };
+    results.forEach((result, i) => {
+      const field = i === 0 ? 'avatar' : 'header';
+      if (result.status === 'fulfilled') value[field] = result.value;
+      else value.notices.push(`ENS ${field} unavailable: ${result.reason.message}`);
+    });
+    return value;
+  }
+  function artworkProfile(name) {
+    const saved = artCache.get(name);
+    if (saved && Date.now() - saved.at < 5 * 60 * 1000) return Promise.resolve(saved.value);
+    if (artPending.has(name)) return artPending.get(name);
+    const request = new root.ethers.FetchRequest('https://ethereum-rpc.publicnode.com');
+    request.timeout = 15000;
+    const provider = new root.ethers.JsonRpcProvider(request, 1, { staticNetwork: true });
+    const promise = readArtwork(name, provider).then(value => {
+      if (artCache.size >= 100) artCache.delete(artCache.keys().next().value);
+      artCache.set(name, { at: Date.now(), value });
+      return value;
+    }).finally(() => { artPending.delete(name); provider.destroy(); });
+    artPending.set(name, promise);
+    return promise;
+  }
   async function latestCanopy(fetchImpl = fetch, now = Date.now()) {
     const response = await fetchImpl(`https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/ipfs-site.json?t=${now}`, {
       cache: 'no-store', signal: AbortSignal.timeout(15000),
@@ -260,7 +294,7 @@
       hydrate(section);
     });
   }
-  const api = { nameFor, imageUrl, contentUri, due, section, readProfile, latestCanopy, decodeIpfsContenthash, decorateGraph, mount };
+  const api = { nameFor, imageUrl, contentUri, due, section, readProfile, readArtwork, artworkProfile, latestCanopy, decodeIpfsContenthash, decorateGraph, mount };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.DecentENS = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));
