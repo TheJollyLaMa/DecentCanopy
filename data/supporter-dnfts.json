@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-22T00:59:36.632Z",
+  "generatedAt": "2026-10-22T06:46:02.268Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,15 +29,19 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-10-22T00:58:35.960Z"
+      "attemptedAt": "2026-10-22T06:45:09.610Z"
     },
     "8453": {
       "status": "partial",
-      "registered": 71,
-      "listings": 1,
+      "registered": 72,
+      "listings": 2,
       "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:30: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:31: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:32: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:33: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:34: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:36: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:37: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:38: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:39: metadata or contract reads unavailable",
@@ -53,6 +57,7 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:49: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:50: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:51: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:52: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:53: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:54: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:55: metadata or contract reads unavailable",
@@ -70,9 +75,10 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:67: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:68: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:69: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; on-chain listing note used"
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71: metadata unavailable; on-chain listing note used"
       ],
-      "attemptedAt": "2026-10-22T00:59:36.632Z"
+      "attemptedAt": "2026-10-22T06:46:02.268Z"
     }
   },
   "tokens": [
@@ -110,7 +116,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:57:20.268Z",
+      "observedAt": "2026-10-22T06:43:53.928Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -151,7 +157,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:57:20.515Z",
+      "observedAt": "2026-10-22T06:43:53.901Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -189,7 +195,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:58:23.597Z",
+      "observedAt": "2026-10-22T06:44:57.273Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -227,7 +233,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:57:32.747Z",
+      "observedAt": "2026-10-22T06:44:06.562Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -268,7 +274,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:57:33.161Z",
+      "observedAt": "2026-10-22T06:44:06.886Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -309,12 +315,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:57:33.446Z",
+      "observedAt": "2026-10-22T06:44:06.981Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "70",
@@ -347,8 +353,46 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-22T00:59:33.885Z",
+      "observedAt": "2026-10-22T06:46:02.216Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 8453,
+      "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
+      "tokenId": "71",
+      "name": "TheJollyLaMa/DecentMarket v0.3.1 Supporter DNFT",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/QmUR29d2NeRH94ceLDxHqDvDi4eNdSRTNM1wZ6UPDsvWqi",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "1000",
+      "maxSupply": "1000",
+      "projects": [
+        {
+          "repo": "thejollylama/decentmarket",
+          "name": "DecentMarket",
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "1",
+          "active": true,
+          "available": "1000",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "priceAmount": "10000000",
+          "currency": "USDC",
+          "price": "10.0",
+          "note": "TheJollyLaMa/DecentMarket v0.3.1 Supporter DNFT"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-22T06:46:02.268Z",
+      "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     }
   ],
@@ -365,6 +409,9 @@
     ],
     "thejollylama/decentbusking": [
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18"
+    ],
+    "thejollylama/decentmarket": [
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71"
     ]
   },
   "byCreator": {
@@ -375,7 +422,8 @@
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
-      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70"
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71"
     ]
   }
 }
