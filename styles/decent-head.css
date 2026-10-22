@@ -953,6 +953,14 @@
   color: #a7f3d0;
 }
 
+#canopy-ipfs-controls [hidden] {
+  display: none !important;
+}
+
+#canopy-ipfs-status {
+  overflow-wrap: anywhere;
+}
+
 .reward-form {
   display: grid;
   gap: 0.55rem;

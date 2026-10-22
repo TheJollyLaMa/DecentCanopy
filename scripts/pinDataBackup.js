@@ -5,26 +5,7 @@ const fs = require('node:fs/promises');
 const path = require('node:path');
 
 const ROOT = path.resolve(__dirname, '..');
-const DATA_FILES = [
-  'contributor-accounts.json',
-  'data/activity.json',
-  'data/artizen-curation.json',
-  'data/artizen.json',
-  'data/artizen-archive.json',
-  'data/artizen-comprehensive-capture.json',
-  'data/artizen-financial-captures.json',
-  'data/decent-creators.json',
-  'data/associations.json',
-  'data/community-creators.json',
-  'data/community-pinners.json',
-  'data/projects.json',
-  'data/project-details.json',
-  'data/supporter-dnfts.json',
-  'data/agency-map.json',
-  'payroll-assets.json',
-  'payroll-queue.json',
-  'community-rewards.json'
-];
+const { DATA_FILES } = require('./public-backup');
 const BACKUP_MANIFEST_PATH = path.join(ROOT, 'data', 'ipfs-backup.json');
 const PINATA_UPLOAD_URL = 'https://uploads.pinata.cloud/v3/files';
 const PINATA_GATEWAY_URL = 'https://gateway.pinata.cloud/ipfs/';
