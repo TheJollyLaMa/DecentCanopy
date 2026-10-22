@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-21T14:03:47.523Z",
+  "generatedAt": "2026-10-22T00:59:36.632Z",
   "chains": {
     "10": {
       "status": "partial",
       "registered": 22,
       "listings": 7,
       "issues": [
-        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0: metadata unavailable; previous metadata used",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:10: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:11: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:12: metadata or contract reads unavailable",
@@ -16,32 +16,68 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:15: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:16: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:17: metadata or contract reads unavailable",
-        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18: metadata unavailable; previous metadata used",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:19: metadata or contract reads unavailable",
-        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1: metadata unavailable; previous metadata used",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:20: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:21: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:2: metadata or contract reads unavailable",
-        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3: metadata unavailable; on-chain listing note used",
-        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4: metadata unavailable; on-chain listing note used",
-        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5: metadata unavailable; on-chain listing note used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3: metadata unavailable; previous metadata used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4: metadata unavailable; previous metadata used",
+        "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5: metadata unavailable; previous metadata used",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:7: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-10-21T14:01:40.684Z"
+      "attemptedAt": "2026-10-22T00:58:35.960Z"
     },
     "8453": {
-      "status": "ok",
-      "registered": 70,
-      "listings": 0,
-      "issues": [],
-      "attemptedAt": "2026-10-21T14:03:47.523Z"
+      "status": "partial",
+      "registered": 71,
+      "listings": 1,
+      "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:34: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:37: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:38: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:39: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:40: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:41: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:42: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:43: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:44: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:45: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:46: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:47: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:48: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:49: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:50: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:51: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:53: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:54: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:55: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:56: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:57: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:58: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:59: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:60: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:61: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:62: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:63: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:64: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:65: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:66: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:67: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:68: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:69: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; on-chain listing note used"
+      ],
+      "attemptedAt": "2026-10-22T00:59:36.632Z"
     }
   },
   "tokens": [
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 10,
       "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
       "tokenId": "0",
@@ -74,12 +110,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-21T14:00:24.272Z",
+      "observedAt": "2026-10-22T00:57:20.268Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 10,
       "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
       "tokenId": "1",
@@ -115,12 +151,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-21T14:00:24.422Z",
+      "observedAt": "2026-10-22T00:57:20.515Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 10,
       "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
       "tokenId": "18",
@@ -153,12 +189,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-21T14:01:28.211Z",
+      "observedAt": "2026-10-22T00:58:23.597Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 10,
       "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
       "tokenId": "3",
@@ -191,12 +227,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-21T14:00:36.992Z",
+      "observedAt": "2026-10-22T00:57:32.747Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 10,
       "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
       "tokenId": "4",
@@ -232,12 +268,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-21T14:00:37.371Z",
+      "observedAt": "2026-10-22T00:57:33.161Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "stale",
       "chainId": 10,
       "contract": "0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958",
       "tokenId": "5",
@@ -273,15 +309,54 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-21T14:00:37.440Z",
+      "observedAt": "2026-10-22T00:57:33.446Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 8453,
+      "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
+      "tokenId": "70",
+      "name": "TheJollyLaMa/DecentHead v2.0.0 Supporter DNFT",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/QmVGmpz63TS9XkTHMxf2sybHv5k9Vdoyr2Spi9QqZ4pzfj",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "1000",
+      "maxSupply": "1000",
+      "projects": [
+        {
+          "repo": "thejollylama/decenthead",
+          "name": "DecentHead",
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "0",
+          "active": true,
+          "available": "1000",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "priceAmount": "10000000",
+          "currency": "USDC",
+          "price": "10.0",
+          "note": "TheJollyLaMa/DecentHead v2.0.0 Supporter DNFT"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-22T00:59:33.885Z",
+      "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     }
   ],
   "byProject": {
     "thejollylama/decenthead": [
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
-      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3"
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70"
     ],
     "thejollylama/bignuten_vanilla": [
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
@@ -299,7 +374,8 @@
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
-      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5"
+      "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70"
     ]
   }
 }
