@@ -99,6 +99,7 @@
         <p id="ipfs-backup-status">Checking for a published IPFS backup…</p>
         <p id="ipfs-community-pinners" class="ipfs-community-pinners" hidden></p>
         <p id="ipfs-site-status" class="ipfs-community-pinners" hidden></p>
+        <button id="ipfs-data-controls" class="ipfs-pin-yourself" type="button">Storage providers · verify / recover</button>
         <button id="ipfs-pin-yourself" class="ipfs-pin-yourself" type="button">📌 Pin it yourself · USDC program</button>
       </div>
       <p id="wallet-status-message" class="wallet-status-message" role="status" aria-live="polite"></p>
@@ -207,14 +208,33 @@
       <p><code id="pin-kubo-command">ipfs pin add &lt;cid&gt;</code> <button id="pin-copy-kubo" class="toolbar-btn" type="button">Copy</button></p>
       <h3>With IPFS Desktop</h3>
       <p>Open Files → Import → From IPFS, paste the backup CID, and retain the pin. For reward checks, expose a public HTTPS gateway serving your pinned data; a desktop pin without a reachable gateway cannot qualify yet.</p>
-      <h3>With your Pinata account</h3>
-      <form id="pin-pinata-form" class="pin-pinata-form" autocomplete="off">
-        <label>Pinata JWT (used once in this tab, never saved or sent anywhere except Pinata)
-          <input id="pin-pinata-jwt" type="password" autocomplete="off" spellcheck="false" placeholder="eyJ…" />
-        </label>
-        <button class="toolbar-btn" type="submit">Pin by CID with Pinata</button>
-      </form>
-      <p class="participation-card-note">Use a scoped Pinata key and revoke it afterwards if you like. DecentCanopy never stores your key.</p>
+      <section id="canopy-ipfs-controls" aria-labelledby="canopy-ipfs-title">
+        <h3 id="canopy-ipfs-title">Storage provider · verify and recover</h3>
+        <p>These controls use only the published public Canopy backup. Browser-local creator drafts, wallet secrets and unpublished edits are excluded. Opening controls or selecting a provider uploads nothing.</p>
+        <form id="canopy-ipfs-provider-form" class="reward-form" autocomplete="off">
+          <label>Storage provider
+            <select id="canopy-ipfs-provider">
+              <option value="pinata">Pinata · own account for pinning</option>
+              <option value="local">IPFS Desktop / local Kubo</option>
+            </select>
+          </label>
+          <label id="canopy-ipfs-key-field">Own Pinata JWT (pinning only; sent directly to Pinata)
+            <input id="canopy-ipfs-jwt" type="password" autocomplete="off" spellcheck="false" />
+          </label>
+          <p id="canopy-ipfs-local-note" hidden>Start your local Kubo node at http://127.0.0.1:5001 and allow this website's exact origin in its API CORS settings. Some browsers block HTTPS-to-localhost requests; manual Desktop/Kubo instructions above remain available.</p>
+          <button class="toolbar-btn" type="submit">Use provider</button>
+        </form>
+        <p id="canopy-ipfs-provider-status" role="status">Pinata selected. No personal key configured; public retrieval needs no wallet or key.</p>
+        <div class="participation-actions">
+          <button id="canopy-ipfs-verify" class="toolbar-btn" type="button">Verify published backup</button>
+          <button id="canopy-ipfs-download" class="toolbar-btn" type="button">Verify &amp; download recovery JSON</button>
+        </div>
+        <label class="reward-check"><input id="canopy-ipfs-consent" type="checkbox" /> I consent to pin this published public backup with my selected provider.</label>
+        <button id="canopy-ipfs-pin" class="toolbar-btn" type="button">Verify &amp; pin public backup</button>
+        <p id="canopy-ipfs-status" role="status" aria-live="polite">Not yet verified in this tab.</p>
+        <p class="participation-card-note">Verification compares exact byte length and SHA-256 with the published manifest and checks the backup format and public file list. Recovery downloads preserve those bytes; they do not replace the live index or publish records. Credentials stay in this tab and are cleared on close. Pin requests already submitted may still finish after closing. Pin acceptance and retrieval do not prove retention, independent storage, reward approval or payment.</p>
+        <p><a href="https://github.com/TheJollyLaMa/DecentCanopy/blob/main/wiki/IPFS-and-Pinning.md" target="_blank" rel="noopener noreferrer">Storage and recovery guide ↗</a></p>
+      </section>
       <p id="pin-yourself-status" class="pin-yourself-status" role="status" aria-live="polite"></p>
       <h3 id="pinner-signup-title">$0.10 USDC per qualifying week</h3>
       <p>Serve your pin from your own public gateway and sign up below. After approval, a weekly matching-byte check queues USDC to your connected wallet on Base, subject to the 20-pinner weekly cap. This shows availability, not proof of independent storage. Queued is not paid; settlement depends on USDC funding and an authorized transaction.</p>
@@ -801,5 +821,6 @@
     <script src="scripts/spiral.js"></script>
     <script src="scripts/reward-messages.js"></script>
     <script src="scripts/community-rewards-ui.js"></script>
+    <script type="module" src="scripts/canopy-ipfs-ui.mjs"></script>
   </body>
 </html>

@@ -2,7 +2,6 @@
   'use strict';
 
   const CID_PATTERN = /^[A-Za-z0-9]{20,120}$/;
-  const PINATA_PIN_BY_CID = 'https://api.pinata.cloud/v3/files/public/pin_by_cid';
   const DAY_MS = 24 * 60 * 60 * 1000;
   const RELAY_TIMEOUT_MS = 75 * 1000;
   const POLL_INTERVAL_MS = 10 * 1000;
@@ -314,35 +313,6 @@
     byId('pinner-signup-title')?.scrollIntoView({ block: 'start' });
   }
 
-  async function pinWithPinata(event) {
-    event.preventDefault();
-    const input = byId('pin-pinata-jwt');
-    const jwt = input ? input.value.trim() : '';
-    if (!state.cid) {
-      setStatus('No backup CID is published yet, so there is nothing to pin.');
-      return;
-    }
-    if (!/^[\w-]+\.[\w-]+\.[\w-]+$/.test(jwt)) {
-      setStatus('That does not look like a Pinata JWT (three dot-separated parts).');
-      return;
-    }
-    setStatus('Asking Pinata to pin the canopy CID…');
-    try {
-      const response = await fetch(PINATA_PIN_BY_CID, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${jwt}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ cid: state.cid, name: 'decentcanopy-data-backup' }),
-      });
-      const payload = await response.json().catch(() => ({}));
-      if (!response.ok) throw new Error(payload.error?.message || payload.error || `HTTP ${response.status}`);
-      setStatus(`Pinata accepted the request (${payload.data?.status || 'queued'}). Thank you for keeping the canopy alive! 🌳`);
-    } catch (error) {
-      setStatus(`Pinata could not pin it: ${error.message}. You can also pin by CID in the Pinata dashboard.`);
-    } finally {
-      if (input) input.value = '';
-    }
-  }
-
   function init() {
     const dialog = byId('pin-yourself-dialog');
     byId('ipfs-pin-yourself')?.addEventListener('click', () => {
@@ -351,13 +321,8 @@
     dialog?.addEventListener('click', event => {
       if (event.target === dialog) dialog.close();
     });
-    dialog?.addEventListener('close', () => {
-      const input = byId('pin-pinata-jwt');
-      if (input) input.value = '';
-    });
     byId('pin-copy-cid')?.addEventListener('click', () => state.cid && copy(state.cid, 'CID'));
     byId('pin-copy-kubo')?.addEventListener('click', () => state.cid && copy(`ipfs pin add ${state.cid}`, 'Command'));
-    byId('pin-pinata-form')?.addEventListener('submit', pinWithPinata);
     byId('pinner-signup-form')?.addEventListener('submit', submitPinner);
     byId('reward-review-list')?.addEventListener('click', reviewClick);
     byId('payroll-refresh-button')?.addEventListener('click', renderReviews);

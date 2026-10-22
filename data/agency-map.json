@@ -1,8 +1,8 @@
 {
   "format": "decentcanopy-agency-map",
   "version": 1,
-  "reviewedAt": "2026-10-20",
-  "sourceLabel": "Steward-curated planning map; public repository identities and linked sources checked 2026-10-20",
+  "reviewedAt": "2026-10-22",
+  "sourceLabel": "Steward-curated planning map; Head and Market release evidence reconciled 2026-10-22. Other source inspections retain their individual review dates; this is not live GitHub or chain synchronization.",
   "mission": "Help humans connect and regain, maintain, sustain, or enhance their agency.",
   "projects": [
     {
@@ -1030,33 +1030,67 @@
       "id": "head",
       "name": "DecentHead",
       "repo": "TheJollyLaMa/DecentHead",
-      "purpose": "Canopy documents a DecentHead header. Whether the standalone repository is interchangeable with current embedded versions needs inspection.",
-      "reviewNote": "Public committed source inspected 2026-10-20 at 8c4ea12d. Not executed, deployment-verified, or integration-tested in this review.",
+      "purpose": "Canonical configurable Header and shared wallet/IPFS session foundation, developed partly from Canopy's working header. Reuse does not require replacing Canopy's forest design.",
+      "reviewNote": "Reconciled 2026-10-22 against released v2.0.0, completed mint evidence, acknowledged Discord delivery and Market's deployed pinned consumer. This static record is not a fresh chain/stock check.",
       "reviewCaveats": [
-        "gh repo view confirmed PUBLIC; gh api confirmed the recorded local HEAD commit is remotely known.",
-        "Current issue listing returned no open issues.",
-        "No independent build/runtime validation was performed.",
-        "Reviewer suggestion, not an expressed need: verify account/chain change handling and wallet lifecycle before reusing the direct injected-provider component."
+        "Market is the first verified external pinned consumer. The second-consumer milestone remains open; Canopy, Busking and BigNuten are not claimed migrated.",
+        "App-specific serialization, backup/restore, confidentiality, public-pin consent and reward eligibility remain host responsibilities.",
+        "Supporter token 70 / listing 0 was verified on Base at release closeout: 1,000 editions at 10 USDC with a 10% creator royalty signal. No buyer purchase or guaranteed royalty enforcement is claimed; recheck current price and stock before buying."
       ],
-      "currentState": "Static-site Web Component header offering a wallet-connect UI, configurable branding, and an IPFS-related component set.",
+      "currentState": "Head v2.0.0 is released with configurable branding, shared wallet/IPFS sessions and capability-driven host adapters. Its Supporter DNFT is minted/listed and Discord delivery plus duplicate suppression are proven. Market consumes the pinned release; other app migrations remain separate work.",
+      "nextAction": "Inspect a consumer's actual compatibility needs before adopting shared code. Preserve Canopy's working forest header; do not perform a cosmetic replacement merely to satisfy a reuse count.",
+      "evidence": [
+        {
+          "label": "Head v2.0.0 immutable release",
+          "url": "https://github.com/TheJollyLaMa/DecentHead/releases/tag/v2.0.0"
+        },
+        {
+          "label": "Head token 70 / listing 0 transaction evidence",
+          "url": "https://github.com/TheJollyLaMa/DecentHead/releases/download/v2.0.0/supporter-evidence.json"
+        },
+        {
+          "label": "Acknowledged Head Discord announcement",
+          "url": "https://github.com/TheJollyLaMa/DecentHead/releases/download/v2.0.0/supporter-discord-sent.json"
+        }
+      ],
       "offers": [
         {
           "id": "decent-head-web-component",
           "label": "Drop-in static-site header",
           "state": "code-observed",
-          "detail": "The README describes a no-build-step <decent-header>; the implementation uses Web Components and Shadow DOM and composes separate wallet and IPFS status elements. README labels v1.0.0 stable.",
+          "detail": "Released v2.0.0 provides a no-build-step <decent-header>, configurable branding, wallet/IPFS controls and shared sessions. Market's pinned integration is verified; compatibility with other embedded headers still requires per-app tests.",
           "evidence": [
             {
-              "label": "README quick start and v1.0.0 scope",
-              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/8c4ea12d96ed8c442b9f9100e95da9a681ef30a9/README.md"
+              "label": "Released v2.0.0 quick start and host boundary",
+              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/v2.0.0/README.md"
             },
             {
               "label": "Header custom element",
-              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/8c4ea12d96ed8c442b9f9100e95da9a681ef30a9/js/components/Header.js"
+              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/v2.0.0/js/components/Header.js"
             },
             {
               "label": "Wallet connect element",
-              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/8c4ea12d96ed8c442b9f9100e95da9a681ef30a9/js/components/Header/WalletConnect.js"
+              "url": "https://github.com/TheJollyLaMa/DecentHead/blob/v2.0.0/js/components/Header/WalletConnect.js"
+            },
+            {
+              "label": "Verified Market pinned-consumer adoption",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/54"
+            }
+          ]
+        },
+        {
+          "id": "supporter-release-announcer",
+          "label": "Evidence-gated Supporter release announcements",
+          "state": "code-observed",
+          "detail": "Shared notifier is running in Head and Market with acknowledged real posts and duplicate-free reruns. Every release requires a prepared manifest and registered mint/listing evidence; each adopting repository needs explicit setup, its own private webhook and enable flag. This is not an all-repository chain watcher.",
+          "evidence": [
+            {
+              "label": "Shared notifier and raw-evidence compatibility",
+              "url": "https://github.com/TheJollyLaMa/DecentHead/pull/26"
+            },
+            {
+              "label": "Market pinned notifier adoption and delivery",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/60"
             }
           ]
         }
@@ -1066,24 +1100,77 @@
     {
       "id": "canvas",
       "name": "DecentCanvas",
-      "repositoryNote": "Public repository identity unresolved."
+      "repositoryNote": "Public repository identity unresolved.",
+      "currentState": "Star-shaped two-sided DNFTs, wide spiral flight and camera controls shipped inside Market v0.3.1. This is integration evidence, not a standalone DecentCanvas release or Supporter mint.",
+      "nextAction": "Define and test the standalone host API and source boundary before preparing its own version, artwork and Supporter mint.",
+      "evidence": [
+        {
+          "label": "Market integrated scene release",
+          "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/tag/v0.3.1"
+        }
+      ]
     },
     {
       "id": "footer",
       "name": "DecentFooter",
-      "repositoryNote": "Public repository identity unresolved; no equivalence with similarly named local checkouts is assumed."
+      "repositoryNote": "Public repository identity unresolved; no equivalence with similarly named local checkouts is assumed.",
+      "currentState": "Compact flight controls, preserved footer footprint and the current community link shipped inside Market v0.3.1. Standalone Footer extraction, release and Supporter mint remain pending.",
+      "nextAction": "Separate the host controls and verify an independent demo before preparing a standalone release and Supporter mint.",
+      "evidence": [
+        {
+          "label": "Market integrated footer release",
+          "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/tag/v0.3.1"
+        }
+      ]
     },
     {
       "id": "market",
       "name": "DecentMarket",
       "repo": "TheJollyLaMa/DecentMarket",
-      "reviewNote": "Public committed source inspected 2026-10-20 at 2942cf84. Not executed, deployment-verified, or integration-tested in this review.",
+      "reviewNote": "Reconciled 2026-10-22 against deployed v0.3.1, verified token 71 / listing 1 receipts, official release evidence and acknowledged Discord delivery. Release closeout included 64 focused tests and three wallet-safe browser rehearsals; this static map does not monitor current stock.",
       "reviewCaveats": [
-        "README says sale listings and subscription plans still need configuration; deployed addresses and code do not prove a configured/live sale flow.",
-        "Automated Hardhat tests exist for NFT, escrow, and related contracts, but were not run. Reviewer suggestion: run the targeted suites and validate the actual deployment configuration before relying on sales."
+        "Head token 70 / listing 0 and Market token 71 / listing 1 were verified active and stocked at 10 USDC at closeout. Current price, stock and availability must be rechecked by the purchase flow; no buyer purchase is claimed.",
+        "Market v0.3.1 is the valid frozen release. Never mint the superseded v0.3.0 preparation, whose back artwork failed visual validation.",
+        "Creator permissions and payout work in issue #47 remains open. Working owner-authorized Studio minting does not implement permissionless creator authorization or enforced multi-artist royalties.",
+        "ENS deployable-site pin/record signatures, universal creator-facing artwork generation and standalone Footer/Canvas releases remain pending. A source archive CID is not a deployable website root."
       ],
-      "currentState": "Public Solidity/Hardhat and browser JavaScript marketplace project with ERC-1155 product NFTs and escrow purchases. Implementations and test files exist. README says Base is the current default but NFT metadata, listings, and subscription plans still need configuration; open issue #47 describes creator permissions and payout features that are not yet supplied by the current v0.3 batch-mint implementation. Tests exist but were not run.",
+      "currentState": "Market v0.3.1 is deployed on Base with pinned Head v2.0.0, sale-first verified discovery, two-sided star DNFTs, purchase cards and Regular/Supporter/Music lanes. Its Supporter token 71 / listing 1 was minted with 1,000 editions at 10 USDC, and its real Discord announcement and duplicate suppression are verified. This is not a new contract deployment or proof that every repository is integrated.",
+      "nextAction": "Reuse the proven release/mint/purchase/notifier pattern in the Canopy-first wave while preserving each product's working UI. Keep ENS, creator authorization and standalone module follow-ups separate; never remint Head 70 or Market 71.",
+      "evidence": [
+        {
+          "label": "Market v0.3.1 frozen release",
+          "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/tag/v0.3.1"
+        },
+        {
+          "label": "Market token 71 / listing 1 transaction evidence",
+          "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/download/v0.3.1/supporter-evidence.json"
+        },
+        {
+          "label": "Acknowledged Market Discord announcement",
+          "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/download/v0.3.1/supporter-discord-sent.json"
+        },
+        {
+          "label": "Live Base storefront",
+          "url": "https://thejollylama.github.io/DecentMarket/"
+        }
+      ],
       "offers": [
+        {
+          "id": "supporter-release-studio",
+          "label": "Versioned Supporter release, mint and purchase workflow",
+          "state": "code-observed",
+          "detail": "Working four-step owner-authorized Studio, frozen source/art/metadata, screenshot-front and Head-style provenance back, stock/price checks and exact-listing purchase route are proven for v0.3.1. The artwork template is release tooling, not yet an automatic creator-facing generator; adopting products need their own release approval, wallet signatures and evidence.",
+          "evidence": [
+            {
+              "label": "Market v0.3.1 release",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/tag/v0.3.1"
+            },
+            {
+              "label": "Studio preset and exact-listing purchase route",
+              "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/59"
+            }
+          ]
+        },
         {
           "id": "decentmarket-product-nft-mint",
           "label": "Product NFT registration and batch minting",
@@ -1104,7 +1191,7 @@
           "id": "decentmarket-escrow-sales",
           "label": "ERC-1155 escrow sales",
           "state": "code-observed",
-          "detail": "The escrow contract has ETH and ERC-20 purchase paths for listed ERC-1155 editions, plus subscription-plan primitives. Likely consumers are product/NFT issuers and buyers; actual sale readiness depends on listing and metadata configuration.",
+          "detail": "The escrow contract has ETH and ERC-20 purchase paths plus subscription-plan primitives. Head listing 0 and Market listing 1 have verified Base USDC inventory and working public purchase routes. This does not establish subscription-plan configuration, another issuer's readiness or a completed buyer transaction.",
           "evidence": [
             {
               "label": "DecentEscrow purchase and subscription implementation",

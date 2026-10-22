@@ -16,10 +16,24 @@ The community `PINATA_JWT` belongs in GitHub Actions secrets. It is never commit
 
 ## Pin your own copy
 
-1. Open **IPFS -> Pin it yourself** and copy the current backup CID.
-2. On IPFS Desktop/Kubo, use the displayed `ipfs pin add <CID>` command; or use your own Pinata JWT in the pinning dialog to pin by CID.
-3. The optional personal JWT goes only to Pinata, is not saved, and is cleared when the dialog closes. Do not publish it in a profile, issue or screenshot.
-4. Keep your node/account available and pin updated backup CIDs. Signed creator exports can be independently pinned too.
+1. Open **IPFS -> Storage providers · verify / recover** (or **Pin it yourself**). The existing forest header and reward-signup flow are preserved.
+2. Choose **Pinata** or **IPFS Desktop / local Kubo**, then **Use provider**. Choosing a provider uploads nothing. Pinata retrieval needs no wallet or credentials; pinning needs your own JWT with `pinByHash` permission. No shared repository secret is exposed.
+3. Choose **Verify published backup** to retrieve the latest published manifest and compare the returned byte length and SHA-256, then check the backup format/version and complete public file list. The limit is 20 MiB. Failures, wrong bytes and unavailable providers are errors, not successful pins.
+4. To retain a public copy, check the explicit consent box and choose **Verify & pin public backup**. Verification happens before the pin request and again afterwards. Pin acceptance plus matching retrieval is not proof of durable retention, independent storage, reward qualification or payment.
+5. The personal JWT is held only in the shared storage session for this tab, sent directly to Pinata and cleared when the dialog closes or the provider is reapplied. It is never saved in browser storage, a profile, issue or repository. A pin request already submitted may finish after closing; check your provider before retrying.
+6. Manual fallback: copy the CID or `ipfs pin add <CID>` command and use Desktop/Kubo yourself. Keep your node/account available and pin updated backup CIDs. Signed creator exports can be independently pinned too.
+
+### Local Kubo setup
+
+The browser talks only to `http://127.0.0.1:5001`; it never sends Pinata credentials there. Start Kubo/IPFS Desktop with its API bound to loopback. Allow the exact Canopy origin in `API.HTTPHeaders.Access-Control-Allow-Origin` and POST in `API.HTTPHeaders.Access-Control-Allow-Methods`, then restart the daemon. For example, an origin is `https://thejollylama.github.io` (no repository path). Preserve other deliberate origin entries; do not use `*` or expose the API publicly. Browser local-network permissions or HTTPS mixed-content rules may prevent direct access: the manual pin command remains available and errors are displayed.
+
+### Public backup recovery
+
+**Verify & download recovery JSON** retrieves and verifies the exact published backup and downloads those original bytes. It does not overwrite the live creator index, re-sign profiles, publish records, replace the frozen Artizen archive, or restore anything to browser storage. Recovery is a portable dataset for offline inspection or steward-controlled repository recovery. Individual signed creator imports retain their separate signature-verification flow.
+
+Only the existing allowlisted public datasets are included. Unpublished creator drafts, wallet secrets and local preferences are excluded. The shared file list is used by both the backup publisher and browser validator. The browser's hash comparison trusts the repository's published manifest, not an independent signature or a live-chain audit.
+
+The storage session and host capability interface are pinned, unmodified DecentHead v2.0.0 modules (`072a5206489d0e4a3f2576c56f8debb729d933c9`). Canopy supplies its own public-backup validation and UI; this does not replace its Header renderer or claim the full Header consumer migration milestone.
 
 ## Request pinner rewards
 
