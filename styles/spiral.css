@@ -419,6 +419,18 @@ body {
   position: static;
 }
 
+.repository-activity-controls {
+  margin-top: 0.8rem;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--border);
+  font-size: 0.76rem;
+  line-height: 1.45;
+}
+
+.repository-activity-controls[hidden] { display: none; }
+.repository-activity-controls label { display: block; margin: 0.5rem 0; }
+.repository-activity-controls p { overflow-wrap: anywhere; }
+
 .prototype-vision-note p {
   margin: 0;
   font-size: 0.76rem;

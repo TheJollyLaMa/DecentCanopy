@@ -13,3 +13,6 @@
   .supporter-coin { transition: none; }
   .supporter-token > summary:hover .supporter-coin { transform: none; }
 }
+.supporter-release-art { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.supporter-release-art figure { flex: 1 1 100px; min-width: 0; margin: 0; }
+.supporter-release-art img { display: block; width: 100%; height: auto; border-radius: 0.5rem; }

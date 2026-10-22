@@ -151,7 +151,7 @@ test('public capability inventory keeps private/local review payloads outside pu
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
   assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 41);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 29);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 30);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 11);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {

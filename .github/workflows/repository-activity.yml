@@ -1,0 +1,48 @@
+name: Refresh Public Repository Activity
+on:
+  schedule:
+    - cron: '7,22,37,52 * * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - data/agency-map.json
+      - data/decent-creators.json
+      - data/project-details.json
+      - scripts/build-repository-activity.mjs
+      - scripts/repository-activity.js
+      - .github/workflows/repository-activity.yml
+  workflow_run:
+    workflows: [Publish Decent Creator]
+    types: [completed]
+permissions:
+  contents: write
+concurrency:
+  group: canopy-public-repository-activity
+  cancel-in-progress: false
+jobs:
+  refresh:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: node scripts/build-repository-activity.mjs
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - run: node --test test/repository-activity.test.js
+      - name: Commit public snapshot
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email 'github-actions[bot]@users.noreply.github.com'
+          git add data/repository-activity.json
+          if [ -d assets/supporter-releases ]; then git add assets/supporter-releases; fi
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m 'data: refresh public repository activity' -m 'Co-authored-by: Copilot <223556219+Copilot@users.noreply.github.com>'
+          git pull --rebase origin main
+          git push origin HEAD:main

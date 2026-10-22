@@ -33,6 +33,12 @@ The browser talks only to `http://127.0.0.1:5001`; it never sends Pinata credent
 
 Only the existing allowlisted public datasets are included. Unpublished creator drafts, wallet secrets and local preferences are excluded. The shared file list is used by both the backup publisher and browser validator. The browser's hash comparison trusts the repository's published manifest, not an independent signature or a live-chain audit.
 
+New backups also include the public repository-activity snapshot. Earlier backups without
+that newly added file remain recoverable; all original required datasets are still required.
+The whole-site snapshot includes cached official Supporter artwork previews. Activity can
+be regenerated from public sources and is not a credential or an independently verified
+capability claim. See [build activity and freshness](Creators-and-Archive.md#public-build-activity-and-release-freshness).
+
 The storage session and host capability interface are pinned, unmodified DecentHead v2.0.0 modules (`072a5206489d0e4a3f2576c56f8debb729d933c9`). Canopy supplies its own public-backup validation and UI; this does not replace its Header renderer or claim the full Header consumer migration milestone.
 
 ## Request pinner rewards

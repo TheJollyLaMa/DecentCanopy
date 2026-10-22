@@ -566,6 +566,15 @@
               reflect real funding cadence instead of placeholder fixtures.
             </p>
           </aside>
+          <section id="repository-activity-controls" class="repository-activity-controls" hidden aria-label="Public repository activity">
+            <h3>Build activity · last 7 days</h3>
+            <p id="repository-activity-status" role="status">Loading public GitHub activity…</p>
+            <label><input id="repository-activity-heat" type="checkbox" checked /> Repository heat overlay</label>
+            <label><input id="repository-activity-motion" type="checkbox" /> Animate endpoint activity</label>
+            <p>Gray: unknown/stale · slate: 0 · blue: 1–4 · amber: 5–19 · rose: 20+ sampled commits. Rings add heat; existing line colors/dashes still describe relationship evidence.</p>
+            <p>Paired connection accents mean both endpoints have activity, not that they worked together. No ownership, integration, payment or project worth is inferred.</p>
+            <button id="repository-activity-refresh" class="toolbar-btn" type="button">Check latest snapshot</button>
+          </section>
         </div>
       </div>
 
@@ -811,6 +820,8 @@
     <script src="scripts/creator-images.js"></script>
     <script src="scripts/project-details.js"></script>
     <script src="scripts/supporter-dnft-model.js"></script>
+    <script src="scripts/repository-activity.js"></script>
+    <script src="scripts/repository-activity-ui.js"></script>
     <script src="scripts/supporter-dnfts.js"></script>
     <script src="scripts/artizen-financials.js"></script>
     <script src="scripts/project-ens.js"></script>

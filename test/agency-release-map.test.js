@@ -47,6 +47,11 @@ test('Head and Market cards render the completed proof and explicit open boundar
   assert.ok(project('market').offers.some(item => item.id === 'supporter-release-studio'));
   assert.ok(project('head').offers.some(item => item.id === 'supporter-release-announcer'));
   assert.ok(project('market').needs.some(item => item.id === 'decentmarket-creator-minting'));
+  assert.ok(project('head').needs.some(item => item.id === 'multilingual-host-adapter'));
+  assert.match(project('decent-canopy').currentState, /PR #26.*PR #27/);
+  assert.match(project('decent-canopy').nextAction, /mint is deferred/);
+  assert.match(project('artfi').currentState, /No migration/);
+  for (const id of ['head', 'market']) assert.ok(project(id).evidence.some(item => item.url.includes('/supporter/buy.html?')));
 });
 
 test('integrated Footer and Canvas work is not presented as independent releases or public repository identities', () => {
