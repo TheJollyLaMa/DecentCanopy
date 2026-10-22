@@ -917,12 +917,13 @@
       && now - activityReplay.startedAt < activityReplay.duration + 1800;
     const heating = window.CanopyRepositoryActivityUI?.animate() &&
       nodes.some(node => !['unknown', 'quiet'].includes(window.CanopyRepositoryActivityUI.nodeHeat(node)));
+    const communityPulsing = window.CanopyRepositoryActivityUI?.pulses().length > 0;
     if (activityReplay && !replaying) activityReplay = null;
-    if (needRender || animating || replaying || heating) {
+    if (needRender || animating || replaying || heating || communityPulsing) {
       render();
       needRender = false;
     }
-    if (animating || needRender || replaying || heating) {
+    if (animating || needRender || replaying || heating || communityPulsing) {
       rafId = requestAnimationFrame(onAnimFrame);
     }
   }
@@ -949,6 +950,7 @@
     drawBranchEdges(lod, focusContext, world);
     if (showAssoc && (isAgencyMode || lod !== 'far')) drawAssociationEdges(focusContext, world);
     drawRepositoryHeat(focusContext, world);
+    drawCommunityPulses(focusContext, world);
     drawNodes(lod, focusContext, world);
     drawActivityReplay();
 
@@ -992,6 +994,35 @@
         ctx.fillStyle = model.LEVELS[state].color;
         ctx.fill();
       });
+    });
+    ctx.restore();
+  }
+
+  function drawCommunityPulses(focusContext, world) {
+    const ui = window.CanopyRepositoryActivityUI;
+    if (!showAssoc || (isArtizenMode && !isAgencyMode && !selectedNode && zoom < 0.55)) return;
+    if (!isAgencyMode && currentLod() === 'far') return;
+    const pulses = ui?.pulses() || [];
+    const visible = relationEdges.filter(({ source, target }) => edgeVisible(source, target, world) &&
+      (!focusMode || !focusContext || focusContext.has(source.id) || focusContext.has(target.id)));
+    const model = window.CanopyRepositoryActivity;
+    const routes = model.referenceRoutes(pulses.map(pulse => pulse.event), visible);
+    ctx.save();
+    routes.forEach(({ event, edge, reverse }) => {
+      const pulse = pulses.find(item => item.event.id === event.id);
+      if (pulse.progress < 0 || pulse.progress > 1) return;
+      const t = reverse ? 1 - pulse.progress : pulse.progress;
+      const point = model.curvePoint(edge.source, edge.target, edge.priority, t);
+      const color = pulse.replay ? '#c4b5fd' : '#fef08a';
+      const radius = (3 + Math.sin(Math.PI * pulse.progress) * 1.5) / zoom;
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius * 3, 0, Math.PI * 2);
+      ctx.fillStyle = hexAlpha(color, 0.15);
+      ctx.fill();
+      ctx.beginPath();
+      ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = color;
+      ctx.fill();
     });
     ctx.restore();
   }
@@ -1147,15 +1178,11 @@
       const isCurated = Boolean(sourceLabel && /curated|participant-reported|participant-declared|self-declared/i.test(sourceLabel));
       const color = isCurated ? '#fbbf24' : sameTrack ? (TRACK_COLORS[source.track] || '#94a3b8') : '#94a3b8';
       const alpha = touchesSelection ? 0.5 : focusMode ? 0.07 : 0.13;
-      const bend = 0.08 + priority * 0.03;
-      const mx = (source.x + target.x) / 2;
-      const my = (source.y + target.y) / 2;
-      const dx = target.x - source.x;
-      const dy = target.y - source.y;
+      const control = window.CanopyRepositoryActivity.curve(source, target, priority);
 
       ctx.beginPath();
       ctx.moveTo(source.x, source.y);
-      ctx.quadraticCurveTo(mx - dy * bend, my + dx * bend, target.x, target.y);
+      ctx.quadraticCurveTo(control.x, control.y, target.x, target.y);
       if (isAgencyMode) {
         const style = window.GTPAgencyDataAdapter.STATES[relationshipState];
         ctx.strokeStyle = hexAlpha(style.color, touchesSelection ? 0.95 : type === 'under-umbrella' ? 0.16 : 0.5);

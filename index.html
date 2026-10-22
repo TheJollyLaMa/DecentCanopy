@@ -570,10 +570,18 @@
             <h3>Build activity · last 7 days</h3>
             <p id="repository-activity-status" role="status">Loading public GitHub activity…</p>
             <label><input id="repository-activity-heat" type="checkbox" checked /> Repository heat overlay</label>
-            <label><input id="repository-activity-motion" type="checkbox" /> Animate endpoint activity</label>
+            <label><input id="repository-activity-motion" type="checkbox" /> Animate heat and community references</label>
             <p>Gray: unknown/stale · slate: 0 · blue: 1–4 · amber: 5–19 · rose: 20+ sampled commits. Rings add heat; existing line colors/dashes still describe relationship evidence.</p>
             <p>Paired connection accents mean both endpoints have activity, not that they worked together. No ownership, integration, payment or project worth is inferred.</p>
             <button id="repository-activity-refresh" class="toolbar-btn" type="button">Check latest snapshot</button>
+            <h4>Community connection lights</h4>
+            <p>Yellow lights show newly observed references; lavender lights replay history. They follow existing lines from a public commit, release, issue or PR that explicitly names another linked repository. A reference is not proof of collaboration or integration. Initial history does not play as new activity.</p>
+            <p id="repository-reference-status" role="status">Loading cross-project references…</p>
+            <button id="repository-reference-replay" class="toolbar-btn" type="button">Replay sampled references (history)</button>
+            <details>
+              <summary>Cross-project evidence · latest 20 references</summary>
+              <ul id="repository-reference-list"></ul>
+            </details>
           </section>
         </div>
       </div>

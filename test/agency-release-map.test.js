@@ -63,3 +63,15 @@ test('integrated Footer and Canvas work is not presented as independent releases
     assert.ok(project(id).evidence.some(item => item.url.endsWith('/v0.3.1')));
   }
 });
+
+test('Busking team progress is visible without enabling financial gates or duplicating their next widget work', () => {
+  const busking = project('decent-busking');
+  assert.match(busking.currentState, /calendar announcements.*live booking.*named DJuke playlists/);
+  assert.match(busking.currentState, /earmarked, NOT escrowed/);
+  assert.match(busking.currentState, /checkout stays gated/);
+  assert.match(busking.nextAction, /pinned reusable DBusk radio widget/);
+  assert.match(busking.nextAction, /read-only fund\/ledger adapter/);
+  for (const number of [248, 250, 252]) assert.ok(busking.evidence.some(item => item.url.endsWith(`/pull/${number}`)));
+  assert.ok(busking.evidence.some(item => item.url.endsWith('/issues/247')));
+  assert.match(busking.needs.find(item => item.id === 'event-promotion').detail, /merged.*operational acceptance/);
+});

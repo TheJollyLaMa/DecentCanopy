@@ -14,6 +14,25 @@
   const date = value => typeof value === 'string' && Number.isFinite(Date.parse(value));
   const repoLink = (url, repo, suffix) => Repos.httpsUrl(url) &&
     url.toLowerCase().startsWith(`https://github.com/${repo}/${suffix}`);
+  const referenceId = event => JSON.stringify([event.source, event.target, event.kind, event.url, event.date]);
+  function validateReferences(row) {
+    if (row.crossReferences === undefined) return;
+    if (!Array.isArray(row.crossReferences) || row.crossReferences.length > 100 ||
+        !['ok', 'partial', 'unavailable'].includes(row.crossReferenceStatus) ||
+        typeof row.referencesCapped !== 'boolean') throw new Error('Invalid cross-project reference coverage.');
+    const seen = new Set();
+    for (const event of row.crossReferences) {
+      const suffix = { commit: 'commit/', release: 'releases/tag/', issue: 'issues/', 'pull-request': 'pull/' }[event.kind];
+      if (!suffix || event.source !== row.repo || !event.target ||
+          Repos.normalizeRepo(event.target) !== event.target || event.target === event.source ||
+          !repoLink(event.url, row.repo, suffix) || !date(event.date) ||
+          Date.parse(event.date) < Date.parse(row.windowStart) ||
+          Date.parse(event.date) > Date.parse(row.checkedAt) + 60000 ||
+          typeof event.label !== 'string' || event.label.length > 160 || !event.label.trim() ||
+          event.id !== referenceId(event) || seen.has(event.id)) throw new Error('Invalid cross-project reference evidence.');
+      seen.add(event.id);
+    }
+  }
   function validate(data) {
     if (data?.version !== 1 || !date(data.generatedAt) || !Array.isArray(data.repositories)) {
       throw new Error('Invalid public repository activity snapshot.');
@@ -38,6 +57,7 @@
       }
       if (row.release && (!date(row.release.publishedAt) || typeof row.release.tag !== 'string' ||
           !repoLink(row.release.url, row.repo, 'releases/tag/'))) throw new Error('Invalid release evidence.');
+      validateReferences(row);
       if (row.release?.supporter) {
         const s = row.release.supporter;
         const chain = Repos.CHAINS[s.chainId];
@@ -81,6 +101,50 @@
     const a = nodeHeat(data, source, now), b = nodeHeat(data, target, now);
     return { source: a, target: b, activeTogether: !['unknown', 'quiet'].includes(a) && !['unknown', 'quiet'].includes(b) };
   }
+  function references(data, now = Date.now()) {
+    return (data?.repositories || []).filter(row => row.status !== 'unavailable' &&
+      row.crossReferenceStatus !== 'unavailable' && date(row.checkedAt) &&
+      now - Date.parse(row.checkedAt) <= STALE_MS && Date.parse(row.checkedAt) <= now + 60000)
+      .flatMap(row => row.crossReferences || [])
+      .filter(event => Date.parse(event.date) >= now - WINDOW_MS && Date.parse(event.date) <= now)
+      .sort((a, b) => Date.parse(b.date) - Date.parse(a.date) || a.id.localeCompare(b.id));
+  }
+  function referenceRoutes(events, edges) {
+    return events.flatMap(event => {
+      const candidates = edges.flatMap(edge => {
+        const sourceRepos = repositoriesForNode(edge.source), targetRepos = repositoriesForNode(edge.target);
+        const forward = sourceRepos.includes(event.source) && targetRepos.includes(event.target);
+        const reverse = targetRepos.includes(event.source) && sourceRepos.includes(event.target);
+        if (!forward && !reverse) return [];
+        const score = Number(edge.source.kind === 'repository') + Number(edge.target.kind === 'repository');
+        return [{ event, edge, reverse: !forward, score }];
+      }).sort((a, b) => a.score - b.score ||
+        `${a.edge.source.id}:${a.edge.target.id}:${a.edge.type}`.localeCompare(`${b.edge.source.id}:${b.edge.target.id}:${b.edge.type}`));
+      return candidates.length ? [candidates[0]] : [];
+    });
+  }
+  function curve(source, target, priority) {
+    const bend = 0.08 + priority * 0.03;
+    return { x: (source.x + target.x) / 2 - (target.y - source.y) * bend,
+      y: (source.y + target.y) / 2 + (target.x - source.x) * bend };
+  }
+  function curvePoint(source, target, priority, t) {
+    const control = curve(source, target, priority);
+    return { x: (1 - t) ** 2 * source.x + 2 * (1 - t) * t * control.x + t ** 2 * target.x,
+      y: (1 - t) ** 2 * source.y + 2 * (1 - t) * t * control.y + t ** 2 * target.y };
+  }
+  function referenceTracker() {
+    let initialized = false;
+    const seen = new Set();
+    return {
+      observe(events) {
+        const fresh = initialized ? events.filter(event => !seen.has(event.id)) : [];
+        events.forEach(event => seen.add(event.id));
+        initialized = true;
+        return fresh;
+      }
+    };
+  }
   function releaseMirror(data, token) {
     const uri = value => value?.replace(/^https:\/\/(?:ipfs\.io|gateway\.pinata\.cloud)\/ipfs\//, 'ipfs://');
     for (const row of data?.repositories || []) {
@@ -91,7 +155,8 @@
     }
     return null;
   }
-  const api = { WINDOW_MS, STALE_MS, LEVELS, validate, heat, repositoriesForNode, forNode, nodeHeat, edgeHeat, releaseMirror };
+  const api = { WINDOW_MS, STALE_MS, LEVELS, validate, heat, repositoriesForNode, forNode, nodeHeat, edgeHeat,
+    referenceId, references, referenceRoutes, curve, curvePoint, referenceTracker, releaseMirror };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.CanopyRepositoryActivity = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));

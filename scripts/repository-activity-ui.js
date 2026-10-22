@@ -2,6 +2,14 @@
   'use strict';
   const Model = root.CanopyRepositoryActivity;
   let data = null, failure = '', pending = null, listener = () => {};
+  const tracker = Model.referenceTracker();
+  let pulseQueue = [], referenceNotice = 'Initial snapshot is a baseline, not new live events.';
+  const queue = (events, replay) => {
+    const startedAt = performance.now();
+    pulseQueue = animate() ? events.slice(0, 24).map((event, index) => ({
+      event, startedAt: startedAt + index * 150, replay
+    })) : [];
+  };
   const element = (tag, text) => {
     const node = document.createElement(tag);
     if (text !== undefined) node.textContent = text;
@@ -21,10 +29,17 @@
         if (!response.ok) throw new Error(`Snapshot HTTP ${response.status}`);
         return response.json();
       }).then(Model.validate).then(value => {
+        const fresh = tracker.observe(Model.references(value));
         data = value;
         failure = '';
+        if (fresh.length) {
+          queue(fresh, false);
+          referenceNotice = `${fresh.length} newly observed cross-project reference updates${fresh.length > 24 ? '; first 24 queued' : ''}. Observation time is not event time.`;
+        }
+        updateReferences();
         return value;
       }).catch(error => {
+        pulseQueue = [];
         failure = `Repository activity unavailable: ${error.message}. Previous observations, if shown, are not live.`;
         console.warn('[canopy-activity]', failure);
         throw error;
@@ -63,9 +78,39 @@
       if (row.release) section.append(element('p'), link(row.release.url, `Latest published release ${row.release.tag} · ${row.release.publishedAt}`));
       else section.append(element('p', row.status === 'ok' ? 'No published release returned by GitHub.' : 'Latest release not confirmed.'));
       if (row.error) section.append(element('p', row.error));
+      if (row.crossReferenceStatus) section.append(element('p',
+        `Cross-project reference coverage: ${row.crossReferenceStatus}${row.referencesCapped ? ' · bounded sample capped' : ''}. Issue comments, source diffs and private work are not scanned.`));
+    }
+    const events = Model.references(data).filter(event => repos.includes(event.source) || repos.includes(event.target));
+    if (events.length) {
+      section.append(element('h4', 'Explicit cross-project references'));
+      const list = element('ul');
+      events.slice(0, 10).forEach(event => list.append(referenceItem(event)));
+      section.append(list);
     }
     section.append(element('p', 'Heat uses commit timestamps, not live events, effort, quality or project worth. Connection accents show endpoint activity only—not collaboration, integration, payments or ownership. Capabilities remain separately reviewed.'));
     container.append(section);
+  }
+  function referenceItem(event) {
+    const item = element('li');
+    item.append(link(event.url, `${event.label}: ${event.source} → ${event.target}`),
+      element('small', ` ${event.kind} · ${event.date}. Explicit reference, not verified integration.`));
+    return item;
+  }
+  function updateReferences() {
+    const status = document.getElementById?.('repository-reference-status');
+    const list = document.getElementById?.('repository-reference-list');
+    if (!status || !list) return;
+    if (failure || !data?.repositories.some(row => row.crossReferenceStatus)) {
+      status.textContent = failure || 'Cross-project references have not been collected in this snapshot. This is not zero community activity.';
+      list.replaceChildren();
+      return;
+    }
+    const events = failure ? [] : Model.references(data);
+    const incomplete = data.repositories.filter(row => row.status === 'unavailable' ||
+      row.crossReferenceStatus !== 'ok' || Model.heat(row) === 'unknown' || row.referencesCapped).length;
+    status.textContent = `${events.length} fresh sampled cross-project references in the last 7 days; ${incomplete} repositories have capped, partial, missing or stale coverage. ${referenceNotice} Only existing visible connections can pulse; unmatched references stay in this list. First 20 shown. Absence is not proof of no community activity.`;
+    list.replaceChildren(...events.slice(0, 20).map(referenceItem));
   }
   function start(onUpdate) {
     listener = onUpdate;
@@ -74,12 +119,15 @@
     const refresh = document.getElementById('repository-activity-refresh');
     const heat = document.getElementById('repository-activity-heat');
     const motion = document.getElementById('repository-activity-motion');
+    const replay = document.getElementById('repository-reference-replay');
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
     controls.hidden = false;
     document.querySelector('.data-notes-tab-label').textContent = 'Data / build activity';
     motion.checked = !reduced.matches;
     reduced.addEventListener('change', () => {
       if (reduced.matches) motion.checked = false;
+      pulseQueue = [];
+      replay.disabled = !animate();
       listener();
     });
     const update = async () => {
@@ -87,13 +135,30 @@
       try { await load(); } catch { /* load records the explicit visible error. */ }
       refresh.disabled = false;
       status.textContent = summary();
+      updateReferences();
       listener();
     };
     refresh.addEventListener('click', update);
-    heat.addEventListener('change', listener);
-    motion.addEventListener('change', listener);
+    const changeMotion = () => {
+      pulseQueue = [];
+      replay.disabled = !animate();
+      listener();
+    };
+    heat.addEventListener('change', changeMotion);
+    motion.addEventListener('change', changeMotion);
+    replay.disabled = !animate();
+    replay.addEventListener('click', () => {
+      const events = failure ? [] : Model.references(data);
+      queue(events, true);
+      referenceNotice = `Historical replay requested: ${Math.min(24, events.length)} sampled references, not live events.`;
+      updateReferences();
+      listener();
+    });
     window.setInterval(() => { if (!document.hidden) update(); }, 60000);
-    document.addEventListener('visibilitychange', () => { if (!document.hidden) update(); });
+    document.addEventListener('visibilitychange', () => {
+      pulseQueue = [];
+      if (!document.hidden) update();
+    });
     update();
   }
   function nodeHeat(node) {
@@ -107,6 +172,13 @@
     return enabled() && !document.hidden && document.getElementById('repository-activity-motion')?.checked &&
       !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   }
-  const api = { start, load, mount, nodeHeat, edgeHeat, enabled, animate, getData: () => data };
+  function pulses() {
+    if (!animate() || failure) return [];
+    const now = performance.now();
+    const eligible = new Set(Model.references(data).map(event => event.id));
+    pulseQueue = pulseQueue.filter(pulse => now - pulse.startedAt < 3000 && eligible.has(pulse.event.id));
+    return pulseQueue.map(pulse => ({ ...pulse, progress: (now - pulse.startedAt) / 3000 }));
+  }
+  const api = { start, load, mount, nodeHeat, edgeHeat, enabled, animate, pulses, getData: () => data };
   root.CanopyRepositoryActivityUI = api;
 }(typeof window !== 'undefined' ? window : globalThis));
