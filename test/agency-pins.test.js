@@ -42,3 +42,34 @@ test('manifest keeps earlier pins and updates repeated CIDs in place', () => {
   assert.equal(second.pins.find(p => p.cid === CID).status, 'pinned');
   assert.deepEqual(second.pins.map(p => p.label), ['DecentHead site', 'DecentMarket site']);
 });
+
+test('repository sites upload tracked non-dot files as one named folder and record their source commit', async () => {
+  const fs = require('node:fs');
+  const os = require('node:os');
+  const path = require('node:path');
+  const { execFileSync } = require('node:child_process');
+  const { pinRepoFolder, listRepoFiles, REPO } = require('../scripts/pinAgencyCids');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'agency-pin-'));
+  const git = (...args) => execFileSync('git', ['-C', dir, ...args]);
+  git('init', '-q');
+  fs.mkdirSync(path.join(dir, 'img/ens'), { recursive: true });
+  fs.mkdirSync(path.join(dir, '.github'));
+  for (const rel of ['index.html', 'img/ens/head-header.png', '.github/ci.yml', '.gitignore']) fs.writeFileSync(path.join(dir, rel), rel);
+  fs.writeFileSync(path.join(dir, 'untracked.txt'), 'x');
+  git('add', '-f', 'index.html', 'img', '.github', '.gitignore');
+  assert.deepEqual(listRepoFiles(dir).sort(), ['img/ens/head-header.png', 'index.html']);
+
+  let call;
+  const row = await pinRepoFolder(dir, {
+    repo: 'TheJollyLaMa/DecentHead', commit: 'abcdef1234567', label: 'DecentHead site', token: 'jwt',
+    pinFolderImpl: async (files, token, opts) => { call = { files, token, opts }; return CID; },
+  });
+  assert.equal(call.opts.folder, 'DecentHead');
+  assert.equal(call.opts.root, dir);
+  assert.equal(call.opts.name, 'DecentHead site abcdef1');
+  assert.deepEqual({ cid: row.cid, status: row.status, source: row.source, fileCount: row.fileCount }, { cid: CID, status: 'pinned', source: { repo: 'TheJollyLaMa/DecentHead', commit: 'abcdef1234567' }, fileCount: 2 });
+
+  await assert.rejects(pinRepoFolder(dir, { repo: 'x/y', commit: 'abc', label: 'l', token: 't', listFiles: () => ['readme.md'], pinFolderImpl: async () => CID }), /no index.html/);
+  assert.ok(REPO.test('TheJollyLaMa/Decent_NDA') && !REPO.test('a/b;rm') && !REPO.test('nope'));
+  fs.rmSync(dir, { recursive: true, force: true });
+});
