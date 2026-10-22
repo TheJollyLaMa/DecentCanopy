@@ -17,13 +17,15 @@
     'data/project-details.json',
     'data/supporter-dnfts.json',
     'data/agency-map.json',
+    'data/repository-activity.json',
     'payroll-assets.json',
     'payroll-queue.json',
     'community-rewards.json'
   ]);
   const MAX_BYTES = 20 * 1024 * 1024;
   function validateFiles(files) {
-    if (!Array.isArray(files) || files.length !== DATA_FILES.length ||
+    const required = DATA_FILES.filter(file => file !== 'data/repository-activity.json');
+    if (!Array.isArray(files) || !required.every(file => files.includes(file)) ||
         new Set(files).size !== files.length || files.some(file => !DATA_FILES.includes(file))) {
       throw new Error('Backup must contain only the complete published Canopy dataset; unpublished drafts are excluded.');
     }
@@ -36,7 +38,7 @@
       throw new Error('Not a supported Canopy public-data backup.');
     }
     validateFiles(Object.keys(payload.files));
-    for (const file of DATA_FILES) {
+    for (const file of Object.keys(payload.files)) {
       if (!payload.files[file] || typeof payload.files[file] !== 'object') {
         throw new Error(`Backup dataset is not a JSON object or array: ${file}`);
       }

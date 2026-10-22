@@ -13,7 +13,7 @@ function fixture() {
   token.id = M.tokenKey(token);
   return { version: 1, generatedAt: '2026-10-21T00:00:00.000Z', chains: { 10: { status: 'ok' }, 8453: { status: 'ok' } }, tokens: [token], ...M.indexTokens([token]) };
 }
-function ui(data = fixture(), failure = false) {
+function ui(data = fixture(), failure = false, extras = {}) {
   class Element {
     constructor(tag) { this.tagName = tag; this.children = []; this.attributes = {}; this.listeners = {}; this.isConnected = true; }
     append(...nodes) { this.children.push(...nodes); }
@@ -24,7 +24,7 @@ function ui(data = fixture(), failure = false) {
     set innerHTML(_) { throw new Error('Metadata must never enter innerHTML'); }
   }
   const document = { createElement: tag => new Element(tag), createTextNode: text => ({ textContent: text }) };
-  const window = { CanopySupporterModel: M };
+  const window = { CanopySupporterModel: M, ...extras };
   let requests = 0;
   vm.runInNewContext(read('scripts/supporter-dnfts.js'), { window, document, URL, BigInt, fetch: async () => { requests++; return { ok: !failure, json: async () => data }; } });
   const flatten = element => [element, ...(element.children || []).flatMap(flatten)];
@@ -91,9 +91,33 @@ test('coin details use text nodes for apostrophes/HTML and show stock, prices an
   assert.equal(image.src, 'https://ipfs.io/ipfs/bafyexample/art.png');
   image.listeners.error(); assert.equal(image.removed, true);
   const support = nodes.find(n => n.tagName === 'a' && n.textContent.startsWith('Support'));
+  assert.equal(new URL(support.href).pathname, '/DecentMarket/supporter/buy.html');
+  assert.equal(new URL(support.href).searchParams.get('escrow'), M.CHAINS[8453].escrow);
   assert.equal(new URL(support.href).searchParams.get('listingId'), '0');
   assert.ok(nodes.some(n => n.href?.startsWith('https://basescan.org/token/')));
   await api.load(); assert.equal(requests(), 1);
+});
+
+test('matching official release mirrors show both artwork faces without changing ledger provenance or stock', async () => {
+  const Activity = require('../scripts/repository-activity');
+  const data = fixture(), token = data.tokens[0];
+  token.metadataUri = 'https://ipfs.io/ipfs/Qmfixture';
+  token.metadataStatus = 'unavailable';
+  token.image = '';
+  const activity = { repositories: [{ status: 'ok', release: { supporter: { chainId: 8453, contract: token.contract,
+    tokenId: token.tokenId, metadataURI: 'ipfs://Qmfixture', front: 'https://github.com/maker/project/releases/download/v1/front.png',
+    back: 'https://github.com/maker/project/releases/download/v1/back.png',
+    frontPreview: `assets/supporter-releases/${'a'.repeat(24)}/front.png`,
+    backPreview: `assets/supporter-releases/${'a'.repeat(24)}/back.png` } } }] };
+  const view = ui(data, false, { CanopyRepositoryActivity: Activity, CanopyRepositoryActivityUI: { getData: () => activity } });
+  view.api.mount(view.container, { kind: 'project', name: 'BigNuten' });
+  await new Promise(resolve => setImmediate(resolve));
+  const nodes = view.flatten(view.container);
+  assert.equal(nodes.filter(n => n.tagName === 'img').length, 3);
+  assert.ok(nodes.some(n => n.textContent?.includes('not a fresh IPFS retrieval')));
+  assert.equal(token.metadataStatus, 'unavailable');
+  assert.equal(token.listings[0].available, '995');
+  assert.ok(nodes.some(n => n.tagName === 'details' && n.open));
 });
 
 test('unlisted, stale, failed-fetch, and late detached-panel states are honest and safe', async () => {

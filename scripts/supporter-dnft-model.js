@@ -50,8 +50,10 @@
   }
   function tokenKey(token) { return `${token.chainId}:${token.contract.toLowerCase()}:${token.tokenId}`; }
   function listingUrl(token, listing) {
-    const u = new URL(MARKET);
-    u.search = new URLSearchParams({ chainId: token.chainId, nftContract: token.contract, tokenId: token.tokenId, ...(listing ? { listingId: listing.id } : {}) }).toString();
+    const u = new URL(listing ? 'supporter/buy.html' : '', MARKET);
+    u.search = new URLSearchParams(listing
+      ? { chainId: token.chainId, escrow: CHAINS[token.chainId].escrow, listingId: listing.id }
+      : { chainId: token.chainId, nftContract: token.contract, tokenId: token.tokenId }).toString();
     return u.href;
   }
   function indexTokens(tokens) {

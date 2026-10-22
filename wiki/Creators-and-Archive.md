@@ -40,7 +40,7 @@ Supported chains: Base, Ethereum and Optimism. Use your signing wallet as the tr
 ## Public GitHub repository links
 
 This is the first, public-linking slice of [connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11),
-not GitHub account authentication or automatic repository synchronization.
+not GitHub account authentication. Public repository activity is refreshed separately as described below.
 
 1. Open **My creator**, add/edit a project, or use **Edit this project / link repositories** on your own project blip.
 2. Enter up to five public `https://github.com/owner/repository` URLs, one per line.
@@ -68,7 +68,63 @@ Unavailable GitHub, rate limits, timeouts, private/inaccessible repositories, an
 inconsistent identities produce an explicit preview error. No unavailable metadata is
 presented as success. You can still choose a self-declared public URL without a successful
 preview; Canopy does not certify its current visibility. Check it yourself before publishing.
-Repository metadata/visibility can change after checking and is not polled live.
+Repository metadata/visibility can change after checking. The editor preview is not live polling; the separately published activity snapshot does not verify account ownership.
+
+### Public build activity and release freshness
+
+**Data / build activity** opens the accessible heat legend, snapshot status, refresh button,
+heat overlay toggle and animation toggle. The collector reads public repositories already
+listed in the curated Agency map, public project catalog or published creator records.
+Unpublished browser drafts do not enroll repositories. An unresolved repository identity
+stays unresolved; the collector does not guess a replacement. The frozen Artizen archive
+does not acquire a live heat overlay.
+
+The [activity workflow](../.github/workflows/repository-activity.yml) is scheduled every
+15 minutes and after successful creator publication. GitHub scheduling and Pages deployment
+may delay updates; this is **near-live polling, not a real-time webhook service**.
+Visible browser tabs check the published snapshot every minute without GitHub credentials.
+**Check latest snapshot** fetches the deployed snapshot; it does not start a server collector.
+Reload the map to discover graph nodes added by other creators since the page was opened;
+activity polling updates observations, not the separately loaded signed profile graph.
+
+Each public repository reports its latest sampled default-branch commit, latest published
+GitHub release, and combined open issue/pull-request count. Heat counts commits whose
+committer timestamps fall in the last seven days from a sample of at most 100 commits.
+A full 100-entry sample is labeled capped, not an exhaustive total. Merge commits are
+included; timestamps can be authored or rewritten. This is not effort, impact or readiness.
+Zero sampled commits differs from unknown, partial, unavailable or stale. Failed checks
+and observations older than one hour get gray/unknown heat, never zero-activity success.
+
+Project heat aggregates its explicitly linked repositories, deduplicated; any missing or
+unknown repository makes aggregate heat unknown. Paired connection accents indicate
+activity at both endpoints only. They do not establish shared commits, integration,
+collaboration, funding or ownership, and do not upgrade the line's evidence color/dashes.
+Animation is optional, pauses in hidden tabs and is disabled for reduced motion.
+
+Capabilities, offers/needs and proposed crossovers remain a separate human-reviewed layer:
+a commit or a release title cannot automatically establish what the community can safely
+reuse. Latest release and commit links expose new work without fabricating capability claims.
+The collector uses GitHub Actions' repository token for public reads only; the browser
+receives no token, private metadata or source contents. This does not install a GitHub App,
+authenticate a GitHub account, or request access to private repositories.
+
+### Supporter editions
+
+Supporter discovery refreshes separately, approximately every six hours, using public
+registry/escrow reads on Base and Optimism. Snapshot prices and stock are dated observations,
+not live offers. Purchase links open the exact chain/escrow/listing buyer page, which checks
+current conditions before a wallet transaction. Canopy sends no purchase transaction.
+
+When an official latest release includes consistent Supporter manifest, metadata and mint
+evidence, the activity collector records its front/back artwork asset links and caches
+bounded PNG previews (up to 5 MiB and 4096 pixels per dimension) in the public site. This
+avoids depending on GitHub's attachment responses as hotlinked images. Original release
+asset links and provenance remain visible. Cards use this
+explicitly labeled **GitHub release artwork mirror** only when chain, NFT contract, token ID
+and declared on-chain metadata URI match the ledger snapshot. This is not a successful IPFS
+retrieval or a new stock check. Failed artwork remains labeled unavailable, with source links.
+Older editions remain discoverable; no existing token is reminted. Head v2.0.0 is Base token
+70/listing 0, Market v0.3.1 is token 71/listing 1; Canopy minting remains deferred.
 
 Edit/remove individual lines or choose **Unlink all repositories**, then sign and publish a
 new revision. A remaining link from another project keeps its shared repo node visible.

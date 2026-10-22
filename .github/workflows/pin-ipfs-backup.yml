@@ -19,6 +19,7 @@ on:
       - data/projects.json
       - data/agency-map.json
       - data/supporter-dnfts.json
+      - data/repository-activity.json
       - payroll-assets.json
       - payroll-queue.json
   schedule:

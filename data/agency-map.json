@@ -54,9 +54,9 @@
       "focus": "now",
       "repo": "TheJollyLaMa/DecentCanopy",
       "purpose": "Make projects, repositories, creators, funding relationships, and useful next steps understandable.",
-      "currentState": "The Agency map and self-declared public GitHub repository linking shipped in PR #23. A real signed repository-bearing creator record was published. GitHub account verification, synchronization, and generic fund adapters remain open work.",
-      "nextAction": "Use evidence-backed offers and needs to select bounded cross-repository work; exercise the shared evidence schema (#17) with Busking fund/ledger discovery (#14).",
-      "reviewNote": "Public code and live repository-link publication reviewed 2026-10-20. Source inspection is not an exhaustive audit.",
+      "currentState": "The Agency map and self-declared public GitHub repository linking shipped in PR #23. A real signed repository-bearing creator record was published. PR #26 added public-only IPFS provider controls and exact-byte recovery; PR #27 added mocked creator lifecycle regression coverage (158 tests). Public repository activity and latest releases have a separate scheduled snapshot; capabilities remain curated. GitHub account verification and generic fund adapters remain open.",
+      "nextAction": "Prove a real non-maintainer creator and fund journey; use the shared evidence schema (#17) with Busking fund/ledger discovery (#14), coordinated with the separate Busking team. Canopy's first Supporter mint is deferred until product readiness and explicit approval.",
+      "reviewNote": "Public IPFS and creator regression delivery reconciled 2026-10-22. Mocked signatures/relay receipts are not real visitor acceptance; personal provider writes remain operator-dependent.",
       "offers": [
         {
           "id": "public-discovery",
@@ -67,6 +67,14 @@
             {
               "label": "Shipped creator-record implementation",
               "url": "https://github.com/TheJollyLaMa/DecentCanopy/blob/58623bdfd7eaadbf3714a8a1b5c40aa44b4b7088/scripts/creator-records.js"
+            },
+            {
+              "label": "Public IPFS and exact-byte recovery PR #26",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/26"
+            },
+            {
+              "label": "Creator lifecycle regression coverage PR #27",
+              "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/27"
             }
           ]
         },
@@ -648,7 +656,7 @@
         "Issue #58 warns that deployed registry bytecode may predate functions present in the local source; deployment compatibility was not checked.",
         "Automated test files cover protocol, router, registry, payroll, and related JavaScript behavior, but no tests were run for this read-only review. Reviewer suggestion: run these suites and verify deployed-bytecode parity before relying on the workflows."
       ],
-      "currentState": "Public Solidity/Hardhat and JavaScript project for Artizen creator advances, contributor settlement, registry publishing, and node-check tracking. Contract and backend implementations are present; the README describes live workflows, while open issue #58 records significant public onboarding, index-refresh, and reward-payout gaps. Automated tests exist but were not run.",
+      "currentState": "Public Solidity/Hardhat and JavaScript project for creator advances, contributor settlement, registry publishing, and node-check tracking. The 2026-10-22 read-only source/config inventory identifies Settlement Router v2.1.0 and shared Canopy/Busking consumers; actual deployed code, roles, balances and replay history remain unverified. ArtFi needs modernization, possible rebranding, an approved release and Supporter mint before live Canopy integration. No migration or payment/role/address change is authorized.",
       "offers": [
         {
           "id": "artfi-advance-contract-flow",
@@ -1037,8 +1045,8 @@
         "App-specific serialization, backup/restore, confidentiality, public-pin consent and reward eligibility remain host responsibilities.",
         "Supporter token 70 / listing 0 was verified on Base at release closeout: 1,000 editions at 10 USDC with a 10% creator royalty signal. No buyer purchase or guaranteed royalty enforcement is claimed; recheck current price and stock before buying."
       ],
-      "currentState": "Head v2.0.0 is released with configurable branding, shared wallet/IPFS sessions and capability-driven host adapters. Its Supporter DNFT is minted/listed and Discord delivery plus duplicate suppression are proven. Market consumes the pinned release; other app migrations remain separate work.",
-      "nextAction": "Inspect a consumer's actual compatibility needs before adopting shared code. Preserve Canopy's working forest header; do not perform a cosmetic replacement merely to satisfy a reuse count.",
+      "currentState": "Head v2.0.0 is released with configurable branding, shared wallet/IPFS sessions and capability-driven host adapters. Its Supporter DNFT is minted/listed and Discord delivery plus duplicate suppression are proven. Market consumes the pinned Header release. Canopy PR #26 reuses its frozen storage session/host modules without replacing the forest renderer; this is not a second complete Header adoption.",
+      "nextAction": "Build the next-version multilingual host adapter requested in issue #27, remembering an explicit language selection with accessible native-language labels and RTL support. Inspect consumer compatibility before shared-code adoption. Preserve Canopy's working forest header; do not perform a cosmetic replacement merely to satisfy a reuse count.",
       "evidence": [
         {
           "label": "Head v2.0.0 immutable release",
@@ -1051,6 +1059,10 @@
         {
           "label": "Acknowledged Head Discord announcement",
           "url": "https://github.com/TheJollyLaMa/DecentHead/releases/download/v2.0.0/supporter-discord-sent.json"
+        },
+        {
+          "label": "Support Head v2.0.0 — public Base listing 0 buyer page",
+          "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=0"
         }
       ],
       "offers": [
@@ -1095,7 +1107,20 @@
           ]
         }
       ],
-      "needs": []
+      "needs": [
+        {
+          "id": "multilingual-host-adapter",
+          "label": "Remembered native-language selection",
+          "state": "issue-reported",
+          "detail": "Next-version issue #27 requests a flag/globe selector, native-language labels, remembered override, whole-host translation and RTL support. It is requested work, not part of v2.0.0.",
+          "evidence": [
+            {
+              "label": "Head multilingual adapter issue #27",
+              "url": "https://github.com/TheJollyLaMa/DecentHead/issues/27"
+            }
+          ]
+        }
+      ]
     },
     {
       "id": "canvas",
@@ -1135,7 +1160,7 @@
         "ENS deployable-site pin/record signatures, universal creator-facing artwork generation and standalone Footer/Canvas releases remain pending. A source archive CID is not a deployable website root."
       ],
       "currentState": "Market v0.3.1 is deployed on Base with pinned Head v2.0.0, sale-first verified discovery, two-sided star DNFTs, purchase cards and Regular/Supporter/Music lanes. Its Supporter token 71 / listing 1 was minted with 1,000 editions at 10 USDC, and its real Discord announcement and duplicate suppression are verified. This is not a new contract deployment or proof that every repository is integrated.",
-      "nextAction": "Reuse the proven release/mint/purchase/notifier pattern in the Canopy-first wave while preserving each product's working UI. Keep ENS, creator authorization and standalone module follow-ups separate; never remint Head 70 or Market 71.",
+      "nextAction": "Offer the proven release/mint/purchase/notifier pattern to products once each is ready and explicitly approved; Canopy's first Supporter mint remains deferred. Keep ENS, creator authorization and standalone module follow-ups separate; never remint Head 70 or Market 71.",
       "evidence": [
         {
           "label": "Market v0.3.1 frozen release",
@@ -1152,6 +1177,10 @@
         {
           "label": "Live Base storefront",
           "url": "https://thejollylama.github.io/DecentMarket/"
+        },
+        {
+          "label": "Support Market v0.3.1 — public Base listing 1 buyer page",
+          "url": "https://thejollylama.github.io/DecentMarket/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=1"
         }
       ],
       "offers": [

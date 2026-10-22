@@ -235,6 +235,15 @@
     updateBackButton();
     restoreSharedView();
     scheduleRender();
+    if (!archiveOnly && allProjects.some(node => window.CanopyRepositoryActivity.repositoriesForNode(node).length)) {
+      window.CanopyRepositoryActivityUI.start(() => {
+        if (selectedNode && detailsPanel.classList.contains('open') && !detailsContentEl.contains(document.activeElement)) {
+          window.CanopyRepositoryActivityUI.mount(detailsContentEl, selectedNode);
+          window.CanopySupporterDNFTs?.mount(detailsContentEl, selectedNode);
+        }
+        scheduleRender();
+      });
+    }
     window.dispatchEvent(new CustomEvent('decentcanopy:ready', { detail: { artizen: isArtizenMode && !isAgencyMode, greenTea: isGreenTeaMode, agency: isAgencyMode } }));
   }
 
@@ -906,12 +915,14 @@
     const animating = stepCameraAnimation(now);
     const replaying = activityReplay && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
       && now - activityReplay.startedAt < activityReplay.duration + 1800;
+    const heating = window.CanopyRepositoryActivityUI?.animate() &&
+      nodes.some(node => !['unknown', 'quiet'].includes(window.CanopyRepositoryActivityUI.nodeHeat(node)));
     if (activityReplay && !replaying) activityReplay = null;
-    if (needRender || animating || replaying) {
+    if (needRender || animating || replaying || heating) {
       render();
       needRender = false;
     }
-    if (animating || needRender || replaying) {
+    if (animating || needRender || replaying || heating) {
       rafId = requestAnimationFrame(onAnimFrame);
     }
   }
@@ -937,6 +948,7 @@
     drawTrackHubs(lod, focusContext, world);
     drawBranchEdges(lod, focusContext, world);
     if (showAssoc && (isAgencyMode || lod !== 'far')) drawAssociationEdges(focusContext, world);
+    drawRepositoryHeat(focusContext, world);
     drawNodes(lod, focusContext, world);
     drawActivityReplay();
 
@@ -947,6 +959,41 @@
     if (zoom < FAR_LOD_ZOOM) return 'far';
     if (zoom < NEAR_LOD_ZOOM) return 'mid';
     return 'near';
+  }
+
+  function drawRepositoryHeat(focusContext, world) {
+    const ui = window.CanopyRepositoryActivityUI;
+    if (!ui?.enabled()) return;
+    const model = window.CanopyRepositoryActivity;
+    const pulse = ui.animate() ? 1 + Math.sin(performance.now() / 900) * 0.12 : 1;
+    const active = state => !['unknown', 'quiet'].includes(state);
+    ctx.save();
+    ctx.setLineDash([]);
+    nodes.forEach(node => {
+      if (!model.repositoriesForNode(node).length || !pointInBounds(node.x, node.y, world, 30 / zoom)) return;
+      if (focusMode && focusContext && !focusContext.has(node.id)) return;
+      const state = ui.nodeHeat(node);
+      ctx.beginPath();
+      ctx.arc(node.x, node.y, node.size + (active(state) ? 7 * pulse : 5) / zoom, 0, Math.PI * 2);
+      ctx.strokeStyle = hexAlpha(model.LEVELS[state].color, 0.8);
+      ctx.lineWidth = (active(state) ? 2.5 : 1) / zoom;
+      ctx.stroke();
+    });
+    if (showAssoc) relationEdges.forEach(({ source, target }) => {
+      if (!edgeVisible(source, target, world) || (focusMode && focusContext &&
+          (!focusContext.has(source.id) || !focusContext.has(target.id)))) return;
+      const { source: a, target: b, activeTogether } = ui.edgeHeat(source, target);
+      if (!activeTogether) return;
+      // Two stationary accents indicate endpoint activity, not a transfer along the relationship.
+      [a, b].forEach((state, index) => {
+        const t = index ? 0.55 : 0.45;
+        ctx.beginPath();
+        ctx.arc(lerp(source.x, target.x, t), lerp(source.y, target.y, t), 2.5 * pulse / zoom, 0, Math.PI * 2);
+        ctx.fillStyle = model.LEVELS[state].color;
+        ctx.fill();
+      });
+    });
+    ctx.restore();
   }
 
   function drawActivityReplay() {
@@ -1914,6 +1961,7 @@
   function showDetails(node) {
     showDetailsContent(node);
     window.CanopySupporterDNFTs?.mount(detailsContentEl, node);
+    window.CanopyRepositoryActivityUI?.mount(detailsContentEl, node);
   }
 
   function showDetailsContent(node) {
@@ -2297,7 +2345,7 @@
       modeBadgeEl.querySelector('.mode-badge-label').textContent = 'DecentAgency · purpose, repositories & reuse';
       modeBadgeEl.classList.remove('mode-badge--prototype');
       const summary = document.createElement('p');
-      summary.textContent = `Reviewed ${artizenMetrics.generatedAt}. Now: DecentCanopy + DecentBusking. Next: BigNuten. Other projects are inventory, not declared inactive. Use the capability lens and Offers & needs overview to explore inspected code, expressed needs, and evidence-linked candidate crossovers. Candidates are not verified compatibility or an impact ranking. This is a curated snapshot, not live GitHub synchronization. Blue solid lines: source-observed; amber dashed: steward-reported; purple dashed: proposed only; gray dashed: unresolved. No balance or payout is inferred.`;
+      summary.textContent = `Capabilities reviewed ${artizenMetrics.generatedAt}. Now: DecentCanopy + DecentBusking. Next: BigNuten. Other projects are inventory, not declared inactive. Offers, needs and candidate crossovers remain curated, not automatically verified compatibility. Public GitHub activity and releases refresh separately on a scheduled snapshot below, not push-based real time or GitHub account verification. Blue solid lines: source-observed; amber dashed: steward-reported; purple dashed: proposed only; gray dashed: unresolved. Heat rings do not change those evidence states. No balance or payout is inferred.`;
       visionNoteEl.replaceChildren(summary);
       visionNoteEl.setAttribute('aria-label', 'DecentAgency scope, focus, and evidence legend');
       document.querySelector('.spiral-status-legend').hidden = true;
