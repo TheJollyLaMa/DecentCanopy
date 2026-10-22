@@ -101,6 +101,38 @@ activity at both endpoints only. They do not establish shared commits, integrati
 collaboration, funding or ownership, and do not upgrade the line's evidence color/dashes.
 Animation is optional, pauses in hidden tabs and is disabled for reduced motion.
 
+#### Traveling community lights
+
+The collector additionally looks for explicit `owner/repository` or
+`https://github.com/owner/repository` references to other enrolled public repositories in:
+
+- the same bounded 100-commit sample (commit messages);
+- the latest release body, when published in the last seven days;
+- up to 30 issues/PRs updated in the last seven days (titles and bodies, all states).
+
+Only the reference's source link, kind, timestamp, target repository and a short ID label
+are stored, not raw messages/bodies. Name-only guesses, shared stewards, simultaneous
+activity, issue comments, code diffs, private repositories and unlinked projects do not
+generate events. An issue/PR's update timestamp may change for reasons other than the
+reference itself being added. Capped and partial coverage is visible, never a complete
+community ledger. Source failure/staleness stops the corresponding traveling lights.
+
+On first load, observations establish a **baseline**, not a burst of purported new events.
+Later unseen source/target/kind/URL/timestamp identities are newly observed updates in
+that tab. Yellow lights travel **from the referencing entity toward the referenced entity**
+on one existing visible connection's exact curve. No new relationship is invented.
+Where several lines match, a deterministic project-to-project route is preferred. The
+existing trust state, direction label, color and dashes remain unchanged: a reference
+does not prove an integration, collaboration, transfer, endorsement or reciprocal claim.
+
+**Replay sampled references (history)** plays up to 24 recent observations in lavender,
+explicitly labeled historical, not live. Automatic batches also cap animation at 24;
+evidence remains in the latest-20 accessible list and up to 10 relevant references on each
+entity card. An unmatched reference remains listed without a line animation. Newly observed
+updates are deduplicated for the current tab only; reloading establishes a new baseline.
+Turning motion/heat off, hiding the tab or requesting reduced motion clears pending lights;
+reenabling does not fabricate missed activity. Evidence remains readable without motion.
+
 Capabilities, offers/needs and proposed crossovers remain a separate human-reviewed layer:
 a commit or a release title cannot automatically establish what the community can safely
 reuse. Latest release and commit links expose new work without fabricating capability claims.

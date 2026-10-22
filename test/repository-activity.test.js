@@ -212,3 +212,170 @@ test('artwork caching is bounded and validates PNG dimensions, with explicit fai
     assert.match(bad.error, /preview unavailable/);
   }
 });
+
+const referenceEvent = (source = repo, target = 'other/project', changes = {}) => {
+  const event = { source, target, kind: 'commit', url: `https://github.com/${source}/commit/${'a'.repeat(40)}`,
+    date: now.toISOString(), label: 'Commit aaaaaaa', ...changes };
+  event.id = Model.referenceId(event);
+  return event;
+};
+const referenceRow = events => ({ ...row(), crossReferences: events, crossReferenceStatus: 'ok', referencesCapped: false });
+
+test('only explicit enrolled repository identities count, without name, path or lookalike guesses', async () => {
+  const { referencedRepos } = await import('../scripts/build-repository-activity.mjs');
+  const catalog = [{ repo }, { repo: 'other/project' }, { repo: 'other/project-more' }];
+  for (const text of ['Use other/project#12', 'Refs https://github.com/other/project/pull/2.', '(OTHER/PROJECT)', 'Copy other/project.git today']) {
+    assert.deepEqual(referencedRepos(text, repo, catalog), ['other/project']);
+  }
+  for (const text of ['project is busy', 'https://evil.test/other/project', 'https://github.com.evil.test/other/project',
+    'https://github.com/another/project', 'other/project-extra', 'other/project_more', 'prefix/other/project', `${repo}#1`]) {
+    assert.deepEqual(referencedRepos(text, repo, catalog), []);
+  }
+  assert.deepEqual(referencedRepos('other/project-more', repo, catalog), ['other/project-more']);
+});
+
+test('reference collector covers commit/release/issue/PR evidence with stable IDs, dates and bounded public coverage', async () => {
+  const { collect } = await import('../scripts/build-repository-activity.mjs');
+  const catalog = [{ repo }, { repo: 'other/project' }];
+  const message = 'Integrate https://github.com/other/project/pull/7';
+  let issueFailure = false;
+  const fetchImpl = async url => {
+    if (url.endsWith(`/repos/${repo}`)) return response(info);
+    if (url.includes('/commits?')) return response([{ ...commit(), commit: { ...commit().commit, message } },
+      { ...commit('2026-10-01T00:00:00Z'), commit: { committer: { date: '2026-10-01T00:00:00Z' }, message } }]);
+    if (url.includes('/issues?')) return issueFailure ? response(null, 429) : response([
+      { number: 1, html_url: `${node.repoUrl}/issues/1`, updated_at: now.toISOString(), title: 'other/project', body: 'do not retain raw body' },
+      { number: 2, html_url: `${node.repoUrl}/pull/2`, updated_at: now.toISOString(), title: 'Adapter', body: message, pull_request: {} }
+    ]);
+    return response({ tag_name: 'v1', published_at: now.toISOString(), html_url: `${node.repoUrl}/releases/tag/v1`, assets: [], body: message });
+  };
+  const result = await collect(repo, { now: () => now, catalog, fetchImpl });
+  assert.equal(result.crossReferenceStatus, 'ok');
+  assert.deepEqual(result.crossReferences.map(event => event.kind).sort(), ['commit', 'issue', 'pull-request', 'release']);
+  assert.ok(result.crossReferences.every(event => event.id === Model.referenceId(event) && event.target === 'other/project'));
+  assert.doesNotMatch(JSON.stringify(result), /do not retain raw body|Integrate https/);
+  issueFailure = true;
+  const partial = await collect(repo, { now: () => now, catalog, fetchImpl });
+  assert.equal(partial.status, 'ok');
+  assert.equal(partial.crossReferenceStatus, 'partial');
+  assert.match(partial.error, /issue\/PR sample unavailable/);
+  assert.equal(partial.crossReferences.length, 2);
+});
+
+test('reference validation rejects wrong sources, timestamps, evidence URLs, unsafe labels and duplicate IDs', () => {
+  const event = referenceEvent();
+  assert.doesNotThrow(() => Model.validate(snapshot([referenceRow([event])])));
+  for (const patch of [{ source: 'wrong/source' }, { target: repo }, { target: 'https://github.com/other/project' },
+    { kind: 'payment' }, { date: '2026-10-01T00:00:00Z' }, { date: '2026-10-25T00:00:00Z' },
+    { url: 'javascript:alert(1)' }, { url: 'https://github.com/other/project/commit/abc' },
+    { label: '' }, { label: 'x'.repeat(161) }]) {
+    assert.throws(() => Model.validate(snapshot([referenceRow([referenceEvent(repo, 'other/project', patch)])])));
+  }
+  assert.throws(() => Model.validate(snapshot([referenceRow([event, event])])));
+  assert.equal(Model.references(snapshot([referenceRow([event])]), now.getTime()).length, 1);
+  assert.equal(Model.references(snapshot([referenceRow([event])]), now.getTime() + Model.STALE_MS + 1).length, 0);
+  assert.equal(Model.references(snapshot([{ ...referenceRow([event]), status: 'unavailable' }]), now.getTime()).length, 0);
+});
+
+test('new-reference tracker baselines history and deduplicates unchanged observations, including retry after disappearance', () => {
+  const tracker = Model.referenceTracker(), first = referenceEvent();
+  assert.deepEqual(tracker.observe([first]), []);
+  assert.deepEqual(tracker.observe([first]), []);
+  const changed = referenceEvent(repo, 'other/project', { date: '2026-10-22T12:01:00Z' });
+  assert.deepEqual(tracker.observe([first, changed]), [changed]);
+  assert.deepEqual(tracker.observe([]), []);
+  assert.deepEqual(tracker.observe([first, changed]), []);
+});
+
+test('event routing uses one existing line, prefers projects, honors reference direction and never invents a missing connection', () => {
+  const source = { ...node, id: 'source', kind: 'project', x: 0, y: 0 };
+  const target = { id: 'target', kind: 'project', repoUrl: 'https://github.com/other/project', x: 100, y: 60 };
+  const edge = { source, target, type: 'could-reuse', relationshipState: 'proposed', priority: 2 };
+  const duplicate = { ...edge, type: 'capability-match' };
+  const repos = { source: { ...source, kind: 'repository' }, target: { ...target, kind: 'repository' } };
+  const before = JSON.stringify(edge);
+  const routed = Model.referenceRoutes([referenceEvent()], [repos, edge, duplicate]);
+  assert.equal(routed.length, 1);
+  assert.equal(routed[0].edge.source.kind, 'project');
+  assert.equal(routed[0].reverse, false);
+  assert.equal(Model.referenceRoutes([referenceEvent('other/project', repo)], [edge])[0].reverse, true);
+  assert.equal(Model.referenceRoutes([referenceEvent()], []).length, 0);
+  assert.equal(Model.referenceRoutes([referenceEvent(repo, 'unmapped/repo')], [edge]).length, 0);
+  assert.equal(JSON.stringify(edge), before);
+  assert.deepEqual(Model.curvePoint(source, target, edge.priority, 0), { x: 0, y: 0 });
+  assert.deepEqual(Model.curvePoint(source, target, edge.priority, 1), { x: 100, y: 60 });
+  const control = Model.curve(source, target, edge.priority);
+  const midpoint = Model.curvePoint(source, target, edge.priority, 0.5);
+  assert.equal(midpoint.x, 0.5 * control.x + 0.25 * target.x);
+  assert.equal(midpoint.y, 0.5 * control.y + 0.25 * target.y);
+  assert.notEqual(midpoint.y, 30, 'Pulse must follow the actual curved line, not its straight chord');
+});
+
+test('browser baselines initial history, pulses new observations once, labels replay and disables motion safely', async () => {
+  class Element {
+    constructor() { this.children = []; this.listeners = {}; this.checked = true; }
+    append(...children) { this.children.push(...children); }
+    replaceChildren(...children) { this.children = children; }
+    addEventListener(name, fn) { this.listeners[name] = fn; }
+    setAttribute() {}
+    querySelector() { return null; }
+    set innerHTML(_) { throw new Error('No raw event HTML'); }
+  }
+  const elements = new Map();
+  const element = id => {
+    if (!elements.has(id)) elements.set(id, new Element());
+    return elements.get(id);
+  };
+  const document = { hidden: false, createElement: () => new Element(), getElementById: element,
+    querySelector: element, addEventListener(name, fn) { this[name] = fn; } };
+  const reduced = { matches: false, addEventListener(_, fn) { this.change = fn; } };
+  const window = { CanopyRepositoryActivity: Model, matchMedia: () => reduced, setInterval() {} };
+  const actual = new Date().toISOString(), first = referenceEvent(repo, 'other/project', { date: actual });
+  const currentRow = events => ({ ...referenceRow(events), attemptedAt: actual, checkedAt: actual,
+    windowStart: new Date(Date.now() - Model.WINDOW_MS).toISOString() });
+  let value = { ...snapshot([currentRow([first])]), generatedAt: actual }, clock = 0, failed = false;
+  vm.runInNewContext(fs.readFileSync(require.resolve('../scripts/repository-activity-ui'), 'utf8'), {
+    window, document, console: { warn() {} }, performance: { now: () => clock },
+    fetch: async () => failed ? response(null, 503) : response(value)
+  });
+  const api = window.CanopyRepositoryActivityUI;
+  api.start(() => {});
+  await api.load();
+  assert.equal(api.pulses().length, 0);
+  const second = referenceEvent(repo, 'other/project', { kind: 'issue', url: `${node.repoUrl}/issues/7`, label: '<img src=x>', date: actual });
+  value = { ...value, repositories: [currentRow([first, second])] };
+  await api.load();
+  assert.equal(api.pulses().length, 1);
+  assert.equal(api.pulses()[0].event.id, second.id);
+  assert.equal(api.pulses()[0].replay, false);
+  clock = 4000;
+  assert.equal(api.pulses().length, 0);
+  await api.load();
+  assert.equal(api.pulses().length, 0);
+  element('repository-reference-replay').listeners.click();
+  assert.equal(api.pulses().length, 2);
+  assert.equal(api.pulses()[0].replay, true);
+  assert.match(element('repository-reference-status').textContent, /Historical replay requested/);
+  assert.ok(element('repository-reference-list').children.some(item => item.children[0].textContent.includes('<img src=x>')));
+  reduced.matches = true; reduced.change();
+  assert.equal(api.pulses().length, 0);
+  assert.equal(element('repository-reference-replay').disabled, true);
+  reduced.matches = false; element('repository-activity-motion').checked = true;
+  element('repository-activity-motion').listeners.change();
+  assert.equal(api.pulses().length, 0);
+  element('repository-reference-replay').listeners.click();
+  document.hidden = true; document.visibilitychange();
+  assert.equal(api.pulses().length, 0);
+  document.hidden = false;
+  const batch = Array.from({ length: 30 }, (_, index) => referenceEvent(repo, 'other/project', {
+    kind: 'issue', url: `${node.repoUrl}/issues/${index + 10}`, label: `Issue #${index + 10}`, date: actual
+  }));
+  value = { ...value, repositories: [currentRow(batch)] };
+  await api.load();
+  assert.equal(api.pulses().length, 24);
+  assert.equal(element('repository-reference-list').children.length, 20);
+  failed = true;
+  await assert.rejects(api.load(), /HTTP 503/);
+  assert.equal(api.pulses().length, 0);
+  assert.equal(api.nodeHeat(node), 'unknown');
+});

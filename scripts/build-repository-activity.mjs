@@ -50,7 +50,15 @@ export async function cacheArtwork(row, { fetchImpl = fetch, write = fs.writeFil
   }
 }
 
-export async function collect(repo, { fetchImpl = fetch, now = () => new Date(), token = process.env.GITHUB_TOKEN } = {}) {
+export function referencedRepos(text, source, catalog) {
+  return [...new Set(catalog.map(item => item.repo))].filter(repo => {
+    if (repo === source) return false;
+    const escaped = repo.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`(^|[^a-z0-9_./:\\\\-])(?:https://github\\.com/)?${escaped}(?:\\.git)?(?=$|[#/\\s)\\]},;:!?"'\`])`, 'i').test(text);
+  });
+}
+
+export async function collect(repo, { fetchImpl = fetch, now = () => new Date(), token = process.env.GITHUB_TOKEN, catalog = [] } = {}) {
   const attemptedAt = now().toISOString();
   const request = async (route, { optional = false, asset = false } = {}) => {
     const response = await fetchImpl(asset ? route : `https://api.github.com/repos/${repo}${route}`, {
@@ -71,6 +79,15 @@ export async function collect(repo, { fetchImpl = fetch, now = () => new Date(),
       windowStart: new Date(now().getTime() - Model.WINDOW_MS).toISOString(),
       defaultBranch: info.default_branch, archived: info.archived,
       openIssuesAndPRs: info.open_issues_count, commits7d: info.size === 0 ? 0 : null, capped: false, latestCommit: null, release: null, error: '' };
+    if (catalog.length) Object.assign(row, { crossReferences: [], crossReferenceStatus: 'ok', referencesCapped: false });
+    const reference = (kind, url, date, label, text) => {
+      if (!catalog.length || Date.parse(date) < Date.parse(row.windowStart) || Date.parse(date) > now().getTime()) return;
+      for (const target of referencedRepos(text, repo, catalog)) {
+        const event = { source: repo, target, kind, url, date, label: String(label || kind).slice(0, 160) };
+        event.id = Model.referenceId(event);
+        if (!row.crossReferences.some(item => item.id === event.id)) row.crossReferences.push(event);
+      }
+    };
     if (info.size !== 0) {
       try {
         const commits = await request(`/commits?sha=${encodeURIComponent(info.default_branch)}&per_page=100`);
@@ -82,15 +99,20 @@ export async function collect(repo, { fetchImpl = fetch, now = () => new Date(),
           Date.parse(c.commit.committer.date) <= now().getTime()).length;
         row.capped = commits.length === 100;
         if (commits[0]) row.latestCommit = { sha: commits[0].sha, date: commits[0].commit.committer.date, url: commits[0].html_url };
+        for (const commit of commits) reference('commit', commit.html_url, commit.commit.committer.date,
+          `Commit ${commit.sha.slice(0, 7)}`, commit.commit.message || '');
+        if (catalog.length) row.referencesCapped = row.capped;
       } catch (error) {
         row.status = 'partial';
         row.error = `Commit sample unavailable: ${error.message}`;
+        if (catalog.length) row.crossReferenceStatus = 'partial';
       }
     }
     try {
       const release = await request('/releases/latest', { optional: true });
       if (release) {
         row.release = { tag: release.tag_name, publishedAt: release.published_at, url: release.html_url };
+        reference('release', release.html_url, release.published_at, `Release ${release.tag_name}`, release.body || '');
         const assets = release.assets || [];
         const asset = name => {
           const url = assets.find(a => a.name === name)?.browser_download_url;
@@ -121,6 +143,25 @@ export async function collect(repo, { fetchImpl = fetch, now = () => new Date(),
     } catch (error) {
       row.status = 'partial';
       row.error += `${row.error ? ' ' : ''}Release check unavailable: ${error.message}`;
+      if (catalog.length) row.crossReferenceStatus = 'partial';
+    }
+    if (catalog.length) {
+      try {
+        const issues = await request(`/issues?state=all&sort=updated&direction=desc&per_page=30&since=${encodeURIComponent(row.windowStart)}`);
+        if (!Array.isArray(issues) || issues.length > 30) throw new Error('Invalid public issue/PR sample.');
+        row.referencesCapped ||= issues.length === 30;
+        for (const issue of issues) {
+          if (!Number.isFinite(Date.parse(issue.updated_at))) throw new Error('Invalid issue/PR update time.');
+          reference(issue.pull_request ? 'pull-request' : 'issue', issue.html_url, issue.updated_at,
+            `${issue.pull_request ? 'PR' : 'Issue'} #${issue.number}`, `${issue.title || ''}\n${issue.body || ''}`);
+        }
+      } catch (error) {
+        row.crossReferenceStatus = 'partial';
+        row.error += `${row.error ? ' ' : ''}Cross-project issue/PR sample unavailable: ${error.message}`;
+      }
+      row.crossReferences.sort((a, b) => Date.parse(b.date) - Date.parse(a.date) || a.id.localeCompare(b.id));
+      row.referencesCapped ||= row.crossReferences.length > 100;
+      row.crossReferences = row.crossReferences.slice(0, 100);
     }
     Model.validate({ version: 1, generatedAt: attemptedAt, repositories: [row] });
     return row;
@@ -137,13 +178,17 @@ export async function main() {
   await Promise.all(Array.from({ length: Math.min(4, catalog.length) }, async () => {
     while (cursor < catalog.length) {
       const { repo } = catalog[cursor++];
-      const row = await collect(repo);
+      const row = await collect(repo, { catalog });
       await cacheArtwork(row);
       repositories.push(row);
       console.log(`${repo}: ${row.status}${row.error ? ` — ${row.error}` : ''}`);
     }
   }));
   repositories.sort((a, b) => a.repo.localeCompare(b.repo));
+  const publicRepos = new Set(repositories.filter(row => row.status !== 'unavailable').map(row => row.repo));
+  for (const row of repositories) {
+    if (row.crossReferences) row.crossReferences = row.crossReferences.filter(event => publicRepos.has(event.target));
+  }
   const data = Model.validate({ version: 1, generatedAt: new Date().toISOString(), repositories });
   await fs.writeFile(new URL('data/repository-activity.json', ROOT), JSON.stringify(data, null, 2) + '\n');
   if (repositories.every(row => row.status === 'unavailable')) {

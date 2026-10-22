@@ -2,7 +2,7 @@
   "format": "decentcanopy-agency-map",
   "version": 1,
   "reviewedAt": "2026-10-22",
-  "sourceLabel": "Steward-curated planning map; Head and Market release evidence reconciled 2026-10-22. Other source inspections retain their individual review dates; this is not live GitHub or chain synchronization.",
+  "sourceLabel": "Steward-curated planning map; Head/Market releases and Busking merged-work boundaries reconciled 2026-10-22. Other source inspections retain their individual review dates; this capability layer is not live GitHub or chain synchronization.",
   "mission": "Help humans connect and regain, maintain, sustain, or enhance their agency.",
   "projects": [
     {
@@ -173,8 +173,8 @@
       "focus": "now",
       "repo": "TheJollyLaMa/DecentBusking",
       "purpose": "Support music participation, scheduled radio, and accountable creator and contributor earnings.",
-      "currentState": "The steward reports the first week's schedule and payroll completed. On 2026-10-20, all 10 payable entries for NY-2026-10-12 matched recipient/amount/work-reference entries marked verified by the public worker ledger (33.511773 USDC allocated). This is source-reported reconciliation, not an independent chain audit. Public code includes uploads, recoverable checkpoints, and fund/payment indexing.",
-      "reviewNote": "Public storage, payroll, and schedule code inspected; worker ledger reconciliation is source-reported, not independent chain verification. Browser decoder issue #244 remains unresolved.",
+      "currentState": "The steward reports the first week's schedule and payroll completed. On 2026-10-20, all 10 payable entries for NY-2026-10-12 matched recipient/amount/work-reference entries marked verified by the public worker ledger (33.511773 USDC allocated). This is source-reported reconciliation, not an independent chain audit. The separate Busking team merged owner-confirmed calendar announcements, Phase 0 live booking/funding UI and named DJuke playlists on 2026-10-22. Phase 0 funding is earmarked, NOT escrowed; playlist checkout stays gated on approved compatible deployment and worker readiness. Merged code is not evidence of production financial operations.",
+      "reviewNote": "Public storage/payroll source and 2026-10-22 merged delivery notes reviewed. Worker ledger reconciliation remains source-reported. Browser decoder issue #244 remains open; no live payment, deployment or Friday booking approval is inferred.",
       "offers": [
         {
           "id": "scoped-uploads",
@@ -248,13 +248,17 @@
         },
         {
           "id": "event-promotion",
-          "label": "Explicit schedule-to-Discord promotion",
+          "label": "Operational acceptance of schedule-to-Discord promotion",
           "state": "issue-reported",
-          "detail": "Admin-selected dated radio-hour occurrences need preview, confirmed sending, duplicate protection and current-event revalidation.",
+          "detail": "Owner-confirmed previews, signed sending and durable duplicate protection merged in PR #248. Next is steward operational acceptance with real destination, current occurrence and allowed mentions; merged code alone is not proof that a message was delivered.",
           "evidence": [
             {
               "label": "Calendar announcements #242",
               "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/242"
+            },
+            {
+              "label": "Merged calendar announcement implementation",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/248"
             }
           ]
         },
@@ -274,14 +278,14 @@
           "id": "performer-escrow",
           "label": "Visible performer escrow, review and claim lifecycle",
           "state": "issue-reported",
-          "detail": "Issue #210 asks for funds committed before a performance, admin review afterward, and performer claims. Existing push-payment paths are not evidence of this escrow/claim lifecycle.",
+          "detail": "PR #250 merged Phase 0 booking, approval and earmarked-funding UI. It is NOT per-booking escrow; Phase 1 claims remain capability-gated and require separate deployment/approval. Tomorrow's performance needs steward-reviewed terms, schedule, funding and payment decisions, not assumptions from merged source.",
           "evidence": [
             {"label":"Performance readiness #210","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/210"},
             {"label":"Performance administration #223","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/223"}
           ]
         }
       ],
-      "nextAction": "Review week-one outcomes and receipts, resolve the reported browser playback problem (#244), and define the next schedule/payroll slice against existing performance and playlist issues.",
+      "nextAction": "Coordinate with the Busking team on a pinned reusable DBusk radio widget (#247) for Canopy #15, with streamer/now-playing/votes and proven media compatibility. In parallel, the steward should complete tomorrow's Phase 0 performance operator rehearsal and approvals. Then exercise Canopy's read-only fund/ledger adapter (#14); do not activate gated playlist payments or deploy escrow as part of this crossover.",
       "tags": [
         "ipfs",
         "media",
@@ -327,6 +331,22 @@
         {
           "label": "Schedule announcements #242",
           "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/242"
+        },
+        {
+          "label": "Merged owner-confirmed calendar announcements",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/248"
+        },
+        {
+          "label": "Merged live bookings — Phase 0 earmarked, not escrowed",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/250"
+        },
+        {
+          "label": "Merged named playlists — payments remain gated",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/252"
+        },
+        {
+          "label": "Next crossover: reusable DBusk radio widget #247",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/247"
         }
       ]
     },
