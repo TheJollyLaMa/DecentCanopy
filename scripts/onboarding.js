@@ -8,7 +8,7 @@
   const TOUR_KEY = 'decentcanopy-tour-v1';
   const VIEWER_KEY = 'decentcanopy-viewer-v1';
   const NOTES_KEY = 'decentcanopy-data-notes-v1';
-  const EXAMPLE_ID = 'curator:thejollylama';
+  const EXAMPLE_ID = 'decent-creator:0x807061df657a7697c04045da7d16d941861caabc';
   const LOCAL_ID = 'local-creator:me';
   const STEPS = 5;
 
@@ -147,7 +147,7 @@
     el('tour-peek').addEventListener('click', () => {
       store(TOUR_KEY, 'done');
       dialog.close();
-      focusEntity(EXAMPLE_ID);
+      focusEntity(GTPData.getProjectById(EXAMPLE_ID) ? EXAMPLE_ID : 'curator:thejollylama');
     });
     el('tour-next').addEventListener('click', () => {
       if (step === 3) {
