@@ -738,6 +738,13 @@ royalty; repo, version/tag, commit, code archive CID, license metadata) without
 inventing those values when they are not present on-chain. Unknown explicit repos
 remain discoverable; unmatched tokens are still indexed by their creator wallet.
 
+Releases prepared with the DecentHead ENS deployment gate also carry
+`properties.site_cid` (the exact-commit site pinned at preparation) and
+`properties.ens_name`. Coin details then link the pinned release site and its
+`.eth.limo` name. Malformed values are dropped. The ENS name may serve an earlier
+version until its owner signs; the release's `supporter-ens-deployed.json` asset
+records when it switched.
+
 **Market limitation:** DecentMarket currently has no listing deep-link router.
 Support links carry `chainId`, `nftContract`, `tokenId`, and `listingId` as query
 context but open the market view; select the displayed chain and listing/token ID

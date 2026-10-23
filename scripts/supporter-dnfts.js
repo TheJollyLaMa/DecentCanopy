@@ -106,7 +106,17 @@
     if (offers.length) content.append(element('p', 'Opens the public buyer page for this chain, escrow and listing. It rechecks the listing before any wallet purchase. Availability and price may have changed.', 'details-muted'));
     if (token.projects.length) content.append(element('p', `Project match: ${token.projects.map(p => `${p.repo} (${p.matchedBy})`).join(', ')}. Metadata is a discovery claim, not verified project ownership.`, 'details-muted'));
     const properties = token.properties || {};
-    for (const key of ['repo', 'project', 'version', 'tag', 'commit', 'codeArchiveCid', 'code_archive_cid', 'license']) {
+    // Release metadata claims; ENS may still serve an earlier version until the steward signs.
+    const siteCid = typeof properties.site_cid === 'string' && /^b[a-z2-7]{20,}$/.test(properties.site_cid) ? properties.site_cid : '';
+    const ensName = typeof properties.ens_name === 'string' && /^(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+eth$/.test(properties.ens_name) ? properties.ens_name : '';
+    if (siteCid || ensName) {
+      const site = element('p');
+      if (siteCid) site.append(link(`https://${siteCid}.ipfs.dweb.link/`, 'Release site on IPFS ↗'));
+      if (siteCid && ensName) site.append(document.createTextNode(' · '));
+      if (ensName) site.append(link(`https://${ensName}.limo/`, `${ensName} ↗`));
+      content.append(site);
+    }
+    for (const key of ['repo', 'project', 'version', 'tag', 'commit', 'codeArchiveCid', 'code_archive_cid', 'site_cid', 'ens_name', 'license']) {
       if (typeof properties[key] === 'string') content.append(element('p', `${key}: ${properties[key]}`, 'supporter-token-address'));
     }
     content.append(element('small', `Observed: ${token.observedAt || data.generatedAt}${stale ? ' · incomplete or stale chain snapshot' : ''}`));
