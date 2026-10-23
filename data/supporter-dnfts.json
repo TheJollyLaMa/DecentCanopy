@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-23T06:45:42.519Z",
+  "generatedAt": "2026-10-23T12:39:45.276Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,13 +29,20 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-10-23T06:44:43.306Z"
+      "attemptedAt": "2026-10-23T12:39:03.866Z"
     },
     "8453": {
       "status": "partial",
       "registered": 72,
       "listings": 2,
       "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:26: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:27: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:28: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:29: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:30: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:31: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:32: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:33: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:34: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
@@ -76,7 +83,7 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71: metadata unavailable; previous metadata used"
       ],
-      "attemptedAt": "2026-10-23T06:45:42.519Z"
+      "attemptedAt": "2026-10-23T12:39:45.276Z"
     }
   },
   "tokens": [
@@ -114,7 +121,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:43:27.389Z",
+      "observedAt": "2026-10-23T12:37:49.150Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -155,7 +162,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:43:27.653Z",
+      "observedAt": "2026-10-23T12:37:49.251Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -193,7 +200,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:44:30.899Z",
+      "observedAt": "2026-10-23T12:38:51.599Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -231,7 +238,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:43:39.902Z",
+      "observedAt": "2026-10-23T12:38:01.445Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -272,7 +279,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:43:40.424Z",
+      "observedAt": "2026-10-23T12:38:01.827Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -313,7 +320,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:43:40.649Z",
+      "observedAt": "2026-10-23T12:38:01.917Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
@@ -351,7 +358,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:45:40.556Z",
+      "observedAt": "2026-10-23T12:39:43.668Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
@@ -389,7 +396,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-23T06:45:40.615Z",
+      "observedAt": "2026-10-23T12:39:45.275Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     }
