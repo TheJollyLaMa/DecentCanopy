@@ -11,6 +11,7 @@ const http = require('node:http');
 const { parseRewardMessage } = require('../scripts/reward-messages');
 const { normalizeAirdropRequest, normalizePinnerRequest, requestIdFor } = require('../scripts/communityRewards');
 const CreatorRecords = require('../scripts/creator-records');
+const { createGitHubOAuth } = require('./github-oauth');
 
 const MAX_BODY_BYTES = 40 * 1024;
 const MAX_CLOCK_SKEW_MS = 10 * 60 * 1000;
@@ -41,10 +42,13 @@ function createRelay({
   verifyMessage,
   fetchImpl = fetch,
   now = () => Date.now(),
+  githubOAuth = {},
 }) {
   const seenNonces = new Map();
   const hits = new Map();
   const cache = { status: null, statusAt: 0, owner: null, ownerAt: 0 };
+  const oauth = createGitHubOAuth({ ...githubOAuth, fetchImpl, now,
+    allowed: origin => originMatches(origin, allowedOrigins), limited });
 
   function github(path, options = {}) {
     return fetchImpl(`https://api.github.com${path}`, {
@@ -193,8 +197,8 @@ function createRelay({
     if (!originMatches(origin, allowedOrigins)) return {};
     return {
       'Access-Control-Allow-Origin': origin,
-      'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-      'Access-Control-Allow-Headers': 'Content-Type',
+      'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
       Vary: 'Origin',
     };
   }
@@ -211,6 +215,7 @@ function createRelay({
     if (req.method === 'GET' && url.pathname === '/health') return send(200, { ok: true, repository });
     if (origin && !originMatches(origin, allowedOrigins)) return send(403, { error: 'Origin not allowed.' });
     try {
+      if (await oauth.handle(req, res, url)) return;
       const publication = url.pathname.match(/^\/publications\/([a-f0-9]{20})$/);
       if (req.method === 'GET' && publication) {
         const result = await publicationStatus(publication[1]);
@@ -281,6 +286,11 @@ if (require.main === module) {
       ...(process.env.ALLOW_IPFS_GATEWAYS === 'false' ? [] : IPFS_GATEWAY_ORIGINS),
     ],
     verifyMessage,
+    githubOAuth: {
+      clientId: process.env.GITHUB_OAUTH_CLIENT_ID,
+      clientSecret: process.env.GITHUB_OAUTH_CLIENT_SECRET,
+      callbackUrl: process.env.GITHUB_OAUTH_CALLBACK_URL,
+    },
   });
   const port = Number(process.env.PORT || 8787);
   http.createServer((req, res) => relay.handle(req, res)).listen(port, () => console.log(`DecentCanopy relay listening on ${port}`));

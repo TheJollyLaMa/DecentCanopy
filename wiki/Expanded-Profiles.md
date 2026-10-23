@@ -33,8 +33,8 @@ storage, exclusive storage, proof of replication, identity, or ownership.
 
 The current validator limits normalized creator JSON to **16,000 UTF-8 bytes**,
 not 16 KiB. The relay separately caps request bodies at 40 KiB. Existing project,
-note, and repository-count limits also remain in effect, including the current
-five-repository-per-project limit. This design does not remove that limit.
+and note-count limits also remain in effect. The GitHub connector no longer applies
+a five-repository-per-project cap; repository URLs share the whole-profile byte budget.
 The profile byte limit is not a limit on all data already carried in the discovery
 index: today the index contains the record and its signed message/envelope fields.
 See [creator records](../scripts/creator-records.js) and [relay](../relay/server.js).

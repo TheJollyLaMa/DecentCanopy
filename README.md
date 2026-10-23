@@ -103,8 +103,9 @@ status feed. Names without resolved public identities remain project nodes with 
 guessed repository URL. Private code, repository metadata, credentials, and health
 records must not be added to this public file.
 
-This seed map does **not** complete [GitHub connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11):
-there is no OAuth, account verification, or live synchronization.
+The curated seed map is separate from [GitHub connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11):
+optional public-only GitHub sign-in and repository selection live in the creator editor.
+Sign-in requires [relay OAuth configuration](wiki/Deployment.md#github-sign-in-setup).
 Creators can separately publish self-declared project repository links through **My creator**;
 these appear in the creator/whole canopy, not as edits to the curated agency inventory.
 The seed map exercises the existing data-layer and sidepanel path
@@ -127,7 +128,7 @@ keeps small signed discovery records and references larger self-pinned public co
 No expanded allowance is enabled yet; current size and repository-count limits remain.
 
 - **Create / edit:** connect your wallet, then choose **My creator**. Fill in your name, bio, HTTPS website/avatar and optional location label. Add projects, status updates and new funding sources. Your connected wallet controls only its own new profile; an archived project link does not prove ownership or change that project.
-- **Link GitHub repositories:** add up to five public `https://github.com/owner/repository` URLs per project (one per line). **Preview public GitHub metadata** anonymously checks owner, name, URL, visibility, and check time; it neither signs you into GitHub nor publishes anything. Consent and sign to publish the URLs as **self-declared** links. Repository blips appear in the creator/whole canopy. Edit the list or choose **Unlink all repositories** and publish again to remove current links; old signed IPFS records remain available. See [repository linking and privacy](wiki/Creators-and-Archive.md#public-github-repository-links).
+- **Link GitHub repositories:** choose **Sign in with GitHub / choose repositories** to browse accessible public repos in a multi-select dropdown, or paste public `https://github.com/owner/repository` URLs (one per line). Load further pages as needed; there is no fixed repository-count cap, but the existing 16 KB whole-profile budget remains. OAuth requests no additional scopes and stores GitHub credentials only in relay memory for at most ten minutes. Review links, consent and sign to publish them as **self-declared** associations, not ownership proofs. **Disconnect GitHub** revokes the session token without removing selected URLs; **Unlink all repositories** and publish again to remove current map links. Old signed IPFS records remain available. [Privacy and setup](wiki/Creators-and-Archive.md#public-github-repository-links).
 - **Connect to other Decent creators:** link a project to **related Decent projects** (any wallet's). Point a funding source at a **Decent fund** on the canopy and, once paid, add the chain + transaction hash.
 - **Run a fund:** choose **Add a Decent fund** to publish a fund blip you steward. Include its treasury (Base/Ethereum/Optimism) and the Decent projects it supports.
 - **Line meanings:**
