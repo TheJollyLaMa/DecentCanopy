@@ -89,10 +89,11 @@ conditions. A second provider can supply:
 
 Register adapters with `CanopyPublicSourceUI.createUI([adapter, ...])`. The existing
 graph adapter remains responsible for projects/associations; this additive,
-lazy overlay deliberately does not change that older interface. No shared CI
-workflow changes or server/proxy secrets are needed. The existing site-file
-collector includes these scripts for Pages/IPFS. A workflow that enumerates
-individual test files should additionally run `test/public-source.test.js`.
+lazy overlay deliberately does not change that older interface. No new
+server/proxy secrets are needed. The existing site-file collector includes these
+scripts for Pages/IPFS. The validation workflow explicitly runs
+`test/public-source.test.js` and includes it in both push and pull-request path
+filters; provider scripts are covered by the existing `scripts/**` filters.
 
 ### Envelope and record policies
 

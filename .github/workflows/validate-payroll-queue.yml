@@ -21,6 +21,7 @@ on:
       - styles/spiral.css
       - test/community-map.test.js
       - test/map-performance.test.js
+      - test/public-source.test.js
       - test/project-ens.test.js
       - data/repository-activity.json
       - test/repository-activity.test.js
@@ -66,6 +67,7 @@ on:
       - styles/spiral.css
       - test/community-map.test.js
       - test/map-performance.test.js
+      - test/public-source.test.js
       - test/project-ens.test.js
       - data/repository-activity.json
       - test/repository-activity.test.js
@@ -120,3 +122,6 @@ jobs:
 
       - name: Test map rendering budgets
         run: node --test test/map-performance.test.js
+
+      - name: Test public-source schema and integration
+        run: node --test test/public-source.test.js
