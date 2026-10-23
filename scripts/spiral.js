@@ -245,7 +245,6 @@
         scheduleRender();
       }
     });
-    if (isAgencyMode) allProjects.forEach(node => graphIdentity.get(node));
     buildGlobalNeighbors();
     updateCanopyDescription();
     populateFilters();
@@ -285,7 +284,6 @@
         updateAgencyIndexOptions();
         buildLayout();
         if (selectedNode && detailsPanel.classList.contains('open')) showDetails(selectedNode);
-        allProjects.forEach(node => graphIdentity.get(node));
         scheduleRender();
       }
       if (status) status.textContent = 'Recorded connections checked; layout uses links, not commit volume or verified impact.';
@@ -970,11 +968,21 @@
 
   function scheduleRender() {
     needRender = true;
-    if (!rafId) rafId = requestAnimationFrame(onAnimFrame);
+    if (ambientTimer) { window.clearTimeout(ambientTimer); ambientTimer = null; }
+    if (!document.hidden && !rafId) rafId = requestAnimationFrame(onAnimFrame);
   }
+
+  let ambientTimer = null;
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+      if (ambientTimer) { window.clearTimeout(ambientTimer); ambientTimer = null; }
+    } else scheduleRender();
+  });
 
   function onAnimFrame(now) {
     rafId = null;
+    if (document.hidden) return;
     const animating = stepCameraAnimation(now);
     const arranging = stepConnectionLayout(now);
     const replaying = activityReplay && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -984,11 +992,17 @@
     const communityPulsing = window.CanopyRepositoryActivityUI?.pulses().length > 0;
     if (activityReplay && !replaying) activityReplay = null;
     if (needRender || animating || arranging || replaying || heating || communityPulsing) {
-      render();
       needRender = false;
+      render();
     }
-    if (animating || arranging || needRender || replaying || heating || communityPulsing) {
-      rafId = requestAnimationFrame(onAnimFrame);
+    if (animating || arranging || needRender || replaying) {
+      if (!rafId) rafId = requestAnimationFrame(onAnimFrame);
+    } else if ((heating || communityPulsing) && !rafId && !ambientTimer) {
+      // Ambient heat and traveling lights do not need a full canvas redraw at display refresh rate.
+      ambientTimer = window.setTimeout(() => {
+        ambientTimer = null;
+        if (!document.hidden && !rafId) rafId = requestAnimationFrame(onAnimFrame);
+      }, 1000 / 12);
     }
   }
 
@@ -1079,6 +1093,7 @@
     if (!showAssoc || (isArtizenMode && !isAgencyMode && !selectedNode && zoom < 0.55)) return;
     if (!isAgencyMode && currentLod() === 'far') return;
     const pulses = ui?.pulses() || [];
+    if (!pulses.length) return;
     const visible = relationEdges.filter(({ source, target }) => edgeVisible(source, target, world) &&
       (!focusMode || !focusContext || focusContext.has(source.id) || focusContext.has(target.id)));
     const model = window.CanopyRepositoryActivity;
@@ -1322,7 +1337,7 @@
         ctx.fill();
       }
 
-      const avatar = graphIdentity?.get(node).image;
+      const avatar = visSize * zoom >= 10 || isSelected || isHovered ? graphIdentity?.get(node).image : null;
       ctx.beginPath();
       if (avatar) ctx.arc(node.x, node.y, visSize, 0, Math.PI * 2);
       else traceNodeShape(node, visSize);

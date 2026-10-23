@@ -116,6 +116,10 @@ unknown repository makes aggregate heat unknown. Paired connection accents indic
 activity at both endpoints only. They do not establish shared commits, integration,
 collaboration, funding or ownership, and do not upgrade the line's evidence color/dashes.
 Animation is optional, pauses in hidden tabs and is disabled for reduced motion.
+Ambient heat and traveling lights update at at most 12 frames per second, while
+camera movements and direct interactions retain display-rate updates. Repository
+heat is cached for at most one second between source updates rather than recomputed
+for every node and connection on every frame.
 
 #### Traveling community lights
 
@@ -221,6 +225,10 @@ original node shape. Both ENS lookup and image failures are reported in the card
 Public image requests use no-referrer; ENS reads use the existing Ethereum public RPC.
 Four node identity jobs run at once, shared image requests deduplicate, and ENS artwork is cached
 for five minutes per tab. Map artwork reads do not depend on a website contenthash being set.
+Tiny overview blips retain their shapes without fetching artwork until their displayed
+radius reaches 10 pixels, or they are hovered or selected. This avoids downloading
+the entire historical artwork archive just to show an overview. Opening a card still
+loads its identity artwork regardless of zoom.
 
 Cards feature the ENS `header` banner and avatar with source attribution. Long review notes,
 offers/needs, source evidence and connection details remain available in keyboard-accessible

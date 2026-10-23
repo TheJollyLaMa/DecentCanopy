@@ -2,6 +2,7 @@
   'use strict';
   const Model = root.CanopyRepositoryActivity;
   let data = null, failure = '', pending = null, listener = () => {};
+  let heatCache = new WeakMap(), heatCacheData = null, heatCacheFailure = '', heatCacheAt = 0;
   const tracker = Model.referenceTracker();
   let pulseQueue = [], referenceNotice = 'Initial snapshot is a baseline, not new live events.';
   const queue = (events, replay) => {
@@ -162,10 +163,19 @@
     update();
   }
   function nodeHeat(node) {
-    return failure ? 'unknown' : Model.nodeHeat(data, node);
+    const now = Date.now();
+    if (heatCacheData !== data || heatCacheFailure !== failure || now - heatCacheAt >= 1000) {
+      heatCache = new WeakMap();
+      heatCacheData = data;
+      heatCacheFailure = failure;
+      heatCacheAt = now;
+    }
+    if (!heatCache.has(node)) heatCache.set(node, failure ? 'unknown' : Model.nodeHeat(data, node, now));
+    return heatCache.get(node);
   }
   function edgeHeat(source, target) {
-    return failure ? { source: 'unknown', target: 'unknown', activeTogether: false } : Model.edgeHeat(data, source, target);
+    const a = nodeHeat(source), b = nodeHeat(target);
+    return { source: a, target: b, activeTogether: !['unknown', 'quiet'].includes(a) && !['unknown', 'quiet'].includes(b) };
   }
   function enabled() { return document.getElementById('repository-activity-heat')?.checked; }
   function animate() {
@@ -174,6 +184,7 @@
   }
   function pulses() {
     if (!animate() || failure) return [];
+    if (!pulseQueue.length) return [];
     const now = performance.now();
     const eligible = new Set(Model.references(data).map(event => event.id));
     pulseQueue = pulseQueue.filter(pulse => now - pulse.startedAt < 3000 && eligible.has(pulse.event.id));

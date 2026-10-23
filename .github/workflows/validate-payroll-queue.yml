@@ -20,6 +20,7 @@ on:
       - styles/decent-head.css
       - styles/spiral.css
       - test/community-map.test.js
+      - test/map-performance.test.js
       - test/project-ens.test.js
       - data/repository-activity.json
       - test/repository-activity.test.js
@@ -64,6 +65,7 @@ on:
       - styles/decent-head.css
       - styles/spiral.css
       - test/community-map.test.js
+      - test/map-performance.test.js
       - test/project-ens.test.js
       - data/repository-activity.json
       - test/repository-activity.test.js
@@ -115,3 +117,6 @@ jobs:
 
       - name: Test payroll automation
         run: node --test test/community-map.test.js test/project-ens.test.js test/repository-activity.test.js test/supporter-dnfts.test.js test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/creator-publishing-ui.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js test/canopy-ipfs.test.mjs test/agency-map.test.js test/agency-release-map.test.js test/github-repositories.test.js test/github-oauth.test.js test/share-view.test.js test/agency-pins.test.js test/pin-site.test.js
+
+      - name: Test map rendering budgets
+        run: node --test test/map-performance.test.js
