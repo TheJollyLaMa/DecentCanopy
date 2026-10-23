@@ -302,3 +302,35 @@ img[data-creator-image][hidden] { display: none !important; }
   white-space: pre-line;
   overflow-wrap: anywhere;
 }
+.creator-github-section {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  margin: 16px 0;
+  padding: clamp(16px, 4vw, 24px);
+  border: 1px solid rgba(148, 163, 184, .4);
+  border-radius: 12px;
+  background: rgba(15, 23, 42, .65);
+}
+.creator-github-section h4,
+.creator-github-section p { margin: 0; }
+.creator-github-section h4 { font-size: 1.1rem; color: #f8fafc; }
+.creator-github-section .participation-actions { gap: 12px; align-items: center; }
+.creator-github-section .toolbar-btn { white-space: normal; overflow-wrap: anywhere; }
+.creator-github-section .creator-github-connect {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  max-width: 100%;
+  padding: 12px 16px;
+  background: #f8fafc;
+  border-color: #f8fafc;
+  color: #0f172a;
+  font-weight: 700;
+  text-align: left;
+}
+.creator-github-connect img { flex: 0 0 24px; border-radius: 50%; }
+.creator-github-section .creator-github-connect:hover { background: #e2e8f0; color: #0f172a; }
+.creator-github-section .creator-github-connect:focus-visible { outline: 3px solid #86efac; outline-offset: 4px; }
+.creator-github-section [data-github-picker] { display: grid; gap: 12px; min-width: 0; }

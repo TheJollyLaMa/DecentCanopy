@@ -43,7 +43,8 @@ The public-only [GitHub connector #11](https://github.com/TheJollyLaMa/DecentCan
 supports optional GitHub sign-in for repository browsing. Public repository activity is refreshed separately as described below.
 
 1. Open **My creator**, add/edit a project, or use **Edit this project / link repositories** on your own project blip.
-2. Choose **Sign in with GitHub / choose repositories**, authorize on GitHub, and select
+2. In the **Connect your code** section, choose **Sign in with GitHub / choose repositories**
+   (the button with the GitHub logo), authorize on GitHub, and select
    public repositories from the populated multi-select dropdown. **Load more repositories**
    fetches the next page without losing your selection. Choose **Add selected repository links**
    to copy those choices into the draft. Nothing is published by sign-in or selection.
