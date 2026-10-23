@@ -98,6 +98,23 @@ test('coin details use text nodes for apostrophes/HTML and show stock, prices an
   await api.load(); assert.equal(requests(), 1);
 });
 
+test('release site and ENS links appear only for well-formed metadata claims', async () => {
+  const cid = 'bafybeie6yd4kiyr7amfkmoop56xtc6wuz46hwizv6wkkvoaw3fqcdkk5xm';
+  const render = async properties => {
+    const data = fixture();
+    data.tokens[0].properties = properties;
+    const { api, container, flatten } = ui(data);
+    api.mount(container, { kind: 'project', name: 'BigNuten' });
+    await new Promise(resolve => setImmediate(resolve));
+    return flatten(container).filter(n => n.tagName === 'a').map(n => [n.textContent, n.href]);
+  };
+  const links = await render({ site_cid: cid, ens_name: 'decenthead.decentagency.eth' });
+  assert.deepEqual(links.find(([t]) => t.startsWith('Release site')), ['Release site on IPFS ↗', `https://${cid}.ipfs.dweb.link/`]);
+  assert.deepEqual(links.find(([t]) => t.startsWith('decenthead')), ['decenthead.decentagency.eth ↗', 'https://decenthead.decentagency.eth.limo/']);
+  const hostile = await render({ site_cid: 'QmOld/../x', ens_name: 'evil.com/#.eth' });
+  assert.ok(!hostile.some(([t]) => t.startsWith('Release site') || t.includes('.eth')));
+});
+
 test('matching official release mirrors show both artwork faces without changing ledger provenance or stock', async () => {
   const Activity = require('../scripts/repository-activity');
   const data = fixture(), token = data.tokens[0];
