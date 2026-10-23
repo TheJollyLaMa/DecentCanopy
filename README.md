@@ -43,6 +43,7 @@ DecentCanopy provides:
 - **Association Mapping** — Visual representation of project relationships, shared funding pools, and curator overlap
 - **DecentAgency map** — A dated, curated project/repository inventory with Now / Next / Inventory focus, evidence-linked lineage and reuse proposals, and a keyboard-accessible node index at `?canopy=agency`
 - **Sidepanel Details** — Project information, season/phase context, parent/child relationships, and cross-project associations
+- **Public project sources** — Lazy, read-only provider-neutral fund/payroll overlay on Busking project sidepanels; exact source-reported payout units and explorer evidence, explicit unknown balances and unresolved weekly reconciliation ([schema, sources & limitations](wiki/Public-Sources.md))
 - **Shared Data Layer** — Normalized access to projects, associations, activity, and metrics via `scripts/data-layer.js`
 - **Artizen Snapshot** — Local JSON data derived from public Artizen season/funding records for deterministic rendering
 - **DecentHead Header** — Animated forest canopy, About modal, IPFS status, and injected-wallet connection controls

@@ -9,6 +9,7 @@ A home for independent creators to stay connected, document their projects and f
 | [Admin playbook](Admin-Playbook.md) | Create/fund allocations, pay queued entries, settle the ledger |
 | [IPFS & pinning](IPFS-and-Pinning.md) | Keep public data available and request pinner rewards |
 | [Expanded profile design](Expanded-Profiles.md) | Understand the proposed pinner-qualified capacity model; design only, no new allowance enabled |
+| [Public project sources](Public-Sources.md) | Read qualified Busking fund/payroll evidence, source blockers and the reusable schema |
 | [Deployment](Deployment.md) | Configure publishing, secrets and Pages; troubleshoot |
 
 Visit [the canopy](https://thejollylama.github.io/DecentCanopy/) or return to the [README](../README.md).

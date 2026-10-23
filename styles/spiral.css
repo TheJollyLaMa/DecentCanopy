@@ -1051,6 +1051,14 @@ body {
   color: #3b82f6;
 }
 
+.public-sources {
+  overflow-wrap: anywhere;
+}
+
+.public-sources dd {
+  margin: 0 0 0.6rem 0.8rem;
+}
+
 .artizen-mode .spiral-status-legend {
   display: none;
 }

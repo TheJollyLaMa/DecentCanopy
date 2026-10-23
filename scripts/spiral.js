@@ -2091,6 +2091,7 @@
     showDetailsContent(node);
     window.CanopySupporterDNFTs?.mount(detailsContentEl, node);
     window.CanopyRepositoryActivityUI?.mount(detailsContentEl, node);
+    window.CanopyPublicSourceUI?.mount(detailsContentEl, node);
     graphIdentity?.mount(detailsContentEl, node);
     if (node.creatorRecord) {
       for (const [selector, title] of [
