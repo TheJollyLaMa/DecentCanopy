@@ -211,6 +211,16 @@ test('publication packages and validation include the connector without new runt
   assert.ok(page.indexOf('scripts/github-repositories.js') < page.indexOf('scripts/decent-creators.js'));
 });
 
+test('GitHub controls have a distinct labelled section and a decorative logo without replacing the button name', () => {
+  const source = read('scripts/decent-creators.js'), styles = read('styles/creators.css');
+  assert.match(source, /<section class="creator-github-section" aria-label="GitHub repositories">/);
+  assert.match(source, /<h4>Connect your code<\/h4>/);
+  assert.match(source, /GitHub-Mark\.png" width="24" height="24" alt="" aria-hidden="true"/);
+  assert.match(source, /<span>Sign in with GitHub \/ choose repositories<\/span>/);
+  assert.match(styles, /\.creator-github-section \{[\s\S]*?gap: 16px;[\s\S]*?margin: 16px 0;/);
+  assert.match(styles, /\.creator-github-section \.creator-github-connect:focus-visible/);
+});
+
 function previewHarness(preview) {
   const elements = new Map(), ready = [], events = {};
   const element = id => {
