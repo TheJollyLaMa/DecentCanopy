@@ -13,7 +13,11 @@
         signal: AbortSignal.timeout(75000)
       });
       const body = await response.json();
-      if (!response.ok) throw new Error(body.error || `GitHub connector failed (HTTP ${response.status}).`);
+      if (!response.ok) {
+        const error = new Error(body.error || `GitHub connector failed (HTTP ${response.status}).`);
+        error.statusCode = response.status;
+        throw error;
+      }
       return body;
     }
     async function disconnect() {
@@ -25,6 +29,8 @@
     }
     async function connect(popup) {
       if (!popup) throw new Error('Allow popups for Canopy, then click GitHub sign-in again.');
+      closed = false;
+      session = null;
       try {
         const result = await request('/github/connect', 'POST');
         if (!/^[a-f0-9]{64}$/.test(result.session || '')) throw new Error('GitHub connector returned an invalid session.');
@@ -55,7 +61,17 @@
     }
     async function repositories(page = 1) {
       if (closed || !session) throw new Error('Sign in to GitHub first.');
-      const result = await request(`/github/repos?page=${page}`);
+      let result;
+      try {
+        result = await request(`/github/repos?page=${page}`);
+      } catch (error) {
+        if (error.statusCode === 401) {
+          session = null;
+          closed = true;
+          error.message = 'GitHub authorization was revoked or expired. Sign in again.';
+        }
+        throw error;
+      }
       if (!Array.isArray(result.repositories) || !(result.nextPage === null || result.nextPage === page + 1)) throw new Error('GitHub returned an invalid repository page.');
       const repositories = result.repositories.map(repo => {
         const url = Records.repository(repo.url);

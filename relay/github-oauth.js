@@ -157,7 +157,17 @@ function createGitHubOAuth({ clientId, clientSecret, callbackUrl, fetchImpl = fe
         if (session.status !== 'ready') throw fail(409, 'Finish GitHub sign-in first.');
         const number = url.searchParams.get('page') || '1';
         if (!/^[1-9]\d{0,5}$/.test(number)) throw fail(400, 'Invalid repository page.');
-        const response = await api(`/user/repos?visibility=public&affiliation=owner,collaborator,organization_member&sort=full_name&per_page=100&page=${number}`, session.token);
+        let response;
+        try {
+          response = await api(`/user/repos?visibility=public&affiliation=owner,collaborator,organization_member&sort=full_name&per_page=100&page=${number}`, session.token);
+        } catch (error) {
+          if (error.statusCode === 401) {
+            const token = remove(session);
+            if (token) revoke(token).catch(() => console.error('[Canopy GitHub] Revoked token cleanup failed; revoke the app in GitHub Settings.'));
+            throw fail(401, 'GitHub authorization was revoked or expired. Sign in again.');
+          }
+          throw error;
+        }
         const rows = await response.json();
         if (!Array.isArray(rows)) throw fail(502, 'GitHub returned invalid repository data.');
         const repositories = rows.filter(row => row.private === false && row.visibility === 'public').map(row => {

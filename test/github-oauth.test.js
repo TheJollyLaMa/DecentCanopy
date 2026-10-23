@@ -109,6 +109,20 @@ test('expired and disconnected sessions lose access and revoke their GitHub toke
   assert.equal(h.calls.filter(c => c.init.method === 'DELETE').length, 2);
 });
 
+test('GitHub-side revocation invalidates the relay capability and permits a fresh connection', async () => {
+  const h = harness({ apiStatus: 401 }), revoked = await h.ready();
+  const result = await h.request('/github/repos', { headers: revoked.headers });
+  assert.equal(result.status, 401);
+  assert.match(result.body.error, /revoked or expired/i);
+  assert.equal((await h.request('/github/session', { headers: revoked.headers })).status, 401);
+  assert.equal(h.calls.filter(c => c.init.method === 'DELETE').length, 1);
+
+  const reconnected = await h.ready();
+  assert.equal((await h.request('/github/session', { headers: reconnected.headers })).body.status, 'ready');
+  assert.notEqual(reconnected.result.body.session, revoked.result.body.session);
+  await h.request('/github/session', { method: 'DELETE', headers: reconnected.headers });
+});
+
 test('cancelled, failed and over-scoped authorizations never become connected', async () => {
   const denied = harness(), s = await denied.pending();
   await denied.request(`/github/callback?state=${s.state}&error=access_denied`, { headers: { cookie: s.cookie } });
@@ -148,16 +162,20 @@ test('relay exposes OAuth status and permits the connector CORS methods without 
 
 function browserHarness({ sessionState = { status: 'ready', login: 'Owner' }, page = { repositories: [{ url: 'https://github.com/owner/one', fullName: 'Owner/One', visibility: 'public', checkedAt: new Date().toISOString() }], nextPage: 2 } } = {}) {
   const calls = [], popup = { location: '', closed: false, close() { this.closed = true; } };
+  let revoked = false;
   const client = create({ relay: 'https://relay.test', sleep: async () => {},
     fetchImpl: async (url, init) => {
       calls.push({ url, init });
       if (url.endsWith('/github/connect')) return Response.json({ session: 'a'.repeat(64), authorizeUrl: 'https://relay.test/github/start?state=s' });
       if (init.method === 'DELETE') return Response.json({ disconnected: true });
-      if (url.includes('/github/repos')) return Response.json(page);
+      if (url.includes('/github/repos')) return Response.json(
+        revoked ? { error: 'GitHub authorization was revoked or expired. Sign in again.' } : page,
+        { status: revoked ? 401 : 200 }
+      );
       return Response.json(sessionState);
     }
   });
-  return { client, calls, popup };
+  return { client, calls, popup, revoke: () => { revoked = true; }, restore: () => { revoked = false; } };
 }
 
 test('browser sign-in, paginated public choices and disconnect use in-memory relay capabilities only', async () => {
@@ -171,6 +189,21 @@ test('browser sign-in, paginated public choices and disconnect use in-memory rel
   await h.client.disconnect();
   await assert.rejects(h.client.repositories(), /Sign in/);
   assert.equal(h.calls.at(-1).init.method, 'DELETE');
+  assert.equal(await h.client.connect(h.popup), 'Owner');
+  assert.equal((await h.client.repositories()).repositories[0].fullName, 'Owner/One');
+  assert.equal(h.popup.closed, true);
+});
+
+test('browser clears a revoked capability so a subsequent sign-in can reconnect', async () => {
+  const h = browserHarness();
+  await h.client.connect(h.popup);
+  h.revoke();
+  await assert.rejects(h.client.repositories(), /revoked or expired/i);
+  await assert.rejects(h.client.repositories(), /Sign in to GitHub first/);
+  h.restore();
+  assert.equal(await h.client.connect(h.popup), 'Owner');
+  const result = await h.client.repositories();
+  assert.equal(result.repositories[0].fullName, 'Owner/One');
 });
 
 test('browser popup denial, OAuth cancellation and invalid/private repository pages fail explicitly', async () => {

@@ -87,10 +87,32 @@ test('signed publication, project replacement, and unlinking preserve unrelated 
   assert.equal(updated.name, r.name);
   await publishCreator({ envelope: await envelope(updated), index, verifyMessage, pin, now });
   assert.equal(pins, 2);
-  assert.equal(index.creators[0].record.projects[0].repositories, undefined);
+  assert.equal(updated.revision, 2);
+  assert.equal(updated.previousCid, cid);
+  assert.equal(index.creators[0].record.revision, 2);
+  assert.equal(index.creators[0].record.previousCid, cid);
+  assert.equal(index.creators[0].cid, nextCid);
+  assert.equal(index.creators[0].message, Records.message(updated));
+  assert.equal(Records.verify(index.creators[0], verifyMessage).projects[0].repositories, undefined);
   const graph = Records.apply({ projects: [], associations: [] }, index.creators);
   assert.equal(graph.projects.some(p => p.id === repoId), false);
   assert.equal(graph.projects.some(p => p.id === 'github-repo:thejollylama/decentcanopy'), true);
+});
+
+test('a newly signed repository link enters the next public activity catalog', async () => {
+  const { buildCatalog } = await import('../scripts/build-supporter-dnfts.mjs');
+  const newRepo = 'https://github.com/example/new-public-project';
+  const value = record([newRepo]), message = Records.message(value);
+  const index = { version: 1, creators: [] };
+  await publishCreator({
+    envelope: { message, signature: await signer.signMessage(message) },
+    index, verifyMessage, pin: async () => cid, now
+  });
+  const readData = file => JSON.parse(read(file));
+  const catalog = buildCatalog(
+    readData('data/agency-map.json'), index, readData('data/project-details.json')
+  );
+  assert.ok(catalog.some(row => row.repo === 'example/new-public-project'));
 });
 
 test('repository nodes deduplicate across projects and wallets without upgrading ownership trust', () => {
