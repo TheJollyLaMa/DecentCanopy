@@ -39,6 +39,19 @@ function fixture() {
   };
   return responses;
 }
+function evidenceFixture() {
+  const values = fixture(), value = values.funds;
+  Object.assign(value, { evidenceVersion: 1, source: 'worker-rpc', network: { chainId: 8453, name: 'Base' },
+    asset: { address: Busking.ASSET.address, symbol: 'USDC', decimals: 6 } });
+  for (const fund of Object.values(value.funds)) {
+    Object.assign(fund, { asset: clone(value.asset), balanceAvailable: true, balanceCheckedAt: AT, balanceError: '',
+      weeklyAvailable: true, weeklyCheckedAt: AT, weeklyError: '',
+      sourcesAvailable: true, payoutsAvailable: true, historyCheckedAt: AT, historyError: '',
+      payoutUnits: '0', advertUnits: '0', sponsorUnits: '1230000', djukeUnits: '0' });
+    for (const deposit of fund.sources) deposit.asset = Busking.ASSET.address;
+  }
+  return values;
+}
 function fetcher(responses, calls = []) {
   return async (url, options) => {
     calls.push({ url, options });
@@ -110,6 +123,118 @@ test('valid source data yields four ordinary funds and qualified exact router ev
   assert.match(events[0].evidence[0].url, /^https:\/\/basescan\.org\/tx\/0x[0-9a-f]{64}#eventlog$/);
   assert.equal(data.sources[1].attributes.repositorySync, 'Manual repository sync; automatic sync not configured');
   assert.doesNotMatch(JSON.stringify(data), /DO_NOT_COPY|PRIVATE|PAYROLL_GITHUB_TOKEN|payrollAnnouncements/);
+});
+test('new evidence accepts nullable units and mixed balance outages without suppressing healthy events or enabling balances', async () => {
+  const values = evidenceFixture();
+  const fund = values.funds.funds['dbusk-playback'];
+  Object.assign(fund, { balanceUnits: null, reservedUnits: null, availableUnits: null,
+    balanceAvailable: false, balanceError: 'DO_NOT_COPY rpc diagnostic' });
+  const data = await snapshot(values);
+  assert.equal(data.sources[0].state, 'available');
+  assert.equal(data.records.filter(record => record.kind === 'fund').length, 4);
+  assert.equal(data.records.filter(record => record.kind === 'interaction').length, 1);
+  for (const item of data.records.filter(record => record.kind === 'fund')) {
+    assert.deepEqual(item.amounts, { balance: null, reserved: null, available: null },
+      'even healthy real zero cannot activate monetary display');
+    assert.equal(item.attributes.sponsorDeposits, '1');
+  }
+  assert.match(data.issues.join(' '), /dbusk-playback: balance unavailable/);
+  assert.doesNotMatch(JSON.stringify(data), /DO_NOT_COPY/);
+  const huge = '9007199254740993000001';
+  values.funds.funds['dbusk-top10'].balanceUnits = huge;
+  assert.equal((await snapshot(values)).records.find(record => record.id === 'busking:fund:dbusk-top10').amounts.balance, null);
+  Object.assign(fund, { balanceUnits: '0', availableUnits: '0', balanceAvailable: true, balanceError: '' });
+  const recovered = await snapshot(values);
+  assert.equal(recovered.sources[0].state, 'available');
+  assert.equal(recovered.records.filter(record => record.kind === 'interaction').length, 1);
+  assert.equal(recovered.records.find(record => record.id === 'busking:fund:dbusk-playback').amounts.balance, null);
+});
+test('legacy nullable exact-unit fields are compatible without assuming new metadata', async () => {
+  const values = fixture();
+  for (const fund of Object.values(values.funds.funds)) {
+    for (const key of ['balanceUnits', 'reservedUnits', 'availableUnits', 'payoutUnits', 'advertUnits', 'sponsorUnits', 'djukeUnits']) fund[key] = null;
+  }
+  const data = await snapshot(values);
+  assert.equal(data.sources[0].state, 'available');
+  assert.equal(data.records.filter(record => record.kind === 'fund').length, 4);
+  assert.equal(data.records.find(record => record.kind === 'interaction').amounts.paid, '9007199254740993000001');
+});
+test('unavailable history hides retained payout claims and counts while independent healthy evidence survives', async () => {
+  const values = evidenceFixture();
+  const fund = values.funds.funds['dbusk-repo-dev'];
+  Object.assign(fund, { sourcesAvailable: false, payoutsAvailable: false,
+    historyError: 'DO_NOT_COPY private RPC', payoutUnits: null, advertUnits: null, sponsorUnits: null, djukeUnits: null });
+  values['payroll/ledger'] = new Error('No independent ledger');
+  let data = await snapshot(values);
+  assert.equal(data.sources[0].state, 'available');
+  assert.equal(data.records.filter(record => record.kind === 'fund').length, 4);
+  assert.equal(data.records.filter(record => record.kind === 'interaction').length, 0);
+  assert.equal(data.records.find(record => record.id === 'busking:fund:dbusk-repo-dev').attributes.sponsorDeposits, 'Unavailable');
+  assert.doesNotMatch(JSON.stringify(data), /DO_NOT_COPY/);
+  assert.equal(data.records.find(record => record.id === 'busking:fund:dbusk-top10').attributes.sponsorDeposits, '1');
+  const healthy = values.funds.funds['dbusk-top10'];
+  healthy.payouts = [{ ...clone(fixture().funds.funds['dbusk-repo-dev'].payouts[0]),
+    slug: healthy.slug, fundId: Busking.FUNDS[healthy.slug], txHash: '0x' + '3'.repeat(64) }];
+  data = await snapshot(values);
+  assert.equal(data.records.filter(record => record.kind === 'interaction').length, 1, 'another healthy fund payout survives in the same response');
+  values['payroll/ledger'] = fixture()['payroll/ledger'];
+  data = await snapshot(values);
+  assert.equal(data.records.filter(record => record.kind === 'interaction').length, 2, 'separate payroll endpoint survives fund history outage');
+});
+test('stale per-fund history stays stale and null uninitialized observations do not invent zero history', async () => {
+  let values = evidenceFixture();
+  values.funds.funds['dbusk-repo-dev'].historyCheckedAt = new Date(NOW - 16 * 60000).toISOString();
+  values.funds.funds['dbusk-repo-dev'].sources[0].timestamp = Math.floor(NOW / 1000) - 17 * 60;
+  values.funds.funds['dbusk-repo-dev'].payouts = [];
+  let data = await snapshot(values);
+  assert.equal(data.records.find(record => record.id === 'busking:fund:dbusk-repo-dev').coverage.state, 'stale');
+  values = evidenceFixture();
+  values.funds.lastCheckedAt = null;
+  values.funds.ready = false;
+  for (const fund of Object.values(values.funds.funds)) {
+    Object.assign(fund, { sources: [], payouts: [], sourcesAvailable: false, payoutsAvailable: false,
+      historyCheckedAt: null, historyError: '', advertUnits: null, sponsorUnits: null, djukeUnits: null, payoutUnits: null });
+  }
+  data = await snapshot(values);
+  assert.equal(data.sources[0].state, 'partial');
+  assert.equal(data.sources[0].observedAt, null);
+  assert.equal(data.records.filter(record => record.kind === 'fund').length, 0);
+  assert.equal(data.records.filter(record => record.kind === 'interaction').length, 1);
+  assert.match(data.issues.join(' '), /history uninitialized/);
+  values['payroll/ledger'].ready = false;
+  values['payroll/ledger'].lastCheckedAt = null;
+  data = await snapshot(values);
+  assert.equal(data.sources[1].state, 'partial');
+  assert.equal(data.records.filter(record => record.kind === 'interaction').length, 0);
+});
+test('evidence identity and source availability metadata fail closed when foreign, malformed or inconsistent', async () => {
+  const changes = [
+    value => { value.evidenceVersion = 2; }, value => { value.evidenceVersion = null; },
+    value => { value.network.chainId = 10; }, value => { value.network.name = 'Optimism'; },
+    value => { value.asset.address = ADDRESS; }, value => { value.asset.symbol = 'ETH'; },
+    value => { value.asset.decimals = 18; }, value => { value.source = 'independently-verified'; },
+    value => { delete value.network; }, value => { delete value.asset; },
+    value => { value.funds['dbusk-playback'].asset.decimals = 18; },
+    value => { value.funds['dbusk-playback'].sources[0].asset = ADDRESS; },
+    value => { delete value.funds['dbusk-playback'].sources[0].asset; },
+    value => { value.funds['dbusk-playback'].balanceAvailable = 'false'; },
+    value => { value.funds['dbusk-playback'].balanceAvailable = false; },
+    value => { value.funds['dbusk-playback'].balanceUnits = null; },
+    value => { value.funds['dbusk-playback'].historyCheckedAt = null; },
+    value => { value.funds['dbusk-playback'].historyCheckedAt = new Date(NOW + 120000).toISOString(); },
+    value => { value.funds['dbusk-playback'].weeklyCheckedAt = '2026-02-30T00:00:00Z'; },
+    value => { value.funds['dbusk-playback'].balanceError = {}; },
+    value => { value.funds['dbusk-playback'].historyError = 'unavailable'; },
+    value => { delete value.funds['dbusk-playback'].historyCheckedAt; },
+    value => { value.funds['dbusk-playback'].payoutUnits = 0; }
+  ];
+  for (const change of changes) {
+    const values = evidenceFixture(); change(values.funds);
+    const data = await snapshot(values);
+    assert.equal(data.sources[0].state, 'unavailable', change.toString());
+    assert.equal(data.records.filter(record => record.kind === 'fund').length, 0);
+    assert.equal(data.records.filter(record => record.kind === 'interaction').length, 1);
+  }
 });
 test('stale, not-ready and source errors never become healthy or leak diagnostics', async () => {
   const values = fixture();

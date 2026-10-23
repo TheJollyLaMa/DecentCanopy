@@ -45,6 +45,46 @@ zero or replaced with a local estimate. Upstream readiness/error reporting and
 explicit chain/asset/decimals on monetary collections are prerequisites for
 enabling these fields.
 
+### Nullable upstream evidence compatibility (display still gated)
+
+[Busking PR #271](https://github.com/TheJollyLaMa/DecentBusking/pull/271)
+adds a bounded `evidenceVersion: 1` contract to its existing `schemaVersion: 1`.
+This adapter accepts both the legacy API and known nullable exact-unit fields:
+`balanceUnits`, `reservedUnits`, `availableUnits`, `payoutUnits`, `advertUnits`,
+`sponsorUnits`, and `djukeUnits`. Only null or canonical unsigned uint256 decimal
+strings are allowed; numbers, exponent notation and malformed amounts still
+invalidate that endpoint. **All normalized balance/reserved/available amounts
+remain null, even when a healthy source reports real `"0"` or a nonzero string.**
+Compatibility is not monetary-display acceptance.
+
+When supplied, evidence identity must match `evidenceVersion: 1`,
+`source: "worker-rpc"`, `network: { chainId: 8453, name: "Base" }`, the pinned
+router, and top-level/per-fund asset address, symbol `USDC` and decimals `6`.
+Optional asset `chainId` must also be 8453. Foreign or incomplete versioned
+identity fails closed; legacy asset-less deposit counts remain supported, but
+versioned deposits must identify the pinned asset, and an explicit legacy
+deposit asset cannot name a foreign token.
+
+Versioned funds must provide `balanceAvailable`, `weeklyAvailable`,
+`sourcesAvailable`, `payoutsAvailable`, corresponding `balanceCheckedAt`,
+`weeklyCheckedAt`, `historyCheckedAt`, and string `balanceError`, `weeklyError`,
+`historyError`. Timestamps are validated (including future-time rejection);
+available sources require observation times and cannot simultaneously report
+errors. Failed balance reads must have null balance/available units. Raw
+diagnostics are never copied. Balance outages do not hide healthy history or
+other funds. Unavailable history cannot establish zero deposits: its retained
+arrays do not contribute displayed counts or fund payout evidence. Independent
+payroll endpoint evidence survives. Stale history remains explicitly stale.
+Uninitialized `lastCheckedAt: null` is accepted only with `ready: false`; records
+without an actual history observation are withheld rather than invented.
+
+**Rollout order:** review, merge and deploy this Canopy compatibility change
+**before** deploying Busking PR #271. Then run read-only/synthetic mixed-outage,
+real-zero, stale/uninitialized and recovery checks. This task does not authorize
+either merge/deploy. A separate acceptance decision is still required before
+monetary display can be enabled. Weekly reconciliation and independent receipt
+verification remain unresolved, unaffected by this compatibility work.
+
 Weekly responses currently lack schema version, deployment/asset identity and
 reconciled coverage. They are used **only for source status/counts**, with readiness
 unknown and reconciliation unresolved. No weekly payment amount is normalized.

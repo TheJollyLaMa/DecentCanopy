@@ -17,7 +17,7 @@
       'decent-project:0x807061df657a7697c04045da7d16d941861caabc:cd695985-650e-472e-8f3b-64cbb9a7f682'],
     capabilities: ['funds', 'source-reported-router-payouts', 'source-status']
   });
-  const BALANCE_BLOCKER = 'Balances, reservations and availability unavailable: the upstream balance reader substitutes zero on RPC failure; fund balances and deposits also omit explicit asset metadata.';
+  const BALANCE_BLOCKER = 'Balances, reservations and availability unavailable: monetary display remains gated pending separate upstream evidence acceptance. Nullable unit compatibility is not balance verification.';
   const WEEKLY_BLOCKER = 'Weekly reconciliation unresolved: source-reported weeks and unmatched payouts are not independently reconciled by Canopy. Empty weeks never mean zero payouts.';
   const PROOF_LIMIT = 'Source-reported router event, not independently verified by Canopy. Explorer links are evidence pointers, not receipt verification. Coverage may be incomplete; unrelated to direct treasury-transfer association badges.';
   const lower = value => typeof value === 'string' ? value.toLowerCase() : '';
@@ -29,10 +29,28 @@
     check(Date.parse(value) <= now + 60000, 'Source timestamp is in the future');
     return now - Date.parse(value) > 15 * 60 * 1000 ? 'stale' : 'available';
   }
+  function asset(value) {
+    check(value && lower(value.address) === ASSET.address && value.symbol === ASSET.symbol
+      && value.decimals === ASSET.decimals && (value.chainId === undefined || value.chainId === CHAIN), 'Unexpected source asset');
+  }
+  function evidence(value) {
+    if (value.evidenceVersion !== undefined) {
+      check(value.evidenceVersion === 1, 'Unsupported upstream evidence version');
+      check(value.source === 'worker-rpc' && value.network && value.asset, 'Missing upstream evidence identity');
+    }
+    if (value.network !== undefined) check(value.network?.chainId === CHAIN && value.network.name === 'Base', 'Unexpected source network');
+    if (value.asset !== undefined) asset(value.asset);
+    if (value.source !== undefined) check(value.source === 'worker-rpc', 'Unexpected evidence source');
+  }
   function envelope(value, now) {
     check(value?.schemaVersion === 1, 'Unsupported upstream schema version');
     check(value.chainId === CHAIN && lower(value.routerAddress) === ROUTER, 'Unexpected source chain/router');
     check(typeof value.ready === 'boolean' && typeof value.lastError === 'string', 'Missing source readiness/error');
+    evidence(value);
+    if (value.lastCheckedAt === null) {
+      check(value.ready === false, 'Ready source lacks observation time');
+      return 'partial';
+    }
     const state = observed(value.lastCheckedAt, now);
     return !value.ready || value.lastError ? 'partial' : state;
   }
@@ -80,7 +98,44 @@
         evidence: [{ url: `https://basescan.org/tx/${entry.txHash}#eventlog`, label: 'BaseScan router payroll evidence (not independently checked)' }]
       });
   }
-  function normalizeFunds(value, status) {
+  function fundStatus(fund, status, now, versioned) {
+    if (versioned) {
+      check(fund.asset !== undefined && ['balanceAvailable', 'weeklyAvailable', 'sourcesAvailable', 'payoutsAvailable']
+        .every(key => fund[key] !== undefined)
+        && ['balanceCheckedAt', 'weeklyCheckedAt', 'historyCheckedAt', 'balanceError', 'weeklyError', 'historyError']
+          .every(key => fund[key] !== undefined), 'Missing fund evidence metadata');
+    }
+    if (fund.asset !== undefined) asset(fund.asset);
+    for (const key of ['balanceAvailable', 'weeklyAvailable', 'sourcesAvailable', 'payoutsAvailable']) {
+      if (fund[key] !== undefined) check(typeof fund[key] === 'boolean', 'Invalid fund source availability');
+    }
+    for (const key of ['balanceError', 'weeklyError', 'historyError']) {
+      if (fund[key] !== undefined) check(typeof fund[key] === 'string', 'Invalid fund source error');
+    }
+    for (const [time, flags] of [['balanceCheckedAt', ['balanceAvailable']], ['weeklyCheckedAt', ['weeklyAvailable']],
+      ['historyCheckedAt', ['sourcesAvailable', 'payoutsAvailable']]]) {
+      if (fund[time] === undefined) {
+        check(!flags.some(flag => fund[flag] === true), 'Available fund source lacks observation time');
+        continue;
+      }
+      if (fund[time] === null) check(!flags.some(flag => fund[flag] === true), 'Available fund source lacks observation time');
+      else observed(fund[time], now);
+    }
+    if (fund.balanceAvailable === true) {
+      check(fund.balanceUnits != null && !fund.balanceError, 'Inconsistent available balance');
+      Model.units(fund.balanceUnits);
+    }
+    if (fund.balanceAvailable === false) check(fund.balanceUnits == null && fund.availableUnits == null, 'Unavailable balance contains monetary values');
+    if (fund.weeklyAvailable === true) check(!fund.weeklyError, 'Inconsistent available weekly source');
+    if (fund.sourcesAvailable === true || fund.payoutsAvailable === true) {
+      check(!fund.historyError && status.ready && !status.lastError, 'Inconsistent available history');
+    }
+    const at = fund.historyCheckedAt === undefined ? status.observedAt : fund.historyCheckedAt;
+    const state = at === null ? 'partial' : observed(at, now);
+    return { ...status, observedAt: at, state: status.state === 'stale' || state === 'stale' ? 'stale'
+      : status.state === 'partial' || fund.historyError ? 'partial' : state };
+  }
+  function normalizeFunds(value, status, now) {
     check(value.funds && !Array.isArray(value.funds) && typeof value.funds === 'object', 'Missing funds collection');
     const records = [], issues = [];
     for (const slug of Object.keys(FUNDS)) {
@@ -88,31 +143,42 @@
       if (!fund) { issues.push(`${slug}: fund unavailable in source response`); continue; }
       check(fund.slug === slug && typeof fund.label === 'string' && fund.label.length > 0 && fund.label.length <= 200, 'Unexpected fund identity');
       for (const key of ['balanceUnits', 'reservedUnits', 'availableUnits', 'payoutUnits', 'advertUnits', 'sponsorUnits', 'djukeUnits']) {
-        if (fund[key] !== undefined) Model.units(fund[key]);
+        if (fund[key] !== undefined && fund[key] !== null) Model.units(fund[key]);
       }
+      const historyStatus = fundStatus(fund, status, now, value.evidenceVersion === 1);
+      if (fund.balanceAvailable === false) issues.push(`${slug}: balance unavailable; monetary display remains gated`);
+      if (historyStatus.observedAt === null) { issues.push(`${slug}: history uninitialized; observation time unavailable`); continue; }
       check(Array.isArray(fund.sources) && fund.sources.length <= 5000, 'Invalid deposit sources');
       const counts = { advert: 0, sponsor: 0, djuke: 0 };
       const depositIds = new Set();
       for (const deposit of fund.sources) {
+        if (value.evidenceVersion === 1) check(deposit.asset !== undefined, 'Missing deposit asset identity');
+        if (deposit.asset !== undefined) check(lower(deposit.asset) === ASSET.address, 'Unexpected deposit asset');
         check(deposit.slug === slug && lower(deposit.fundId) === FUNDS[slug]
           && Object.hasOwn(counts, deposit.kind) && Model.ADDRESS.test(deposit.funder)
           && Model.HASH.test(deposit.txHash) && block(deposit.blockNumber) && block(deposit.logIndex), 'Invalid deposit provenance');
         Model.units(deposit.amountUnits);
         check(Number.isSafeInteger(deposit.timestamp) && deposit.timestamp >= 0
-          && deposit.timestamp * 1000 <= Date.parse(status.observedAt) + 60000, 'Invalid deposit timestamp');
+          && deposit.timestamp * 1000 <= Date.parse(historyStatus.observedAt) + 60000, 'Invalid deposit timestamp');
         const depositId = `${deposit.txHash.toLowerCase()}:${deposit.logIndex}`;
         check(!depositIds.has(depositId), 'Duplicate deposit identity');
         depositIds.add(depositId);
-        counts[deposit.kind]++;
+        if (fund.sourcesAvailable !== false) counts[deposit.kind]++;
       }
-      records.push(record('fund', `busking:fund:${slug}`, fund.label, status, {
+      records.push(record('fund', `busking:fund:${slug}`, fund.label, historyStatus, {
         amounts: { balance: null, reserved: null, available: null }, references: { project: 'busking:project:decentbusking', contract: 'busking:contract:router' },
-        attributes: { slug, balanceStatus: BALANCE_BLOCKER, depositStatus: 'Source-reported deposit counts only; amounts unavailable because asset identity is absent.',
-          advertDeposits: String(counts.advert), sponsorDeposits: String(counts.sponsor), djukeDeposits: String(counts.djuke) }
+        attributes: { slug, balanceStatus: BALANCE_BLOCKER, depositStatus: fund.sourcesAvailable === false
+          ? 'Deposit history unavailable; retained source events do not establish complete counts.'
+          : 'Source-reported deposit counts only; monetary display remains gated.',
+          advertDeposits: fund.sourcesAvailable === false ? 'Unavailable' : String(counts.advert),
+          sponsorDeposits: fund.sourcesAvailable === false ? 'Unavailable' : String(counts.sponsor),
+          djukeDeposits: fund.sourcesAvailable === false ? 'Unavailable' : String(counts.djuke) }
       }));
+      if (fund.historyError) issues.push(`${slug}: source reports history error; raw diagnostics withheld`);
+      if (fund.payoutsAvailable === false) { issues.push(`${slug}: payout history unavailable`); continue; }
       if (fund.payouts === undefined) { issues.push(`${slug}: payout history unavailable`); continue; }
       check(Array.isArray(fund.payouts) && fund.payouts.length <= 5000, 'Invalid fund payout collection');
-      for (const payout of fund.payouts) records.push(event(payout, slug, status));
+      for (const payout of fund.payouts) records.push(event(payout, slug, historyStatus));
     }
     return { records, issues };
   }
@@ -166,7 +232,9 @@
           const value = response.value;
           if (index > 1) { sources.push(normalizeWeekly(value, endpoint.split('/')[1], at)); continue; }
           const status = source(id, endpoint, value, at);
-          const normalized = index === 0 ? normalizeFunds(value, status) : { records: normalizeLedger(value, status), issues: [] };
+          const normalized = index === 0 ? normalizeFunds(value, status, at) : status.observedAt === null
+            ? { records: [], issues: ['Payroll history uninitialized; observation time unavailable'] }
+            : { records: normalizeLedger(value, status), issues: [] };
           const endpointIds = new Set();
           for (const item of normalized.records) {
             check(!endpointIds.has(item.id), 'Duplicate event identity in source response');
@@ -188,7 +256,7 @@
             }
             records.set(item.id, item);
           }
-          if (index === 0) {
+          if (index === 0 && status.observedAt !== null) {
             for (const [kind, recordId, label] of [['project', 'busking:project:decentbusking', 'DecentBusking'], ['contract', 'busking:contract:router', 'Base settlement router']]) {
               records.set(recordId, record(kind, recordId, label, status));
             }
