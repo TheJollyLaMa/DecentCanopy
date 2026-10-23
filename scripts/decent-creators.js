@@ -233,21 +233,32 @@
     row.className = 'creator-entry';
     let html = `<legend>${{ projects: 'Project', funds: 'Decent fund', funding: 'Funding source' }[kind] || 'Journey update'}</legend>`;
     if (kind === 'projects') {
-      html += field('name', 'Project name', value.name) + field('description', 'What you are building', value.description, 'textarea')
+      html += `<details class="creator-project-editor" ${!value.key || editingProjectKey === value.key ? 'open' : ''}><summary>`
+        + '<span class="creator-editor-icon" aria-hidden="true">🌱</span>'
+        + `<span class="creator-editor-summary"><strong data-project-title>${esc(value.name || 'New project')}</strong>`
+        + `<small data-project-meta>${esc([value.status || 'active', value.ens || '', `${value.repositories?.length || 0} repositories`].filter(Boolean).join(' · '))}</small></span>`
+        + '<span class="creator-editor-chevron" aria-hidden="true">⌄</span></summary><div class="creator-project-editor-body">'
+        + '<section class="creator-editor-group" aria-label="Project identity"><h4>🌱 Project identity</h4>'
+        + '<p class="details-muted">Give this project a name and tell people what you are building.</p>'
+        + field('name', 'Project name', value.name) + field('description', 'What you are building', value.description, 'textarea')
+        + '</section><section class="creator-editor-group" aria-label="Website and identity artwork"><h4>🌐 Website & identity</h4>'
         + field('website', 'Project website (HTTPS)', value.website, 'url') + field('image', 'Artwork URL (HTTPS, optional)', value.image, 'url')
         + field('ens', 'ENS name (optional, e.g. yourproject.eth)', value.ens)
+        + '<button type="button" class="toolbar-btn" data-project-artwork>Load ENS / repository artwork</button><div data-project-artwork-preview role="status" aria-live="polite">Artwork is loaded only on request; no identity fields are changed.</div></section>'
         + '<section class="creator-github-section" aria-label="GitHub repositories"><h4>Connect your code</h4>'
         + '<p class="details-muted">Bring your public repositories into this project.</p>'
         + '<div class="participation-actions"><button type="button" class="toolbar-btn creator-github-connect" data-github-connect><img src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" width="24" height="24" alt="" aria-hidden="true" referrerpolicy="no-referrer" /><span>Sign in with GitHub / choose repositories</span></button><button type="button" class="toolbar-btn" data-github-disconnect>Disconnect GitHub</button></div>'
         + '<p data-github-status role="status" aria-live="polite">Optional GitHub sign-in lists accessible public repositories only, with no private-repo or write permissions requested. You can also paste public URLs below.</p>'
         + '<div data-github-picker hidden><label>Choose public repositories (select several)<select data-github-options multiple size="8"></select></label><p>Ctrl/⌘-click to select several. Loading more keeps your selection.</p><button type="button" class="toolbar-btn" data-github-more hidden>Load more repositories</button><button type="button" class="toolbar-btn" data-github-add>Add selected repository links</button></div>'
         + field('repositories', 'Public GitHub repositories (HTTPS URLs, one per line; no fixed count limit)', (value.repositories || []).join('\n'), 'textarea')
-        + '<p class="details-muted">Optional self-declared discovery links. Only the URLs are included in your public signed profile; do not enter private repository names, tokens, or private data. The whole profile has a 16 KB safety budget. Sign-in and metadata previews do not prove project ownership. GitHub credentials stay on the relay, expire from its memory after 10 minutes and are not saved in your profile or browser storage. Disconnect revokes the session token; GitHub Settings → Applications lets you revoke the app.</p>'
+        + '<details class="creator-editor-help"><summary>Privacy & publication details</summary><p class="details-muted">Optional self-declared discovery links. Only the URLs are included in your public signed profile; do not enter private repository names, tokens, or private data. The whole profile has a 16 KB safety budget. Sign-in and metadata previews do not prove project ownership. GitHub credentials stay on the relay, expire from its memory after 10 minutes and are not saved in your profile or browser storage. Disconnect revokes the session token; GitHub Settings → Applications lets you revoke the app.</p></details>'
         + '<div class="participation-actions"><button type="button" class="toolbar-btn" data-preview-repositories>Preview public GitHub metadata</button><button type="button" class="toolbar-btn" data-clear-repositories>Unlink all repositories</button></div><p data-repository-preview role="status" aria-live="polite">Not checked. Edit or remove URLs before publishing.</p></section>'
+        + '<section class="creator-editor-group" aria-label="Progress and connections"><h4>🔗 Progress & connections</h4>'
         + field('status', 'Progress', value.status || 'active', 'text', [['planning', 'Planning'], ['active', 'Active'], ['paused', 'Paused'], ['completed', 'Completed']])
         + field('wallet', 'Receiving wallet for this project (optional; blank = your signing wallet)', value.wallet)
         + multi('related', 'Related Decent projects (theirs or yours)', value.related, 'project')
-        + field('archiveId', 'Optional historical project reference', value.archiveId, 'text', [['', 'No archive reference'], ...GTPData.getProjects().filter(p => p.id.startsWith('artizen-project:') || p.id.startsWith('curated-project:')).sort((a, b) => a.name.localeCompare(b.name)).map(p => [p.id, p.name])]);
+        + field('archiveId', 'Optional historical project reference', value.archiveId, 'text', [['', 'No archive reference'], ...GTPData.getProjects().filter(p => p.id.startsWith('artizen-project:') || p.id.startsWith('curated-project:')).sort((a, b) => a.name.localeCompare(b.name)).map(p => [p.id, p.name])])
+        + '</section>';
     } else if (kind === 'funds') {
       html += field('name', 'Fund name', value.name) + field('description', 'What this fund supports', value.description, 'textarea')
         + field('website', 'Fund website (HTTPS)', value.website, 'url') + field('image', 'Fund image URL (HTTPS, optional)', value.image, 'url')
@@ -275,9 +286,63 @@
         + `<div data-payout-field${value.type !== 'artizen-experience' ? ' hidden' : ''}>`
         + field('payout', 'Your self-reported payout experience — no platform verification', value.payout || 'not-shared', 'text', [['not-shared', 'Not shared'], ['received', 'Received'], ['partially-received', 'Partially received'], ['not-received', 'Not received'], ['uncertain', 'Uncertain'], ['not-applicable', 'Not applicable']]) + '</div>';
     }
-    row.innerHTML = html + '<button type="button" class="toolbar-btn" data-remove-entry>Remove entry</button>';
+    row.innerHTML = html + '<button type="button" class="toolbar-btn" data-remove-entry>Remove entry</button>'
+      + (kind === 'projects' ? '</div></details>' : '');
     byId(`creator-${kind}`).appendChild(row);
     refreshRefs();
+  }
+  function updateProjectSummary(row) {
+    const title = row.querySelector('[data-project-title]');
+    if (!title) return;
+    const read = name => row.querySelector(`[data-field="${name}"]`).value;
+    title.textContent = read('name').trim() || 'New project';
+    const repositories = read('repositories').split(/\r?\n/).filter(line => line.trim()).length;
+    row.querySelector('[data-project-meta]').textContent = [read('status'), read('ens').trim(), `${repositories} repositories`].filter(Boolean).join(' · ');
+  }
+  async function projectArtwork(row, button) {
+    const output = row.querySelector('[data-project-artwork-preview]'), currentGeneration = generation;
+    const current = () => row.isConnected && generation === currentGeneration && !publishing;
+    button.disabled = true;
+    output.textContent = 'Loading public identity artwork…';
+    try {
+      const project = { key: row.dataset.key, ens: row.querySelector('[data-field="ens"]').value.trim().toLowerCase(),
+        website: row.querySelector('[data-field="website"]').value,
+        repositories: window.CanopyGitHubRepositories.parseInput(row.querySelector('[data-field="repositories"]').value) };
+      const image = row.querySelector('[data-field="image"]').value;
+      const info = window.CanopyGraphIdentity.identity({ creatorProjectKey: project.key,
+        creatorRecord: { wallet: editingWallet, projects: [project] }, image }, window.DecentENS);
+      const candidates = info.fallbacks.slice(), notices = [];
+      if (info.name) {
+        try {
+          const art = await window.DecentENS.artworkProfile(info.name);
+          notices.push(...(art.notices || []));
+          if (art.avatar) candidates.unshift({ url: art.avatar, source: `ENS avatar · ${info.name}` });
+        } catch (error) { console.warn('[Canopy editor artwork]', error); notices.push('ENS unavailable; trying published fallbacks.'); }
+      }
+      if (!current()) return;
+      output.replaceChildren();
+      const caption = document.createElement('p'), img = document.createElement('img');
+      img.alt = 'Project identity artwork preview'; img.referrerPolicy = 'no-referrer';
+      img.width = 64; img.height = 64;
+      let index = 0;
+      const next = () => {
+        if (!current()) return;
+        const candidate = candidates[index++];
+        if (!candidate) {
+          img.hidden = true;
+          caption.textContent = [...notices, 'No available identity artwork. Project fields are unchanged.'].join(' ');
+          return;
+        }
+        img.src = candidate.url;
+        caption.textContent = [...notices, candidate.source, 'Preview only; not proof of ownership.'].join(' · ');
+      };
+      img.onerror = () => { notices.push('Artwork unavailable; trying the next source.'); next(); };
+      output.append(img, caption);
+      next();
+    } catch (error) {
+      console.error('[Canopy editor artwork]', error);
+      if (current()) output.textContent = `Artwork unavailable: ${error.message}`;
+    } finally { button.disabled = false; }
   }
   function collect() {
     if (!editingWallet || wallet() !== editingWallet) throw new Error('Connect the wallet that owns this profile.');
@@ -338,6 +403,8 @@
       const remove = row.querySelector('[data-remove-entry]');
       remove.hidden = focused;
       remove.disabled = focused;
+      const disclosure = row.querySelector('.creator-project-editor');
+      if (focused && !row.hidden && disclosure) disclosure.open = true;
     });
     const project = editingRecord?.projects.find(p => p.key === editingProjectKey);
     byId('creator-title').textContent = focused ? `Edit project: ${project?.name || 'your project'}` : 'Your Decent Creator';
@@ -554,6 +621,8 @@
       });
     });
     form.addEventListener('click', event => {
+      const artwork = event.target.closest('[data-project-artwork]');
+      if (artwork) { projectArtwork(artwork.closest('fieldset'), artwork); return; }
       const connectGitHub = event.target.closest('[data-github-connect], [data-github-more]');
       if (connectGitHub) { githubRepositories(connectGitHub.closest('fieldset'), connectGitHub); return; }
       const disconnect = event.target.closest('[data-github-disconnect]');
@@ -574,6 +643,7 @@
           input.value = links.join('\n');
           invalidateRepositoryPreview(row);
           signed = null;
+          updateProjectSummary(row);
           row.querySelector('[data-github-status]').textContent = `${links.length} repository links in this draft. Review before signing; nothing has been published.`;
         } catch (error) { row.querySelector('[data-github-status]').textContent = error.message; }
         return;
@@ -586,6 +656,7 @@
           row.querySelector('[data-field="repositories"]').value = '';
           invalidateRepositoryPreview(row);
           signed = null;
+          updateProjectSummary(row);
         } else previewRepositories(row, preview);
         return;
       }
@@ -609,14 +680,20 @@
     }
     form.addEventListener('input', event => {
       signed = null;
+      if (event.target.closest('#creator-projects')) updateProjectSummary(event.target.closest('fieldset'));
       if (event.target.matches('[data-field="repositories"]')) invalidateRepositoryPreview(event.target.closest('fieldset'));
       if (event.target.closest('#creator-projects')) refreshProjects();
       if (event.target.matches('[data-field="name"]') && event.target.closest('#creator-projects, #creator-funds')) refreshRefs();
     });
     form.addEventListener('change', event => {
       signed = null;
+      if (event.target.closest('#creator-projects')) updateProjectSummary(event.target.closest('fieldset'));
       if (event.target.matches('[data-field="type"]')) event.target.closest('fieldset').querySelector('[data-payout-field]').hidden = event.target.value !== 'artizen-experience';
     });
+    form.addEventListener('invalid', event => {
+      const disclosure = event.target.closest('.creator-project-editor');
+      if (disclosure) disclosure.open = true;
+    }, true);
     async function action(button, fn, showPublication = false) {
       if (publishing) return;
       button.disabled = true;
