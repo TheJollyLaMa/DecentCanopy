@@ -1,0 +1,33 @@
+{
+  "format": "decentcanopy-agency-pins",
+  "version": 1,
+  "provider": "Pinata",
+  "pins": [
+    {
+      "cid": "bafybeie6yd4kiyr7amfkmoop56xtc6wuz46hwizv6wkkvoaw3fqcdkk5xm",
+      "label": "DecentHead site for decenthead.decentagency.eth",
+      "uri": "ipfs://bafybeie6yd4kiyr7amfkmoop56xtc6wuz46hwizv6wkkvoaw3fqcdkk5xm",
+      "status": "pinned",
+      "source": {
+        "repo": "TheJollyLaMa/DecentHead",
+        "commit": "9aa196caf305588b9a677fb1b6dc7db784fdb932"
+      },
+      "fileCount": 82,
+      "bytes": 57305001,
+      "confirmedAt": "2026-10-22T18:08:53.672Z"
+    },
+    {
+      "cid": "bafybeieu4ypnyluhjokrpjyjcr6rcguwokvawsgrq7qqcaa264vc2qqt34",
+      "label": "DecentMarket site for decentmarket.decentagency.eth",
+      "uri": "ipfs://bafybeieu4ypnyluhjokrpjyjcr6rcguwokvawsgrq7qqcaa264vc2qqt34",
+      "status": "pinned",
+      "source": {
+        "repo": "TheJollyLaMa/DecentMarket",
+        "commit": "8ec8fb0308a3fdb64515c1d041576fb0ff943997"
+      },
+      "fileCount": 207,
+      "bytes": 67430608,
+      "confirmedAt": "2026-10-22T18:08:29.547Z"
+    }
+  ]
+}

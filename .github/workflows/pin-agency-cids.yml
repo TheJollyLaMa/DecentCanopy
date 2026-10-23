@@ -1,0 +1,76 @@
+name: Pin Agency Project CIDs
+
+on:
+  workflow_dispatch:
+    inputs:
+      label:
+        description: Project or release these CIDs belong to (e.g. "DecentMarket site for decentmarket.decentagency.eth")
+        required: true
+      repo:
+        description: Static-site repository to upload and pin as one folder (e.g. TheJollyLaMa/DecentHead)
+        required: false
+        default: ''
+      ref:
+        description: Branch, tag or commit of that repository
+        required: false
+        default: main
+      cids:
+        description: Already-published CIDv1 values to pin by hash, separated by spaces or commas
+        required: false
+        default: ''
+      hosts:
+        description: Optional IPFS node multiaddrs (with /p2p/ peer ID) that already hold the content
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  pin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    concurrency:
+      group: decent-canopy-agency-pins
+      cancel-in-progress: false
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Checkout the project site
+        if: inputs.repo != ''
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ inputs.repo }}
+          ref: ${{ inputs.ref }}
+          path: .agency-source
+          persist-credentials: false
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Pin with the community Pinata account
+        env:
+          PINATA_JWT: ${{ secrets.PINATA_JWT }}
+          CIDS: ${{ inputs.cids }}
+          LABEL: ${{ inputs.label }}
+          HOSTS: ${{ inputs.hosts }}
+          SOURCE_REPO: ${{ inputs.repo }}
+          SOURCE_DIR: ${{ inputs.repo != '' && format('{0}/.agency-source', github.workspace) || '' }}
+        run: node scripts/pinAgencyCids.js
+
+      - name: Commit Agency pin manifest
+        if: always()
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          [ -f data/agency-pins.json ] || exit 0
+          git add data/agency-pins.json
+          if git diff --cached --quiet; then exit 0; fi
+          git commit -m "chore: update Agency pin manifest"
+          git pull --rebase origin main
+          git push origin HEAD:main
