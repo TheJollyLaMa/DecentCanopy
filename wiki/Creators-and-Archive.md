@@ -29,6 +29,19 @@ Creator cards show projects as compact artwork-and-name dropdown cards. Expand o
 
 With the owning wallet connected, **Edit project** (or **Edit this project** on its blip) opens only that project's fields, publishing consent, and a single **Sign & publish** action. Draft/preview and signed-download tools remain in **My creator**, not the focused project editor. The project keeps its key and creator connection; your signature still authorizes a complete updated creator record, not an independent unsigned project. Other published profile fields, projects, funds, funding sources and journey entries are preserved. A saved draft for the selected project is restored, but unrelated browser-local draft edits are not published by this action and remain saved. Use **My creator** for whole-profile edits, adding/removing projects, funds and journey updates.
 
+In **My creator**, each saved project starts as a collapsed editor card showing its name,
+progress, declared ENS name and repository count. Expand a card to edit identity, website/artwork,
+GitHub repositories, or progress/connections in spaced groups. New projects and focused project
+edits start open. Collapsing a card does not remove its fields from drafts or publication.
+Names, progress and repository counts update as you edit. Browser-invalid fields reopen
+their project card so they can be corrected.
+
+**Load ENS / repository artwork** requests an optional preview for that project only.
+It uses the same ENS-first, GitHub-owner and published-artwork fallback rules as the map,
+with source attribution. No identity requests run merely because the project list opens.
+Artwork previews never overwrite your project image, ENS name or signed fields.
+GitHub-owner artwork is not a project-specific logo or proof of ownership.
+
 To remove a published project or fund, open **My creator**, choose **Remove entry** on that row, and sign/publish the updated profile. Before removing a project, retarget or clear any journey, funding, related-project, or fund-support links that refer to it; before removing a fund, clear or retarget funding-source links to it. The updated profile removes those items from current discovery, but earlier signed exports and IPFS revisions remain public. This is not deletion of the frozen Artizen archive or a way to erase prior public copies.
 
 ## Publish a Decent fund

@@ -237,7 +237,8 @@ function previewHarness(preview) {
   };
   const output = { textContent: '' }, button = { disabled: false, closest: () => row };
   const row = { dataset: {}, isConnected: true, querySelector: selector =>
-    selector === '[data-field="repositories"]' ? input : selector === '[data-preview-repositories]' ? button : output };
+    selector === '[data-field="repositories"]' ? input : selector === '[data-preview-repositories]' ? button
+      : selector === '[data-repository-preview]' ? output : null };
   const click = action => events.click({
     target: { closest: selector => selector === action ? button : null }
   });

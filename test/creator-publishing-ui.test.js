@@ -324,6 +324,19 @@ test('focused project editing offers only publishing and restores extra tools in
   assert.equal(h.element('creator-publish-heading').textContent, 'Save, sign, or publish');
 });
 
+test('project editor disclosures preserve fieldsets and default saved projects to collapsed, new and focused edits to open', () => {
+  assert.match(source, /<details class="creator-project-editor" \$\{!value\.key \|\| editingProjectKey === value\.key \? 'open' : ''\}/);
+  assert.match(source, /<strong data-project-title>/);
+  assert.match(source, /<small data-project-meta>/);
+  assert.match(source, /if \(focused && !row\.hidden && disclosure\) disclosure\.open = true/);
+  assert.match(source, /form\.addEventListener\('invalid',[\s\S]*?disclosure\.open = true/);
+  assert.match(source, /aria-label="Project identity"/);
+  assert.match(source, /aria-label="Website and identity artwork"/);
+  assert.match(source, /aria-label="Progress and connections"/);
+  assert.match(source, /if \(artwork\) \{ projectArtwork/);
+  assert.doesNotMatch(source, /addRow[\s\S]*?refreshRefs\(\);\s*projectArtwork/);
+});
+
 test('publishing canopy decoration is hidden from assistive technology and respects motion preferences', () => {
   const html = fs.readFileSync(require.resolve('../index.html'), 'utf8');
   const css = fs.readFileSync(require.resolve('../styles/creators.css'), 'utf8');
