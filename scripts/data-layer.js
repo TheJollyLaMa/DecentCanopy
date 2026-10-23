@@ -236,6 +236,18 @@ var GTPData = (function () {
         rawAssociations = creatorData.associations;
       }
 
+      var canopy = new URLSearchParams(window.location.search).get('canopy');
+      if (_modeInfo.mode === 'artizen' && (!canopy || canopy === 'creators')) {
+        rawProjects = rawProjects.filter(function (project) {
+          return Boolean(project.creatorRecord) || (typeof project.id === 'string' && project.id.startsWith('local-creator:'));
+        });
+        var visibleIds = new Set(rawProjects.map(function (project) { return project.id; }));
+        rawAssociations = rawAssociations.filter(function (edge) {
+          return visibleIds.has(edge.source) && visibleIds.has(edge.target);
+        });
+        rawActivity = rawActivity.filter(function (entry) { return visibleIds.has(entry.projectId); });
+      }
+
       _projects = rawProjects
         .map(function (p, i) { return normalizeProject(p, i); })
         .filter(Boolean);

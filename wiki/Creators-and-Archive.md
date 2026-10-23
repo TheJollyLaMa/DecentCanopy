@@ -4,7 +4,7 @@
 
 ## Explore
 
-Use the canopy switch to view the whole canopy, independent creators or the historical archive. Scroll to zoom, drag to pan, search by name, and click a blip for its card. Project/fund artwork links to its historical source page where available; those external pages and images may disappear. The data-notes tab explains the snapshot, and the Tour can be replayed from the toolbar.
+Use the **Map** dropdown: DecentAgency is first, then **Whole Canopy · Decent Creators**, Green Tea and the Artizen archive last. Whole Canopy and Decent Creators are one map; `/` and older `?canopy=creators` links show the same creator records, without duplicate historical Artizen blips. Browser-local creator cards remain available. The archive and Green Tea cluster retain their separate scopes. Explicit historical references in creator cards remain available without adding archive nodes. Scroll to zoom, drag to pan, search by name, and click a blip for its card. Historical source pages and images may disappear. The data-notes tab explains the snapshot, and the Tour can be replayed from the toolbar.
 
 The small radio under the header subtitle starts on WQXR classical at 8% volume. Browsers may block autoplay; use **Play** when the status says to tap it. Use the station button to hear **DecentBusking** live JukeLoop instead, or switch back to classical. The slider changes volume and Play/Pause stops or resumes audio. JukeLoop follows the same IPFS tracks and live position as the Rabbit Hole radio, polling every eight seconds. Station choice resets to classical on a new page load; audio stays local to your browser and requires the external radio services to be reachable.
 

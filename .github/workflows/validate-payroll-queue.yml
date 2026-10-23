@@ -43,6 +43,7 @@ on:
       - test/github-repositories.test.js
       - test/github-oauth.test.js
       - test/share-view.test.js
+      - test/map-views.test.js
       - test/payroll.test.js
       - test/commentArt.test.js
       - test/community-rewards.test.js
@@ -89,6 +90,7 @@ on:
       - test/github-repositories.test.js
       - test/github-oauth.test.js
       - test/share-view.test.js
+      - test/map-views.test.js
       - test/payroll.test.js
       - test/commentArt.test.js
       - test/community-rewards.test.js
@@ -122,6 +124,9 @@ jobs:
 
       - name: Test map rendering budgets
         run: node --test test/map-performance.test.js
+
+      - name: Test map selection and source scopes
+        run: node --test test/map-views.test.js
 
       - name: Test public-source schema and integration
         run: node --test test/public-source.test.js

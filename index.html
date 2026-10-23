@@ -426,13 +426,15 @@
       <nav class="spiral-toolbar" aria-label="Constellation controls">
         <span class="mode-badge mode-badge--prototype" aria-live="polite"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" /><span class="mode-badge-label">Artizen-backed Prototype Snapshot</span></span>
 
-        <div class="canopy-switch" role="group" aria-label="Choose a canopy">
-          <a href="?canopy=agency">DecentAgency map</a>
-          <a href="?canopy=green-tea">Green Tea canopy</a>
-          <a href="index.html">Whole canopy</a>
-          <a href="?canopy=creators">Decent Creators</a>
-          <a class="artizen-brand" href="?canopy=artizen"><img class="artizen-logo" src="assets/artizen-logo.png" alt="" />Artizen archive</a>
-        </div>
+        <label class="canopy-switch" for="canopy-map">
+          Map
+          <select id="canopy-map">
+            <option value="agency">DecentAgency map</option>
+            <option value="creators" selected>Whole Canopy · Decent Creators</option>
+            <option value="green-tea">Green Tea canopy</option>
+            <option value="artizen">Artizen archive</option>
+          </select>
+        </label>
 
         <div class="toolbar-sep" role="separator"></div>
 

@@ -61,7 +61,7 @@ A hands-on tour of what's here. Each item links to the detailed section below.
 
 ### Visiting the canopy
 
-1. Open https://thejollylama.github.io/DecentCanopy/. The whole canopy combines independent creators with the frozen archive; the **🧭 Tour** opens on a first visit and can be replayed from the toolbar.
+1. Open https://thejollylama.github.io/DecentCanopy/. Whole Canopy is the Decent Creators map, without duplicate Artizen archive blips. The **Map** dropdown lists DecentAgency first, followed by Whole Canopy, Green Tea and the Artizen archive last. The **🧭 Tour** opens on a first visit and can be replayed from the toolbar.
 2. **Explore:** scroll to zoom and drag to pan. Click any blip to open its card. Use **View** to switch between all entities, projects, funds, or creators, and search for anything by name. Selecting a fund opens its own fund canopy; use the return control to come back.
 3. **Make it your view (optional):** in the tour, pick your creator card or add a local one. The canopy then opens on you. This is a browser-local preference; clear it from **Participate / import**.
 4. **ⓘ Data notes:** the tab on the right edge holds snapshot dates, counts, and limits. Click to stash it.
@@ -340,8 +340,8 @@ Then visit `http://localhost:3000` (or the port shown by `serve`).
 
 | Mode | URL | Data source |
 |------|-----|-------------|
-| Whole canopy (default) | `/` | Frozen historical graph plus separate Decent Creator records |
-| Decent Creators | `/?canopy=creators` | Wallet-authorized profiles, independent projects, funding sources and journey records |
+| DecentAgency map | `/?canopy=agency` | Curated project, repository and reuse map; first in the Map dropdown |
+| Whole Canopy / Decent Creators (default) | `/` or `/?canopy=creators` | One merged map of wallet-authorized profiles, independent projects, funding sources, journeys and browser-local creator cards; historical archive blips and cross-scope edges are excluded |
 | Artizen archive | `/?canopy=artizen` | Unchanged historical project/fund snapshot and separately attributed curation; no new creator overlay or local annotations in this view |
 | Green Tea canopy | `/?canopy=green-tea` | The Green Tea Party and its directly associated curated project cluster |
 | App | `/?mode=app` or `/app` | On-chain via `GTPContractAdapter` (requires wallet + configured addresses) |
@@ -394,7 +394,7 @@ The Artizen matching index used for this snapshot does not include creator field
 
 The browser reads the checked-in `data/artizen.json` rather than requesting Artizen. All existing seasons and relationship labels are retained unchanged. The archive manifest records the source date and freeze policy. Source labels such as `funded`, historical fund availability and dated totals **do not establish that any payout was or was not made**. No further Artizen refresh is expected; the old sync command is explicitly disabled.
 
-The Whole canopy can additionally display a **separate financial capture** from the public [artizen.fyi Season 7 leaderboard](https://artizen.fyi/projects?season=7), stored in `data/artizen-financial-captures.json`. It checks every archived project and curated project, including TheJollyLaMa’s projects. Projects not listed remain unknown, not zero. It includes sales, Venus sales, match, Venus extras, prize and bonus; “Raised” is their sum, not proof of payment. The capture timestamp is our retrieval date, not proof that the underlying source is current. Frozen files and the archive-only view are unchanged. Reported totals affect glow and appear in project details; node size still reflects connections. Signed creator projects with an explicit historical reference also display the corresponding capture in their blips and profile dropdown cards, labeled as a self-reported association, not verified ownership. BigNuten and qArt-code additionally use exact wallet/project-key curated historical associations until their signed references are filled in; these are labeled locally curated, and explicit signed references take precedence. Signed records are never rewritten.
+The creator overlay can additionally use a **separate financial capture** from the public [artizen.fyi Season 7 leaderboard](https://artizen.fyi/projects?season=7), stored in `data/artizen-financial-captures.json`. It checks every archived project and curated project, including TheJollyLaMa’s projects. Projects not listed remain unknown, not zero. It includes sales, Venus sales, match, Venus extras, prize and bonus; “Raised” is their sum, not proof of payment. The capture timestamp is our retrieval date, not proof that the underlying source is current. Frozen files and the archive-only view are unchanged. Reported totals affect glow and appear in project details; node size still reflects connections. Signed creator projects with an explicit historical reference also display the corresponding capture in their blips and profile dropdown cards, labeled as a self-reported association, not verified ownership. BigNuten and qArt-code additionally use exact wallet/project-key curated historical associations until their signed references are filled in; these are labeled locally curated, and explicit signed references take precedence. Signed records are never rewritten.
 
 The living map now reads `data/artizen-comprehensive-capture.json`, a separate public catalog and **Season 0–7 capture**. `node scripts/captureArtizenArchive.js` explicitly collects every returned row, validates table shapes and exact numeric values, checks sales/raised reconciliation, and retains compressed original responses with SHA-256 hashes in `data/artizen-source-captures/`. Its coverage report lists projects with no financial rows. Seasons 0–3 returned explicitly empty tables; older tables omit Bonus, which is shown as not supplied rather than zero. Project cards expose individual season details, never a summed lifetime total. Glow still uses the Season 7 capture, not the sum of history.
 
@@ -669,7 +669,7 @@ node scripts/validatePayrollQueue.js
 - **App mode is a scaffold.** `GTPAppDataAdapter` and `GTPContractAdapter` return placeholder results until real contract addresses are configured in `scripts/config.js` and a wallet provider is present.
 - **No build step.** Scripts are loaded as plain `<script>` tags in order. There is no bundler or tree-shaking; all global variables (`GTPConfig`, `GTPData`, etc.) are intentional.
 - **CORS on file://**: `fetch()` calls to local JSON fail when opening `index.html` directly from the filesystem. Use a local HTTP server (`npx serve .`).
-- **Data views have separate source scope.** `/` combines independent creators and history; `/?canopy=creators` isolates new creator records; `/?canopy=artizen` isolates the frozen archive. Historical remote artwork/links may become unavailable.
+- **Data views have separate source scope.** `/` and `/?canopy=creators` show the same independent-creator map without historical archive blips; `/?canopy=artizen` isolates the frozen archive. Explicit historical references can still enrich a creator's card without adding archive nodes. Historical remote artwork/links may become unavailable.
 
 ## Attribution
 

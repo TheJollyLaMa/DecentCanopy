@@ -179,7 +179,8 @@
     const canopy = new URLSearchParams(window.location.search).get('canopy');
     isAgencyMode = canopy === 'agency';
     isGreenTeaMode = canopy === 'green-tea';
-    isCreatorMode = canopy === 'creators';
+    isCreatorMode = canopy === 'creators' ||
+      (!canopy && GTPModeRouter.getModeInfo(window.location).mode === 'prototype');
     archiveOnly = canopy === 'artizen';
     isArtizenMode = isAgencyMode || archiveOnly || isCreatorMode || isGreenTeaMode ||
       (!canopy && GTPModeRouter.getModeInfo(window.location).mode === 'prototype');
@@ -207,8 +208,8 @@
       }
 
       if (isGreenTeaMode) filterToGreenTeaCluster();
-      if (isCreatorMode || archiveOnly) {
-        allProjects = allProjects.filter(p => isCreatorMode ? Boolean(p.creatorRecord) : !p.creatorRecord);
+      if (archiveOnly) {
+        allProjects = allProjects.filter(p => !p.creatorRecord);
         const visible = new Set(allProjects.map(p => p.id));
         allAssociations = allAssociations.filter(a => visible.has(a.source) && visible.has(a.target));
       }
@@ -1502,6 +1503,13 @@
   // ---- Events -------------------------------------------------------------------
 
   function bindEvents() {
+    document.getElementById('canopy-map').addEventListener('change', event => {
+      const url = new URL(window.location.href);
+      url.search = '';
+      url.hash = '';
+      if (event.target.value !== 'creators') url.searchParams.set('canopy', event.target.value);
+      window.location.assign(url.href);
+    });
     document.getElementById('share-view')?.addEventListener('click', shareView);
     document.getElementById('share-details-view')?.addEventListener('click', shareView);
     canvas.addEventListener('mousemove', onMouseMove);
@@ -2482,13 +2490,8 @@
   }
 
   function updateCanopyDescription() {
-    const switchLinks = document.querySelectorAll('.canopy-switch a');
-    switchLinks.forEach((link) => {
-      const linkCanopy = new URL(link.href, window.location.href).searchParams.get('canopy');
-      const isCurrent = linkCanopy === (isAgencyMode ? 'agency' : isGreenTeaMode ? 'green-tea' : isCreatorMode ? 'creators' : archiveOnly ? 'artizen' : null);
-      if (isCurrent) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    });
+    document.getElementById('canopy-map').value = isAgencyMode ? 'agency'
+      : isGreenTeaMode ? 'green-tea' : isCreatorMode ? 'creators' : archiveOnly ? 'artizen' : '';
     if (!isArtizenMode) return;
     document.querySelector('.spiral-shell')?.classList.add('artizen-mode');
     if (isAgencyMode) {
@@ -2519,7 +2522,7 @@
       modeBadgeEl.querySelector('.artizen-logo').hidden = !archiveOnly;
       modeBadgeEl.querySelector('.mode-badge-label').textContent = isGreenTeaMode
         ? 'Green Tea Canopy · curated project cluster'
-        : isCreatorMode ? 'Decent Creators · projects & next chapters'
+        : isCreatorMode ? 'Whole Canopy · Decent Creators'
         : archiveOnly ? 'Artizen archive · frozen historical records'
         : 'DecentCanopy · living creators + historical archive';
       modeBadgeEl.classList.remove('mode-badge--prototype');
@@ -2555,9 +2558,9 @@
       `${counts.relationships || 0} project–fund records. Lines reflect submitted, curated, or funded relationships. ` +
       'No further Artizen updates. None of these records establishes whether payouts were or were not made. ' +
       'New Decent Creator profiles, projects, funding sources and journeys are separate wallet-signed self-reports; signatures prove wallet control, not the truth of claims. Browser-local previews are labeled as drafts. Node size reflects connections, not money.';
-    if (isCreatorMode) summary.textContent = 'Decent Creators · independent projects, funding sources and journeys. Public updates are wallet-signed, portable IPFS records discovered through a repo index. Claims, including optional Artizen experiences, are self-reported, not independently verified. Local drafts are not signed or public. Create your blip with My creator.';
+    if (isCreatorMode) summary.textContent = 'Whole Canopy · independent Decent Creators, projects, funding sources and journeys. Historical Artizen blips live in the separate Artizen archive map. Public updates are wallet-signed, portable IPFS records discovered through a repo index. Claims, including optional Artizen experiences, are self-reported, not independently verified. Local drafts are not signed or public. Create your blip with My creator.';
     visionNoteEl.replaceChildren(summary);
-    visionNoteEl.setAttribute('aria-label', 'Artizen data source and limitations');
+    visionNoteEl.setAttribute('aria-label', isCreatorMode ? 'Decent Creators scope and limitations' : 'Artizen data source and limitations');
     const hint = document.querySelector('.spiral-hint');
     if (hint) hint.textContent = 'Zoom to reveal connections · Click a node for source details · Search a project, fund, creator, or tag';
     const legend = document.querySelector('.spiral-legend');
@@ -2567,7 +2570,7 @@
         '<div class="legend-item"><span class="legend-dot" style="background:#a78bfa"></span> Funds</div>' +
         '<div class="legend-item"><span class="legend-dot" style="background:#fbbf24"></span> Creators / curated links</div>' +
         (allProjects.some(node => node.kind === 'repository') ? '<div class="legend-item"><span class="legend-dot" style="background:#60a5fa"></span> Repositories / self-declared links</div>' : '');
-      legend.setAttribute('aria-label', 'Artizen entity legend');
+      legend.setAttribute('aria-label', isCreatorMode ? 'Decent Creators entity legend' : 'Artizen entity legend');
     }
   }
 

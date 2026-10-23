@@ -85,29 +85,29 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 0.15rem;
-  padding: 0.16rem;
   background: rgba(31, 41, 55, 0.82);
   border: 1px solid var(--border);
   border-radius: 0.5rem;
-}
-
-.canopy-switch a {
   color: var(--muted);
-  text-decoration: none;
   font-size: 0.76rem;
-  white-space: nowrap;
-  border-radius: 0.34rem;
   padding: 0.28rem 0.48rem;
+  max-width: 100%;
 }
 
-.canopy-switch a:hover,
-.canopy-switch a[aria-current="page"] {
+.canopy-switch select {
   color: var(--text);
   background: var(--surface-raised);
+  font: inherit;
+  border-radius: 0.34rem;
+  padding: 0.28rem 0.48rem;
+  border: 1px solid var(--border);
+  min-width: 0;
+  max-width: 100%;
 }
 
-.canopy-switch a[aria-current="page"] {
-  color: var(--accent);
+.canopy-switch select:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
 }
 
 .mode-badge--artizen {
