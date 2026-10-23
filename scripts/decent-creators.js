@@ -63,7 +63,13 @@
     } catch (error) {
       if (popup) popup.close();
       console.error('[Canopy GitHub connection]', error);
-      if (current()) output.textContent = `GitHub connection unavailable: ${error.message} Manual public URLs still work. Nothing was published.`;
+      if (error.statusCode === 401 && githubConnection) {
+        try { await disconnectGitHub(); }
+        catch (cleanup) { console.error('[Canopy GitHub disconnect]', cleanup); }
+        if (current()) output.textContent = `${error.message} Click Sign in with GitHub again to reconnect. Manual public URLs still work. Nothing was published.`;
+      } else {
+        if (current()) output.textContent = `GitHub connection unavailable: ${error.message} Manual public URLs still work. Nothing was published.`;
+      }
       if (!githubLogin && githubConnection) {
         try { await disconnectGitHub(); }
         catch (cleanup) { console.error('[Canopy GitHub disconnect]', cleanup); }

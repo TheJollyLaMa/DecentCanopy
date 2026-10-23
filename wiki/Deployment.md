@@ -47,8 +47,10 @@ GitHub partnership or private-repository permissions.
    setup error and manual public URL linking remains available.
 5. In the creator editor, sign in, load another repository page, choose more than
    five repos, add selected links and review the URLs. Check cancellation, disconnect,
-   reconnect, expired sessions and GitHub-side revocation. Then test an actual
-   wallet-signed publication and unlink revision separately.
+   reconnect, expired sessions and GitHub-side revocation. A revoked authorization
+   must invalidate its relay capability; signing in again must create a fresh session.
+   The next public-activity refresh enrolls newly signed repository links in its catalog.
+   Then test an actual wallet-signed publication and unlink revision separately.
 
 No OAuth scopes are requested. The relay rejects tokens carrying extra scopes,
 excludes private repositories and only returns allowlisted public metadata.
@@ -62,6 +64,9 @@ in-memory and require a single relay instance; restarting interrupts sign-ins.
 For local testing, register a separate app with an HTTP localhost callback, explicitly
 allow the local site origin, and keep all credentials in the local process environment.
 Mock tests prove protocol behavior, not actual production GitHub authorization.
+Use a dedicated test OAuth app/account and public test repository for live acceptance.
+Do not use an owner's real credentials, trigger wallet signatures, change a real profile,
+or revoke a production authorization as part of routine connector testing.
 
 ## Diagnose the right layer
 
