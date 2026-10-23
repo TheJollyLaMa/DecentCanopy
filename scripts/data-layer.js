@@ -270,6 +270,19 @@ var GTPData = (function () {
   // ---- Selectors ---------------------------------------------------------------
 
   function getProjects() { return _projects.slice(); }
+  async function refreshAgency() {
+    if (_modeInfo?.mode !== 'agency') throw new Error('Agency refresh requires the Agency map.');
+    const response = await fetch('data/agency-map.json', { cache: 'no-store', signal: AbortSignal.timeout(20000) });
+    if (!response.ok) throw new Error(`Agency map refresh failed (HTTP ${response.status}).`);
+    const graph = window.GTPAgencyDataAdapter.transform(await response.json());
+    const projects = graph.projects.map(normalizeProject);
+    const associations = graph.associations.map(normalizeAssociation);
+    const changed = JSON.stringify([projects, associations]) !== JSON.stringify([_projects, _associations]);
+    if (changed) {
+      _projects = projects; _associations = associations; _adapterMetrics = graph.metrics;
+    }
+    return changed;
+  }
   function getAssociations() { return _associations.slice(); }
   function getActivity() { return _activity.slice(); }
   function getModeInfo() { return _modeInfo ? Object.assign({}, _modeInfo) : GTPModeRouter.getModeInfo(window.location); }
@@ -388,6 +401,7 @@ var GTPData = (function () {
 
   return {
     load: load,
+    refreshAgency: refreshAgency,
     getProjects: getProjects,
     getAssociations: getAssociations,
     getActivity: getActivity,

@@ -9,7 +9,8 @@ on:
       - payroll-assets.json
       - scripts/pinAgencyCids.js
       - scripts/pinSite.js
-      - test/agency-pins.test.js test/pin-site.test.js
+      - test/agency-pins.test.js
+      - test/pin-site.test.js
       - community-rewards.json
       - data/community-creators.json
       - data/community-pinners.json
@@ -18,6 +19,8 @@ on:
       - index.html
       - styles/decent-head.css
       - styles/spiral.css
+      - test/community-map.test.js
+      - test/project-ens.test.js
       - data/repository-activity.json
       - test/repository-activity.test.js
       - relay/**
@@ -49,7 +52,8 @@ on:
       - payroll-assets.json
       - scripts/pinAgencyCids.js
       - scripts/pinSite.js
-      - test/agency-pins.test.js test/pin-site.test.js
+      - test/agency-pins.test.js
+      - test/pin-site.test.js
       - community-rewards.json
       - data/community-creators.json
       - data/community-pinners.json
@@ -58,6 +62,8 @@ on:
       - index.html
       - styles/decent-head.css
       - styles/spiral.css
+      - test/community-map.test.js
+      - test/project-ens.test.js
       - data/repository-activity.json
       - test/repository-activity.test.js
       - relay/**
@@ -106,4 +112,4 @@ jobs:
         run: npm ci --prefix relay --omit=dev
 
       - name: Test payroll automation
-        run: node --test test/repository-activity.test.js test/supporter-dnfts.test.js test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/creator-publishing-ui.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js test/canopy-ipfs.test.mjs test/agency-map.test.js test/agency-release-map.test.js test/github-repositories.test.js test/share-view.test.js test/agency-pins.test.js test/pin-site.test.js
+        run: node --test test/community-map.test.js test/project-ens.test.js test/repository-activity.test.js test/supporter-dnfts.test.js test/payroll.test.js test/commentArt.test.js test/community-rewards.test.js test/in-app-rewards.test.js test/decent-creators.test.js test/creator-publishing-ui.test.js test/decent-funds.test.js test/router-admin.test.js test/artizen-adapter.test.js test/participation.test.js test/ipfs-backup.test.js test/canopy-ipfs.test.mjs test/agency-map.test.js test/agency-release-map.test.js test/github-repositories.test.js test/share-view.test.js test/agency-pins.test.js test/pin-site.test.js

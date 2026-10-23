@@ -1,6 +1,7 @@
 {
   "format": "decentcanopy-agency-map",
   "version": 1,
+  "foundationalProvider": "head",
   "reviewedAt": "2026-10-22",
   "sourceLabel": "Steward-curated planning map; Head/Market releases and Busking merged-work boundaries reconciled 2026-10-22. Other source inspections retain their individual review dates; this capability layer is not live GitHub or chain synchronization.",
   "mission": "Help humans connect and regain, maintain, sustain, or enhance their agency.",
@@ -8,6 +9,7 @@
     {
       "id": "decent-agency",
       "name": "DecentAgency",
+      "ens": "decentagency.eth",
       "kind": "initiative",
       "focus": "inventory",
       "repo": "TheJollyLaMa/DecentAgency",
@@ -51,6 +53,7 @@
     {
       "id": "decent-canopy",
       "name": "DecentCanopy",
+      "ens": "decentcanopy.eth",
       "focus": "now",
       "repo": "TheJollyLaMa/DecentCanopy",
       "purpose": "Make projects, repositories, creators, funding relationships, and useful next steps understandable.",
@@ -170,6 +173,7 @@
     {
       "id": "decent-busking",
       "name": "DecentBusking",
+      "ens": "decentbusking.decentagency.eth",
       "focus": "now",
       "repo": "TheJollyLaMa/DecentBusking",
       "purpose": "Support music participation, scheduled radio, and accountable creator and contributor earnings.",
@@ -353,6 +357,7 @@
     {
       "id": "big-nuten",
       "name": "BigNuten_Vanilla",
+      "ens": "bignuten.thejollylama.eth",
       "focus": "next",
       "repo": "TheJollyLaMa/BigNuten_Vanilla",
       "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
@@ -529,6 +534,7 @@
     {
       "id": "green-tea-party",
       "name": "TheGreenTeaParty",
+      "ens": "thegreenteaparty.thejollylama.eth",
       "repo": "TheJollyLaMa/TheGreenTeaParty",
       "purpose": "Existing Canopy project cluster and the documented source of Canopy's extracted visualization.",
       "reviewNote": "Public committed source inspected 2026-10-20 at b0a39e97. Not executed, deployment-verified, or integration-tested in this review.",
@@ -596,6 +602,7 @@
     {
       "id": "green-tea-hut",
       "name": "GreenTeaHut_01",
+      "ens": "green-tea-hut-001.thegreenteaparty.thejollylama.eth",
       "repo": "TheJollyLaMa/GreenTeaHut_01",
       "purpose": "The Green Tea Party's first project, with an existing curated Canopy status and public treasury card.",
       "evidence": [
@@ -655,6 +662,7 @@
     {
       "id": "artfi",
       "name": "ArtFi",
+      "ens": "artfi.thejollylama.eth",
       "repo": "TheJollyLaMa/ArtFi",
       "purpose": "Candidate funding and relationship integration already tracked in Canopy; deployment and flow verification remain separate work.",
       "tags": [
@@ -1057,6 +1065,7 @@
     {
       "id": "head",
       "name": "DecentHead",
+      "ens": "decenthead.decentagency.eth",
       "repo": "TheJollyLaMa/DecentHead",
       "purpose": "Canonical configurable Header and shared wallet/IPFS session foundation, developed partly from Canopy's working header. Reuse does not require replacing Canopy's forest design.",
       "reviewNote": "Reconciled 2026-10-22 against released v2.0.0, completed mint evidence, acknowledged Discord delivery and Market's deployed pinned consumer. This static record is not a fresh chain/stock check.",
@@ -1171,6 +1180,7 @@
     {
       "id": "market",
       "name": "DecentMarket",
+      "ens": "decentmarket.decentagency.eth",
       "repo": "TheJollyLaMa/DecentMarket",
       "reviewNote": "Reconciled 2026-10-22 against deployed v0.3.1, verified token 71 / listing 1 receipts, official release evidence and acknowledged Discord delivery. Release closeout included 64 focused tests and three wallet-safe browser rehearsals; this static map does not monitor current stock.",
       "reviewCaveats": [

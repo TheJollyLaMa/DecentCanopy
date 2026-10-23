@@ -123,6 +123,11 @@
   let dpr = 1;
   let cameraAnimation = null;
   let activityReplay = null;
+  let graphIdentity;
+  let connectionPositions = new Map();
+  let connectionSignature = '';
+  let layoutTransition = null;
+  let refreshingGraph = false;
 
   let touchPrev = null;
   let touchPinchDist = null;
@@ -225,6 +230,22 @@
 
     if (loadingEl) loadingEl.style.display = 'none';
 
+    graphIdentity = window.CanopyGraphIdentity.create({
+      ens: window.DecentENS,
+      loadImage: url => new Promise((resolve, reject) => {
+        const image = new Image();
+        const timeout = window.setTimeout(() => { image.src = ''; reject(new Error('Image request timed out.')); }, 15000);
+        image.referrerPolicy = 'no-referrer';
+        image.onload = () => { window.clearTimeout(timeout); resolve(image); };
+        image.onerror = () => { window.clearTimeout(timeout); reject(new Error('Image could not load.')); };
+        image.src = url;
+      }),
+      changed: id => {
+        if (selectedNode?.id === id && detailsPanel.classList.contains('open')) graphIdentity.mount(detailsContentEl, selectedNode);
+        scheduleRender();
+      }
+    });
+    if (isAgencyMode) allProjects.forEach(node => graphIdentity.get(node));
     buildGlobalNeighbors();
     updateCanopyDescription();
     populateFilters();
@@ -235,6 +256,10 @@
     updateBackButton();
     restoreSharedView();
     scheduleRender();
+    if (isAgencyMode) {
+      window.setInterval(refreshAgencyGraph, 60000);
+      document.addEventListener('visibilitychange', () => { if (!document.hidden) refreshAgencyGraph(); });
+    }
     if (!archiveOnly && allProjects.some(node => window.CanopyRepositoryActivity.repositoriesForNode(node).length)) {
       window.CanopyRepositoryActivityUI.start(() => {
         if (selectedNode && detailsPanel.classList.contains('open') && !detailsContentEl.contains(document.activeElement)) {
@@ -245,6 +270,29 @@
       });
     }
     window.dispatchEvent(new CustomEvent('decentcanopy:ready', { detail: { artizen: isArtizenMode && !isAgencyMode, greenTea: isGreenTeaMode, agency: isAgencyMode } }));
+  }
+
+  async function refreshAgencyGraph() {
+    if (document.hidden || refreshingGraph) return;
+    refreshingGraph = true;
+    const status = document.getElementById('agency-graph-status');
+    try {
+      if (await GTPData.refreshAgency()) {
+        allProjects = GTPData.getProjects();
+        allAssociations = GTPData.getAssociations();
+        artizenMetrics = GTPData.getAdapterMetrics();
+        buildGlobalNeighbors();
+        updateAgencyIndexOptions();
+        buildLayout();
+        if (selectedNode && detailsPanel.classList.contains('open')) showDetails(selectedNode);
+        allProjects.forEach(node => graphIdentity.get(node));
+        scheduleRender();
+      }
+      if (status) status.textContent = 'Recorded connections checked; layout uses links, not commit volume or verified impact.';
+    } catch (error) {
+      console.warn('[Canopy graph] Refresh failed; retaining last validated graph.', error);
+      if (status) status.textContent = `Connection refresh unavailable: ${error.message} Last validated map retained.`;
+    } finally { refreshingGraph = false; }
   }
 
   function restoreSharedView() {
@@ -498,8 +546,8 @@
         node.size = Math.min(baseSize + Math.sqrt(node.degree) * 0.8, node.kind === 'creator' ? 13 : 10.5);
       }
       if (isAgencyMode) {
-        node.size = node.kind === 'initiative' ? 18 : node.kind === 'repository' ? 7
-          : node.status === 'now' ? 13 : node.status === 'next' ? 11 : 8;
+        node.size = node.kind === 'initiative' ? 25 : node.kind === 'repository' ? 14
+          : node.status === 'now' ? 24 : node.status === 'next' ? 22 : 20;
       }
     });
 
@@ -512,7 +560,22 @@
       .map((track) => nodes.filter((node) => node.track === track))
       .filter((group) => group.length > 0);
 
-    if (fundCanopyId) {
+    if (isAgencyMode) {
+      const signature = JSON.stringify([allProjects.map(n => [n.id, n.kind]), allAssociations.map(e => [e.source, e.target, e.type])]);
+      const changed = signature !== connectionSignature;
+      const old = new Map(nodes.map(n => [n.id, connectionPositions.get(n.id)]).filter(([, p]) => p));
+      if (changed) {
+        connectionPositions = window.CanopyConnectionLayout.solve(allProjects, allAssociations, connectionPositions);
+        connectionSignature = signature;
+      }
+      nodes.forEach(node => {
+        Object.assign(node, connectionPositions.get(node.id));
+        node.depth = 0;
+        parentById[node.id] = null;
+      });
+      layoutTransition = changed && old.size && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+        ? { from: old, startedAt: performance.now() } : null;
+    } else if (fundCanopyId) {
       layoutFundCanopy();
     } else if (isArtizenMode) {
       layoutArtizenGroups(groups);
@@ -913,19 +976,32 @@
   function onAnimFrame(now) {
     rafId = null;
     const animating = stepCameraAnimation(now);
+    const arranging = stepConnectionLayout(now);
     const replaying = activityReplay && !window.matchMedia('(prefers-reduced-motion: reduce)').matches
       && now - activityReplay.startedAt < activityReplay.duration + 1800;
     const heating = window.CanopyRepositoryActivityUI?.animate() &&
       nodes.some(node => !['unknown', 'quiet'].includes(window.CanopyRepositoryActivityUI.nodeHeat(node)));
     const communityPulsing = window.CanopyRepositoryActivityUI?.pulses().length > 0;
     if (activityReplay && !replaying) activityReplay = null;
-    if (needRender || animating || replaying || heating || communityPulsing) {
+    if (needRender || animating || arranging || replaying || heating || communityPulsing) {
       render();
       needRender = false;
     }
-    if (animating || needRender || replaying || heating || communityPulsing) {
+    if (animating || arranging || needRender || replaying || heating || communityPulsing) {
       rafId = requestAnimationFrame(onAnimFrame);
     }
+  }
+
+  function stepConnectionLayout(now) {
+    if (!layoutTransition) return false;
+    const t = window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 1
+      : Math.min(1, Math.max(0, (now - layoutTransition.startedAt) / 1200));
+    nodes.forEach(node => {
+      const target = connectionPositions.get(node.id), from = layoutTransition.from.get(node.id) || target;
+      Object.assign(node, window.CanopyConnectionLayout.interpolate(from, target, t));
+    });
+    if (t === 1) layoutTransition = null;
+    return true;
   }
 
   function render() {
@@ -1246,10 +1322,21 @@
         ctx.fill();
       }
 
+      const avatar = graphIdentity?.get(node).image;
       ctx.beginPath();
-      traceNodeShape(node, visSize);
+      if (avatar) ctx.arc(node.x, node.y, visSize, 0, Math.PI * 2);
+      else traceNodeShape(node, visSize);
       ctx.fillStyle = hexAlpha(color, alpha * (lod === 'far' ? 0.55 : 0.74));
       ctx.fill();
+      if (avatar) {
+        ctx.save();
+        ctx.clip();
+        ctx.globalAlpha = alpha;
+        const side = Math.min(avatar.naturalWidth, avatar.naturalHeight);
+        ctx.drawImage(avatar, (avatar.naturalWidth - side) / 2, (avatar.naturalHeight - side) / 2, side, side,
+          node.x - visSize, node.y - visSize, visSize * 2, visSize * 2);
+        ctx.restore();
+      }
       ctx.strokeStyle = hexAlpha(color, alpha);
       ctx.lineWidth = (isSelected ? 2.2 : node.depth === 0 ? 1.6 : 1) / zoom;
       ctx.stroke();
@@ -1989,6 +2076,20 @@
     showDetailsContent(node);
     window.CanopySupporterDNFTs?.mount(detailsContentEl, node);
     window.CanopyRepositoryActivityUI?.mount(detailsContentEl, node);
+    graphIdentity?.mount(detailsContentEl, node);
+    if (node.creatorRecord) {
+      for (const [selector, title] of [
+        [':scope > figure', 'Saved project / creator artwork'],
+        ['[data-project-ens]', 'ENS records & website controls']
+      ]) {
+        const content = detailsContentEl.querySelector(selector);
+        if (!content || content.parentElement.dataset.identityDetails) continue;
+        const disclosure = document.createElement('details'), summary = document.createElement('summary');
+        disclosure.dataset.identityDetails = 'true'; disclosure.className = 'details-group';
+        summary.textContent = title;
+        content.before(disclosure); disclosure.append(summary, content);
+      }
+    }
   }
 
   function showDetailsContent(node) {
@@ -2307,7 +2408,20 @@
       detailsPanel.setAttribute('aria-hidden', 'false');
       document.getElementById('close-details').focus({ preventScroll: true });
     });
+    updateAgencyIndexOptions();
     const index = document.getElementById('agency-index');
+    index.addEventListener('change', () => {
+      if (!index.value) return;
+      clearAgencyFilters();
+      focusNode(nodeMap[index.value], { recordHistory: true, openDetails: true });
+      document.getElementById('close-details').focus({ preventScroll: true });
+    });
+  }
+
+  function updateAgencyIndexOptions() {
+    const index = document.getElementById('agency-index');
+    const value = index.value;
+    index.querySelectorAll('optgroup').forEach(group => group.remove());
     for (const kind of ['initiative', 'project', 'repository']) {
       const group = document.createElement('optgroup');
       group.label = capitalize(kind);
@@ -2319,12 +2433,7 @@
       });
       index.appendChild(group);
     }
-    index.addEventListener('change', () => {
-      if (!index.value) return;
-      clearAgencyFilters();
-      focusNode(nodeMap[index.value], { recordHistory: true, openDetails: true });
-      document.getElementById('close-details').focus({ preventScroll: true });
-    });
+    index.value = value;
   }
 
   function populateFilters() {
@@ -2381,7 +2490,12 @@
         `<div class="legend-item"><span class="legend-dot" style="background:${state.color}"></span> ${state.label}${state.dashed ? ' (dashed)' : ' (solid)'}</div>`
       ).join('');
       legend.setAttribute('aria-label', 'Agency relationship evidence legend');
-      document.querySelector('.spiral-hint').textContent = 'Projects left · repositories right · umbrella above · Use the project / repo index for keyboard navigation';
+      const graphStatus = document.createElement('p');
+      graphStatus.id = 'agency-graph-status';
+      graphStatus.setAttribute('role', 'status');
+      graphStatus.textContent = 'Connection-aware clusters · ENS-first avatars · map checks published connections every minute. Links show offerings and needs, not verified adoption or impact.';
+      visionNoteEl.appendChild(graphStatus);
+      document.querySelector('.spiral-hint').textContent = 'Connected communities cluster together · Select DecentHead to inspect foundational offerings · Project / repo index supports keyboard navigation';
       document.getElementById('spiral-canvas').setAttribute('aria-label', 'DecentAgency project and repository map; use the project / repo index to open every node without the canvas');
       return;
     }
