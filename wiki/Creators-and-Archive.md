@@ -39,11 +39,16 @@ Supported chains: Base, Ethereum and Optimism. Use your signing wallet as the tr
 
 ## Public GitHub repository links
 
-This is the first, public-linking slice of [connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11),
-not GitHub account authentication. Public repository activity is refreshed separately as described below.
+The public-only [GitHub connector #11](https://github.com/TheJollyLaMa/DecentCanopy/issues/11)
+supports optional GitHub sign-in for repository browsing. Public repository activity is refreshed separately as described below.
 
 1. Open **My creator**, add/edit a project, or use **Edit this project / link repositories** on your own project blip.
-2. Enter up to five public `https://github.com/owner/repository` URLs, one per line.
+2. Choose **Sign in with GitHub / choose repositories**, authorize on GitHub, and select
+   public repositories from the populated multi-select dropdown. **Load more repositories**
+   fetches the next page without losing your selection. Choose **Add selected repository links**
+   to copy those choices into the draft. Nothing is published by sign-in or selection.
+   Alternatively enter public `https://github.com/owner/repository` URLs, one per line.
+   There is no fixed repository-count cap; the existing 16 KB whole-profile budget still applies.
    Do not enter tokens, private repository names, source contents, or personal health data.
    Repository subpages, credentials, queries, fragments, and duplicate links are rejected.
 3. Optionally choose **Preview public GitHub metadata**. This explicitly contacts
@@ -58,11 +63,21 @@ not GitHub account authentication. Public repository activity is refreshed separ
    project connections. Cards link to GitHub and back to the linked projects. Multiple
    projects can share a repository node, without upgrading its ownership or verification.
 
-**Least-privilege choice:** this slice has no OAuth, GitHub account verification, tokens,
-write/admin permissions, or private-repository access. An anonymous public metadata response
-only establishes what GitHub returned at that time, not that the signing wallet controls
-the GitHub account or owns the project. Private access is unsupported; a future feature
-would require a separate explicit opt-in and credential/revocation design.
+**Least-privilege choice:** OAuth requests an empty scope list: public information only,
+no private-repository, write, admin or email permissions. Over-scoped token responses are
+rejected. GitHub tokens stay in relay memory for at most ten minutes; only an ephemeral
+relay session capability stays in browser memory, never local storage, signed records,
+URLs, or the public index. Closing the editor or changing wallets disconnects; explicit
+**Disconnect GitHub** also revokes the session token. If revocation fails, the UI reports
+it; revoke the app in GitHub Settings -> Applications. Timeout cleanup attempts revocation
+and reports failures in relay logs. Restarting the relay loses all sessions; GitHub Settings
+is the durable revocation path. Disconnecting does not erase selected public URLs.
+
+Sign-in authenticates a GitHub account for the browsing session only. It does not publish
+a durable wallet/GitHub identity proof, establish repository ownership, or upgrade a
+self-declared project association to verified. Private access remains unsupported.
+The manual URL/anonymous preview path works without sign-in or OAuth configuration.
+See [maintainer setup](Deployment.md#github-sign-in-setup).
 
 Unavailable GitHub, rate limits, timeouts, private/inaccessible repositories, and renamed or
 inconsistent identities produce an explicit preview error. No unavailable metadata is
@@ -166,7 +181,7 @@ delete old public IPFS records or copies others retain.
 
 ### Signed record compatibility
 
-Version 2 project records optionally contain `repositories`, an array of at most five
+Version 2 project records optionally contain `repositories`, an array of
 canonical lowercase HTTPS GitHub repository URLs. Empty arrays are omitted so existing
 version 1/2 canonical messages and signatures remain byte-identical. Version 1 records
 cannot carry repository links; editing upgrades through the existing version 2 flow.

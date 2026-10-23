@@ -68,7 +68,10 @@
     return `https://github.com/${parts.join('/').toLowerCase()}`;
   }
   function repositories(value) {
-    const result = rows(value == null ? [] : value, 'Public repositories', 5).map(repository);
+    if (value == null) value = [];
+    if (!Array.isArray(value)) throw new Error('Public repositories must be a list of HTTPS repository URLs.');
+    if (new TextEncoder().encode(JSON.stringify(value)).length > MAX_BYTES) throw new Error('Repository links exceed the 16 KB profile budget. Shorten the selection before publishing.');
+    const result = value.map(repository);
     if (new Set(result).size !== result.length) throw new Error('Remove duplicate repository links.');
     return result;
   }
@@ -173,7 +176,7 @@
       website: url(raw.website), avatar: url(raw.avatar), location, projects, ...(v2 ? { funds } : {}), funding, journey,
       ...(raw.rabbitHole === true ? { rabbitHole: true } : {}),
     };
-    if (new TextEncoder().encode(JSON.stringify(result)).length > MAX_BYTES) throw new Error('This profile exceeds 16 KB. Shorten notes or export older updates separately.');
+    if (new TextEncoder().encode(JSON.stringify(result)).length > MAX_BYTES) throw new Error('This profile exceeds 16 KB. Shorten notes or repository selections, or export older updates separately.');
     return result;
   }
   function message(record) { return PREFIX + JSON.stringify(validate(record)); }

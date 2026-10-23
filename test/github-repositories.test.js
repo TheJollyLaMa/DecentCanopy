@@ -44,7 +44,8 @@ test('public URL parser normalizes identity and rejects credentials, non-repo li
     'https://github.com/-a/b', 'git@github.com:a/b.git'
   ]) assert.throws(() => Records.repository(invalid), undefined, invalid);
   assert.throws(() => Records.repositories([url, url.toUpperCase()]), /duplicate/i);
-  assert.throws(() => Records.repositories(Array(6).fill(url)), /at most 5/);
+  assert.equal(Records.repositories(Array.from({ length: 60 }, (_, i) => `https://github.com/example/repo${i}`)).length, 60);
+  assert.throws(() => Records.repositories(Array.from({ length: 1000 }, (_, i) => `https://github.com/example/repo${i}`)), /16 KB/);
   assert.throws(() => Records.repositories([{ url, token: 'secret' }]), /text/);
 });
 
@@ -60,6 +61,15 @@ test('optional project links preserve canonical signatures for old records and s
   assert.equal(Records.message(r), Records.message(noLinks));
   assert.deepEqual(Records.parse(Records.message(record())).projects[0].repositories, [url]);
   assert.throws(() => Records.validate({ ...record(), version: 1 }), /version 2/);
+});
+
+test('more than five repositories round-trip in a signed profile within the exact byte budget', async () => {
+  const urls = Array.from({ length: 60 }, (_, i) => `https://github.com/example/repo${i}`);
+  const r = record(urls), message = Records.message(r), signature = await signer.signMessage(message);
+  assert.deepEqual(Records.verify({ message, signature }, verifyMessage).projects[0].repositories, urls);
+  const tooMany = Array.from({ length: 425 }, (_, i) => `https://github.com/example/repo${i}`);
+  assert.ok(new TextEncoder().encode(JSON.stringify(tooMany)).length < Records.MAX_BYTES);
+  assert.throws(() => record(tooMany), /profile exceeds 16 KB/);
 });
 
 test('signed publication, project replacement, and unlinking preserve unrelated profile data', async () => {

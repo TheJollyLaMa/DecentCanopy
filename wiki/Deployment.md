@@ -29,6 +29,40 @@ repository preview, signed publication receipt/index, project-to-repository navi
 and a signed unlink revision after deployment. Do not treat passing local tests or
 mocked pinning as proof of successful production publication.
 
+### GitHub sign-in setup
+
+This is self-service GitHub OAuth app registration; it does not require a special
+GitHub partnership or private-repository permissions.
+
+1. Open [GitHub Settings -> Developer settings -> OAuth Apps -> New OAuth App](https://github.com/settings/applications/new).
+2. Name it **DecentCanopy**, set Homepage URL to `https://thejollylama.github.io/DecentCanopy/`,
+   and Authorization callback URL to `https://decentcanopy-relay.onrender.com/github/callback`.
+3. Generate a client secret. In the relay's **Render environment settings**, set
+   `GITHUB_OAUTH_CLIENT_ID`, `GITHUB_OAUTH_CLIENT_SECRET`, and
+   `GITHUB_OAUTH_CALLBACK_URL` (the exact callback above). Never put the secret in
+   GitHub Pages, browser code, Actions logs, a creator record, or a chat message.
+   This app is separate from the relay's existing fine-grained dispatch token.
+4. Deploy the updated relay and site. `GET /github/status` reports `configured: true`
+   only when all three values are supplied. Without them, sign-in returns a clear
+   setup error and manual public URL linking remains available.
+5. In the creator editor, sign in, load another repository page, choose more than
+   five repos, add selected links and review the URLs. Check cancellation, disconnect,
+   reconnect, expired sessions and GitHub-side revocation. Then test an actual
+   wallet-signed publication and unlink revision separately.
+
+No OAuth scopes are requested. The relay rejects tokens carrying extra scopes,
+excludes private repositories and only returns allowlisted public metadata.
+Sign-in state is one-use and bound to an HttpOnly SameSite=Lax callback cookie.
+The browser keeps only a random relay capability in memory; GitHub tokens never
+leave the relay, and relay sessions expire after ten minutes. Tokens are revoked
+on explicit disconnect/expiry where GitHub is reachable; after a process restart,
+use GitHub Settings -> Applications for durable revocation. Sessions are intentionally
+in-memory and require a single relay instance; restarting interrupts sign-ins.
+
+For local testing, register a separate app with an HTTP localhost callback, explicitly
+allow the local site origin, and keep all credentials in the local process environment.
+Mock tests prove protocol behavior, not actual production GitHub authorization.
+
 ## Diagnose the right layer
 
 | Symptom | Check |

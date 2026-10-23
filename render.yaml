@@ -14,6 +14,12 @@ services:
         sync: false
       - key: GITHUB_REPOSITORY
         value: TheJollyLaMa/DecentCanopy
+      - key: GITHUB_OAUTH_CLIENT_ID
+        sync: false
+      - key: GITHUB_OAUTH_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_OAUTH_CALLBACK_URL
+        value: https://decentcanopy-relay.onrender.com/github/callback
       - key: ALLOWED_ORIGINS
         value: https://thejollylama.github.io
       - key: NODE_VERSION

@@ -7,6 +7,72 @@
   let index = { creators: [] }, editingWallet = null, signed = null, generation = 0, lastGraph = { projects: [], associations: [] };
   let publishing = false;
   let editingProjectKey = null, editingRecord = null;
+  let githubConnection = null, githubLogin = '', githubBusy = false;
+  async function disconnectGitHub() {
+    const connection = githubConnection;
+    githubConnection = null;
+    githubLogin = '';
+    if (!connection) return;
+    document.querySelectorAll('[data-github-picker]').forEach(picker => {
+      picker.hidden = true;
+      picker.querySelector('select').replaceChildren();
+    });
+    await connection.disconnect();
+  }
+  async function githubRepositories(row, button) {
+    if (githubBusy) return;
+    githubBusy = true;
+    const currentGeneration = generation, output = row.querySelector('[data-github-status]');
+    const current = () => generation === currentGeneration && row.isConnected && byId('creator-dialog').open && !publishing;
+    button.disabled = true;
+    let popup;
+    try {
+      if (!githubConnection) {
+        popup = window.open('about:blank', '_blank', 'width=620,height=760');
+        if (!popup) throw new Error('Allow popups for Canopy, then try GitHub sign-in again.');
+        popup.opener = null;
+        output.textContent = 'Opening GitHub sign-in. Public information only; nothing is published until you select links and sign your profile.';
+        const configResponse = await fetch('community-rewards.json', { cache: 'no-store', signal: AbortSignal.timeout(20000) });
+        if (!configResponse.ok) throw new Error(`Could not load relay configuration (${configResponse.status}).`);
+        const config = await configResponse.json();
+        if (!current()) throw new Error('GitHub sign-in cancelled because the editor changed.');
+        if (!config.relay?.url) throw new Error('GitHub relay is not configured.');
+        const connection = window.CanopyGitHubConnection.create({ relay: config.relay.url });
+        githubConnection = connection;
+        githubLogin = await connection.connect(popup);
+        if (!current() || githubConnection !== connection) throw new Error('GitHub sign-in cancelled because the editor changed.');
+      }
+      const page = button.hasAttribute('data-github-more') ? Number(button.dataset.page) : 1;
+      const connection = githubConnection;
+      const result = await connection.repositories(page);
+      if (!current() || githubConnection !== connection) return;
+      const picker = row.querySelector('[data-github-picker]'), select = picker.querySelector('select');
+      if (page === 1) select.replaceChildren();
+      const seen = new Set([...select.options].map(option => option.value));
+      for (const repo of result.repositories) {
+        if (seen.has(repo.url)) continue;
+        const option = new Option(`${repo.fullName} · public · checked ${repo.checkedAt}`, repo.url);
+        select.add(option);
+        seen.add(repo.url);
+      }
+      const more = picker.querySelector('[data-github-more]');
+      more.hidden = result.nextPage === null;
+      more.dataset.page = result.nextPage || '';
+      picker.hidden = false;
+      output.textContent = `Signed in as ${githubLogin} for repository browsing. ${select.options.length} public repositories loaded${result.nextPage ? '; load more to see the next page' : ''}. Choose any number and add them below. Published associations remain self-declared, not proof of ownership.`;
+    } catch (error) {
+      if (popup) popup.close();
+      console.error('[Canopy GitHub connection]', error);
+      if (current()) output.textContent = `GitHub connection unavailable: ${error.message} Manual public URLs still work. Nothing was published.`;
+      if (!githubLogin && githubConnection) {
+        try { await disconnectGitHub(); }
+        catch (cleanup) { console.error('[Canopy GitHub disconnect]', cleanup); }
+      }
+    } finally {
+      githubBusy = false;
+      button.disabled = false;
+    }
+  }
   const wallet = () => window.decentCanopyWallet?.address?.toLowerCase() || null;
   const local = () => ['localhost', '127.0.0.1'].includes(location.hostname);
   const indexUrl = () => local() ? 'data/decent-creators.json' : 'https://raw.githubusercontent.com/TheJollyLaMa/DecentCanopy/main/data/decent-creators.json';
@@ -170,8 +236,11 @@
       html += field('name', 'Project name', value.name) + field('description', 'What you are building', value.description, 'textarea')
         + field('website', 'Project website (HTTPS)', value.website, 'url') + field('image', 'Artwork URL (HTTPS, optional)', value.image, 'url')
         + field('ens', 'ENS name (optional, e.g. yourproject.eth)', value.ens)
-        + field('repositories', 'Public GitHub repositories (up to 5 HTTPS URLs, one per line)', (value.repositories || []).join('\n'), 'textarea')
-        + '<p class="details-muted">Optional self-declared discovery links. No GitHub sign-in or permissions. Only the URLs are included in your public signed profile; do not enter private repository names, tokens, or private data. Public metadata previews do not verify your GitHub identity or ownership.</p>'
+        + '<div class="participation-actions"><button type="button" class="toolbar-btn" data-github-connect>Sign in with GitHub / choose repositories</button><button type="button" class="toolbar-btn" data-github-disconnect>Disconnect GitHub</button></div>'
+        + '<p data-github-status role="status" aria-live="polite">Optional GitHub sign-in lists accessible public repositories only, with no private-repo or write permissions requested. You can also paste public URLs below.</p>'
+        + '<div data-github-picker hidden><label>Choose public repositories (select several)<select data-github-options multiple size="8"></select></label><p>Ctrl/⌘-click to select several. Loading more keeps your selection.</p><button type="button" class="toolbar-btn" data-github-more hidden>Load more repositories</button><button type="button" class="toolbar-btn" data-github-add>Add selected repository links</button></div>'
+        + field('repositories', 'Public GitHub repositories (HTTPS URLs, one per line; no fixed count limit)', (value.repositories || []).join('\n'), 'textarea')
+        + '<p class="details-muted">Optional self-declared discovery links. Only the URLs are included in your public signed profile; do not enter private repository names, tokens, or private data. The whole profile has a 16 KB safety budget. Sign-in and metadata previews do not prove project ownership. GitHub credentials stay on the relay, expire from its memory after 10 minutes and are not saved in your profile or browser storage. Disconnect revokes the session token; GitHub Settings → Applications lets you revoke the app.</p>'
         + '<div class="participation-actions"><button type="button" class="toolbar-btn" data-preview-repositories>Preview public GitHub metadata</button><button type="button" class="toolbar-btn" data-clear-repositories>Unlink all repositories</button></div><p data-repository-preview role="status" aria-live="polite">Not checked. Edit or remove URLs before publishing.</p>'
         + field('status', 'Progress', value.status || 'active', 'text', [['planning', 'Planning'], ['active', 'Active'], ['paused', 'Paused'], ['completed', 'Completed']])
         + field('wallet', 'Receiving wallet for this project (optional; blank = your signing wallet)', value.wallet)
@@ -475,8 +544,38 @@
       byId('creator-publishing-dialog').close();
       byId('creator-publish').focus();
     });
-    byId('creator-dialog').addEventListener('close', () => { generation++; });
+    byId('creator-dialog').addEventListener('close', () => {
+      generation++;
+      disconnectGitHub().catch(error => {
+        console.error('[Canopy GitHub disconnect]', error);
+        status(`GitHub disconnect was not confirmed: ${error.message}`, true);
+      });
+    });
     form.addEventListener('click', event => {
+      const connectGitHub = event.target.closest('[data-github-connect], [data-github-more]');
+      if (connectGitHub) { githubRepositories(connectGitHub.closest('fieldset'), connectGitHub); return; }
+      const disconnect = event.target.closest('[data-github-disconnect]');
+      if (disconnect) {
+        const output = disconnect.closest('fieldset').querySelector('[data-github-status]');
+        disconnectGitHub().then(() => {
+          document.querySelectorAll('[data-github-status]').forEach(el => { el.textContent = 'GitHub disconnected. Selected URL links are unchanged; remove them below to unlink, then publish.'; });
+        }).catch(error => { console.error('[Canopy GitHub disconnect]', error); output.textContent = error.message; });
+        return;
+      }
+      const addGitHub = event.target.closest('[data-github-add]');
+      if (addGitHub) {
+        const row = addGitHub.closest('fieldset'), input = row.querySelector('[data-field="repositories"]');
+        try {
+          const existing = window.CanopyGitHubRepositories.parseInput(input.value);
+          const selected = [...row.querySelector('[data-github-options]').selectedOptions].map(option => option.value);
+          const links = DecentCreatorRecords.repositories([...new Set([...existing, ...selected])]);
+          input.value = links.join('\n');
+          invalidateRepositoryPreview(row);
+          signed = null;
+          row.querySelector('[data-github-status]').textContent = `${links.length} repository links in this draft. Review before signing; nothing has been published.`;
+        } catch (error) { row.querySelector('[data-github-status]').textContent = error.message; }
+        return;
+      }
       const preview = event.target.closest('[data-preview-repositories]');
       const clear = event.target.closest('[data-clear-repositories]');
       if (preview || clear) {
@@ -585,6 +684,10 @@
     }));
     window.addEventListener('decentcanopy:wallet-change', () => {
       generation++; signed = null;
+      disconnectGitHub().catch(error => {
+        console.error('[Canopy GitHub disconnect]', error);
+        status(error.message, true);
+      });
       if (byId('creator-dialog').open && !publishing) openEditor();
     });
   });
