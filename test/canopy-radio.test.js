@@ -2,158 +2,120 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const vm = require('node:vm');
-const Records = require('../scripts/creator-records');
-const flush = () => new Promise(resolve => setImmediate(resolve));
-const cid = 'bafy' + 'a'.repeat(55);
-const track = (overrides = {}) => ({ nowPlaying: { playId: 'one', title: 'Community song', uploader: 'Artist',
-  ipfsCid: cid, positionMs: 42000, ...overrides } });
+const { WIDGET_URL, mountCanopyRadio, renderCanopyRadio } = require('../scripts/canopy-radio.js');
 
-function setup({ playError, fetchImpl = async () => ({ ok: true, json: async () => track() }) } = {}) {
-  const elements = new Map(), timers = new Map(), callbacks = {}, warnings = [];
-  let nextTimer = 0, fetches = 0;
-  function element(id) {
-    if (elements.has(id)) return elements.get(id);
-    const events = {}, classes = new Set(), attributes = {};
-    const el = {
-      value: '0.08', textContent: '', src: '', paused: true, ended: false, duration: 300, currentTime: 0,
-      classList: { toggle(name, enabled) { if (enabled) classes.add(name); else classes.delete(name); }, contains: name => classes.has(name) },
-      setAttribute(name, value) { attributes[name] = value; },
-      getAttribute: name => attributes[name],
-      removeAttribute(name) { if (name === 'src') this.src = ''; delete attributes[name]; },
-      addEventListener(name, fn, options) { (events[name] ||= []).push({ fn, once: options?.once }); },
-      removeEventListener(name, fn) { events[name] = (events[name] || []).filter(e => e.fn !== fn); },
-      fire(name) { const handlers = (events[name] || []).slice(); events[name] = handlers.filter(h => !h.once); handlers.forEach(h => h.fn()); },
-      pause() { this.paused = true; }, load() {},
-      async play() { if (playError) throw playError; this.paused = false; },
-    };
-    elements.set(id, el); return el;
+class Element extends EventTarget {
+  constructor() {
+    super(); this.children = []; this.textContent = '';
+    this.attributes = {};
+    this.classList = { toggle() {} };
+    this.ownerDocument = { createElement: () => new Element() };
   }
-  vm.runInNewContext(fs.readFileSync(require.resolve('../scripts/canopy-radio.js'), 'utf8'), {
-    document: { getElementById: element, addEventListener: (name, fn) => { callbacks[name] = fn; } },
-    window: { addEventListener: (name, fn) => { callbacks[name] = fn; } },
-    console: { warn: (...args) => warnings.push(args) }, Date, AbortController, DecentCreatorRecords: Records,
-    setTimeout: (fn, delay) => { const id = ++nextTimer; timers.set(id, { fn, delay }); return id; },
-    clearTimeout: id => timers.delete(id),
-    fetch: (...args) => { fetches++; return fetchImpl(...args); },
-  });
-  callbacks.DOMContentLoaded();
-  return { element, timers, callbacks, warnings, fetches: () => fetches,
-    tick(delay) { const item = [...timers].find(([, t]) => t.delay === delay); assert.ok(item, `Timer ${delay}`); timers.delete(item[0]); item[1].fn(); } };
+  append(...nodes) { this.children.push(...nodes); }
+  replaceChildren(...nodes) { this.children = nodes; this.textContent = ''; }
+  setAttribute(key, value) { this.attributes[key] = String(value); }
+  getAttribute(key) { return this.attributes[key]; }
+  focus() { this.focused = true; }
 }
 
-test('radio defaults to classical at 8% volume and exposes pause, resume and volume controls', async () => {
-  const h = setup(), audio = h.element('canopy-radio-audio'), button = h.element('canopy-radio-play');
-  await flush();
-  assert.equal(audio.src, 'https://stream.wqxr.org/wqxr-web');
-  assert.equal(audio.volume, .08);
-  assert.equal(audio.loop, false);
-  assert.match(h.element('canopy-radio-status').textContent, /Tuning in/);
-  audio.fire('playing');
-  assert.match(h.element('canopy-radio-status').textContent, /WQXR classical · quiet/);
-  assert.equal(button.getAttribute('aria-pressed'), 'true');
-  assert.equal(h.fetches(), 0);
-  button.fire('click');
-  assert.equal(audio.paused, true);
-  assert.equal(button.getAttribute('aria-pressed'), 'false');
-  button.fire('click'); await flush();
-  assert.equal(audio.paused, false);
-  h.element('canopy-radio-volume').value = '0.22';
-  h.element('canopy-radio-volume').fire('input');
-  assert.equal(audio.volume, .22);
-  h.callbacks.pagehide();
-  assert.equal(audio.paused, true);
-  assert.equal(audio.src, '');
+test('Canopy pins a real full product commit and mounts one quiet, inert host widget', async () => {
+  const element = new Element(), window = new EventTarget();
+  const head = { getWallet() { throw new Error('Host must not request accounts'); } };
+  let mounted = 0, destroyed = 0, received;
+  const radio = mountCanopyRadio(element, { window, head, loadWidget: async url => {
+    assert.equal(url, WIDGET_URL);
+    return { mount: (target, options) => {
+      assert.equal(target, element); mounted++; received = options;
+      return { destroy() { destroyed++; } };
+    } };
+  } });
+  await radio.ready;
+  assert.match(WIDGET_URL, /DBuskRadio@1fe9ed0c2afc61552328fdda10d0f199bc3eaee9\/widget\.js$/);
+  assert.equal(mounted, 1);
+  assert.equal(received.volume, 0.08);
+  assert.equal(received.compact, true);
+  assert.equal(received.initialStation, 'wqxr');
+  assert.equal(received.render, renderCanopyRadio);
+  assert.equal(received.head, head);
+  assert.equal(received.stations[0].url, 'https://stream.wqxr.org/wqxr-web');
+  window.dispatchEvent(new Event('pagehide'));
+  radio.destroy();
+  assert.equal(destroyed, 1);
 });
-test('classical transient media failures reconnect twice then surface failure instead of retrying forever', async () => {
-  const h = setup(); await flush();
-  const audio = h.element('canopy-radio-audio'), status = h.element('canopy-radio-status');
-  audio.fire('error');
-  assert.match(status.textContent, /retrying 1\/2/);
-  audio.fire('error');
-  assert.equal([...h.timers.values()].filter(t => t.delay === 1500).length, 1);
-  h.tick(1500); await flush();
-  assert.equal(audio.src, 'https://stream.wqxr.org/wqxr-web');
-  audio.fire('error');
-  assert.match(status.textContent, /retrying 2\/2/);
-  h.tick(3000); await flush();
-  audio.fire('error');
-  assert.equal(h.timers.size, 0);
-  assert.match(status.textContent, /unavailable/);
-  assert.equal(h.element('canopy-radio-play').getAttribute('aria-pressed'), 'false');
+
+test('late imports cannot mount after host destroy', async () => {
+  const element = new Element(), window = new EventTarget();
+  let resolve, mounts = 0;
+  const radio = mountCanopyRadio(element, { window,
+    loadWidget: () => new Promise(done => { resolve = done; }) });
+  radio.destroy(); radio.destroy();
+  resolve({ mount() { mounts++; } });
+  await radio.ready;
+  assert.equal(mounts, 0);
+  assert.equal(element.children.length, 0);
 });
-test('classical retry is canceled on pause or station change and stream endings reconnect', async () => {
-  for (const action of ['pause', 'switch', 'hide']) {
-    const h = setup(); await flush();
-    const audio = h.element('canopy-radio-audio');
-    audio.fire('ended');
-    assert.match(h.element('canopy-radio-status').textContent, /retrying 1\/2/);
-    const retry = [...h.timers.values()].find(t => t.delay === 1500).fn;
-    if (action === 'pause') h.element('canopy-radio-play').fire('click');
-    else if (action === 'switch') h.element('canopy-radio-station').fire('click');
-    else h.callbacks.pagehide();
-    await flush();
-    const src = audio.src;
-    retry(); await flush();
-    assert.equal(audio.src, src);
-    assert.notEqual(audio.src, 'https://stream.wqxr.org/wqxr-web');
-  }
+
+test('failed widget imports expose retry instead of a duplicate local radio client', async () => {
+  const element = new Element(), window = new EventTarget();
+  let attempts = 0, mounts = 0;
+  const warn = console.warn;
+  console.warn = () => {};
+  try {
+    const radio = mountCanopyRadio(element, { window, loadWidget: async () => {
+      if (++attempts === 1) throw new Error('CDN unavailable');
+      return { mount() { mounts++; return { destroy() {} }; } };
+    } });
+    await radio.ready;
+    assert.match(element.textContent, /unavailable/);
+    element.children[0].dispatchEvent(new Event('click'));
+    await new Promise(resolve => setImmediate(resolve));
+    assert.equal(attempts, 2); assert.equal(mounts, 1);
+    radio.destroy();
+  } finally { console.warn = warn; }
 });
-test('autoplay rejection is visible and does not claim radio is playing', async () => {
-  const error = Object.assign(new Error('Blocked'), { name: 'NotAllowedError' });
-  const h = setup({ playError: error }); await flush();
-  assert.equal(h.element('canopy-radio-play').getAttribute('aria-pressed'), 'false');
-  assert.match(h.element('canopy-radio-status').textContent, /autoplay blocked/);
-  assert.equal(h.warnings.length, 1);
+
+test('Canopy markup retains header placement without its old parallel audio/streamer', () => {
+  const html = fs.readFileSync(require.resolve('../index.html'), 'utf8');
+  const adapter = fs.readFileSync(require.resolve('../scripts/canopy-radio.js'), 'utf8');
+  assert.match(html, /id="canopy-radio-widget" class="canopy-radio"/);
+  assert.doesNotMatch(html, /id="canopy-radio-(audio|play|station|volume)"/);
+  assert.doesNotMatch(adapter, /pinata\.cloud|\/api\/radio\/vote|setInterval|new Audio/);
+  const css = fs.readFileSync(require.resolve('../styles/spiral.css'), 'utf8');
+  assert.match(css, /top: 5\.9rem/);
+  assert.match(css, /top: 5\.45rem/);
+  assert.doesNotMatch(css, /top: var\(--decent-head-height, 5\.\d+rem\)/);
 });
-test('station button starts JukeLoop, seeks to live position, corrects drift and cancels polls on pause', async () => {
-  const h = setup(); await flush();
-  h.element('canopy-radio-station').fire('click'); await flush();
-  const audio = h.element('canopy-radio-audio');
-  assert.equal(audio.src, `https://gateway.pinata.cloud/ipfs/${cid}`);
-  assert.equal(audio.loop, false);
-  audio.fire('loadedmetadata');
-  assert.ok(audio.currentTime >= 42 && audio.currentTime < 43);
-  assert.match(h.element('canopy-radio-status').textContent, /Community song — Artist/);
-  audio.currentTime = 1;
-  h.tick(8000); await flush();
-  assert.equal(audio.currentTime, 42);
-  assert.equal(h.fetches(), 2);
-  h.element('canopy-radio-play').fire('click');
-  assert.equal(h.timers.size, 0);
-  h.element('canopy-radio-station').fire('click'); await flush();
-  assert.equal(audio.src, 'https://stream.wqxr.org/wqxr-web');
-});
-test('late JukeLoop responses cannot restart a paused radio or replace a new station', async () => {
-  let resolve;
-  const h = setup({ fetchImpl: () => new Promise(r => { resolve = r; }) }); await flush();
-  h.element('canopy-radio-station').fire('click');
-  h.element('canopy-radio-station').fire('click'); await flush();
-  resolve({ ok: true, json: async () => track() }); await flush();
-  assert.equal(h.element('canopy-radio-audio').src, 'https://stream.wqxr.org/wqxr-web');
-  assert.equal(h.timers.size, 0);
-});
-test('between tracks and unpublished media pause old audio without presenting failures as success', async () => {
-  for (const state of [{ nowPlaying: null }, track({ ipfsCid: null })]) {
-    const h = setup({ fetchImpl: async () => ({ ok: true, json: async () => state }) }); await flush();
-    h.element('canopy-radio-station').fire('click'); await flush();
-    assert.equal(h.element('canopy-radio-audio').paused, true);
-    assert.match(h.element('canopy-radio-status').textContent, /between tracks|not on IPFS/);
-    assert.ok([...h.timers.values()].some(t => t.delay === 8000));
-  }
-});
-test('radio fetch and media errors are explicit, retryable and cancel stale track metadata', async () => {
-  const h = setup({ fetchImpl: async () => ({ ok: false, status: 503 }) }); await flush();
-  h.element('canopy-radio-station').fire('click'); await flush();
-  assert.match(h.element('canopy-radio-status').textContent, /unavailable · retrying/);
-  assert.equal(h.warnings.length, 1);
-  const media = setup(); await flush();
-  media.element('canopy-radio-station').fire('click'); await flush();
-  media.element('canopy-radio-play').fire('click');
-  media.element('canopy-radio-audio').fire('loadedmetadata');
-  assert.equal(media.element('canopy-radio-audio').currentTime, 0);
-  media.element('canopy-radio-play').fire('click'); await flush();
-  media.element('canopy-radio-audio').fire('error');
-  assert.equal(media.element('canopy-radio-play').getAttribute('aria-pressed'), 'false');
-  assert.match(media.element('canopy-radio-status').textContent, /unavailable/);
+
+test('host renderer preserves original compact controls and makes extras opt-in and keyboard accessible', () => {
+  const element = new Element(), document = element.ownerDocument;
+  const controls = Object.fromEntries(['play', 'volume', 'audio', 'up', 'down', 'net', 'now', 'status', 'session'].map(key => [key, new Element()]));
+  controls.volume.value = '0.08';
+  let selected;
+  const view = renderCanopyRadio({ element, document, controls, selectStation: (...args) => { selected = args; } });
+  const [row, status, details, audio] = element.children;
+  assert.deepEqual(row.children, [controls.play, row.children[1], controls.volume]);
+  assert.equal(audio, controls.audio);
+  assert.equal(details.hidden, true);
+  assert.equal(controls.volume.title, 'Radio volume: 8%');
+  view.update({ station: { id: 'wqxr' }, listening: false, status: '', now: 'WQXR · live stream' });
+  assert.equal(row.children[1].textContent, '🎼 WQXR');
+  assert.equal(status.textContent, 'Classical · quiet');
+  assert.equal(controls.play.getAttribute('aria-label'), 'Play WQXR classical radio');
+  row.children[1].dispatchEvent(new Event('click'));
+  assert.deepEqual(selected, ['dbusk', { play: true }]);
+  view.update({ station: { id: 'dbusk' }, listening: true, status: '', now: 'A song — artist.eth' });
+  assert.equal(row.children[1].textContent, '🎸 DecentBusking');
+  assert.equal(status.textContent, 'A song — artist.eth');
+  status.dispatchEvent(new Event('click'));
+  assert.equal(details.hidden, false);
+  assert.equal(status.getAttribute('aria-expanded'), 'true');
+  const escape = new Event('keydown'); escape.key = 'Escape';
+  element.dispatchEvent(escape);
+  assert.equal(details.hidden, true);
+  assert.equal(status.focused, true);
+  selected = null; view.destroy();
+  row.children[1].dispatchEvent(new Event('click'));
+  status.dispatchEvent(new Event('click'));
+  assert.equal(selected, null);
+  assert.equal(details.hidden, true);
 });

@@ -1,196 +1,145 @@
-/* global DecentCreatorRecords */
 (function () {
   'use strict';
-  // Mirrors the Rabbit Hole stations without introducing a dependency into its standalone IPFS page.
-  const CLASSICAL = 'https://stream.wqxr.org/wqxr-web';
-  const JUKELOOP = 'https://decentbusking.onrender.com/api/radio';
-  const GATEWAY = 'https://gateway.pinata.cloud/ipfs/';
-  document.addEventListener('DOMContentLoaded', () => {
-    const byId = id => document.getElementById(id);
-    const audio = byId('canopy-radio-audio'), play = byId('canopy-radio-play');
-    const stationButton = byId('canopy-radio-station'), volume = byId('canopy-radio-volume'), status = byId('canopy-radio-status');
-    let station = 'wqxr', listening = false, token = 0, timer = null, request = null, track = null, metadata = null;
-    let classicalRetries = 0, classicalRetryPending = false;
-    function announce(text, error = false) {
-      status.textContent = text;
-      status.title = text;
-      status.classList.toggle('is-error', error);
+  // Immutable product commit; relative imports share this exact pin.
+  const WIDGET_URL = 'https://cdn.jsdelivr.net/gh/A-Decent-Agency/DBuskRadio@1fe9ed0c2afc61552328fdda10d0f199bc3eaee9/widget.js';
+
+  // Presentation only: all audio, state, votes and subscriptions belong to the widget.
+  function renderCanopyRadio({ element, document, controls, selectStation }) {
+    const make = (tag, className, text) => {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text) node.textContent = text;
+      return node;
+    };
+    const row = make('div', 'canopy-radio-controls');
+    const station = make('button', '', '🎼 WQXR');
+    station.id = 'canopy-radio-station';
+    station.type = 'button';
+    controls.play.id = 'canopy-radio-play';
+    controls.play.title = 'Play / pause radio';
+    controls.volume.id = 'canopy-radio-volume';
+    controls.audio.id = 'canopy-radio-audio';
+    const status = make('button', 'canopy-radio-status', 'Classical · quiet');
+    status.type = 'button';
+    status.id = 'canopy-radio-status';
+    status.setAttribute('aria-live', 'polite');
+    status.setAttribute('aria-expanded', 'false');
+    status.setAttribute('aria-controls', 'canopy-radio-details');
+    const details = make('div', 'canopy-radio-details');
+    details.id = 'canopy-radio-details';
+    details.hidden = true;
+    details.setAttribute('role', 'region');
+    details.setAttribute('aria-label', 'Radio details and voting');
+    const votes = make('div', 'canopy-radio-controls');
+    const close = make('button', '', 'Close radio details');
+    close.type = 'button';
+    votes.append(controls.up, controls.down, controls.net);
+    details.append(controls.now, votes, controls.status, controls.session, close);
+    row.append(controls.play, station, controls.volume);
+    element.replaceChildren(row, status, details, controls.audio);
+    const toggleDetails = () => {
+      details.hidden = !details.hidden;
+      status.setAttribute('aria-expanded', String(!details.hidden));
+    };
+    const closeDetails = () => {
+      details.hidden = true;
+      status.setAttribute('aria-expanded', 'false');
+      status.focus();
+    };
+    let selected = 'wqxr';
+    const switchStation = () => selectStation(selected === 'wqxr' ? 'dbusk' : 'wqxr', { play: true });
+    const volumeTitle = () => { controls.volume.title = `Radio volume: ${Math.round(Number(controls.volume.value) * 100)}%`; };
+    const keydown = event => { if (event.key === 'Escape' && !details.hidden) closeDetails(); };
+    station.addEventListener('click', switchStation);
+    status.addEventListener('click', toggleDetails);
+    close.addEventListener('click', closeDetails);
+    element.addEventListener('keydown', keydown);
+    controls.volume.addEventListener('input', volumeTitle);
+    volumeTitle();
+    return {
+      update(state) {
+        selected = state.station.id;
+        const classical = selected === 'wqxr';
+        const next = classical ? 'DecentBusking' : 'WQXR classical';
+        station.textContent = classical ? '🎼 WQXR' : '🎸 DecentBusking';
+        station.setAttribute('aria-label', `Switch to ${next} radio`);
+        station.title = `Switch to ${next}`;
+        controls.play.setAttribute('aria-label', `${state.listening ? 'Pause' : 'Play'} ${classical ? 'WQXR classical' : 'DecentBusking'} radio`);
+        const label = state.status || (classical ? 'Classical · quiet' : state.now);
+        status.textContent = label;
+        status.title = `${label} · Click for radio details and voting`;
+        status.setAttribute('aria-label', `${label} · Radio details and voting`);
+        status.classList.toggle('is-error', /unavailable|blocked|not recorded/i.test(label));
+      },
+      destroy() {
+        station.removeEventListener('click', switchStation);
+        status.removeEventListener('click', toggleDetails);
+        close.removeEventListener('click', closeDetails);
+        element.removeEventListener('keydown', keydown);
+        controls.volume.removeEventListener('input', volumeTitle);
+      },
+    };
+  }
+
+  function mountCanopyRadio(element, options = {}) {
+    const windowRef = options.window || window;
+    const loadWidget = options.loadWidget || (url => import(url));
+    let destroyed = false, widget = null, retryButton = null;
+    const widgetOptions = {
+      workerUrl: 'https://decentbusking.onrender.com',
+      compact: true, theme: 'auto', volume: 0.08, initialStation: 'wqxr',
+      stations: [{ id: 'wqxr', label: 'WQXR', url: 'https://stream.wqxr.org/wqxr-web' }],
+      render: renderCanopyRadio,
+      ...(options.head ? { head: options.head } : {}),
+    };
+    function clearRetry() {
+      retryButton?.removeEventListener('click', retry);
+      retryButton = null;
     }
-    function render() {
-      play.textContent = listening ? 'Ⅱ' : '▶';
-      play.setAttribute('aria-pressed', String(listening));
-      play.setAttribute('aria-label', `${listening ? 'Pause' : 'Play'} ${station === 'wqxr' ? 'WQXR classical' : 'DecentBusking'} radio`);
-      stationButton.textContent = station === 'wqxr' ? '🎼 WQXR' : '🎸 DecentBusking';
-      const next = station === 'wqxr' ? 'DecentBusking' : 'WQXR classical';
-      stationButton.setAttribute('aria-label', `Switch to ${next} radio`);
-      stationButton.title = `Switch to ${next}`;
-    }
-    function clearMetadata() {
-      if (metadata) audio.removeEventListener('loadedmetadata', metadata);
-      metadata = null;
-    }
-    function stop() {
-      token++;
-      clearTimeout(timer);
-      classicalRetryPending = false;
-      request?.abort();
-      request = null;
-      clearMetadata();
-      track = null;
-      listening = false;
-      audio.pause();
-      audio.removeAttribute('src');
-      audio.load();
-      render();
-    }
-    function playbackError(error, current) {
-      if (current !== token || !listening) return;
-      console.warn('[Canopy radio] Playback failed:', error);
-      if (station === 'wqxr' && error.name !== 'NotAllowedError' && error.name !== 'AbortError'
-        && classicalRetries < 2) {
-        if (classicalRetryPending) return;
-        classicalRetryPending = true;
-        classicalRetries++;
-        // A failed media request may reject play() as well as emitting error.
-        token++;
-        const retryToken = token;
-        audio.pause();
-        audio.removeAttribute('src');
-        audio.load();
-        announce(`WQXR stream interrupted · retrying ${classicalRetries}/2…`, true);
-        timer = setTimeout(() => {
-          if (retryToken !== token || !listening || station !== 'wqxr') return;
-          classicalRetryPending = false;
-          tuneClassical(retryToken);
-        }, classicalRetries * 1500);
-        return;
-      }
-      stop();
-      announce(error.name === 'NotAllowedError' ? 'Tap ▶ to listen · autoplay blocked' : 'Radio unavailable · tap ▶ to retry', true);
-    }
-    async function playAudio(current) {
-      try { await audio.play(); }
-      catch (error) { playbackError(error, current); }
-    }
-    function tuneClassical(current) {
-      audio.loop = false;
-      audio.src = CLASSICAL;
-      announce(classicalRetries ? `Reconnecting to WQXR · attempt ${classicalRetries}/2…` : 'Tuning in to WQXR…');
-      void playAudio(current);
-    }
-    function schedule(current, delay = 8000) {
-      if (current === token && listening && station === 'busking') timer = setTimeout(() => poll(current), delay);
-    }
-    async function poll(current) {
-      if (current !== token || !listening) return;
-      clearTimeout(timer);
-      const controller = new AbortController();
-      request = controller;
-      const timeout = setTimeout(() => controller.abort(), 20000);
+    async function load() {
+      clearRetry();
+      element.textContent = 'Loading DBusk radio…';
       try {
-        const response = await fetch(JUKELOOP, { cache: 'no-store', signal: controller.signal });
-        if (!response.ok) throw new Error(`JukeLoop returned HTTP ${response.status}.`);
-        const state = await response.json();
-        if (current !== token || !listening) return;
-        if (!state || typeof state !== 'object' || !Object.hasOwn(state, 'nowPlaying')) throw new Error('Invalid JukeLoop radio state.');
-        const now = state.nowPlaying;
-        if (!now) {
-          clearMetadata();
-          track = null;
-          audio.pause();
-          announce('JukeLoop · between tracks');
-        } else {
-          const title = String(now.title || 'Untitled').slice(0, 120), artist = String(now.uploader || '').slice(0, 60);
-          const label = `${title}${artist ? ` — ${artist}` : ''}`;
-          const cid = typeof now.ipfsCid === 'string' && DecentCreatorRecords.CID.test(now.ipfsCid) ? now.ipfsCid : null;
-          const position = Number.isFinite(now.positionMs) ? Math.max(0, now.positionMs) / 1000 : 0;
-          if (!cid) {
-            clearMetadata();
-            track = null;
-            audio.pause();
-            announce(`${label} · not on IPFS yet`);
-          } else {
-            const id = `${String(now.playId || cid)}:${cid}`;
-            announce(label);
-            if (track !== id) {
-              clearMetadata();
-              audio.pause();
-              track = id;
-              audio.loop = false;
-              audio.src = GATEWAY + cid;
-              const started = Date.now();
-              metadata = () => {
-                metadata = null;
-                if (current !== token || track !== id) return;
-                const livePosition = position + (Date.now() - started) / 1000;
-                if (Number.isFinite(audio.duration) && livePosition < audio.duration - 2) audio.currentTime = livePosition;
-              };
-              audio.addEventListener('loadedmetadata', metadata, { once: true });
-              void playAudio(current);
-            } else if (audio.ended) {
-              announce('JukeLoop · waiting for the next track');
-            } else if (!audio.paused && Number.isFinite(audio.duration) && Math.abs(audio.currentTime - position) > 8 && position < audio.duration - 2) {
-              audio.currentTime = position;
-            }
-          }
-        }
+        const module = await loadWidget(WIDGET_URL);
+        if (destroyed) return;
+        if (typeof module.mount !== 'function') throw new Error('DBusk mount export unavailable');
+        element.replaceChildren();
+        widget = module.mount(element, widgetOptions);
       } catch (error) {
-        if (current !== token || !listening) return;
-        console.warn('[Canopy radio] JukeLoop unavailable:', error);
-        clearMetadata();
-        audio.pause();
-        track = null;
-        announce('JukeLoop unavailable · retrying…', true);
-      } finally {
-        clearTimeout(timeout);
-        if (request === controller) request = null;
-        schedule(current);
+        if (destroyed) return;
+        console.warn('[Canopy radio] Standalone widget unavailable:', error);
+        element.textContent = 'DBusk radio unavailable · ';
+        retryButton = element.ownerDocument.createElement('button');
+        retryButton.type = 'button';
+        retryButton.textContent = 'Retry radio';
+        retryButton.addEventListener('click', retry);
+        element.append(retryButton);
       }
     }
-    function start() {
-      stop();
-      classicalRetries = 0;
-      listening = true;
-      audio.volume = Number(volume.value);
-      render();
-      const current = token;
-      if (station === 'busking') {
-        announce('Tuning in to JukeLoop…');
-        void poll(current);
-      } else {
-        tuneClassical(current);
-      }
+    function retry() { void load(); }
+    function destroy() {
+      if (destroyed) return;
+      destroyed = true;
+      clearRetry();
+      widget?.destroy();
+      windowRef.removeEventListener('pagehide', destroy);
+      element.replaceChildren();
     }
-    play.addEventListener('click', () => {
-      if (listening) { stop(); announce('Radio paused'); }
-      else start();
-    });
-    stationButton.addEventListener('click', () => {
-      stop();
-      station = station === 'wqxr' ? 'busking' : 'wqxr';
-      start();
-    });
-    volume.addEventListener('input', () => {
-      audio.volume = Number(volume.value);
-      volume.title = `Radio volume: ${Math.round(audio.volume * 100)}%`;
-    });
-    audio.addEventListener('error', () => {
-      if (listening && !classicalRetryPending) playbackError(new Error(`Audio stream failed (${audio.error?.code || 'unknown'}).`), token);
-    });
-    audio.addEventListener('playing', () => {
-      if (listening && station === 'wqxr' && !classicalRetryPending) announce('WQXR classical · quiet');
-    });
-    audio.addEventListener('ended', () => {
-      if (listening && station === 'wqxr') {
-        playbackError(new Error('WQXR live stream ended.'), token);
-        return;
-      }
-      if (listening && station === 'busking') {
-        clearTimeout(timer);
-        if (!request) schedule(token, 1500);
-      }
-    });
-    window.addEventListener('pagehide', stop);
-    start();
-  });
-}());
+    windowRef.addEventListener('pagehide', destroy);
+    return { ready: load(), destroy };
+  }
+
+  if (typeof module !== 'undefined' && module.exports) module.exports = { WIDGET_URL, mountCanopyRadio, renderCanopyRadio };
+  if (typeof document === 'undefined') return;
+  let radio;
+  function start() {
+    const element = document.getElementById('canopy-radio-widget');
+    if (!element) return;
+    radio?.destroy();
+    radio = mountCanopyRadio(element);
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start, { once: true });
+  else start();
+  // Restore the inert control surface when returning from the back-forward cache.
+  window.addEventListener('pageshow', event => { if (event.persisted) start(); });
+})();

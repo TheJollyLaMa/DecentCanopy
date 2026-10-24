@@ -134,6 +134,18 @@
               "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"
             }
           ]
+        },
+        {
+          "id": "radio-widget-embed",
+          "label": "Reusable DBusk radio with voting",
+          "state": "issue-reported",
+          "detail": "Replace the duplicate Canopy radio client with a scoped standalone DBusk widget and an immutable product dependency closure; retain quiet WQXR as an optional station.",
+          "evidence": [
+            {
+              "label": "DBusk radio widget #247",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/247"
+            }
+          ]
         }
       ],
       "tags": [
@@ -233,6 +245,22 @@
             {
               "label": "Worker media route",
               "url": "https://github.com/TheJollyLaMa/DecentBusking/blob/77dbf70d62480c84310dcc6d860e731256c7bf2f/discord-bot/ipfs-worker.js"
+            }
+          ]
+        },
+        {
+          "id": "dbusk-radio-widget",
+          "label": "DBuskRadio standalone streamer and thumbs",
+          "state": "code-observed",
+          "detail": "PR-source standalone ES module using shared upstream radio transport, identity and media proxy logic. Inert wallet/audio mount and lifecycle tests are available; not a merged release or proof of deployed CORS/audio compatibility.",
+          "evidence": [
+            {
+              "label": "DBuskRadio product PR",
+              "url": "https://github.com/A-Decent-Agency/DBuskRadio/pull/1"
+            },
+            {
+              "label": "Shared upstream extraction PR",
+              "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/280"
             }
           ]
         }
@@ -1766,6 +1794,26 @@
         {
           "label": "Existing consumer integration #15",
           "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15"
+        }
+      ]
+    },
+    {
+      "source": "decent-busking",
+      "target": "decent-canopy",
+      "type": "capability-match",
+      "state": "proposed",
+      "offer": "dbusk-radio-widget",
+      "need": "radio-widget-embed",
+      "note": "Canopy ← DecentBusking: mount DBusk.decentagency.eth streamer/thumbs from a pushed immutable standalone product PR commit, not a second local radio implementation.",
+      "nextTest": "Review upstream #280, verify authorized worker deployment and exact host vote origins, then product PR #1 and Canopy pin. Smoke-test media codec/ranges, live handoff, votes/tallies and pause/destroy on a new dedicated browser page. No ENS writes, supporter minting or release implied.",
+      "evidence": [
+        {
+          "label": "DBuskRadio standalone product PR",
+          "url": "https://github.com/A-Decent-Agency/DBuskRadio/pull/1"
+        },
+        {
+          "label": "DBusk radio widget request #247",
+          "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/247"
         }
       ]
     },
