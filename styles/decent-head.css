@@ -279,14 +279,13 @@
 .canopy-radio {
   grid-column: 2;
   min-width: 0;
-  display: block;
-  width: 310px;
-  max-width: 100%;
-  --dbusk-color: #d5eee4;
-  --dbusk-background: rgba(4, 10, 25, .7);
-  --dbusk-border: rgba(122, 240, 198, .25);
-  --dbusk-accent: #86efac;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  max-width: 230px;
+  position: relative;
 }
+.canopy-radio-controls { display: flex; align-items: center; gap: 5px; }
 .canopy-radio button {
   padding: 3px 5px;
   border: 1px solid rgba(122, 240, 198, .18);
@@ -298,9 +297,46 @@
   white-space: nowrap;
 }
 .canopy-radio button:hover, .canopy-radio button:focus-visible { color: #86efac; border-color: #86efac; }
+.canopy-radio button[aria-pressed="true"] { color: #86efac; }
+.canopy-radio input { width: 48px; height: 16px; margin: 0; accent-color: #6ee7b7; cursor: pointer; }
+.canopy-radio .canopy-radio-status {
+  max-width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: #8192a6;
+  font: 500 9px/1.2 system-ui, sans-serif;
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+}
+.canopy-radio-status.is-error { color: #fbbf24; }
+.canopy-radio-details {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  width: min(280px, 80vw);
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid rgba(122, 240, 198, .25);
+  border-radius: 8px;
+  background: #040a19;
+  color: #d5eee4;
+  font: 11px/1.4 system-ui, sans-serif;
+  overflow-wrap: anywhere;
+}
+.canopy-radio-details [part="now"] { white-space: normal; margin-bottom: 6px; }
+.canopy-radio-details [part="session"] { display: block; }
+.canopy-radio-status:focus-visible { outline: 2px solid #86efac; outline-offset: 2px; }
 @media (max-width: 620px) {
-  .canopy-radio { width: 240px; max-width: 100%; }
+  .canopy-radio { max-width: 160px; }
+  .canopy-radio-controls { gap: 3px; flex-wrap: wrap; justify-content: center; }
   .canopy-radio button { font-size: 9px; padding: 3px; }
+  .canopy-radio input { width: 36px; }
+  .canopy-radio .canopy-radio-status { font-size: 8px; padding: 0; }
 }
 
 .head-tree-grove.admin-ready {

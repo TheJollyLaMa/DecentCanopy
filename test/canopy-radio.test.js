@@ -2,28 +2,24 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
-const { WIDGET_URL, mountCanopyRadio } = require('../scripts/canopy-radio.js');
+const { WIDGET_URL, mountCanopyRadio, renderCanopyRadio } = require('../scripts/canopy-radio.js');
 
 class Element extends EventTarget {
   constructor() {
     super(); this.children = []; this.textContent = '';
+    this.attributes = {};
+    this.classList = { toggle() {} };
     this.ownerDocument = { createElement: () => new Element() };
   }
-  append(node) { this.children.push(node); }
-  replaceChildren() { this.children = []; this.textContent = ''; }
+  append(...nodes) { this.children.push(...nodes); }
+  replaceChildren(...nodes) { this.children = nodes; this.textContent = ''; }
+  setAttribute(key, value) { this.attributes[key] = String(value); }
+  getAttribute(key) { return this.attributes[key]; }
+  focus() { this.focused = true; }
 }
 
 test('Canopy pins a real full product commit and mounts one quiet, inert host widget', async () => {
   const element = new Element(), window = new EventTarget();
-  let headerHeight = 190, published, observed = 0, disconnected = 0;
-  window.ResizeObserver = class {
-    observe() { observed++; }
-    disconnect() { disconnected++; }
-  };
-  element.closest = () => ({ getBoundingClientRect: () => ({ height: headerHeight }) });
-  element.ownerDocument.documentElement = { style: { setProperty: (key, value) => {
-    assert.equal(key, '--decent-head-height'); published = value;
-  } } };
   const head = { getWallet() { throw new Error('Host must not request accounts'); } };
   let mounted = 0, destroyed = 0, received;
   const radio = mountCanopyRadio(element, { window, head, loadWidget: async url => {
@@ -34,25 +30,17 @@ test('Canopy pins a real full product commit and mounts one quiet, inert host wi
     } };
   } });
   await radio.ready;
-  assert.match(WIDGET_URL, /DBuskRadio@269cbe22ae682c226206a0de89375dad7f9a6f6f\/widget\.js$/);
+  assert.match(WIDGET_URL, /DBuskRadio@ab0d487b8e12cfb51e256363b00c15915c18cc2a\/widget\.js$/);
   assert.equal(mounted, 1);
   assert.equal(received.volume, 0.08);
   assert.equal(received.compact, true);
   assert.equal(received.initialStation, 'wqxr');
+  assert.equal(received.render, renderCanopyRadio);
   assert.equal(received.head, head);
   assert.equal(received.stations[0].url, 'https://stream.wqxr.org/wqxr-web');
-  assert.equal(published, '190px');
-  assert.equal(observed, 1);
-  headerHeight = 229;
-  window.dispatchEvent(new Event('resize'));
-  assert.equal(published, '229px');
   window.dispatchEvent(new Event('pagehide'));
   radio.destroy();
   assert.equal(destroyed, 1);
-  assert.equal(disconnected, 1);
-  headerHeight = 300;
-  window.dispatchEvent(new Event('resize'));
-  assert.equal(published, '229px');
 });
 
 test('late imports cannot mount after host destroy', async () => {
@@ -93,5 +81,41 @@ test('Canopy markup retains header placement without its old parallel audio/stre
   assert.doesNotMatch(html, /id="canopy-radio-(audio|play|station|volume)"/);
   assert.doesNotMatch(adapter, /pinata\.cloud|\/api\/radio\/vote|setInterval|new Audio/);
   const css = fs.readFileSync(require.resolve('../styles/spiral.css'), 'utf8');
-  assert.equal((css.match(/top: var\(--decent-head-height, 5\.\d+rem\)/g) || []).length, 2);
+  assert.match(css, /top: 5\.9rem/);
+  assert.match(css, /top: 5\.45rem/);
+  assert.doesNotMatch(css, /top: var\(--decent-head-height, 5\.\d+rem\)/);
+});
+
+test('host renderer preserves original compact controls and makes extras opt-in and keyboard accessible', () => {
+  const element = new Element(), document = element.ownerDocument;
+  const controls = Object.fromEntries(['play', 'volume', 'audio', 'up', 'down', 'net', 'now', 'status', 'session'].map(key => [key, new Element()]));
+  controls.volume.value = '0.08';
+  let selected;
+  const view = renderCanopyRadio({ element, document, controls, selectStation: (...args) => { selected = args; } });
+  const [row, status, details, audio] = element.children;
+  assert.deepEqual(row.children, [controls.play, row.children[1], controls.volume]);
+  assert.equal(audio, controls.audio);
+  assert.equal(details.hidden, true);
+  assert.equal(controls.volume.title, 'Radio volume: 8%');
+  view.update({ station: { id: 'wqxr' }, listening: false, status: '', now: 'WQXR · live stream' });
+  assert.equal(row.children[1].textContent, '🎼 WQXR');
+  assert.equal(status.textContent, 'Classical · quiet');
+  assert.equal(controls.play.getAttribute('aria-label'), 'Play WQXR classical radio');
+  row.children[1].dispatchEvent(new Event('click'));
+  assert.deepEqual(selected, ['dbusk', { play: true }]);
+  view.update({ station: { id: 'dbusk' }, listening: true, status: '', now: 'A song — artist.eth' });
+  assert.equal(row.children[1].textContent, '🎸 DecentBusking');
+  assert.equal(status.textContent, 'A song — artist.eth');
+  status.dispatchEvent(new Event('click'));
+  assert.equal(details.hidden, false);
+  assert.equal(status.getAttribute('aria-expanded'), 'true');
+  const escape = new Event('keydown'); escape.key = 'Escape';
+  element.dispatchEvent(escape);
+  assert.equal(details.hidden, true);
+  assert.equal(status.focused, true);
+  selected = null; view.destroy();
+  row.children[1].dispatchEvent(new Event('click'));
+  status.dispatchEvent(new Event('click'));
+  assert.equal(selected, null);
+  assert.equal(details.hidden, true);
 });

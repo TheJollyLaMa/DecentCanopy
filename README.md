@@ -4,21 +4,30 @@
 
 The header mounts **DBusk.decentagency.eth** from
 [DBuskRadio PR #1](https://github.com/A-Decent-Agency/DBuskRadio/pull/1),
-pinned to pushed commit **`269cbe22ae682c226206a0de89375dad7f9a6f6f`**
+pinned to pushed commit **`ab0d487b8e12cfb51e256363b00c15915c18cc2a`**
 through `scripts/canopy-radio.js`. This is a review-stage commit artifact,
 **not a tag or release**. The ES module closure is
 `widget.js → widget/radio-widget.js → js/radio-client.mjs`; all relative imports
 stay on the same CDN commit, not mutable main. The product's byte-identical
-runtime freeze is DecentBusking `cd471942b10733431b8bde463235143f6cc6e2ca`.
+runtime freeze is DecentBusking `da5d998ee3c5fcd4a5a739afd35b5ca091f14e8b`.
 
-Canopy retains its header location, quiet 8% volume and WQXR initial selection,
-but never autoplays. Select DBusk for show/title/artist and thumbs; Canopy no
-longer duplicates radio polling, voting or gateway logic. Widget controls offer
-local theme/compact customization, host CSS variables and scoped shadow DOM.
+Canopy restores the origin/main compact shell: original header/toolbar offsets,
+colors, spacing, play/pause, 🎼 WQXR / 🎸 DecentBusking station-switch button,
+48px volume slider (36px on mobile), quiet 8% volume and WQXR initial selection.
+Unlike the old autoplay attempt, mounting stays silent until a user gesture.
+The product's public `render` adapter moves shared native controls into
+Canopy's light DOM; it does not duplicate radio polling, voting or gateway logic.
+No product panel, theme chooser, compact toolbar or permanently visible thumbs
+are imposed on the header. Click/tab to the quiet status line for **Radio details
+and voting** (also described in its tooltip); the optional panel exposes full
+show/title/artist, thumbs, tally, session and error status. Escape or Close returns
+focus to the disclosure. Station-switch behavior still starts the chosen station.
+The default product shadow view remains independently themeable through CSS
+tokens and `::part`; other hosts may supply their own render adapter.
 An existing/late DecentHead session is reused without rendering a second head,
 requesting accounts, connecting, switching chains or signing.
 
-Validation: `node --test test/canopy-radio.test.js test/agency-map.test.js`.
+Validation: `node --test test/canopy-radio.test.js test/agency-map.test.js test/agency-release-map.test.js test/share-view.test.js test/agency-pins.test.js`.
 Product tests exercise the actual mount, vote success/error/duplicates,
 offline/media/station behavior and destroy/remount; host tests cover the pin,
 quiet options, import failure/retry, pending import cancellation and pagehide
