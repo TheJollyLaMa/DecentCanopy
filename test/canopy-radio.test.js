@@ -30,7 +30,7 @@ test('Canopy pins a real full product commit and mounts one quiet, inert host wi
     } };
   } });
   await radio.ready;
-  assert.match(WIDGET_URL, /DBuskRadio@ab0d487b8e12cfb51e256363b00c15915c18cc2a\/widget\.js$/);
+  assert.match(WIDGET_URL, /DBuskRadio@1fe9ed0c2afc61552328fdda10d0f199bc3eaee9\/widget\.js$/);
   assert.equal(mounted, 1);
   assert.equal(received.volume, 0.08);
   assert.equal(received.compact, true);

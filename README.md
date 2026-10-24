@@ -4,12 +4,13 @@
 
 The header mounts **DBusk.decentagency.eth** from
 [DBuskRadio PR #1](https://github.com/A-Decent-Agency/DBuskRadio/pull/1),
-pinned to pushed commit **`ab0d487b8e12cfb51e256363b00c15915c18cc2a`**
-through `scripts/canopy-radio.js`. This is a review-stage commit artifact,
+pinned to merged product commit **`1fe9ed0c2afc61552328fdda10d0f199bc3eaee9`**
+through `scripts/canopy-radio.js`. This is an immutable commit artifact,
 **not a tag or release**. The ES module closure is
 `widget.js → widget/radio-widget.js → js/radio-client.mjs`; all relative imports
 stay on the same CDN commit, not mutable main. The product's byte-identical
-runtime freeze is DecentBusking `da5d998ee3c5fcd4a5a739afd35b5ca091f14e8b`.
+runtime freeze is DecentBusking `2c80b287730f0dd6496520b89fd76debaa6e6b9b`,
+including the per-recording asynchronous playback handoff guard.
 
 Canopy restores the origin/main compact shell: original header/toolbar offsets,
 colors, spacing, play/pause, 🎼 WQXR / 🎸 DecentBusking station-switch button,

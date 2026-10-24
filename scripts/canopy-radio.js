@@ -1,7 +1,7 @@
 (function () {
   'use strict';
-  // Pushed PR commit, not a tag/release. Its relative imports share this exact pin.
-  const WIDGET_URL = 'https://cdn.jsdelivr.net/gh/A-Decent-Agency/DBuskRadio@ab0d487b8e12cfb51e256363b00c15915c18cc2a/widget.js';
+  // Immutable product commit; relative imports share this exact pin.
+  const WIDGET_URL = 'https://cdn.jsdelivr.net/gh/A-Decent-Agency/DBuskRadio@1fe9ed0c2afc61552328fdda10d0f199bc3eaee9/widget.js';
 
   // Presentation only: all audio, state, votes and subscriptions belong to the widget.
   function renderCanopyRadio({ element, document, controls, selectStation }) {
