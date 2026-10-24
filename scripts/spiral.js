@@ -2427,7 +2427,7 @@
     });
     document.getElementById('agency-overview').addEventListener('click', () => {
       closeDetails({ clearSelection: true });
-      detailsContentEl.innerHTML = window.CanopyAgencyMap.overview(allEntitiesById, allAssociations, escHtml);
+      detailsContentEl.innerHTML = window.CanopyAgencyMap.overview(allEntitiesById, allAssociations, escHtml, window.GTPAgencyDataAdapter);
       detailsPanel.classList.add('open');
       detailsPanel.setAttribute('aria-hidden', 'false');
       document.getElementById('close-details').focus({ preventScroll: true });
