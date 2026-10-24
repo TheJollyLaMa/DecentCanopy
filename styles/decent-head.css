@@ -279,12 +279,14 @@
 .canopy-radio {
   grid-column: 2;
   min-width: 0;
-  display: grid;
-  justify-items: center;
-  gap: 2px;
-  max-width: 230px;
+  display: block;
+  width: 310px;
+  max-width: 100%;
+  --dbusk-color: #d5eee4;
+  --dbusk-background: rgba(4, 10, 25, .7);
+  --dbusk-border: rgba(122, 240, 198, .25);
+  --dbusk-accent: #86efac;
 }
-.canopy-radio-controls { display: flex; align-items: center; gap: 5px; }
 .canopy-radio button {
   padding: 3px 5px;
   border: 1px solid rgba(122, 240, 198, .18);
@@ -296,23 +298,9 @@
   white-space: nowrap;
 }
 .canopy-radio button:hover, .canopy-radio button:focus-visible { color: #86efac; border-color: #86efac; }
-.canopy-radio button[aria-pressed="true"] { color: #86efac; }
-.canopy-radio input { width: 48px; height: 16px; margin: 0; accent-color: #6ee7b7; cursor: pointer; }
-.canopy-radio-status {
-  max-width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  color: #8192a6;
-  font: 500 9px/1.2 system-ui, sans-serif;
-}
-.canopy-radio-status.is-error { color: #fbbf24; }
 @media (max-width: 620px) {
-  .canopy-radio { max-width: 160px; }
-  .canopy-radio-controls { gap: 3px; flex-wrap: wrap; justify-content: center; }
+  .canopy-radio { width: 240px; max-width: 100%; }
   .canopy-radio button { font-size: 9px; padding: 3px; }
-  .canopy-radio input { width: 36px; }
-  .canopy-radio-status { font-size: 8px; }
 }
 
 .head-tree-grove.admin-ready {
