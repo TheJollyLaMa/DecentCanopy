@@ -175,7 +175,7 @@ test('older agency inventories remain readable without capability fields', () =>
   assert.ok(graph.projects.length);
   assert.equal(Model.lensIds(graph.projects, graph.associations, 'crossovers').size, 0);
   const entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
-  assert.match(Cards.overview(entities, graph.associations, escape), /No evidence-linked candidates/);
+  assert.match(Cards.overview(entities, graph.associations, escape, Model), /No evidence-linked candidates/);
 });
 
 test('capability cards and overview escape offer, caution, and candidate text', () => {
@@ -189,7 +189,7 @@ test('capability cards and overview escape offer, caution, and candidate text', 
   const card = Cards.render(entities[id('artfi')], entities, graph.associations, escape, Model);
   assert.match(card, /&lt;img/);
   assert.doesNotMatch(card, /<img/);
-  const overview = Cards.overview(entities, graph.associations, escape);
+  const overview = Cards.overview(entities, graph.associations, escape, Model);
   assert.match(overview, /&lt;img/);
   assert.doesNotMatch(overview, /<img/);
 });
@@ -206,7 +206,7 @@ test('capability lenses exclude repo duplicates and overview states coverage wit
   assert.equal(Model.lensIds(graph.projects, graph.associations, 'all').size, graph.projects.length);
   assert.throws(() => Model.lensIds(graph.projects, graph.associations, 'invented'));
   const entities = Object.fromEntries(graph.projects.map(n => [n.id, n]));
-  const html = Cards.overview(entities, graph.associations, escape);
+  const html = Cards.overview(entities, graph.associations, escape, Model);
   assert.match(html, /not impact scores/);
   assert.match(html, /Next validation/);
   assert.match(html, /Private\/local findings are excluded/);
@@ -215,6 +215,115 @@ test('capability lenses exclude repo duplicates and overview states coverage wit
   assert.match(card, /Expressed needs/);
   assert.match(card, /Offer:/);
   assert.match(card, /Need:/);
+});
+
+test('reuse desk covers each focused need and every exact candidate once in donor groups', () => {
+  const graph = Model.transform(fixture());
+  const before = JSON.stringify(graph);
+  const entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
+  const html = Cards.overview(entities, graph.associations, escape, Model);
+  const matches = graph.associations.filter(edge => edge.type === 'capability-match');
+  const groups = new Set(matches.map(edge => JSON.stringify([edge.source, edge.offer])));
+  assert.equal((html.match(/class="details-group agency-focus-project"/g) || []).length,
+    graph.projects.filter(node => node.kind !== 'repository' && ['now', 'next'].includes(node.agencyDetails.focus)).length);
+  assert.equal((html.match(/class="details-group agency-reuse-group"/g) || []).length, groups.size);
+  assert.equal((html.match(/<strong>Next validation:<\/strong>/g) || []).length, matches.length);
+  assert.match(html, /Before writing more code/);
+  assert.match(html, /Check current source, recent issues and unfinished branches/);
+  assert.match(html, /not an automatic scan/);
+  assert.match(html, /href="https:\/\/github.com\/TheJollyLaMa\/DecentCanopy\/blob\/main\/wiki\/Reuse-First.md"/);
+  assert.match(html, /No evidence-linked donor recorded/);
+  assert.match(html, /not proof none exists/);
+  assert.match(html, /not computed impact rankings/);
+  assert.match(html, /Donor evidence/);
+  assert.match(html, /Implementation inspected; not integration-tested/);
+  assert.match(html, /2 candidate projects/);
+  for (const edge of matches) {
+    assert.ok(html.includes(escape(edge.nextTest)));
+    edge.evidence.forEach(row => assert.ok(html.includes(`href="${escape(row.url)}"`)));
+  }
+  assert.equal(JSON.stringify(graph), before);
+});
+
+function visitorPortfolio(projects, relationships = []) {
+  return {
+    format: 'decentcanopy-agency-map', version: 1, reviewedAt: '2026-10-20',
+    sourceLabel: 'Synthetic visitor test; not published', mission: 'Test reuse without real identities.',
+    projects: [{ id: 'visitor-umbrella', name: 'Visitor umbrella', kind: 'initiative' }, ...projects],
+    relationships
+  };
+}
+
+function visitorCapability(id, label, state = 'code-observed') {
+  return {
+    id, label, state, detail: `Synthetic ${label} detail`,
+    evidence: [{ label: `Source for ${label}`, url: `https://github.com/example/fixture/issues/1#${id}` }]
+  };
+}
+
+function visitorMatch(source, target, offer, need) {
+  return {
+    source, target, offer, need, type: 'capability-match', state: 'proposed',
+    note: `Synthetic comparison of ${source} with ${target}`,
+    nextTest: `Test ${source}/${offer} against ${target}/${need}`,
+    evidence: [{ label: 'Comparison source', url: `https://github.com/example/fixture/issues/2#${target}` }]
+  };
+}
+
+test('mock visitor one compares shared donors without merging equal labels or double-counting consumers', () => {
+  const markup = '<img src=x onerror=alert(1)>';
+  const data = visitorPortfolio([
+    { id: 'library-a', name: 'Library A', repo: 'example/shared', offers: [
+      visitorCapability('save', 'Snapshot block'), visitorCapability('other-save', 'Snapshot block', 'documented')
+    ] },
+    { id: 'library-b', name: 'Library B', repo: 'example/shared', offers: [visitorCapability('save', 'Snapshot block')] },
+    { id: 'visitor-app', name: 'Visitor app', focus: 'now', needs: [
+      visitorCapability('recover', 'Recovery', 'issue-reported'),
+      visitorCapability('restart', 'Restart', 'documented')
+    ] },
+    { id: 'visitor-tool', name: 'Visitor tool', focus: 'next', needs: [visitorCapability('retain', markup, 'documented')] }
+  ], [
+    visitorMatch('library-a', 'visitor-app', 'save', 'recover'),
+    visitorMatch('library-a', 'visitor-app', 'save', 'restart'),
+    visitorMatch('library-a', 'visitor-tool', 'save', 'retain'),
+    visitorMatch('library-a', 'visitor-app', 'other-save', 'recover'),
+    visitorMatch('library-b', 'visitor-tool', 'save', 'retain')
+  ]);
+  const graph = Model.transform(data);
+  const entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
+  const html = Cards.overview(entities, graph.associations, escape, Model);
+  assert.equal((html.match(/class="details-group agency-reuse-group"/g) || []).length, 3);
+  assert.match(html, /Library A: Snapshot block \(2 candidate projects\)/);
+  assert.match(html, /Library A: Snapshot block \(1 candidate project\)/);
+  assert.match(html, /Library B: Snapshot block \(1 candidate project\)/);
+  assert.equal((html.match(/<strong>Next validation:<\/strong>/g) || []).length, 5);
+  assert.match(html, /Need expressed in an issue; resolution not verified/);
+  assert.match(html, /Documented design or example; readiness unverified/);
+  assert.match(html, /&lt;img/);
+  assert.doesNotMatch(html.replace('https://github.com/TheJollyLaMa/DecentCanopy/blob/main/wiki/Reuse-First.md', ''),
+    /<img|DecentBusking|BigNuten|DecentCanopy/);
+  assert.equal(graph.projects.filter(node => node.kind === 'repository').length, 1);
+});
+
+test('mock visitor two gets honest empty states without matches, capabilities or selected focus', () => {
+  const data = visitorPortfolio([
+    { id: 'visitor-empty', name: 'Empty visitor project', focus: 'now' },
+    { id: 'visitor-need', name: 'Need visitor project', focus: 'next',
+      needs: [visitorCapability('repair', 'Unmatched repair', 'issue-reported')] }
+  ]);
+  let graph = Model.transform(data);
+  let entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
+  let html = Cards.overview(entities, graph.associations, escape, Model);
+  assert.match(html, /No expressed needs established/);
+  assert.match(html, /No evidence-linked donor recorded/);
+  assert.match(html, /No evidence-linked candidates recorded yet/);
+  assert.ok(html.indexOf('Now: Empty visitor') < html.indexOf('Next: Need visitor'));
+  data.projects.forEach(project => { delete project.focus; });
+  graph = Model.transform(data);
+  entities = Object.fromEntries(graph.projects.map(node => [node.id, node]));
+  html = Cards.overview(entities, graph.associations, escape, Model);
+  assert.match(html, /No Now \/ Next focus selected/);
+  assert.doesNotMatch(html, /class="details-group agency-focus-project"|class="details-group agency-reuse-group"/);
 });
 
 test('agency adapter fetches once across shared selectors and does not replace unavailable data', async () => {

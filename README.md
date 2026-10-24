@@ -62,6 +62,20 @@ projects with inspected offers, expressed needs, or explicit candidate crossover
 repository sidepanels carry source links and the next validation step for each
 candidate.
 
+The overview is also a **check-before-coding desk**: expand a Now / Next project
+to see its expressed needs and possible donors, or expand a donor offer to compare
+its distinct consumers, evidence, limitations and per-application validation.
+Groups use exact project/offer identities, not similar names. Focus is
+steward-selected; alphabetical groups and consumer counts are not impact rankings.
+Missing donors mean unestablished reuse, not proof that no existing code exists.
+
+Use the [reuse-first build workflow](wiki/Reuse-First.md) before implementation:
+check actual source and unfinished work, record reuse/adapt/extract/build-new
+decisions, test the receiving app and update approved public evidence after delivery.
+The desk does not automatically scan repositories or publish local work.
+Two synthetic visitor portfolios exercise shared donors, identical labels,
+multiple needs and empty states without adding fake records to the public map.
+
 These are curated findings, not live GitHub synchronization or proof that two
 codebases interoperate. Implementations, documented examples, and issue-reported
 needs are labeled separately. A missing entry means unreviewed or unestablished,
