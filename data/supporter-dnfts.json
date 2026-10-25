@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-24T18:32:53.728Z",
+  "generatedAt": "2026-10-25T01:05:23.095Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,23 +29,25 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-10-24T18:31:44.705Z"
+      "attemptedAt": "2026-10-25T01:04:12.011Z"
     },
     "8453": {
       "status": "partial",
-      "registered": 72,
-      "listings": 2,
+      "registered": 75,
+      "listings": 5,
       "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:34: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:36: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:37: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:38: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:39: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:40: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:41: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:42: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:43: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:44: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:45: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:46: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:47: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:48: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:49: metadata or contract reads unavailable",
@@ -59,6 +61,7 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:57: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:58: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:59: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:60: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:61: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:62: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:63: metadata or contract reads unavailable",
@@ -68,10 +71,9 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:67: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:68: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:69: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; previous metadata used",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71: metadata unavailable; previous metadata used"
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72: metadata unavailable; on-chain listing note used"
       ],
-      "attemptedAt": "2026-10-24T18:32:53.727Z"
+      "attemptedAt": "2026-10-25T01:05:23.095Z"
     }
   },
   "tokens": [
@@ -109,7 +111,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-24T18:30:28.977Z",
+      "observedAt": "2026-10-25T01:02:55.915Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -150,7 +152,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-24T18:30:28.974Z",
+      "observedAt": "2026-10-25T01:02:55.942Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -188,7 +190,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-24T18:31:32.312Z",
+      "observedAt": "2026-10-25T01:03:59.613Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -226,7 +228,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-24T18:30:41.427Z",
+      "observedAt": "2026-10-25T01:03:08.438Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -267,7 +269,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-24T18:30:41.944Z",
+      "observedAt": "2026-10-25T01:03:08.926Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -308,18 +310,18 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-24T18:30:42.226Z",
+      "observedAt": "2026-10-25T01:03:08.959Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "stale",
+      "metadataStatus": "ok",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "70",
-      "name": "TheJollyLaMa/DecentHead v2.0.0 Supporter DNFT",
-      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
-      "image": "",
+      "name": "DecentHead v2.0.0 Supporter DNFT",
+      "description": "Support TheJollyLaMa/DecentHead v2.0.0. Source licensed Apache-2.0 + NOTICE. Steward-signed minting; no ownership or financial return promised.",
+      "image": "https://ipfs.io/ipfs/QmcuhKLo46hwSdUQJm93VoHeB1YrpjhzeySg6Q7D9srabS",
       "metadataUri": "https://ipfs.io/ipfs/QmVGmpz63TS9XkTHMxf2sybHv5k9Vdoyr2Spi9QqZ4pzfj",
       "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
       "totalMinted": "1000",
@@ -328,7 +330,7 @@
         {
           "repo": "thejollylama/decenthead",
           "name": "DecentHead",
-          "matchedBy": "name/description"
+          "matchedBy": "properties.repo"
         }
       ],
       "listings": [
@@ -345,19 +347,40 @@
           "note": "TheJollyLaMa/DecentHead v2.0.0 Supporter DNFT"
         }
       ],
-      "properties": {},
-      "observedAt": "2026-10-24T18:32:50.796Z",
+      "properties": {
+        "repo": "TheJollyLaMa/DecentHead",
+        "version": "v2.0.0",
+        "commit": "072a5206489d0e4a3f2576c56f8debb729d933c9",
+        "code_archive_cid": "QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6",
+        "license": "Apache-2.0 + NOTICE",
+        "supply": 1000,
+        "price": "10 USDC",
+        "chain": "Base",
+        "royalty_bps": 1000,
+        "release_date": "2026-10-21T21:28:52.000Z",
+        "creator": "thejollylama.eth",
+        "creator_address": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+        "back_image": "ipfs://QmRq8x1MWw4iXrBXZSJyuptPHnjJxJF7Qe2CVHKmV7i61Z",
+        "presentation": "Self-contained rotatable front/back HTML",
+        "product": {
+          "version": "v2.0.0",
+          "repo_url": "https://github.com/TheJollyLaMa/DecentHead",
+          "commit": "https://github.com/TheJollyLaMa/DecentHead/commit/072a5206489d0e4a3f2576c56f8debb729d933c9",
+          "artifact_cid": "ipfs://QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6"
+        }
+      },
+      "observedAt": "2026-10-25T01:05:20.106Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "stale",
+      "metadataStatus": "ok",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "71",
-      "name": "TheJollyLaMa/DecentMarket v0.3.1 Supporter DNFT",
-      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
-      "image": "",
+      "name": "DecentMarket v0.3.1 Supporter DNFT",
+      "description": "Support the Decent Market release. Clone the tagged source under its license. No product ownership or financial return promised.",
+      "image": "https://ipfs.io/ipfs/QmU7GmcRdWvJTvzkUKzEB6hsVrqX2jkFKyNq5sBusUR1wx",
       "metadataUri": "https://ipfs.io/ipfs/QmUR29d2NeRH94ceLDxHqDvDi4eNdSRTNM1wZ6UPDsvWqi",
       "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
       "totalMinted": "1000",
@@ -366,7 +389,7 @@
         {
           "repo": "thejollylama/decentmarket",
           "name": "DecentMarket",
-          "matchedBy": "name/description"
+          "matchedBy": "properties.repo"
         }
       ],
       "listings": [
@@ -383,9 +406,193 @@
           "note": "TheJollyLaMa/DecentMarket v0.3.1 Supporter DNFT"
         }
       ],
-      "properties": {},
-      "observedAt": "2026-10-24T18:32:51.209Z",
+      "properties": {
+        "repo": "TheJollyLaMa/DecentMarket",
+        "version": "v0.3.1",
+        "commit": "a0123c00b0e615916935ac54c9ddf75a6a8e5932",
+        "code_archive_cid": "QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG",
+        "creator": "thejollylama.eth",
+        "creator_address": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+        "release_date": "2026-10-22T02:26:31.000Z",
+        "back_image": "ipfs://QmYNaWTt2sgYHC5vKTMf3BCd4ifJHLeym9DbmxMnTjRFQV",
+        "supply": 1000,
+        "price": "10 USDC",
+        "chain": "Base",
+        "royalty_bps": 1000,
+        "license": "Apache-2.0 + NOTICE",
+        "product": {
+          "version": "v0.3.1",
+          "repo_url": "https://github.com/TheJollyLaMa/DecentMarket",
+          "commit": "https://github.com/TheJollyLaMa/DecentMarket/commit/a0123c00b0e615916935ac54c9ddf75a6a8e5932",
+          "artifact_cid": "ipfs://QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG"
+        }
+      },
+      "observedAt": "2026-10-25T01:05:18.498Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "unavailable",
+      "chainId": 8453,
+      "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
+      "tokenId": "72",
+      "name": "DecentJukebox v0.2.0 Supporter DNFT - 99 of 100 editions, $10 USDC",
+      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
+      "image": "",
+      "metadataUri": "https://ipfs.io/ipfs/QmaF9gLkty8kJH3ZdKX9VerYG5eVn32afWDActGVaGSzyQ",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "100",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "a-decent-agency/decentjukebox",
+          "name": "DecentJukebox",
+          "matchedBy": "name/description"
+        }
+      ],
+      "listings": [
+        {
+          "id": "2",
+          "active": true,
+          "available": "99",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "priceAmount": "10000000",
+          "currency": "USDC",
+          "price": "10.0",
+          "note": "DecentJukebox v0.2.0 Supporter DNFT - 99 of 100 editions, $10 USDC"
+        }
+      ],
+      "properties": {},
+      "observedAt": "2026-10-25T01:05:15.952Z",
+      "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "ok",
+      "chainId": 8453,
+      "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
+      "tokenId": "73",
+      "name": "DVert v0.2.1 Supporter DNFT",
+      "description": "Support A-Decent-Agency/DVert v0.2.1. Source licensed Apache-2.0 + NOTICE. Steward-signed minting; no ownership or financial return promised.",
+      "image": "https://ipfs.io/ipfs/Qme1wWFi9wUYZQC7MeCGYQo5HUWmRm5tR3ngSDN2DNGLY5",
+      "metadataUri": "https://ipfs.io/ipfs/QmVpSejr4Cqo1MmsWR8zdxDUfLqt3ajWN67FhNhLCyEiAR",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "100",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "a-decent-agency/dvert",
+          "name": "dvert",
+          "matchedBy": "properties.repo"
+        }
+      ],
+      "listings": [
+        {
+          "id": "3",
+          "active": true,
+          "available": "99",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "priceAmount": "10000000",
+          "currency": "USDC",
+          "price": "10.0",
+          "note": "DVert v0.2.1 Supporter DNFT - 99 of 100 editions, $10 USDC"
+        }
+      ],
+      "properties": {
+        "repo": "A-Decent-Agency/DVert",
+        "version": "v0.2.1",
+        "commit": "bf3a26d102629f1d72a3655187b098da3bcf4eaa",
+        "code_archive_cid": "QmbwYkLzuFuvsNowtMjjcgA5Hrhf8R8nnsmZCC8zKwTeCG",
+        "license": "Apache-2.0 + NOTICE",
+        "supply": 100,
+        "price": "10 USDC",
+        "chain": "Base",
+        "royalty_bps": 1000,
+        "release_date": "2026-10-24T19:31:34.000Z",
+        "creator": "thejollylama.eth",
+        "creator_address": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+        "back_image": "ipfs://QmQ629SbtQsqo1TLqVuRWAAxognPHi3TAsZdsP5dFu6xbr",
+        "presentation": "Self-contained rotatable front/back HTML",
+        "product": {
+          "version": "v0.2.1",
+          "repo_url": "https://github.com/A-Decent-Agency/DVert",
+          "commit": "https://github.com/A-Decent-Agency/DVert/commit/bf3a26d102629f1d72a3655187b098da3bcf4eaa",
+          "artifact_cid": "ipfs://QmbwYkLzuFuvsNowtMjjcgA5Hrhf8R8nnsmZCC8zKwTeCG",
+          "site": "ipfs://bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
+          "ens": "dvert.decentagency.eth"
+        },
+        "site_cid": "bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
+        "ens_name": "dvert.decentagency.eth"
+      },
+      "observedAt": "2026-10-25T01:05:23.095Z",
+      "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
+      "creatorGithub": []
+    },
+    {
+      "metadataStatus": "ok",
+      "chainId": 8453,
+      "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
+      "tokenId": "74",
+      "name": "DBuskRadio v0.2.0 Supporter DNFT",
+      "description": "Support A-Decent-Agency/DBuskRadio v0.2.0. Source licensed Apache-2.0 + NOTICE. Steward-signed minting; no ownership or financial return promised.",
+      "image": "https://ipfs.io/ipfs/QmUh2jNShFJbgqZU799xfspCPj8jg768TrmAYqxijJuV1m",
+      "metadataUri": "https://ipfs.io/ipfs/QmT8TsfjAyiKmqVsScag18JTcpMoc9NJ7kftEgvFFgciWC",
+      "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+      "totalMinted": "100",
+      "maxSupply": "100",
+      "projects": [
+        {
+          "repo": "a-decent-agency/dbuskradio",
+          "name": "dbuskradio",
+          "matchedBy": "properties.repo"
+        }
+      ],
+      "listings": [
+        {
+          "id": "4",
+          "active": true,
+          "available": "99",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "priceAmount": "10000000",
+          "currency": "USDC",
+          "price": "10.0",
+          "note": "DBuskRadio v0.2.0 Supporter DNFT - 99 of 100 editions, $10 USDC"
+        }
+      ],
+      "properties": {
+        "repo": "A-Decent-Agency/DBuskRadio",
+        "version": "v0.2.0",
+        "commit": "43cce6f26b7d4ec52ac9babb3f9cd2cae2309c16",
+        "code_archive_cid": "QmQKB75pHjTMpQmyZwsD7o44Z8zS6tGPzkfeBZKLBgwdrZ",
+        "license": "Apache-2.0 + NOTICE",
+        "supply": 100,
+        "price": "10 USDC",
+        "chain": "Base",
+        "royalty_bps": 1000,
+        "release_date": "2026-10-24T19:24:36.000Z",
+        "creator": "thejollylama.eth",
+        "creator_address": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+        "back_image": "ipfs://QmPP6aWNtnTL8hprVJ6LU29nZEP2SUTHzeSuuPFNSFAsBF",
+        "presentation": "Self-contained rotatable front/back HTML",
+        "product": {
+          "version": "v0.2.0",
+          "repo_url": "https://github.com/A-Decent-Agency/DBuskRadio",
+          "commit": "https://github.com/A-Decent-Agency/DBuskRadio/commit/43cce6f26b7d4ec52ac9babb3f9cd2cae2309c16",
+          "artifact_cid": "ipfs://QmQKB75pHjTMpQmyZwsD7o44Z8zS6tGPzkfeBZKLBgwdrZ",
+          "site": "ipfs://bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
+          "ens": "dbusk.decentagency.eth"
+        },
+        "site_cid": "bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
+        "ens_name": "dbusk.decentagency.eth"
+      },
+      "observedAt": "2026-10-25T01:05:22.270Z",
+      "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74",
       "creatorGithub": []
     }
   ],
@@ -405,6 +612,15 @@
     ],
     "thejollylama/decentmarket": [
       "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71"
+    ],
+    "a-decent-agency/decentjukebox": [
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72"
+    ],
+    "a-decent-agency/dvert": [
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73"
+    ],
+    "a-decent-agency/dbuskradio": [
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74"
     ]
   },
   "byCreator": {
@@ -416,7 +632,10 @@
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
-      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71"
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74"
     ]
   }
 }
