@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-10-26T14:07:26.855Z",
+  "generatedAt": "2026-10-26T18:44:50.814Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,20 +29,18 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-10-26T14:06:21.435Z"
+      "attemptedAt": "2026-10-26T18:43:46.905Z"
     },
     "8453": {
       "status": "partial",
       "registered": 76,
       "listings": 6,
       "issues": [
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:30: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:31: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:32: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:33: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:36: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:37: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:38: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:39: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:40: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:41: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:42: metadata or contract reads unavailable",
@@ -54,6 +52,8 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:48: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:49: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:50: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:51: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:53: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:54: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:55: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:56: metadata or contract reads unavailable",
@@ -63,6 +63,7 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:60: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:61: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:62: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:63: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:64: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:65: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:66: metadata or contract reads unavailable",
@@ -73,9 +74,10 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73: metadata unavailable; previous metadata used",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74: metadata unavailable; previous metadata used"
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75: metadata unavailable; previous metadata used"
       ],
-      "attemptedAt": "2026-10-26T14:07:26.855Z"
+      "attemptedAt": "2026-10-26T18:44:50.814Z"
     }
   },
   "tokens": [
@@ -113,7 +115,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-26T14:05:05.817Z",
+      "observedAt": "2026-10-26T18:42:32.474Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -154,7 +156,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-26T14:05:05.836Z",
+      "observedAt": "2026-10-26T18:42:32.513Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -192,7 +194,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-26T14:06:09.088Z",
+      "observedAt": "2026-10-26T18:43:34.665Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -230,7 +232,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-26T14:05:18.323Z",
+      "observedAt": "2026-10-26T18:42:44.863Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -271,7 +273,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-26T14:05:18.825Z",
+      "observedAt": "2026-10-26T18:42:45.083Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -312,7 +314,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-10-26T14:05:18.761Z",
+      "observedAt": "2026-10-26T18:42:45.223Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
@@ -371,7 +373,7 @@
           "artifact_cid": "ipfs://QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6"
         }
       },
-      "observedAt": "2026-10-26T14:07:19.735Z",
+      "observedAt": "2026-10-26T18:44:48.734Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
@@ -429,7 +431,7 @@
           "artifact_cid": "ipfs://QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG"
         }
       },
-      "observedAt": "2026-10-26T14:07:20.017Z",
+      "observedAt": "2026-10-26T18:44:48.850Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     },
@@ -492,7 +494,7 @@
         "site_cid": "bafybeigsij2lmbgkuctllu6xdrb6w4hk5cmrbih2pxl4fzrj45s45eandm",
         "ens_name": "djuke.decentagency.eth"
       },
-      "observedAt": "2026-10-26T14:07:20.352Z",
+      "observedAt": "2026-10-26T18:44:48.878Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
       "creatorGithub": []
     },
@@ -555,7 +557,7 @@
         "site_cid": "bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
         "ens_name": "dvert.decentagency.eth"
       },
-      "observedAt": "2026-10-26T14:07:20.646Z",
+      "observedAt": "2026-10-26T18:44:49.815Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
       "creatorGithub": []
     },
@@ -618,12 +620,12 @@
         "site_cid": "bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
         "ens_name": "dbusk.decentagency.eth"
       },
-      "observedAt": "2026-10-26T14:07:20.930Z",
+      "observedAt": "2026-10-26T18:44:49.839Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "75",
@@ -681,7 +683,7 @@
         "site_cid": "bafybeichwabguwq5amum7lxokuqvuro6kiulhz5lotpgplnetdffidzxvy",
         "ens_name": "decentbusking.decentagency.eth"
       },
-      "observedAt": "2026-10-26T14:07:26.855Z",
+      "observedAt": "2026-10-26T18:44:49.963Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75",
       "creatorGithub": []
     }
