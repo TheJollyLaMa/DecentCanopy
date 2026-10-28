@@ -389,8 +389,8 @@
       "focus": "now",
       "repo": "TheJollyLaMa/BigNuten_Vanilla",
       "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
-      "currentState": "Level 1 'Land and stabilize' of the M16 community buildout is merged on main: one npm test entry point with CI, a Playwright dashboard smoke harness (desktop and mobile, zero unexpected errors), and versioned local recovery points with automatic restore and undo. Level 2 'Scrub and test' is next. Remote IPFS restore and the staking pilot remain unverified end to end.",
-      "reviewNote": "Level 1 merge commits and pull-request CI inspected (PRs #356, #357, #358). Only synthetic test data was used; no personal health records were inspected or published.",
+      "currentState": "Levels 1 'Land and stabilize' and 2 'Scrub and test' of the M16 community buildout are merged on main: unified tests and CI, a Playwright dashboard smoke harness, versioned local recovery points, a source-backed surface audit with an export/restore round trip for every data key, canonical water persistence with restored panels repopulating, per-backend Genie privacy wording with one-time hosted consent, and a workout-cancel timer fix. Level 3 'Recovery and privacy' is next. Remote IPFS restore and the staking pilot remain unverified end to end.",
+      "reviewNote": "Level 1 and 2 merge commits and pull-request CI inspected (PRs #356-#358, #363-#366). Only synthetic test data was used; no personal health records were inspected or published.",
       "offers": [
         {
           "id": "storage-interface",
@@ -445,6 +445,22 @@
             {
               "label": "Smoke harness PR #357",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/357"
+            }
+          ]
+        },
+        {
+          "id": "hosted-ai-consent",
+          "label": "Per-backend hosted AI consent for health context",
+          "state": "code-observed",
+          "detail": "Genie and the Yoga Genie state accurately whether each backend is local or hosted, and send no health context to GitHub Models or OpenAI until a one-time, per-backend consent that lists the categories actually in the prompt; local WebLLM is offered instead. Node and browser smoke tests cover gating; provider-side handling is not verified.",
+          "evidence": [
+            {
+              "label": "Genie privacy module",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/d962efc93485b3579752442a46878cf61f2b3a6e/js/geniePrivacy.js"
+            },
+            {
+              "label": "Consent PR #364",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/364"
             }
           ]
         }
