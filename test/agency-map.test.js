@@ -52,8 +52,8 @@ test('all requested names survive as projects, with separate public repo identit
 test('focus, external scope, unresolved identities, and reported payouts remain explicit', () => {
   const graph = Model.transform(fixture());
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'now').map(n => n.name).sort(),
-    ['DecentBusking', 'DecentCanopy']);
-  assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name), ['BigNuten_Vanilla']);
+    ['BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy']);
+  assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name), []);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
   assert.equal(graph.projects.find(n => n.name === 'Bean').repoUrl, null);
   assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, 'https://github.com/TheJollyLaMa/BabelBet');
@@ -374,7 +374,7 @@ test('shared data layer preserves map metadata without overlaying creators or fr
   assert.equal(match.need, 'radio-media-route');
   assert.match(match.nextTest, /decoder/);
   sandbox.GTPData.setFilter('status', 'now');
-  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 2);
+  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 3);
 });
 
 test('map ships through both publication paths and view links preserve agency context', () => {
