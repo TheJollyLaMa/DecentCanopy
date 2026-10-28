@@ -52,8 +52,8 @@ test('all requested names survive as projects, with separate public repo identit
 test('focus, external scope, unresolved identities, and reported payouts remain explicit', () => {
   const graph = Model.transform(fixture());
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'now').map(n => n.name).sort(),
-    ['DecentBusking', 'DecentCanopy']);
-  assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name), ['BigNuten_Vanilla']);
+    ['BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy']);
+  assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name), []);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
   assert.equal(graph.projects.find(n => n.name === 'Bean').repoUrl, null);
   assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, 'https://github.com/TheJollyLaMa/BabelBet');
@@ -112,7 +112,7 @@ test('cards explain direction, uncertainty, reuse context, existing issues, and 
   assert.match(html, /Proposed only/);
   assert.match(html, /issues\/337/);
   assert.match(html, /issues\/339/);
-  assert.match(html, /not been reproduced/);
+  assert.match(html, /unverified end to end/);
   assert.match(html, /payout status: unavailable/);
   assert.match(html, /&lt;img/);
   assert.doesNotMatch(html, /<img|Frozen historical|Artizen record|\$0|0% funded|ledger-verified/i);
@@ -150,7 +150,7 @@ test('capabilities require evidence and candidate matches resolve the exact offe
 test('public capability inventory keeps private/local review payloads outside publication', () => {
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
-  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 42);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 44);
   assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 31);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 12);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
@@ -374,7 +374,7 @@ test('shared data layer preserves map metadata without overlaying creators or fr
   assert.equal(match.need, 'radio-media-route');
   assert.match(match.nextTest, /decoder/);
   sandbox.GTPData.setFilter('status', 'now');
-  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 2);
+  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 3);
 });
 
 test('map ships through both publication paths and view links preserve agency context', () => {
