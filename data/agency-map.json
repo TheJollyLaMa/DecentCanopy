@@ -389,8 +389,8 @@
       "focus": "next",
       "repo": "TheJollyLaMa/BigNuten_Vanilla",
       "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
-      "currentState": "The steward reports an IPFS stall motivated the wider storage work. BigNuten already has an open Busking-adaptation epic; its README documents personal IPFS storage and bounty operations. The current stall has not been reproduced by this map.",
-      "reviewNote": "Public provider abstraction and snapshot lifecycle inspected at a remote-existing commit. Current checkout has unrelated local edits, excluded from this review. No personal health records inspected.",
+      "currentState": "Level 1 'Land and stabilize' of the M16 community buildout is merged on main: one npm test entry point with CI, a Playwright dashboard smoke harness (desktop and mobile, zero unexpected errors), and versioned local recovery points with automatic restore and undo. Level 2 'Scrub and test' is next. Remote IPFS restore and the staking pilot remain unverified end to end.",
+      "reviewNote": "Level 1 merge commits and pull-request CI inspected (PRs #356, #357, #358). Only synthetic test data was used; no personal health records were inspected or published.",
       "offers": [
         {
           "id": "storage-interface",
@@ -413,6 +413,38 @@
             {
               "label": "Snapshot lifecycle implementation",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/0a520c1783bb1b0b6fb38904952b8bf5ec5cb5f8/js/snapshotLifecycle.js"
+            }
+          ]
+        },
+        {
+          "id": "local-recovery-points",
+          "label": "Versioned local recovery points with undo",
+          "state": "code-observed",
+          "detail": "Atomic browser-storage writes keep three recovery points, automatically restore missing or corrupt data with a notice and an exact undo, and refuse newer snapshot versions without touching them. Node and Hardhat suites pass in CI; remote provider restore is not covered.",
+          "evidence": [
+            {
+              "label": "Snapshot recovery module",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/e260f1aba7066c1b2d60b67d318cf2786c808e6c/js/snapshotRecovery.js"
+            },
+            {
+              "label": "Recovery PR #358",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/358"
+            }
+          ]
+        },
+        {
+          "id": "dashboard-smoke-harness",
+          "label": "Wallet-mocked Playwright dashboard smoke harness",
+          "state": "code-observed",
+          "detail": "Opens every panel, dialog and Genie chat at desktop and 390px widths with an EIP-1193 mock and locally fulfilled external URLs, failing on any console, page or network error. Adapted from DecentHead and DecentMarket harnesses.",
+          "evidence": [
+            {
+              "label": "Browser smoke runner",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/c78d6ec40e357481bf166794a6c833db45398593/test/browser-smoke.mjs"
+            },
+            {
+              "label": "Smoke harness PR #357",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/357"
             }
           ]
         }
@@ -438,11 +470,15 @@
           "id": "snapshot-recovery",
           "label": "Reliable, validated backup and restore",
           "state": "issue-reported",
-          "detail": "Reproduce the reported stall; retain last-known-good snapshots and prove export/restore coverage without destructive migration or invented success states.",
+          "detail": "Local recovery points landed in PR #358. Still needed: a delete-data guardrail for recovery keys, recovery-notice dismissal, and a verified remote-provider restore path without public health-data exposure.",
           "evidence": [
             {
-              "label": "Recovery work #341",
-              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"
+              "label": "Delete guardrail #359",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/359"
+            },
+            {
+              "label": "Recovery notice UX #360",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/360"
             },
             {
               "label": "Provider trial #330",
@@ -1840,9 +1876,13 @@
       "state": "proposed",
       "offer": "durable-checkpoints",
       "need": "snapshot-recovery",
-      "note": "Compare recoverable worker checkpoints with BigNuten's existing personal snapshot lifecycle; strengthen the existing schema rather than introducing a competing one.",
-      "nextTest": "Round-trip every supported record with synthetic snapshots; inject failed uploads, malformed snapshots and restarts, proving the last known-good recovery point survives.",
+      "note": "BigNuten adapted Busking's personal-play recovery, checkpoint history and bounded verification patterns into its own v1 schema (PR #358) without adopting Busking schemas, dependencies or public retention.",
+      "nextTest": "Inject failed remote uploads and restarts against a real provider, proving the last known-good recovery point survives remote restore.",
       "evidence": [
+        {
+          "label": "Adaptation PR #358",
+          "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/358"
+        },
         {
           "label": "Recovery adaptation #341",
           "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/341"
