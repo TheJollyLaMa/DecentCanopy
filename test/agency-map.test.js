@@ -150,7 +150,7 @@ test('capabilities require evidence and candidate matches resolve the exact offe
 test('public capability inventory keeps private/local review payloads outside publication', () => {
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
-  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 46);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 47);
   assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 31);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 12);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
