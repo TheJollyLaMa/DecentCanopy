@@ -53,7 +53,8 @@ test('focus, external scope, unresolved identities, and reported payouts remain 
   const graph = Model.transform(fixture());
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'now').map(n => n.name).sort(),
     ['BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy']);
-  assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name), []);
+  assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name),
+    ['DecentPilgrimages', 'BabelBet']);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
   assert.equal(graph.projects.find(n => n.name === 'Bean').repoUrl, null);
   assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, 'https://github.com/TheJollyLaMa/BabelBet');
@@ -66,6 +67,21 @@ test('focus, external scope, unresolved identities, and reported payouts remain 
   assert.ok(reuse.evidence.some(row => row.url.endsWith('/issues/337')));
   const lineage = graph.associations.find(a => a.source === id('decent-jukebox') && a.target === busking.id);
   assert.equal(lineage.relationshipState, 'reported');
+});
+test('Pilgrimages V1 and BabelBet preparation retain separate gates and proposed Head reuse', () => {
+  const data = fixture();
+  const graph = Model.transform(data);
+  const pilgrimage = graph.projects.find(n => n.id === id('pilgrimages'));
+  const babelbet = graph.projects.find(n => n.id === id('babel-bet'));
+  assert.match(pilgrimage.agencyDetails.nextAction, /organizer approval controls rewards/);
+  assert.match(pilgrimage.agencyDetails.nextAction, /deployment, payroll and assistant activation gates/);
+  assert.match(babelbet.agencyDetails.nextAction, /official and unofficial Duolingo/);
+  assert.match(babelbet.agencyDetails.nextAction, /separately approved build/);
+  const crossovers = graph.associations.filter(edge => edge.type === 'capability-match' &&
+    edge.source === id('head') && [pilgrimage.id, babelbet.id].includes(edge.target));
+  assert.equal(crossovers.length, 2);
+  assert.ok(crossovers.every(edge => edge.relationshipState === 'proposed'));
+  assert.ok(data.projects.find(p => p.id === 'pilgrimages').needs.every(need => need.state === 'issue-reported'));
 });
 
 test('invalid versions, identifiers, dates, evidence, and unsupported relationship claims fail explicitly', () => {
@@ -154,8 +170,8 @@ test('public capability inventory keeps private/local review payloads outside pu
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
   assert.match(nutrition.detail, /live search deployment is a separate acceptance step/i);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 31);
-  assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 12);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 36);
+  assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {
     for (const item of [...(project.offers || []), ...(project.needs || [])]) {
