@@ -16,6 +16,29 @@ Search proportionately: inspect the likely donors first, broaden when necessary,
 
 ## Reuse decision and delivery evidence
 
+### Selected November receivers
+
+Steward direction on 1 November 2026 puts **DecentPilgrimages** and **BabelBet**
+in Next, with distinct acceptance scopes:
+
+- [Pilgrimages V1](https://github.com/TheJollyLaMa/DecentPilgrimages/issues/5):
+  newly versioned Base contracts, organizer-approved rewards, optional location
+  guidance, shared Decent welcome and user-owned records. Contract, experience
+  and contributor-operations workers report evidence to the integration overseer.
+- [BabelBet preparation](https://github.com/TheJollyLaMa/BabelBet/issues/4):
+  shared experience and contributor workflow only. No new game, wager, oracle
+  or official/unofficial Duolingo request; provider permission and etiquette
+  remain prerequisites for a future build.
+
+The [Office towers](https://a-decent-agency.github.io/) link workers to public
+acceptance issues and real milestones. Head v2.0.0 is a proposed reusable donor,
+not proof of either receiving application's adoption. Both repos prepare the
+existing accepted-work payroll queue/receipt workflow; activation remains
+steward-gated. Tutorial completion is not payment eligibility. Assistant setup
+is likewise not activation, and private location/contributor data is not public
+inventory evidence. Historical review dates and source-observed offers below
+are not refreshed merely because new work was selected.
+
 Include this short record in the implementation PR or task outcome, not a new tracking file for every task:
 
 | Field | Record |
