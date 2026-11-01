@@ -481,6 +481,26 @@
           ]
         },
         {
+          "id": "reviewed-nutrition-defaults",
+          "label": "Genie nutrition review and per-serving defaults",
+          "state": "code-observed",
+          "detail": "PR #392 adds editable whole-food/exact-product nutrition review, explicit approval, compatible-unit scaling and schema-backed local defaults. A separate invited-wallet nutrition service adapts DBusker auth/accounting patterns with server-held OpenAI credentials and food-only web search. Node and desktop/mobile fixtures pass; live search deployment is a separate acceptance step, not established by those fixtures.",
+          "evidence": [
+            {
+              "label": "Nutrition defaults and serving validation",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/9e16f0ef5cd9a6cdf3ea760db8a2dad8d35c3a49/js/nutritionDefaults.mjs"
+            },
+            {
+              "label": "Separate nutrition service and deployment boundaries",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/9e16f0ef5cd9a6cdf3ea760db8a2dad8d35c3a49/docs/GENIE_NUTRITION.md"
+            },
+            {
+              "label": "Nutrition implementation PR #392",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/392"
+            }
+          ]
+        },
+        {
           "id": "health-metric-registry",
           "label": "Registry-driven health metric logging",
           "state": "code-observed",
