@@ -169,7 +169,11 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 48);
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
-  assert.match(nutrition.detail, /live search deployment is a separate acceptance step/i);
+  assert.match(nutrition.detail, /separate deployed synthetic acceptance/i);
+  assert.match(nutrition.detail, /cooked chickpeas and an exact yogurt product/);
+  assert.match(nutrition.detail, /not whole-food\/product coverage, independent nutrient or current-label certification/);
+  assert.match(nutrition.detail, /unchanged shared cap/);
+  assert.ok(nutrition.evidence.some(source => source.url.endsWith('/pull/397')));
   assert.match(nutrition.detail, /Manual review\/defaults remain available without Genie access/);
   const consent = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'hosted-ai-consent');
   assert.equal(consent.state, 'code-observed');

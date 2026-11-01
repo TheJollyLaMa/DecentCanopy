@@ -496,7 +496,7 @@
           "id": "reviewed-nutrition-defaults",
           "label": "Genie nutrition review and per-serving defaults",
           "state": "code-observed",
-          "detail": "PR #392 adds editable whole-food/exact-product nutrition review, explicit approval, compatible-unit scaling and schema-backed local defaults. A separate invited-wallet service adapts DBusker auth/accounting patterns with server-held OpenAI credentials and food-only web search; PR #395 shares its original budget/auth with other BigNuten Genies while retaining separate contexts. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; live search deployment is a separate acceptance step tracked in #390, not established by those fixtures.",
+          "detail": "PR #392 adds editable whole-food/exact-product nutrition review, explicit approval, compatible-unit scaling and schema-backed local defaults. A separate invited-wallet service adapts DBusker auth/accounting patterns with server-held OpenAI credentials and food-only web search; PR #395 shares its original budget/auth with other BigNuten Genies while retaining separate contexts. PR #397 separates cited search from tool-free structured extraction, reserves each provider attempt against the unchanged shared cap and records available failed-response token usage. Missing or unmatched source evidence still withholds cards. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; separate deployed synthetic acceptance in #390 covers cooked chickpeas and an exact yogurt product, explicit review, 50 g scaling, saved-default reload and use-once without automatic logging. That scoped live acceptance is not whole-food/product coverage, independent nutrient or current-label certification, or browser synchronization; some references are third-party.",
           "evidence": [
             {
               "label": "Nutrition defaults and serving validation",
@@ -517,6 +517,14 @@
             {
               "label": "Deployed nutrition acceptance #390",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/390"
+            },
+            {
+              "label": "Cited-search stages and per-attempt accounting PR #397",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/397"
+            },
+            {
+              "label": "Staged lookup privacy, budget and review boundaries",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/e27fc403b0632450d9386287e27ffa2100d06be9/docs/GENIE_NUTRITION.md"
             }
           ]
         },
