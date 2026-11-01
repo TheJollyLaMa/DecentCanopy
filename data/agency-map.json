@@ -450,17 +450,29 @@
         },
         {
           "id": "hosted-ai-consent",
-          "label": "Per-backend hosted AI consent for health context",
+          "label": "Invited Genie access and scoped hosted consent",
           "state": "code-observed",
-          "detail": "Genie and the Yoga Genie state accurately whether each backend is local or hosted, and send no health context to GitHub Models or OpenAI until a one-time, per-backend consent that lists the categories actually in the prompt; local WebLLM is offered instead. Node and browser smoke tests cover gating; provider-side handling is not verified.",
+          "detail": "PR #395 gates Genie assistants, not ordinary health tracking. Nutrition, Health, Yoga and Community share signed, short-lived invited-wallet access to the private BigNuten service and its original durable global call budget. Health, Yoga and Community have distinct hosted-consent scopes listing actual included context; nutrition sends food/product fields only. Browser-key hosted paths are retired; verified invited users retain local WebLLM, with the Yoga limitation explained. Node and desktop/mobile fixtures cover access loss, consent and preserved records. Deployed synthetic acceptance is tracked separately in #394; vendor retention, wallet-specific profiles and cross-browser sync are not established.",
           "evidence": [
             {
               "label": "Genie privacy module",
-              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/d962efc93485b3579752442a46878cf61f2b3a6e/js/geniePrivacy.js"
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/c6f57cc85c02d7eccc050af3e6c0bf496a909059/js/geniePrivacy.js"
             },
             {
               "label": "Consent PR #364",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/364"
+            },
+            {
+              "label": "Shared browser invitation/session client",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/c6f57cc85c02d7eccc050af3e6c0bf496a909059/js/genieService.mjs"
+            },
+            {
+              "label": "Shared private Genie access PR #395",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/395"
+            },
+            {
+              "label": "Deployed Genie acceptance and boundaries #394",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/394"
             }
           ]
         },
@@ -484,7 +496,7 @@
           "id": "reviewed-nutrition-defaults",
           "label": "Genie nutrition review and per-serving defaults",
           "state": "code-observed",
-          "detail": "PR #392 adds editable whole-food/exact-product nutrition review, explicit approval, compatible-unit scaling and schema-backed local defaults. A separate invited-wallet nutrition service adapts DBusker auth/accounting patterns with server-held OpenAI credentials and food-only web search. Node and desktop/mobile fixtures pass; live search deployment is a separate acceptance step, not established by those fixtures.",
+          "detail": "PR #392 adds editable whole-food/exact-product nutrition review, explicit approval, compatible-unit scaling and schema-backed local defaults. A separate invited-wallet service adapts DBusker auth/accounting patterns with server-held OpenAI credentials and food-only web search; PR #395 shares its original budget/auth with other BigNuten Genies while retaining separate contexts. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; live search deployment is a separate acceptance step tracked in #390, not established by those fixtures.",
           "evidence": [
             {
               "label": "Nutrition defaults and serving validation",
@@ -497,6 +509,14 @@
             {
               "label": "Nutrition implementation PR #392",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/392"
+            },
+            {
+              "label": "Shared access, privacy and deployment guide",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/c6f57cc85c02d7eccc050af3e6c0bf496a909059/docs/GENIE_NUTRITION.md"
+            },
+            {
+              "label": "Deployed nutrition acceptance #390",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/390"
             }
           ]
         },

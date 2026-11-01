@@ -170,6 +170,13 @@ test('public capability inventory keeps private/local review payloads outside pu
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
   assert.match(nutrition.detail, /live search deployment is a separate acceptance step/i);
+  assert.match(nutrition.detail, /Manual review\/defaults remain available without Genie access/);
+  const consent = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'hosted-ai-consent');
+  assert.equal(consent.state, 'code-observed');
+  assert.match(consent.detail, /gates Genie assistants, not ordinary health tracking/);
+  assert.match(consent.detail, /distinct hosted-consent scopes/);
+  assert.match(consent.detail, /cross-browser sync are not established/);
+  assert.ok(consent.evidence.some(source => source.url.endsWith('/pull/395')));
   assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 36);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
