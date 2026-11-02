@@ -504,7 +504,7 @@
           "id": "reviewed-nutrition-defaults",
           "label": "Direct-fill Genie nutrition and shared food references",
           "state": "code-observed",
-          "detail": "PR #399 fills the existing editable nutrition card directly after a Genie click, with one focused clarification for supported ambiguous staples, no separate review window and optional browser-local defaults. It adapts existing BigNuten scaling/default helpers and DBusker-derived server auth/accounting; cited search and tool-free extraction from #397 retain the unchanged shared cap and failed-attempt accounting. Exact identity fields are constrained; missing or unmatched sources still withhold cards. Only validated source-backed food references enter a durable public library, reusable across fresh browsers without a wallet or provider call; cooked/dry variants and exact products stay separate. Personal edits, defaults, meals and health records are not uploaded to that library. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; separate deployed synthetic acceptance in #390 covered cooked chickpeas and an exact yogurt product under the previous review flow. Current acceptance in #398 verifies cooked pasta direct fill at 100 g, fresh guest reuse at 50 g, zero signatures, no automatic logging/default save and persistence after redeployment. That scoped evidence is not whole-food/product coverage, independent nutrient or current-label certification, automatic freshness or synonym coverage, or health-profile synchronization; some references are third-party.",
+          "detail": "PR #399 fills the existing editable nutrition card directly after a Genie click, with one focused clarification for supported ambiguous staples, no separate review window and optional browser-local defaults. It adapts existing BigNuten scaling/default helpers and DBusker-derived server auth/accounting; cited search and tool-free extraction from #397 retain the unchanged shared cap and failed-attempt accounting. Exact identity fields are constrained; missing or unmatched sources still withhold cards. Only validated source-backed food references enter a durable public library, reusable across fresh browsers without a wallet or provider call; cooked/dry variants and exact products stay separate. Personal edits, defaults, meals and health records are not uploaded to that library. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; separate deployed synthetic acceptance in #390 covered cooked chickpeas and an exact yogurt product under the previous review flow. Current acceptance in #398 verifies cooked pasta direct fill at 100 g, fresh guest reuse at 50 g, zero signatures, no automatic logging/default save and persistence after redeployment. PR #401 adds source-linked household portions, fractional/multiple cup and serving arithmetic, displayed serving sizes and explicit enrichment of legacy shared cards under the same cap. Missing food-specific weights can be defined inline and saved locally, never guessed or published as personal overrides. Without a separate source serving, one serving explicitly means the card base; volume ratios use US nutrition-label units. Desktop/mobile fixtures cover these paths; deployed portion acceptance is tracked separately in #400. That scoped evidence is not whole-food/product coverage, independent nutrient or current-label certification, automatic freshness or synonym coverage, or health-profile synchronization; some references are third-party.",
           "evidence": [
             {
               "label": "Nutrition defaults and serving validation",
@@ -541,6 +541,18 @@
             {
               "label": "Live direct-fill and fresh-browser reuse acceptance #398",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/398"
+            },
+            {
+              "label": "Food-specific cup and serving scaling PR #401",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/401"
+            },
+            {
+              "label": "Household portion regression and deployed acceptance #400",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/400"
+            },
+            {
+              "label": "Targeted household-portion source search correction PR #402",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/402"
             },
             {
               "label": "Released public library, privacy and pilot-access boundaries",
