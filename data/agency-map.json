@@ -504,7 +504,7 @@
           "id": "reviewed-nutrition-defaults",
           "label": "Direct-fill Genie nutrition and shared food references",
           "state": "code-observed",
-          "detail": "PR #399 fills the existing editable nutrition card directly after a Genie click, with one focused clarification for supported ambiguous staples, no separate review window and optional browser-local defaults. It adapts existing BigNuten scaling/default helpers and DBusker-derived server auth/accounting; cited search and tool-free extraction from #397 retain the unchanged shared cap and failed-attempt accounting. Exact identity fields are constrained; missing or unmatched sources still withhold cards. Only validated source-backed food references enter a durable public library, reusable across fresh browsers without a wallet or provider call; cooked/dry variants and exact products stay separate. Personal edits, defaults, meals and health records are not uploaded to that library. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; separate deployed synthetic acceptance in #390 covered cooked chickpeas and an exact yogurt product under the previous review flow. Current acceptance in #398 verifies cooked pasta direct fill at 100 g, fresh guest reuse at 50 g, zero signatures, no automatic logging/default save and persistence after redeployment. PR #401 adds source-linked household portions, fractional/multiple cup and serving arithmetic, displayed serving sizes and explicit enrichment of legacy shared cards under the same cap. Missing food-specific weights can be defined inline and saved locally, never guessed or published as personal overrides. Without a separate source serving, one serving explicitly means the card base; volume ratios use US nutrition-label units. Desktop/mobile fixtures cover these paths; deployed portion acceptance is tracked separately in #400. That scoped evidence is not whole-food/product coverage, independent nutrient or current-label certification, automatic freshness or synonym coverage, or health-profile synchronization; some references are third-party.",
+          "detail": "PR #404 (issue #403) replaces strict source-only refusal with practical best estimates: Genie fills the existing editable nutrition card directly, and a blank card auto-fills once food, amount and unit are entered (community library first, then one Genie call for invited wallets; typed figures are never overwritten). One structured call weighs the 3-4 most plausible interpretations, states its assumption, estimates homemade foods from main ingredients and estimates household portions; there is no clarification dialog and no separate review window. Cards are labeled Genie estimate unless every value and portion comes from a verified searched source (web search only for packaged products). Labeled estimates and source-backed cards enter a durable public library, reusable across fresh browsers without a wallet or provider call; an estimate never replaces a source-backed card. Personal edits, defaults, meals and health records are not uploaded to that library. Manual review/defaults remain available without Genie access, under the unchanged shared cap. Earlier work: #399 direct fill, #397 cited search, #401 source-linked household portions and fractional cup/serving arithmetic; without a portion measure one serving explicitly means the card base, and volume ratios use US nutrition-label units; personal overrides are never published. Earlier separate deployed synthetic acceptance in #390 covered cooked chickpeas and an exact yogurt product. Current deployed acceptance in #403: homemade yogurt per tbsp, cooked chickpeas and plain pasta per cup each filled in about 2-4 s with one call, were shared as estimates with persistence after redeployment, and the live app auto-filled a blank pasta card from the library with no AI call. That scoped evidence is not whole-food/product coverage, independent nutrient or current-label certification, automatic freshness or synonym coverage, or health-profile synchronization; estimates are approximate food-logging figures.",
           "evidence": [
             {
               "label": "Nutrition defaults and serving validation",
@@ -555,8 +555,16 @@
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/402"
             },
             {
-              "label": "Released public library, privacy and pilot-access boundaries",
-              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/b50fc232b394787068a72fe1449e7736aceb6cdb/docs/GENIE_NUTRITION.md"
+              "label": "Best-estimate auto-fill PR #404",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/404"
+            },
+            {
+              "label": "Best-estimate live acceptance issue #403",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/403"
+            },
+            {
+              "label": "Released estimate, public library, privacy and pilot-access boundaries",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/59fa62b6b034440552d5a938b06c523775b54c38/docs/GENIE_NUTRITION.md"
             }
           ]
         },

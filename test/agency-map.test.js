@@ -187,7 +187,11 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(nutrition.detail, /source-linked household portions/);
   assert.match(nutrition.detail, /one serving explicitly means the card base/);
   assert.match(nutrition.detail, /US nutrition-label units/);
-  assert.match(nutrition.detail, /never guessed or published as personal overrides/);
+  assert.match(nutrition.detail, /personal overrides are never published/);
+  assert.ok(nutrition.evidence.some(source => source.url.endsWith('/pull/404')));
+  assert.ok(nutrition.evidence.some(source => source.url.endsWith('/issues/403')));
+  assert.match(nutrition.detail, /labeled Genie estimate unless/);
+  assert.match(nutrition.detail, /typed figures are never overwritten/);
   assert.match(nutrition.detail, /Manual review\/defaults remain available without Genie access/);
   const consent = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'hosted-ai-consent');
   assert.equal(consent.state, 'code-observed');
