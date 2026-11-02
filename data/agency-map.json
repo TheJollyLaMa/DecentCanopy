@@ -452,7 +452,7 @@
           "id": "hosted-ai-consent",
           "label": "Invited Genie access and scoped hosted consent",
           "state": "code-observed",
-          "detail": "PR #395 gates Genie assistants, not ordinary health tracking. Nutrition, Health, Yoga and Community share signed, short-lived invited-wallet access to the private BigNuten service and its original durable global call budget. Health, Yoga and Community have distinct hosted-consent scopes listing actual included context; nutrition sends food/product fields only. Browser-key hosted paths are retired; verified invited users retain local WebLLM, with the Yoga limitation explained. Node and desktop/mobile fixtures cover access loss, consent and preserved records. Deployed synthetic acceptance is tracked separately in #394; vendor retention, wallet-specific profiles and cross-browser sync are not established.",
+          "detail": "PR #395 gates Genie assistants, not ordinary health tracking. Nutrition, Health, Yoga and Community share short-lived invited-address sessions and the original durable global call budget. PR #399 retains signed access as the default configuration but enables an explicitly approved address-only deployment pilot: anyone can claim an invited address, so it is a convenience gate, not wallet ownership or private-access verification. Health, Yoga and Community retain distinct hosted-consent scopes listing actual included context; nutrition sends food/product fields only on an explicit lookup click. Browser-key hosted paths remain retired. Node and desktop/mobile fixtures cover both access modes, access loss, consent and preserved records. Separate deployed synthetic acceptance is tracked in #394 and #398; vendor retention, wallet-specific profiles and cross-browser sync are not established.",
           "evidence": [
             {
               "label": "Genie privacy module",
@@ -473,6 +473,14 @@
             {
               "label": "Deployed Genie acceptance and boundaries #394",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/394"
+            },
+            {
+              "label": "Explicit address-only pilot and direct-fill release PR #399",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/399"
+            },
+            {
+              "label": "Deployed direct-fill acceptance and pilot boundaries #398",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/398"
             }
           ]
         },
@@ -494,9 +502,9 @@
         },
         {
           "id": "reviewed-nutrition-defaults",
-          "label": "Genie nutrition review and per-serving defaults",
+          "label": "Direct-fill Genie nutrition and shared food references",
           "state": "code-observed",
-          "detail": "PR #392 adds editable whole-food/exact-product nutrition review, explicit approval, compatible-unit scaling and schema-backed local defaults. A separate invited-wallet service adapts DBusker auth/accounting patterns with server-held OpenAI credentials and food-only web search; PR #395 shares its original budget/auth with other BigNuten Genies while retaining separate contexts. PR #397 separates cited search from tool-free structured extraction, reserves each provider attempt against the unchanged shared cap and records available failed-response token usage. Missing or unmatched source evidence still withholds cards. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; separate deployed synthetic acceptance in #390 covers cooked chickpeas and an exact yogurt product, explicit review, 50 g scaling, saved-default reload and use-once without automatic logging. That scoped live acceptance is not whole-food/product coverage, independent nutrient or current-label certification, or browser synchronization; some references are third-party.",
+          "detail": "PR #399 fills the existing editable nutrition card directly after a Genie click, with one focused clarification for supported ambiguous staples, no separate review window and optional browser-local defaults. It adapts existing BigNuten scaling/default helpers and DBusker-derived server auth/accounting; cited search and tool-free extraction from #397 retain the unchanged shared cap and failed-attempt accounting. Exact identity fields are constrained; missing or unmatched sources still withhold cards. Only validated source-backed food references enter a durable public library, reusable across fresh browsers without a wallet or provider call; cooked/dry variants and exact products stay separate. Personal edits, defaults, meals and health records are not uploaded to that library. Manual review/defaults remain available without Genie access. Node and desktop/mobile fixtures pass; separate deployed synthetic acceptance in #390 covered cooked chickpeas and an exact yogurt product under the previous review flow. Current acceptance in #398 verifies cooked pasta direct fill at 100 g, fresh guest reuse at 50 g, zero signatures, no automatic logging/default save and persistence after redeployment. That scoped evidence is not whole-food/product coverage, independent nutrient or current-label certification, automatic freshness or synonym coverage, or health-profile synchronization; some references are third-party.",
           "evidence": [
             {
               "label": "Nutrition defaults and serving validation",
@@ -525,6 +533,18 @@
             {
               "label": "Staged lookup privacy, budget and review boundaries",
               "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/e27fc403b0632450d9386287e27ffa2100d06be9/docs/GENIE_NUTRITION.md"
+            },
+            {
+              "label": "Direct-fill shared food library PR #399",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/399"
+            },
+            {
+              "label": "Live direct-fill and fresh-browser reuse acceptance #398",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/398"
+            },
+            {
+              "label": "Released public library, privacy and pilot-access boundaries",
+              "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/b50fc232b394787068a72fe1449e7736aceb6cdb/docs/GENIE_NUTRITION.md"
             }
           ]
         },

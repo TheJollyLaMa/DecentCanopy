@@ -174,6 +174,14 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(nutrition.detail, /not whole-food\/product coverage, independent nutrient or current-label certification/);
   assert.match(nutrition.detail, /unchanged shared cap/);
   assert.ok(nutrition.evidence.some(source => source.url.endsWith('/pull/397')));
+  assert.ok(nutrition.evidence.some(source => source.url.endsWith('/pull/399')));
+  assert.ok(nutrition.evidence.some(source => source.url.endsWith('/issues/398')));
+  assert.match(nutrition.detail, /existing editable nutrition card directly/);
+  assert.match(nutrition.detail, /no separate review window/);
+  assert.match(nutrition.detail, /durable public library/);
+  assert.match(nutrition.detail, /without a wallet or provider call/);
+  assert.match(nutrition.detail, /Personal edits, defaults, meals and health records are not uploaded/);
+  assert.match(nutrition.detail, /persistence after redeployment/);
   assert.match(nutrition.detail, /Manual review\/defaults remain available without Genie access/);
   const consent = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'hosted-ai-consent');
   assert.equal(consent.state, 'code-observed');
@@ -181,6 +189,11 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(consent.detail, /distinct hosted-consent scopes/);
   assert.match(consent.detail, /cross-browser sync are not established/);
   assert.ok(consent.evidence.some(source => source.url.endsWith('/pull/395')));
+  assert.ok(consent.evidence.some(source => source.url.endsWith('/pull/399')));
+  assert.match(consent.detail, /signed access as the default/);
+  assert.match(consent.detail, /anyone can claim an invited address/);
+  assert.match(consent.detail, /not wallet ownership or private-access verification/);
+  assert.match(consent.detail, /explicit lookup click/);
   assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 36);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
