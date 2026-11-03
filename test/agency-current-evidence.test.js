@@ -29,11 +29,22 @@ test('current brief separates merged local work, unmerged builds and financial c
   assert.match(html('big-nuten'), /not automatic cross-browser sync|does not provide automatic cross-browser sync/);
   assert.match(html('big-nuten'), /MERGED SOURCE/);
   assert.match(html('big-nuten'), /PLANNED \/ NOT DELIVERED/);
+  assert.match(html('big-nuten'), /token 76/);
+  assert.match(html('big-nuten'), /listing 6/);
+  assert.match(html('big-nuten'), /10 USDC/);
+  assert.match(html('big-nuten'), /bignuten\.decentagency\.eth/);
   assert.match(html('pilgrimages'), /OPEN PR \/ NOT MERGED/);
   assert.match(html('pilgrimages'), /reports 56|56 reported/);
   assert.match(html('babel-bet'), /16 reported/);
   assert.match(html('babel-bet'), /No new game/);
   assert.equal(byId['agency-project:big-nuten'].agencyDetails.reviewedAt, '2026-11-03');
+  const bigNuten = fixture().projects.find(project => project.id === 'big-nuten');
+  assert.equal(bigNuten.ens, 'bignuten.decentagency.eth');
+  assert.ok(bigNuten.updates.some(update => update.label === 'v3.3.0 release and live Base Supporter DNFT'
+    && update.evidence.some(item => item.url.endsWith('/pull/416'))
+    && update.evidence.some(item => item.url.endsWith('/supporter-art-refresh.json'))));
+  assert.match(bigNuten.currentState, /all non-DeFi issues are closed/i);
+  assert.match(bigNuten.currentState, /namespaces are not encryption/);
   assert.equal(byId['agency-project:head'].agencyDetails.reviewedAt, '2026-10-22');
 });
 

@@ -129,7 +129,9 @@ test('cards explain direction, uncertainty, reuse context, existing issues, and 
   assert.match(html, /Proposed only/);
   assert.match(html, /issues\/337/);
   assert.match(html, /issues\/339/);
-  assert.match(html, /no Base listing exists/);
+  assert.match(html, /token 76/);
+  assert.match(html, /listing 6/);
+  assert.match(html, /10 USDC/);
   assert.match(html, /NOT DELIVERED/);
   assert.match(html, /payout status: unavailable/);
   assert.match(html, /&lt;img/);
