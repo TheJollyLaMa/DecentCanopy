@@ -1756,12 +1756,13 @@
     {
       "id": "calendar",
       "name": "DecentCalendar",
+      "repo": "TheJollyLaMa/DecentCalendar",
       "reviewedAt": "2026-11-03",
       "purpose": "Paid time, presence and knowledge exchange; public blueprint only.",
       "currentState": "The Planning Office has an approved public DecentCalendar blueprint and map/provenance jobs #15-17. This map does not read or publish private implementation or infer a standalone released dapp.",
       "nextAction": "Work from the approved public job board and source-provenance acceptance before raising delivered structures.",
-      "evidence": [{"label": "Public blueprint", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/15"}, {"label": "Public map and provenance acceptance", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/17"}],
-      "repositoryNote": "Public repository identity unresolved."
+      "evidence": [{"label": "Public repository identity", "url": "https://github.com/TheJollyLaMa/DecentCalendar"}, {"label": "Public blueprint", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/15"}, {"label": "Public map and provenance acceptance", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/17"}],
+      "repositoryNote": "Public repository identity confirmed; implementation, deployment and settlement behavior have not been verified by this review."
     },
     {
       "id": "nda",

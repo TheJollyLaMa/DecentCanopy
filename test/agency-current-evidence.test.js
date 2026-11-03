@@ -82,3 +82,11 @@ test('all three existing widget identities link published clone guides and histo
     assert.ok(project.updates[0].evidence.some(row => row.url.endsWith('/supporter-listing-evidence.json')));
   }
 });
+
+test('Calendar has an explicit public repository without claiming a deployed application', () => {
+  const calendar = fixture().projects.find(project => project.id === 'calendar');
+  assert.equal(calendar.repo, 'TheJollyLaMa/DecentCalendar');
+  assert.match(calendar.repositoryNote, /have not been verified/);
+  assert.match(calendar.currentState, /does not.*infer a standalone released dapp/);
+  assert.ok(calendar.evidence.some(row => row.url === `https://github.com/${calendar.repo}`));
+});
