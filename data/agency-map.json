@@ -50,9 +50,11 @@
       "id": "dbusk-radio",
       "name": "DBuskRadio widget",
       "repo": "A-Decent-Agency/DBuskRadio",
+      "ens": "dbusk.decentagency.eth",
       "reviewedAt": "2026-11-03",
       "purpose": "Reusable, host-mounted radio for opt-in music across Decent experiences.",
-      "currentState": "Pinned radio integration is present in Canopy. Pilgrimages #6 and BabelBet #5 propose the same product with explicit consent and mount/destroy lifecycle; those consumer PRs remain open.",
+      "currentState": "Independent reusable radio repository, recorded dbusk.decentagency.eth identity and existing Base v0.2.0 Supporter token 74 / listing 4. October 24 release snapshots record ENS/mint/listing configuration, not current live resolution, stock or price. Pinned radio integration is present in Canopy. Pilgrimages #6 and BabelBet #5 propose consent and mount/destroy integration; those PRs remain open.",
+      "updates": [{"state": "merged", "label": "Clone, customize and support the existing radio", "detail": "Published adaptation guide covers branding, stream/relay configuration, lifecycle, consent and original-versus-clone support boundaries. Existing release evidence is linked; no new token or ENS registration was needed.", "evidence": [{"label": "Pinned clone guide", "url": "https://github.com/A-Decent-Agency/DBuskRadio/blob/6b67e0242e9377358c1d7c9196fa2a95163a1746/docs/CLONE_AND_ADAPT.md"}, {"label": "ENS and mint snapshot", "url": "https://github.com/A-Decent-Agency/DBuskRadio/releases/download/v0.2.0/supporter-mint-evidence.json"}, {"label": "Listing snapshot", "url": "https://github.com/A-Decent-Agency/DBuskRadio/releases/download/v0.2.0/supporter-listing-evidence.json"}]}],
       "nextAction": "Validate each host's consent, teardown and playback behavior before claiming adoption; no automatic playback or guaranteed stream availability.",
       "tags": ["music", "widget", "consent"],
       "evidence": [{"label": "Canopy radio integration", "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/43"}, {"label": "Pinned radio source", "url": "https://github.com/A-Decent-Agency/DBuskRadio/tree/1fe9ed0c2afc61552328fdda10d0f199bc3eaee9"}]
@@ -61,9 +63,11 @@
       "id": "dvert",
       "name": "DVert widget",
       "repo": "A-Decent-Agency/DVert",
+      "ens": "dvert.decentagency.eth",
       "reviewedAt": "2026-11-03",
       "purpose": "Reusable advertising product extracted alongside the music widgets.",
-      "currentState": "Independent public product repository exists. Busking merged an expired-impression scheduler fix in PR #307; a host fix is not proof every embedded widget has been redeployed.",
+      "currentState": "Independent advertising-widget repository, recorded dvert.decentagency.eth identity and existing Base v0.2.1 Supporter token 73 / listing 3. October 24 release snapshots record ENS/mint/listing configuration, not current live resolution, stock or price. Busking merged expired-impression scheduling fix #307; a host fix does not redeploy every widget.",
+      "updates": [{"state": "merged", "label": "Clone guide and accurate Supporter status", "detail": "Published guide scopes host adapters, configuration, cleanup, source verification and rebranding/support boundaries. Existing edition reused; stale preparation-only prose corrected. Missing compiled deployment artifacts remain an explicit test boundary.", "evidence": [{"label": "Pinned clone guide", "url": "https://github.com/A-Decent-Agency/DVert/blob/535a5081c66018be0855a86a4a21b62fb4fb45a3/docs/CLONE_AND_ADAPT.md"}, {"label": "ENS and mint snapshot", "url": "https://github.com/A-Decent-Agency/DVert/releases/download/v0.2.1/supporter-mint-evidence.json"}, {"label": "Listing snapshot", "url": "https://github.com/A-Decent-Agency/DVert/releases/download/v0.2.1/supporter-listing-evidence.json"}]}],
       "nextAction": "Verify pinned consumer versions, expired impressions and unavailable scheduling before expanding integrations.",
       "tags": ["advertising", "widget", "scheduler"],
       "evidence": [{"label": "Product extraction", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/282"}, {"label": "Expired impressions fix", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/307"}]
@@ -746,13 +750,16 @@
       "id": "decent-jukebox",
       "name": "DecentJukebox",
       "repo": "A-Decent-Agency/DecentJukebox",
-      "purpose": "Steward-reported ancestor of DecentBusking; implementation carry-over has not been audited.",
+      "ens": "djuke.decentagency.eth",
+      "reviewedAt": "2026-11-03",
+      "purpose": "DJuke is the standalone reusable jukebox product; the earlier Jukebox-to-Busking lineage remains steward-reported history.",
       "reviewNote": "Public committed source inspected 2026-10-20 at af01de5a. Not executed, deployment-verified, or integration-tested in this review. The inspected payroll work is on a public feature branch, not asserted to be deployed from main.",
       "reviewCaveats": [
         "Commit is ahead of main on branch feature/artfi-payroll-flow (compare to main: ahead); it exists on the remote but is not on main. Pin to it only if that branch is intended.",
         "Worktree had uncommitted .DS_Store changes; none used."
       ],
-      "currentState": "Web3 jukebox front end plus GitHub-Actions ART bounty/payroll bookkeeping.",
+      "currentState": "Standalone widget repository and recorded djuke.decentagency.eth identity, with existing Base v0.2.0 Supporter token 72 / listing 2. October 24 public release snapshots record ENS/mint/listing configuration, not current resolution, stock or price. The clone/adaptation guide is now published. Earlier payroll/ABI capability notes below remain scoped to their historical source inspection.",
+      "updates": [{"state": "merged", "label": "DJuke clone and adaptation guide", "detail": "Guide covers pinned source, host configuration, lifecycle, branding, license and separate original-versus-clone support identity. Existing repo, ENS and Supporter edition reused; compiled checkout acceptance was not rerun without its deployment artifacts.", "evidence": [{"label": "Pinned clone guide", "url": "https://github.com/A-Decent-Agency/DecentJukebox/blob/a84c90f1e8e52a2bffe6b8d185e9af10725b2971/docs/CLONE_AND_ADAPT.md"}, {"label": "ENS and mint snapshot", "url": "https://github.com/A-Decent-Agency/DecentJukebox/releases/download/v0.2.0/supporter-mint-evidence.json"}, {"label": "Listing snapshot", "url": "https://github.com/A-Decent-Agency/DecentJukebox/releases/download/v0.2.0/supporter-listing-evidence.json"}]}],
       "offers": [
         {
           "id": "dj-payroll",

@@ -181,6 +181,12 @@ Update its review date, source links, and relationship notes when revisiting it.
 Optional project `updates` contain up to six evidence-backed `merged`, `in-flight`
 or `planned` entries; these states never establish deployment or financial activity.
 An optional unique `entityId` distinguishes infrastructure from its source repository.
+The three standalone widgets already have their own repositories, ENS identities
+and Supporter editions: DJuke (`djuke.decentagency.eth`, token 72), DVert
+(`dvert.decentagency.eth`, token 73) and DBuskRadio (`dbusk.decentagency.eth`, token 74).
+Their cards link commit-pinned clone/adaptation guides and October 24 release
+ENS/mint/listing snapshots. This is historical public evidence, not a new
+resolution, stock or price check. No duplicate registrations or mints are needed.
 Public repository identities were checked at that date; issue links are not a live
 status feed. Names without resolved public identities remain project nodes with no
 guessed repository URL. Private code, repository metadata, credentials, and health

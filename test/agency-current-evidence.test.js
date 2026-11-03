@@ -64,3 +64,21 @@ test('latest cards escape curated update fields while retaining disclosure-based
   assert.match(html, /&lt;script&gt;/);
   assert.match(html, /<details class="details-group"><summary>Current understanding/);
 });
+
+test('all three existing widget identities link published clone guides and historical support evidence', () => {
+  const data = fixture();
+  for (const [id, ens, token] of [
+    ['decent-jukebox', 'djuke.decentagency.eth', 72],
+    ['dvert', 'dvert.decentagency.eth', 73],
+    ['dbusk-radio', 'dbusk.decentagency.eth', 74]
+  ]) {
+    const project = data.projects.find(p => p.id === id);
+    assert.equal(project.ens, ens);
+    assert.match(project.currentState, new RegExp(`token ${token}`));
+    assert.match(project.currentState, /not current/);
+    assert.equal(project.updates[0].state, 'merged');
+    assert.ok(project.updates[0].evidence.some(row => /\/blob\/[a-f0-9]{40}\/docs\/CLONE_AND_ADAPT\.md$/.test(row.url)));
+    assert.ok(project.updates[0].evidence.some(row => row.url.endsWith('/supporter-mint-evidence.json')));
+    assert.ok(project.updates[0].evidence.some(row => row.url.endsWith('/supporter-listing-evidence.json')));
+  }
+});
