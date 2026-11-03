@@ -24,8 +24,8 @@
     for (let step = 0; step < 260; step++) {
       const forces = new Map(nodes.map(n => {
         const old = previous.get(n.id);
-        return [n.id, { x: -n.x * 0.004 + (old ? (old.x - n.x) * 0.03 : 0),
-          y: -n.y * 0.004 + (old ? (old.y - n.y) * 0.03 : 0) }];
+        return [n.id, { x: -n.x * 0.004 + (old ? (old.x - n.x) * 0.1 : 0),
+          y: -n.y * 0.004 + (old ? (old.y - n.y) * 0.1 : 0) }];
       }));
       for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
         const a = nodes[i], b = nodes[j];

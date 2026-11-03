@@ -78,12 +78,29 @@
       throw new Error('Agency map needs projects and relationships.');
     }
     const ids = new Set();
+    const entityIds = new Set();
     data.projects.forEach(project => {
       if (!project || !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.id || '') ||
           ids.has(project.id) || !text(project.name)) {
         throw new Error('Agency map project IDs and names must be present and IDs unique.');
       }
       ids.add(project.id);
+      if (project.entityId !== undefined && !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(project.entityId)) throw new Error('Invalid independent entity ID.');
+      if (project.entityId !== undefined) {
+        if (entityIds.has(project.entityId)) throw new Error('Duplicate independent entity ID.');
+        entityIds.add(project.entityId);
+      }
+      if (project.reviewedAt !== undefined && (!/^\d{4}-\d{2}-\d{2}$/.test(project.reviewedAt)
+        || !Number.isFinite(Date.parse(project.reviewedAt))
+        || new Date(`${project.reviewedAt}T00:00:00Z`).toISOString().slice(0, 10) !== project.reviewedAt)) throw new Error('Invalid project review date.');
+      if (project.updates !== undefined) {
+        if (!Array.isArray(project.updates) || project.updates.length > 6) throw new Error('Invalid project updates.');
+        for (const update of project.updates) {
+          if (!['merged', 'in-flight', 'planned'].includes(update.state) || !text(update.label)
+            || !text(update.detail) || !update.evidence?.length) throw new Error('Project updates require a state, detail and evidence.');
+          validateEvidence(update.evidence);
+        }
+      }
       for (const field of ['purpose', 'currentState', 'nextAction', 'repositoryNote']) {
         if (project[field] !== undefined && !text(project[field])) throw new Error(`Invalid agency project ${field}.`);
       }
@@ -150,7 +167,7 @@
       const details = {
         ...project,
         focus,
-        reviewedAt: data.reviewedAt,
+        reviewedAt: project.reviewedAt || data.reviewedAt,
         currentState: project.currentState || 'Implementation, deployment, and reusable capabilities have not yet been reviewed.',
         nextAction: project.nextAction || 'Review purpose and current code, resolve the public repository link, and identify one evidence-backed next step.',
         repositoryNote: project.repositoryNote || (project.repo

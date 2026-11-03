@@ -14,8 +14,8 @@ const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
 
 test('release closeout is discoverable with per-project evidence, not implied live synchronization', () => {
   assert.equal(data.reviewedAt, '2026-10-22');
-  assert.match(data.sourceLabel, /individual review dates/);
-  assert.match(data.sourceLabel, /not live GitHub or chain synchronization/);
+  assert.match(data.sourceLabel, /targeted cards carry their own review date/);
+  assert.match(data.sourceLabel, /Not live issue or chain synchronization/);
   for (const id of ['head', 'market']) {
     assert.ok(evidence(id, 'supporter-evidence.json'));
     assert.ok(evidence(id, 'supporter-discord-sent.json'));
@@ -49,8 +49,8 @@ test('Head and Market cards render the completed proof and explicit open boundar
   assert.ok(project('market').needs.some(item => item.id === 'decentmarket-creator-minting'));
   assert.ok(project('head').needs.some(item => item.id === 'multilingual-host-adapter'));
   assert.match(project('decent-canopy').currentState, /PR #26.*PR #27/);
-  assert.match(project('decent-canopy').nextAction, /mint is deferred/);
-  assert.match(project('artfi').currentState, /No migration/);
+  assert.match(project('decent-canopy').nextAction, /mint remains deferred/);
+  assert.match(project('artfi').currentState, /not a rename or migration/);
   for (const id of ['head', 'market']) assert.ok(project(id).evidence.some(item => item.url.includes('/supporter/buy.html?')));
 });
 
@@ -66,11 +66,10 @@ test('integrated Footer and Canvas work is not presented as independent releases
 
 test('Busking team progress is visible without enabling financial gates or duplicating their next widget work', () => {
   const busking = project('decent-busking');
-  assert.match(busking.currentState, /calendar announcements.*live booking.*named DJuke playlists/);
-  assert.match(busking.currentState, /earmarked, NOT escrowed/);
-  assert.match(busking.currentState, /checkout stays gated/);
-  assert.match(busking.nextAction, /pinned reusable DBusk radio widget/);
-  assert.match(busking.nextAction, /read-only fund\/ledger adapter/);
+  assert.match(busking.currentState, /#307\/#308/);
+  assert.match(busking.currentState, /#302.*#306 remain open PRs/);
+  assert.match(busking.nextAction, /pinned radio integration already exists/);
+  assert.match(busking.nextAction, /not.*confirmed production payments/);
   for (const number of [248, 250, 252]) assert.ok(busking.evidence.some(item => item.url.endsWith(`/pull/${number}`)));
   assert.ok(busking.evidence.some(item => item.url.endsWith('/issues/247')));
   assert.match(busking.needs.find(item => item.id === 'event-promotion').detail, /merged.*operational acceptance/);

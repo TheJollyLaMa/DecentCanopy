@@ -778,6 +778,16 @@ body {
 .details-group {
   margin-bottom: 1rem;
 }
+.agency-updates { display: grid; gap: 14px; margin: 20px 0; }
+.agency-update { padding: 16px; border: 1px solid var(--border); border-radius: 10px; background: var(--bg); }
+.agency-update h3 { font-size: .95rem; line-height: 1.5; margin: 10px 0; }
+.agency-update p { font-size: .85rem; line-height: 1.75; margin: 10px 0; }
+.agency-update ul { padding-left: 18px; font-size: .8rem; line-height: 1.7; }
+.agency-state { display: inline-block; padding: 4px 8px; border: 1px solid #60a5fa; border-radius: 6px; color: #93c5fd; font-size: .68rem; letter-spacing: .04em; }
+.agency-state[data-state="in-flight"] { color: #fcd34d; border-color: #b48b36; }
+.agency-state[data-state="planned"] { color: #d8b4fe; border-color: #a777cd; }
+.details-group p, .details-desc { line-height: 1.75; }
+.details-group > summary { min-height: 36px; }
 
 .details-group h3 {
   margin: 0 0 0.45rem;

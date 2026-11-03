@@ -21,12 +21,13 @@ test('all requested names survive as projects, with separate public repo identit
   assert.equal(JSON.stringify(data), before);
   const expected = [
     'DecentAgency', 'DecentCanopy', 'DecentBusking', 'DecentJukebox', 'BigNuten_Vanilla',
-    'TheGreenTeaParty', 'GreenTeaHut_01', 'ArtFi', 'JacobsLadder26', 'DecentMaker',
+    'TheGreenTeaParty', 'GreenTeaHut_01', 'DecentLending / DLend (ArtFi)', 'JacobsLadder26', 'DecentMaker',
     'JollySimSiddhi', 'Arduino Smarthome', 'cadCAD', 'TheUmbrellaAcademy',
     'AJollyDecentCodeCamp', 'JollySandbox', 'DecentSubscriptions', 'DecentPilgrimages',
     'DecentHead', 'DecentCanvas', 'DecentFooter', 'DecentMarket', 'DecentEscrow',
     'DecentInvoice', 'DecentAirdrop', 'DecentCalendar', 'Decent_NDA', 'Decent_UCANN_Play',
-    'DuoDuel', 'BabelBet', 'BabelBet_OG_Prototype', 'TheJokerWillPlay', 'Bean', 'Asteroid'
+    'DuoDuel', 'BabelBet', 'BabelBet_OG_Prototype', 'TheJokerWillPlay', 'Bean', 'Asteroid',
+    'DecentSettlementsRouter', 'Agency Planning Office', 'DBuskRadio widget', 'DVert widget'
   ];
   assert.deepEqual(graph.projects.filter(n => n.kind !== 'repository').map(n => n.name).sort(), expected.sort());
   assert.equal(new Set(graph.projects.map(n => n.id)).size, graph.projects.length);
@@ -52,9 +53,9 @@ test('all requested names survive as projects, with separate public repo identit
 test('focus, external scope, unresolved identities, and reported payouts remain explicit', () => {
   const graph = Model.transform(fixture());
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'now').map(n => n.name).sort(),
-    ['BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy']);
+    ['Agency Planning Office', 'BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy', 'DecentSettlementsRouter']);
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name),
-    ['DecentPilgrimages', 'BabelBet']);
+    ['DecentLending / DLend (ArtFi)', 'DecentPilgrimages', 'BabelBet']);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
   assert.equal(graph.projects.find(n => n.name === 'Bean').repoUrl, null);
   assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, 'https://github.com/TheJollyLaMa/BabelBet');
@@ -97,7 +98,7 @@ test('invalid versions, identifiers, dates, evidence, and unsupported relationsh
     d => { d.projects[0].currentState = {}; },
     d => { d.relationships[0].target = 'missing'; },
     d => { d.relationships[0].state = 'ledger'; },
-    d => { d.relationships[0].state = 'observed'; },
+    d => { d.relationships[0].state = 'observed'; d.relationships[0].evidence = []; },
     d => { d.relationships[0].note = ''; },
     d => { d.projects[1].evidence[0].url = 'javascript:alert(1)'; },
     d => { d.projects[1].evidence[0].url = 'https://user:password@example.org'; }
@@ -128,7 +129,8 @@ test('cards explain direction, uncertainty, reuse context, existing issues, and 
   assert.match(html, /Proposed only/);
   assert.match(html, /issues\/337/);
   assert.match(html, /issues\/339/);
-  assert.match(html, /unverified end to end/);
+  assert.match(html, /no Base listing exists/);
+  assert.match(html, /NOT DELIVERED/);
   assert.match(html, /payout status: unavailable/);
   assert.match(html, /&lt;img/);
   assert.doesNotMatch(html, /<img|Frozen historical|Artizen record|\$0|0% funded|ledger-verified/i);
@@ -146,19 +148,20 @@ test('capabilities require evidence and candidate matches resolve the exact offe
     assert.ok(edge.nextTest);
   });
   for (const mutate of [
-    d => { d.projects[1].offers[0].evidence = []; },
-    d => { d.projects[1].offers[0].state = 'production-ready'; },
-    d => { d.projects[1].reviewCaveats = 'not an array'; },
-    d => { d.projects[1].offers.push(d.projects[1].offers[0]); },
-    d => { d.relationships[0].offer = 'missing'; },
-    d => { d.relationships[0].need = 'missing'; },
-    d => { d.relationships[0].nextTest = ''; },
-    d => { d.relationships[0].state = 'observed'; },
-    d => { d.relationships[0].evidence = []; },
-    d => { d.relationships.push(d.relationships[0]); }
+    (p, edge) => { p.offers[0].evidence = []; },
+    (p, edge) => { p.offers[0].state = 'production-ready'; },
+    p => { p.reviewCaveats = 'not an array'; },
+    p => { p.offers.push(p.offers[0]); },
+    (p, edge) => { edge.offer = 'missing'; },
+    (p, edge) => { edge.need = 'missing'; },
+    (p, edge) => { edge.nextTest = ''; },
+    (p, edge) => { edge.state = 'observed'; },
+    (p, edge) => { edge.evidence = []; },
+    (p, edge, data) => { data.relationships.push(edge); }
   ]) {
     const invalid = fixture();
-    mutate(invalid);
+    mutate(invalid.projects.find(p => p.id === 'decent-canopy'),
+      invalid.relationships.find(edge => edge.type === 'capability-match'), invalid);
     assert.throws(() => Model.transform(invalid));
   }
 });
@@ -166,7 +169,7 @@ test('capabilities require evidence and candidate matches resolve the exact offe
 test('public capability inventory keeps private/local review payloads outside publication', () => {
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
-  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 48);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 49);
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
   assert.match(nutrition.detail, /separate deployed synthetic acceptance/i);
@@ -204,7 +207,7 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(consent.detail, /anyone can claim an invited address/);
   assert.match(consent.detail, /not wallet ownership or private-access verification/);
   assert.match(consent.detail, /explicit lookup click/);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 36);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 37);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {
@@ -427,7 +430,7 @@ test('shared data layer preserves map metadata without overlaying creators or fr
   assert.equal(match.need, 'radio-media-route');
   assert.match(match.nextTest, /decoder/);
   sandbox.GTPData.setFilter('status', 'now');
-  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 3);
+  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 5);
 });
 
 test('map ships through both publication paths and view links preserve agency context', () => {

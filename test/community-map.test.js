@@ -184,6 +184,10 @@ test('real map has finite distinct coordinates and avatar clearance; interpolati
   const movements = [...positions].map(([id, point]) => Math.hypot(point.x - updated.get(id).x, point.y - updated.get(id).y));
   assert.ok(Math.max(...movements) < 60, 'one new link should gently rearrange existing nodes');
   assert.ok(movements.reduce((a, b) => a + b) / movements.length < 20);
+  for (const [id, point] of updated) for (const [other, target] of updated) {
+    if (id !== other) assert.ok(Math.hypot(point.x - target.x, point.y - target.y) > 45,
+      'stable updates must retain avatar clearance');
+  }
   const from = { x: 0, y: 20 }, to = { x: 200, y: 100 };
   assert.deepEqual(Layout.interpolate(from, to, 0), from);
   assert.deepEqual(Layout.interpolate(from, to, 0.5), { x: 100, y: 60 });

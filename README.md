@@ -148,7 +148,8 @@ Projects and their public repositories are separate nodes; the DecentAgency init
 is the steward-described umbrella, not a claim of legal ownership or GitHub organization membership.
 External integration candidates, such as cadCAD, do not receive an umbrella association.
 
-- **Now:** DecentCanopy and DecentBusking. **Next:** BigNuten_Vanilla.
+- **Now:** BigNuten, Canopy, Busking observation, the Planning Office, and independent settlements discovery.
+  **Next:** DLend, Pilgrimages and BabelBet preparation/review.
   **Inventory** means not prioritized here, not inactive or abandoned.
 - Use **View**, **Focus**, and search to explore. The **Project / repo index** is a
   keyboard-accessible alternative to selecting canvas nodes. Selecting an index entry
@@ -157,6 +158,16 @@ External integration candidates, such as cadCAD, do not receive an umbrella asso
   other canopy views; they do not modify this curated inventory.
 - Cards show purpose, current understanding, one candidate next move, source links,
   and incoming/outgoing connections. Proposed reuse is not an implemented dependency.
+- The November 2 local / November 3 UTC sweep adds distinct Planning Office,
+  DecentSettlementsRouter, DBuskRadio and DVert references. Router and DLend share
+  the ArtFi source repository but remain separate entities, not duplicated balances.
+  Compact update cards label merged source, open/unmerged PRs and undelivered plans.
+  Longer review context remains available in disclosures.
+- Targeted project `reviewedAt` dates do not re-date the older capability inspection.
+  BigNuten's local continuity is not hosted/cross-browser synchronization, its
+  Supporter listing is unconfigured, and financial closures consolidated into #412
+  do not mean delivered finance. Pilgrimages PR #6 and BabelBet PR #5 remain
+  unmerged preparation, with test counts attributed to their public PRs.
 - **Solid blue** means source-observed; **dashed amber** steward-reported;
   **dashed purple** proposed only; **dashed gray** unresolved.
   These are planning evidence states, not the creator graph's wallet/transaction trust states.
@@ -167,6 +178,9 @@ External integration candidates, such as cadCAD, do not receive an umbrella asso
 The inventory lives in [`data/agency-map.json`](data/agency-map.json), validated by
 [`scripts/data-adapter/agency-adapter.js`](scripts/data-adapter/agency-adapter.js).
 Update its review date, source links, and relationship notes when revisiting it.
+Optional project `updates` contain up to six evidence-backed `merged`, `in-flight`
+or `planned` entries; these states never establish deployment or financial activity.
+An optional unique `entityId` distinguishes infrastructure from its source repository.
 Public repository identities were checked at that date; issue links are not a live
 status feed. Names without resolved public identities remain project nodes with no
 guessed repository URL. Private code, repository metadata, credentials, and health

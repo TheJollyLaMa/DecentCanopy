@@ -21,6 +21,9 @@
       <h2 class="details-title">${e(node.name)}</h2>
       <p class="data-provenance">Curated project map · Reviewed ${e(d.reviewedAt)}</p>
       <p class="details-desc">${e(node.description)}</p>
+      ${d.updates?.length ? `<section class="agency-updates" aria-label="Reviewed project updates">${d.updates.map(update => `<article class="agency-update">
+        <span class="agency-state" data-state="${e(update.state)}">${update.state === 'merged' ? 'MERGED SOURCE' : update.state === 'in-flight' ? 'OPEN PR / NOT MERGED' : 'PLANNED / NOT DELIVERED'}</span>
+        <h3>${e(update.label)}</h3><p>${e(update.detail)}</p>${links(update.evidence)}</article>`).join('')}</section>` : ''}
       <details class="details-group"><summary>Current understanding &amp; limits</summary><p>${e(d.currentState)}</p>
         <p>${e(d.repositoryNote)}</p>
         <p>Funding balances and payout status: unavailable in this map. Linked issues are a dated backlog, not evidence of completed work.</p>

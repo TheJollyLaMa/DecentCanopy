@@ -3,9 +3,71 @@
   "version": 1,
   "foundationalProvider": "head",
   "reviewedAt": "2026-10-22",
-  "sourceLabel": "Steward-curated planning map; Head/Market releases and Busking merged-work boundaries reconciled 2026-10-22. Other source inspections retain their individual review dates; this capability layer is not live GitHub or chain synchronization.",
+  "sourceLabel": "Steward-curated planning map. Active project status and new infrastructure references reconciled 2026-11-03 UTC (November 2 locally); targeted cards carry their own review date. Older capability inspections retain their original limits. Not live issue or chain synchronization.",
   "mission": "Help humans connect and regain, maintain, sustain, or enhance their agency.",
   "projects": [
+    {
+      "id": "decent-settlements-router",
+      "entityId": "decent-settlements-router",
+      "name": "DecentSettlementsRouter",
+      "repo": "TheJollyLaMa/ArtFi",
+      "focus": "now",
+      "reviewedAt": "2026-11-03",
+      "purpose": "Independent shared settlements infrastructure for lateral dapps. DLend is a consumer, not its parent; sharing source in ArtFi does not imply shared product ownership.",
+      "currentState": "Router v2.1.0 source records purpose-designated fund/asset allocations, approved contributors, payout and recovery authority, and work-reference deduplication. Recent operational use is steward-reported; this review has not independently reconciled chain deployments, consumers or balances.",
+      "nextAction": "Execute the inventory and public-ledger visibility work in ArtFi #62 before choosing shared, separate or hybrid custody and approving a coordinated migration.",
+      "repositoryNote": "Source currently resides in ArtFi/contracts/ArtFiSettlementRouter.sol. This is a separate infrastructure entity, not a new repository, token, deployment or lending product.",
+      "tags": ["settlements", "public ledger", "funds", "continuity", "infrastructure"],
+      "offers": [{
+        "id": "router-allocation-receipts",
+        "label": "Named fund allocation and payout receipt model",
+        "state": "code-observed",
+        "detail": "Fund/asset balances, PayrollPaid events and replay-deduplicated work references are implemented in v2.1.0. Named allocations are accounting within shared custody and authority, not independent per-fund contracts.",
+        "evidence": [{"label": "Committed router v2.1.0 source", "url": "https://github.com/TheJollyLaMa/ArtFi/blob/b14e7c62931c9d2a5079d9971420c0064b8fb109/contracts/ArtFiSettlementRouter.sol"}]
+      }],
+      "needs": [{
+        "id": "router-independent-ledger",
+        "label": "Independent ledger visibility, custody decision and migration rehearsal",
+        "state": "issue-reported",
+        "detail": "Reconcile deployments and per-asset funds; expose consumer-to-fund-to-receipt paths independently of DLend; compare shared/separate/hybrid custody and preserve obligations across any separately approved redeploy.",
+        "evidence": [{"label": "Dedicated settlements makeover #62", "url": "https://github.com/TheJollyLaMa/ArtFi/issues/62"}]
+      }],
+      "evidence": [{"label": "Independent settlements infrastructure plan", "url": "https://github.com/TheJollyLaMa/ArtFi/issues/62"}]
+    },
+    {
+      "id": "planning-office",
+      "name": "Agency Planning Office",
+      "repo": "A-Decent-Agency/a-decent-agency.github.io",
+      "focus": "now",
+      "reviewedAt": "2026-11-03",
+      "purpose": "Evidence-aware 3D planning, historical maps and a visitor-owned diagram studio for the ecosystem.",
+      "currentState": "Published Office includes issue-driven tower levels and grounds, fractal streets, Canopy roof city, stable site/card links, historical map viewing and a local-file diagram studio. Steward proposal levels remain distinct from receipt-backed releases and actual board jobs.",
+      "nextAction": "Keep live-source evidence, closure reasons and planning labels aligned; show bounded summaries with optional details rather than repeating dense prose.",
+      "tags": ["planning", "maps", "history", "local-first", "human needs"],
+      "evidence": [{"label": "Published supplemental studio and planning integration", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/commit/44ffab9ccf7a581b152cec195855ea3d2e54cdbb"}]
+    },
+    {
+      "id": "dbusk-radio",
+      "name": "DBuskRadio widget",
+      "repo": "A-Decent-Agency/DBuskRadio",
+      "reviewedAt": "2026-11-03",
+      "purpose": "Reusable, host-mounted radio for opt-in music across Decent experiences.",
+      "currentState": "Pinned radio integration is present in Canopy. Pilgrimages #6 and BabelBet #5 propose the same product with explicit consent and mount/destroy lifecycle; those consumer PRs remain open.",
+      "nextAction": "Validate each host's consent, teardown and playback behavior before claiming adoption; no automatic playback or guaranteed stream availability.",
+      "tags": ["music", "widget", "consent"],
+      "evidence": [{"label": "Canopy radio integration", "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/43"}, {"label": "Pinned radio source", "url": "https://github.com/A-Decent-Agency/DBuskRadio/tree/1fe9ed0c2afc61552328fdda10d0f199bc3eaee9"}]
+    },
+    {
+      "id": "dvert",
+      "name": "DVert widget",
+      "repo": "A-Decent-Agency/DVert",
+      "reviewedAt": "2026-11-03",
+      "purpose": "Reusable advertising product extracted alongside the music widgets.",
+      "currentState": "Independent public product repository exists. Busking merged an expired-impression scheduler fix in PR #307; a host fix is not proof every embedded widget has been redeployed.",
+      "nextAction": "Verify pinned consumer versions, expired impressions and unavailable scheduling before expanding integrations.",
+      "tags": ["advertising", "widget", "scheduler"],
+      "evidence": [{"label": "Product extraction", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/282"}, {"label": "Expired impressions fix", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/307"}]
+    },
     {
       "id": "decent-agency",
       "name": "DecentAgency",
@@ -14,7 +76,7 @@
       "focus": "inventory",
       "repo": "TheJollyLaMa/DecentAgency",
       "purpose": "The steward-described umbrella for these Decent Frankensteins, not a claim of legal ownership or GitHub organization membership.",
-      "nextAction": "Use Canopy and Busking as the current delivery focus; adapt their work to BigNuten next, then review the rest of the inventory.",
+      "nextAction": "Keep BigNuten primary; observe Busking, review Pilgrimages V1 and BabelBet preparation, and make shared settlements independently visible. Use the Planning Office for staged buildouts and human-needs priorities.",
       "tags": [
         "agency",
         "coordination"
@@ -52,13 +114,14 @@
     },
     {
       "id": "decent-canopy",
+      "reviewedAt": "2026-11-03",
       "name": "DecentCanopy",
       "ens": "decentcanopy.eth",
       "focus": "now",
       "repo": "TheJollyLaMa/DecentCanopy",
       "purpose": "Make projects, repositories, creators, funding relationships, and useful next steps understandable.",
       "currentState": "The Agency map and self-declared public GitHub repository linking shipped in PR #23. A real signed repository-bearing creator record was published. PR #26 added public-only IPFS provider controls and exact-byte recovery; PR #27 added mocked creator lifecycle regression coverage (158 tests). Public repository activity and latest releases have a separate scheduled snapshot; capabilities remain curated. GitHub account verification and generic fund adapters remain open.",
-      "nextAction": "Prove a real non-maintainer creator and fund journey; use the shared evidence schema (#17) with Busking fund/ledger discovery (#14), coordinated with the separate Busking team. Canopy's first Supporter mint is deferred until product readiness and explicit approval.",
+      "nextAction": "Keep public capability cards distinct from scheduled activity. Surface the independent router and current preparation builds; complete the non-maintainer creator and fund journey under #17/#14. Canopy's first Supporter mint remains deferred.",
       "reviewNote": "Public IPFS and creator regression delivery reconciled 2026-10-22. Mocked signatures/relay receipts are not real visitor acceptance; personal provider writes remain operator-dependent.",
       "offers": [
         {
@@ -184,12 +247,18 @@
     },
     {
       "id": "decent-busking",
+      "reviewedAt": "2026-11-03",
+      "updates": [
+        {"state": "merged", "label": "Runtime and payroll clarity", "detail": "PRs #307/#308 fix expired advertising impressions and name payroll recipients; source changes are not new payment receipts.", "evidence": [{"label": "Scheduler fix", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/307"}, {"label": "Recipient names", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/308"}]},
+        {"state": "in-flight", "label": "Promotions and checkout explanations", "detail": "PRs #302/#306 remain open. No campaign activation is inferred.", "evidence": [{"label": "Promotions PR", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/302"}, {"label": "Checkout explanation PR", "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/306"}]},
+        {"state": "planned", "label": "Operating costs and voting boundaries", "detail": "RPC invoice/workload reconciliation and walletless comments versus verified prize votes remain open.", "evidence": [{"label": "RPC cost investigation", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/305"}, {"label": "Comments and votes", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/304"}]}
+      ],
       "name": "DecentBusking",
       "ens": "decentbusking.decentagency.eth",
       "focus": "now",
       "repo": "TheJollyLaMa/DecentBusking",
       "purpose": "Support music participation, scheduled radio, and accountable creator and contributor earnings.",
-      "currentState": "The steward reports the first week's schedule and payroll completed. On 2026-10-20, all 10 payable entries for NY-2026-10-12 matched recipient/amount/work-reference entries marked verified by the public worker ledger (33.511773 USDC allocated). This is source-reported reconciliation, not an independent chain audit. The separate Busking team merged owner-confirmed calendar announcements, Phase 0 live booking/funding UI and named DJuke playlists on 2026-10-22. Phase 0 funding is earmarked, NOT escrowed; playlist checkout stays gated on approved compatible deployment and worker readiness. Merged code is not evidence of production financial operations.",
+      "currentState": "Busking v1.0.0 is released and in observation mode. The steward reports the first schedule/payroll completed; historical public-ledger reconciliation remains source-reported, not an independent chain audit. November 2 merged PRs #307/#308 fix expired advertising impressions and show recipient names in payroll confirmations. Promotions #302 and disabled-checkout explanation #306 remain open PRs.",
       "reviewNote": "Public storage/payroll source and 2026-10-22 merged delivery notes reviewed. Worker ledger reconciliation remains source-reported. Browser decoder issue #244 remains open; no live payment, deployment or Friday booking approval is inferred.",
       "offers": [
         {
@@ -317,7 +386,7 @@
           ]
         }
       ],
-      "nextAction": "Coordinate with the Busking team on a pinned reusable DBusk radio widget (#247) for Canopy #15, with streamer/now-playing/votes and proven media compatibility. In parallel, the steward should complete tomorrow's Phase 0 performance operator rehearsal and approvals. Then exercise Canopy's read-only fund/ledger adapter (#14); do not activate gated playlist payments or deploy escrow as part of this crossover.",
+      "nextAction": "Observe runtime, investigate RPC costs (#305), separate walletless comments from member prize voting (#304), and review promotions before activation. Canopy's pinned radio integration already exists in #43; do not rebuild it or treat a UI fix as confirmed production payments.",
       "tags": [
         "ipfs",
         "media",
@@ -384,12 +453,18 @@
     },
     {
       "id": "big-nuten",
+      "reviewedAt": "2026-11-03",
+      "updates": [
+        {"state": "merged", "label": "Nutrition, research and gut-health tools", "detail": "Best-estimate food auto-fill, local research/experiment records and manual gut tracking merged. Estimates are labeled; research service deployment is a separate check, not established here.", "evidence": [{"label": "Nutrition #404", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/404"}, {"label": "Research #408", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/408"}, {"label": "Gut tracking #410", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/410"}]},
+        {"state": "merged", "label": "Local wallet profiles, not cross-browser sync", "detail": "Guest/wallet namespaces, explicit copy and same-browser writer coordination merged. Automatic hosted sync is deferred under #391; namespaces are not encryption.", "evidence": [{"label": "Partial continuity #411", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/411"}, {"label": "Committed continuity boundaries", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/3a9f97215703529c4d31e9bfb4ae82d1e79a4f30/docs/PROFILE_CONTINUITY.md"}]},
+        {"state": "planned", "label": "Financial epic replaces closed source tickets", "detail": "#412 consolidates requirements; closures marked not planned / superseded do not mean finance shipped. The new Supporter card has null configuration and no Base listing; no Aave activation is claimed.", "evidence": [{"label": "Open financial build #412", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/412"}, {"label": "Unconfigured Supporter card #407", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/407"}]}
+      ],
       "name": "BigNuten_Vanilla",
       "ens": "bignuten.thejollylama.eth",
       "focus": "now",
       "repo": "TheJollyLaMa/BigNuten_Vanilla",
       "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
-      "currentState": "Levels 1-4 of the M16 community buildout are merged on main: tests and browser smoke coverage; local recovery and encrypted IPFS snapshots; hosted Genie consent; and the Health foundation with registry-driven vitals, sleep, energy, body fat, breathwork, chanting, nutrition and workout/body logging. Level 5 'Commitment club' is partially delivered: a wallet-free journey and payout explainer, isolated local-chain rehearsal, capability-gated participant flows and recoverable check-ins, local achievement metadata/templates, and privacy-gated results/settlement tooling. Issues #160, #161, #163 and #336 remain open for award publication/configuration, payout and withdrawal decisions, receipt anchoring limits and Base readiness. New engine capabilities are source-only, not deployed to Base; Aave remains disabled. Remote restore against a live provider and the staking pilot remain unverified end to end.",
+      "currentState": "Health/recovery foundations are on main. November 2 merges add nutrition best-estimate auto-fill (#404), local research experiments (#408), manual gut-health tracking (#410), and local wallet-profile isolation/single-writer continuity (#411). Hosted research endpoints require separate service deployment validation; #411 does not provide automatic cross-browser sync. The Supporter card (#407) is explicitly unconfigured: no Base listing exists. Financial requirements formerly in #160/#161/#163/#336 and other tickets moved into open epic #412; closed-as-not-planned is not delivery. Aave/Base financial activation remains gated.",
       "reviewNote": "Levels 1-4 and partial Level 5 source and pull-request CI inspected (PRs #356-#358, #363-#375, #377-#381). Level 5 evidence: local rehearsal in PR #378; engine compatibility/retry tests in PR #379; achievement metadata/templates in PR #380; combined results/settlement validation in PR #381 (merge e713123). Only synthetic test data was used; no personal health records were inspected or published. Local testing is not a live deployment or public-publication claim.",
       "offers": [
         {
@@ -631,7 +706,7 @@
           ]
         }
       ],
-      "nextAction": "Reproduce the stalled save/restore path, then adapt scoped uploads (#339) and snapshot recovery (#341), coordinating with the existing storage issues instead of copying Busking wholesale.",
+      "nextAction": "Validate the configured nutrition/research service independently of merged UI; finish cross-browser decisions in #391, the release crown (#281/#345), and the consolidated financial build #412. Do not equate closed milestone counts with accepted or deployed finance.",
       "tags": [
         "ipfs",
         "wellness",
@@ -869,7 +944,9 @@
     },
     {
       "id": "artfi",
-      "name": "ArtFi",
+      "name": "DecentLending / DLend (ArtFi)",
+      "reviewedAt": "2026-11-03",
+      "focus": "next",
       "ens": "artfi.thejollylama.eth",
       "repo": "TheJollyLaMa/ArtFi",
       "purpose": "Candidate funding and relationship integration already tracked in Canopy; deployment and flow verification remain separate work.",
@@ -892,7 +969,8 @@
         "Issue #58 warns that deployed registry bytecode may predate functions present in the local source; deployment compatibility was not checked.",
         "Automated test files cover protocol, router, registry, payroll, and related JavaScript behavior, but no tests were run for this read-only review. Reviewer suggestion: run these suites and verify deployed-bytecode parity before relying on the workflows."
       ],
-      "currentState": "Public Solidity/Hardhat and JavaScript project for creator advances, contributor settlement, registry publishing, and node-check tracking. The 2026-10-22 read-only source/config inventory identifies Settlement Router v2.1.0 and shared Canopy/Busking consumers; actual deployed code, roles, balances and replay history remain unverified. ArtFi needs modernization, possible rebranding, an approved release and Supporter mint before live Canopy integration. No migration or payment/role/address change is authorized.",
+      "currentState": "DLend is the proposed lending-product name over the ArtFi source repository, not a rename or migration. Its advance/repayment lifecycle is distinct from the independent DecentSettlementsRouter entity. Existing router v2.1.0 source and historical consumer configuration are discovery evidence, not reconciled balances or proof of current deployed authority.",
+      "nextAction": "Scope newcomer opportunities and a two-host widget; define the lending-to-router boundary without owning shared settlements. Coordinate #58 and router #62. No fund movement, mint or contract migration is authorized by the rebrand.",
       "offers": [
         {
           "id": "artfi-advance-contract-flow",
@@ -1242,6 +1320,11 @@
     },
     {
       "id": "pilgrimages",
+      "reviewedAt": "2026-11-03",
+      "updates": [
+        {"state": "in-flight", "label": "Base V1 build is open for review", "detail": "PR #6 reports 56 receiving tests and guided shared-Head/atlas/radio integration. Legacy obligations are unresolved; no deployment, fund movement or payroll/helper activation is claimed.", "evidence": [{"label": "Unmerged Base V1 PR #6", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/pull/6"}]},
+        {"state": "planned", "label": "Overseer and migration gate", "detail": "Organizer approval, not browser location, controls rewards. Review source, accounting and development advisories before approving any Base deployment.", "evidence": [{"label": "V1 acceptance #5", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/5"}]}
+      ],
       "name": "DecentPilgrimages",
       "focus": "next",
       "repo": "TheJollyLaMa/DecentPilgrimages",
@@ -1258,7 +1341,7 @@
         "No automated test cases were found; package.json's test script exits with 'no test specified'. Reviewer suggestion: add tests for whitelist authorization, sponsor accounting, claim/recovery, and token transfer behavior.",
         "Claiming is whitelist-gated, and token transfer behavior depends on the selected ERC-20 token."
       ],
-      "currentState": "Public Solidity and browser JavaScript/ethers/Leaflet project for sponsored token pools assigned to map locations, with owner/sponsor controls and whitelisted participant claims. Implementation files are present, but no automated tests were found; the package test command is a placeholder rather than a test suite.",
+      "currentState": "Base V1 implementation is in open PR #6, deliberately unmerged for review. It reports 56 receiving contract/UI/helper/payroll/radio tests, versioned artifacts, shared Head and a guided atlas. This supersedes the old placeholder-test picture for that branch, not main. No Base contract deployment, legacy migration, funds, payroll activation or live assistant request is claimed; development-toolchain advisories remain a review gate.",
       "offers": [
         {
           "id": "decentpilgrimages-sponsored-location-rewards",
@@ -1666,6 +1749,11 @@
     {
       "id": "calendar",
       "name": "DecentCalendar",
+      "reviewedAt": "2026-11-03",
+      "purpose": "Paid time, presence and knowledge exchange; public blueprint only.",
+      "currentState": "The Planning Office has an approved public DecentCalendar blueprint and map/provenance jobs #15-17. This map does not read or publish private implementation or infer a standalone released dapp.",
+      "nextAction": "Work from the approved public job board and source-provenance acceptance before raising delivered structures.",
+      "evidence": [{"label": "Public blueprint", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/15"}, {"label": "Public map and provenance acceptance", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/17"}],
       "repositoryNote": "Public repository identity unresolved."
     },
     {
@@ -1757,6 +1845,11 @@
     },
     {
       "id": "babel-bet",
+      "reviewedAt": "2026-11-03",
+      "updates": [
+        {"state": "in-flight", "label": "Preparation only, not a game launch", "detail": "PR #5 reports 16 tests for shared experience, local recovery, opt-in radio and inactive payroll. Provider/watcher entrypoints are quarantined on that branch. Keep unmerged for review.", "evidence": [{"label": "Unmerged preparation PR #5", "url": "https://github.com/TheJollyLaMa/BabelBet/pull/5"}]},
+        {"state": "planned", "label": "Separate game and provider decisions", "detail": "No official/unofficial Duolingo, wagering, settlement engine, live payroll or AI activation is authorized by preparation.", "evidence": [{"label": "Preparation acceptance #4", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/4"}]}
+      ],
       "name": "BabelBet",
       "focus": "next",
       "repo": "TheJollyLaMa/BabelBet",
@@ -1773,7 +1866,7 @@
         "Reviewer suggestion (not an expressed need): credential model is unsafe, since the watcher parses Duolingo username::password from on-chain mapping data; the unofficial Duolingo API is fragile.",
         "Worktree had uncommitted changes; none used."
       ],
-      "currentState": "Duolingo peer-challenge dapp: Solidity token contract, Truffle/Ganache, Express + cron watcher checking Duolingo streaks and computing payouts.",
+      "currentState": "Open PR #5 is preparation only: shared Head, guided bridge/ankhs, local recovery, consent-only radio and gated contributor workflow, with 16 reported receiving tests. Legacy source remains historical; the preparation branch quarantines official/unofficial Duolingo and watcher entrypoints. PR #5 is unmerged. No new game, oracle, wager, payout, provider or AI activation is claimed.",
       "offers": [
         {
           "id": "bb-contracts",
@@ -1965,6 +2058,26 @@
     }
   ],
   "relationships": [
+    {
+      "source": "artfi", "target": "decent-settlements-router", "type": "could-integrate", "state": "proposed",
+      "note": "DLend is a lateral consumer of independent settlements infrastructure. Shared custody, authority, exact assets and consumer receipt paths require explicit review; this line is not a payment or verified deployment.",
+      "evidence": [{"label": "Independent router boundary and migration decision", "url": "https://github.com/TheJollyLaMa/ArtFi/issues/62"}]
+    },
+    {
+      "source": "decent-settlements-router", "target": "decent-canopy", "type": "could-integrate", "state": "proposed",
+      "note": "Expose router/fund/receipt records independently of the lending card. Reconcile chain-qualified source evidence and unavailable/partial history before displaying money totals.",
+      "evidence": [{"label": "Router public-ledger makeover", "url": "https://github.com/TheJollyLaMa/ArtFi/issues/62"}, {"label": "Shared evidence schema", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/17"}]
+    },
+    {
+      "source": "planning-office", "target": "decent-canopy", "type": "supports", "state": "observed",
+      "note": "Office imports a reviewed public Canopy registry for its roof city and typed connections. This is a deliberate pinned import, not live whole-library synchronization.",
+      "evidence": [{"label": "Committed Office importer", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/blob/c9034641d48932eb7e545e2b3915067e29735238/scripts/import-canopy-map.mjs"}]
+    },
+    {
+      "source": "dbusk-radio", "target": "decent-canopy", "type": "provides-capability", "state": "observed",
+      "note": "Canopy integrated the pinned radio widget. Other hosts must independently validate consent, lifecycle and playback.",
+      "evidence": [{"label": "Merged radio integration", "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/43"}]
+    },
     {
       "source": "head", "target": "pilgrimages", "type": "capability-match", "state": "proposed",
       "offer": "decent-head-web-component", "need": "pilgrimages-shared-welcome",
