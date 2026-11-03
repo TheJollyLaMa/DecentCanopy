@@ -459,16 +459,17 @@
       "id": "big-nuten",
       "reviewedAt": "2026-11-03",
       "updates": [
+        {"state": "merged", "label": "v3.3.0 Supporter DNFT live on Base", "detail": "Token 76 is minted with 12+ confirmations and listed at DecentEscrow listing 6 for 10 USDC. The About card buys via exact USDC approval; bignuten.decentagency.eth serves the release. Support is not equity, yield or a health claim.", "evidence": [{"label": "Live purchase #416", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/416"}, {"label": "v3.3.0 release + mint evidence", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/releases/tag/v3.3.0"}, {"label": "Art fallback #417", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/417"}]},
         {"state": "merged", "label": "Nutrition, research and gut-health tools", "detail": "Best-estimate food auto-fill, local research/experiment records and manual gut tracking merged. Estimates are labeled; research service deployment is a separate check, not established here.", "evidence": [{"label": "Nutrition #404", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/404"}, {"label": "Research #408", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/408"}, {"label": "Gut tracking #410", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/410"}]},
         {"state": "merged", "label": "Local wallet profiles, not cross-browser sync", "detail": "Guest/wallet namespaces, explicit copy and same-browser writer coordination merged. Automatic hosted sync is deferred under #391; namespaces are not encryption.", "evidence": [{"label": "Partial continuity #411", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/411"}, {"label": "Committed continuity boundaries", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/blob/3a9f97215703529c4d31e9bfb4ae82d1e79a4f30/docs/PROFILE_CONTINUITY.md"}]},
-        {"state": "planned", "label": "Financial epic replaces closed source tickets", "detail": "#412 consolidates requirements; closures marked not planned / superseded do not mean finance shipped. The new Supporter card has null configuration and no Base listing; no Aave activation is claimed.", "evidence": [{"label": "Open financial build #412", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/412"}, {"label": "Unconfigured Supporter card #407", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/407"}]}
+        {"state": "planned", "label": "Financial epic replaces closed source tickets", "detail": "#412 consolidates requirements; closures marked not planned / superseded do not mean finance shipped. The Supporter sale is separate from #412: no Aave activation, treasury yield or payouts are claimed.", "evidence": [{"label": "Open financial build #412", "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/412"}]}
       ],
       "name": "BigNuten_Vanilla",
-      "ens": "bignuten.thejollylama.eth",
+      "ens": "bignuten.decentagency.eth",
       "focus": "now",
       "repo": "TheJollyLaMa/BigNuten_Vanilla",
       "purpose": "Support body-care and wellness participation in the dapp's own reward and user-owned data context.",
-      "currentState": "Health/recovery foundations are on main. November 2 merges add nutrition best-estimate auto-fill (#404), local research experiments (#408), manual gut-health tracking (#410), and local wallet-profile isolation/single-writer continuity (#411). Hosted research endpoints require separate service deployment validation; #411 does not provide automatic cross-browser sync. The Supporter card (#407) is explicitly unconfigured: no Base listing exists. Financial requirements formerly in #160/#161/#163/#336 and other tickets moved into open epic #412; closed-as-not-planned is not delivery. Aave/Base financial activation remains gated.",
+      "currentState": "v3.3.0 \"Personal health foundation\" released 2026-11-03 and its Supporter DNFT is live on Base: DecentNFT token 76, DecentEscrow listing 6, 10 USDC, buyable from BigNuten's About card and DecentHead checkout (#416, release evidence). bignuten.decentagency.eth serves the exact v3.3.0 site CID. The front art was re-rendered without the IPFS overlay or personal data; bundled art covers gateway failures (#417). November 2 merges add nutrition auto-fill (#404), local research experiments (#408), gut tracking (#410) and local wallet-profile continuity (#411; it does not provide automatic cross-browser sync). Hosted research endpoints still need separate deployment validation. A Supporter sale funds the project; it is not a share, yield or health claim. Financial requirements are consolidated in open epic #412; Aave/Base financial activation remains gated.",
       "reviewNote": "Levels 1-4 and partial Level 5 source and pull-request CI inspected (PRs #356-#358, #363-#375, #377-#381). Level 5 evidence: local rehearsal in PR #378; engine compatibility/retry tests in PR #379; achievement metadata/templates in PR #380; combined results/settlement validation in PR #381 (merge e713123). Only synthetic test data was used; no personal health records were inspected or published. Local testing is not a live deployment or public-publication claim.",
       "offers": [
         {
@@ -710,7 +711,7 @@
           ]
         }
       ],
-      "nextAction": "Validate the configured nutrition/research service independently of merged UI; finish cross-browser decisions in #391, the release crown (#281/#345), and the consolidated financial build #412. Do not equate closed milestone counts with accepted or deployed finance.",
+      "nextAction": "Share the live v3.3.0 Supporter edition; validate the configured nutrition/research service independently of merged UI; finish cross-browser decisions in #391 and the consolidated financial build #412. Do not equate closed milestone counts or Supporter sales with accepted or deployed finance.",
       "tags": [
         "ipfs",
         "wellness",

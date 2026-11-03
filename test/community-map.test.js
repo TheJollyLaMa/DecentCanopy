@@ -145,7 +145,7 @@ test('Head covers all internal projects without inventing external adoption or o
   assert.equal(JSON.stringify(d), before);
   assert.equal(d.projects.find(p => p.id === 'decent-agency').ens, 'decentagency.eth');
   assert.equal(d.projects.find(p => p.id === 'decent-busking').ens, 'decentbusking.decentagency.eth');
-  assert.equal(d.projects.find(p => p.id === 'big-nuten').ens, 'bignuten.thejollylama.eth');
+  assert.equal(d.projects.find(p => p.id === 'big-nuten').ens, 'bignuten.decentagency.eth');
   for (const mutate of [
     d => { d.projects[0].ens = 'not a name'; },
     d => { d.projects[0].discordAvatar = 'https://evil.test/avatar.png'; },
