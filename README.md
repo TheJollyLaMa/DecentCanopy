@@ -20,16 +20,26 @@ Public site/artifact bytes were verified before signing. These are fixed,
 reviewed public snapshots, not automatic whole-library synchronization; ENS
 gateway caching and profile-image support vary.
 
-## First versioned Supporter release: prepared, mint evidence pending
+## First versioned Supporter release: token 79 / listing 9
 
-The About dialog now distinguishes **DecentCanopy's own edition (purchase unavailable)**
+The About dialog now distinguishes **DecentCanopy's own verified edition**
 from the map's inventory of other projects' tokens. Published first tag:
 **[v0.1.0](https://github.com/TheJollyLaMa/DecentCanopy/releases/tag/v0.1.0)**;
 prepared terms: **1,000 editions, 10 USDC each on Base**. This is a regular
 release labeled **beta / preview**; [release notes](wiki/Release-Notes-v0.1.0.md)
-record the scope. ENS hosting does not establish a mint or listing. Frozen
-Supporter manifests remain unchanged; purchase stays unavailable until public
-mint/listing evidence is independently verified.
+record the scope. Shared Head verification at Base block **53547424** checked
+the exact frozen metadata, 1,000 minted editions, at least 12 confirmations,
+active 10 USDC listing and escrow stock (1,000 then, not live availability).
+Current About uses the existing external checkout, which rechecks price/stock.
+
+- [Support Canopy — 10 USDC](https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=9&priceUSDC=10000000)
+- [Verified public mint/listing evidence](https://github.com/TheJollyLaMa/DecentCanopy/releases/download/v0.1.0/supporter-minted.json)
+- [Mint receipt](https://basescan.org/tx/0xde8d3fbf8dcc7f602e3c848c1eb4dd33bc582492fa68cb13864203c4aae7b041)
+
+Frozen Supporter manifests/art remain unchanged. Both existing ENS websites
+retain their dated pre-mint snapshots; current GitHub Pages has verified support
+links. A future ENS repoint needs a separately reviewed build. No equity, yield,
+ownership or financial return is promised, and no Discord announcement was sent.
 
 See [Supporter release readiness and outstanding-work dispositions](wiki/Supporter-Release.md)
 for the complete issue/PR/remote-branch audit, exact-tag rendering requirements,
