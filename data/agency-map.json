@@ -2034,17 +2034,27 @@
       "ens": "voyager.decentagency.eth",
       "reviewedAt": "2026-11-05",
       "repositoryNote": "Renamed from AsteRoid to DecentVoyager; stable map id asteroid is retained for existing connections. Frozen v1.0.0 metadata retains its original repository identity. Widget integrations remain proposed, not shipped.",
-      "reviewNote": "v1.0.0 mint and listing independently read on Base at block 53623806. Pages About, keyboard movement/firing/POV/pause and renamed links verified. This is a dated public observation, not live stock synchronization.",
+      "reviewNote": "v1.0.0 mint checked at Base block 53623806; finite reserve custody and replacement listings independently checked at block 53644409. 710 Supporter NFTs and 10,000 BNut are held by VoyagerRewards. This is a dated public observation, not live stock synchronization.",
       "reviewCaveats": [
-        "Token 80 / listing 10 had 1,000 editions available at 10 USDC on Base at the observed block; checkout must recheck current price and stock.",
-        "All six configured reward token types have zero inventory in VoyagerPrizes at the observed block. Game logic is not a funded reward reserve.",
+        "Token 80 moved from original listing 10 to replacement listing 18: 900 editions remain for sale at 10 USDC and 100 are held for game rewards at the observed block; checkout must recheck stock.",
+        "VoyagerRewards holds the approved 710-NFT reserve and 10,000 BNut. Custody is not proof of an earned award or successful transfer; eligibility, unexpired-voucher reservations and finite stock still gate claims.",
         "Integrated-browser wallet signing and an actual winning-flight queue append/claim are not yet verified. GitHub-backed authenticated queue reads were checked.",
         "ENS contenthash is set; eth.limo currently fails during TLS setup. Pages is the verified play route.",
         "Busking #243 requires 100 levels, fixed NFT target rosters, beat attacks and a frozen weekly playlist reward; Voyager v1 does not fulfill that entire specification."
       ],
-      "currentState": "Decent Voyager v1.0.0 is released and playable on Pages: 10 guest sectors plus 10 Ace/pilot-gated future sectors, overview/POV, Nova charge cannon, gamepad input, recorded battle stats and cards, IPFS saves and separate Base pilot/arena/prize/stamp contracts. Supporter DNFT token 80 is minted and escrowed in listing 10 at 10 USDC. Referee uses GitHub-backed queues; real winning-flight reward acceptance remains open.",
-      "nextAction": "Build lifecycle-safe, pinned clones for the Planning Office end-of-track rocket (#20) and Busking end-of-timeline rocket (#243); preserve host radio and input ownership. The reward reserve is currently unfunded: approve limited inventory and verify a real winning claim before guaranteeing prize transfers.",
+      "currentState": "Decent Voyager is playable on Pages, with 10 guest sectors and whitelisted Pilot/Ace future sectors. Mobile touch/opt-in tilt, sharper rendering, responsive steering, weapon cycling and marathon receipts are delivered in PR #6. VoyagerRewards holds 710 Supporter NFTs plus 10,000 BNut for atomic Perfect Pilot awards. Token 80 has 900 sale editions in replacement listing 18 at 10 USDC. Referee uses GitHub-backed queues; physical MetaMask-device acceptance and a real winning-flight claim remain open.",
+      "nextAction": "Verify a legitimately earned wallet claim and physical MetaMask mobile controls; do not treat emulated sensor tests as a device certification. Build lifecycle-safe pinned Office (#20) and Busking (#243) clones, preserving host radio and input ownership.",
       "updates": [
+        {
+          "state": "merged",
+          "label": "Finite Voyager reward reserves funded",
+          "detail": "710 NFTs transferred to VoyagerRewards after delisting each old sale offer; remaining sale units relisted at unchanged prices. Matching 10,000 BNut budget is in custody. Replacement listing IDs 11-18 correspond to Head, Market, Busking, BigNuten, Calendar, Pilgrimages, Canopy and Voyager. Frozen mint metadata is unchanged; supplemental release evidence records current listings. A funded pool is not a completed pilot claim.",
+          "evidence": [
+            { "label": "Voyager reward escrow on Base", "url": "https://basescan.org/address/0xCa55A59BD2c15D0F11Ae5f7e7E96Bb58eb0B7DE5" },
+            { "label": "Reserve transactions and replacement listing receipts", "url": "https://github.com/TheJollyLaMa/DecentVoyager/blob/main/contracts/deployments/base-reserves.json" },
+            { "label": "Verified current Voyager listing", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/download/v1.0.0/supporter-current-listing.json" }
+          ]
+        },
         {
           "state": "merged",
           "label": "v1.0.0 Supporter token 80 / listing 10",
@@ -2060,7 +2070,7 @@
         { "label": "Play Decent Voyager", "url": "https://thejollylama.github.io/DecentVoyager/" },
         { "label": "v1.0.0 release", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/tag/v1.0.0" },
         { "label": "Verified token 80 mint / listing 10", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/download/v1.0.0/supporter-minted.json" },
-        { "label": "Support Voyager", "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=10" },
+        { "label": "Support Voyager", "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=18&priceUSDC=10000000" },
         { "label": "Planning Office widget request", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20" },
         { "label": "Busking implementation guidance", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/243#issuecomment-6670391716" }
       ],
