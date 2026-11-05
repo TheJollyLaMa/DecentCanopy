@@ -65,8 +65,9 @@ existing reviewed mint/announcement path without duplicating signing code.
   `templates/supporter/supporter-release.yml`,
   `templates/supporter/supporter-announce.yml` and the reusable workflows.
   Adopted the parent's published static-root-compatible kit
-  **76b7e9443fdedea7872569a9583356b640a5c4d8** in both `uses` and `head_ref`
-  (includes static-root support from `2b87543` and validated preview queries).
+  **599241344849af1921f6a9a59431f4b2f300d417** in both `uses` and `head_ref`
+  (includes static-root support, validated preview queries and tested long-title
+  typography on both card faces, including 40-character project names).
   The shared kit owns rendering, exact-tag archives, manifests and announcements;
   Canopy does not extract another helper.
 - Inspected BigNuten `js/supporterToken.mjs`, especially
@@ -121,7 +122,11 @@ Cross-project coordination update (2026-11-05): Calendar v0.1.0 is published
 from `27dbbecffa89ca4091ebef3478ad0b1a6ddd69f8`; Pilgrimages PR #6 is merged
 at `5b9d499a4197433b132212f306c88337146ff7f6` and its v0.1.0 is published
 at that commit. Both are regular GitHub releases labeled beta/preview, with
-Supporter preparation running, **not minted editions**. The parent reports Pinata privately
+Supporter preparation, **not minted editions**. Pilgrimages' prepared v0.1.0
+art exposed an orphan title character; keep that release frozen, unminted and
+superseded as a mint candidate. A corrective app header and **v0.1.1** preparation
+are pending; review the new exact-tag artwork rather than replacing frozen assets.
+The parent reports Pinata privately
 configured and verified for both repositories; no secret values were accessed
 here. Their separate app roots remain `decent-calendar-vanilla/` and `public/`.
 Office `ad034c1` observes all three projects among 19, with receipt gates;

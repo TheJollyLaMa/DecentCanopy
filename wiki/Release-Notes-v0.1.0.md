@@ -13,7 +13,8 @@ does not publish the release or authorize a mint.
   preparation terms of 1,000 editions at 10 USDC, and exact-tag static root `.`.
 - Calendar/Pilgrimages published v0.1.0 beta/preview entries and Canopy's
   pending release entry, without claiming any of those projects has minted
-  or deployed an ENS site.
+  or deployed an ENS site. Pilgrimages' frozen unminted v0.1.0 is superseded
+  as a mint candidate; corrective v0.1.1 preparation remains pending.
 - Preserved newest BigNuten live-edition evidence, with verified art-history
   provenance adapted from PR #58 rather than replacing newer main work.
 

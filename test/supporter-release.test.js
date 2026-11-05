@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
-const HEAD_SHA = '76b7e9443fdedea7872569a9583356b640a5c4d8';
+const HEAD_SHA = '599241344849af1921f6a9a59431f4b2f300d417';
 
 test('own About Supporter card remains unavailable without published evidence', () => {
   const html = read('index.html');
@@ -61,16 +61,18 @@ test('published previews and pending Canopy retain separate release versus mint 
   const data = JSON.parse(read('data/agency-map.json'));
   for (const id of ['calendar', 'pilgrimages', 'decent-canopy']) {
     const project = data.projects.find(row => row.id === id);
-    const preparation = project.updates.find(update => /beta\/preview/.test(`${update.label} ${update.detail}`));
+    const preparation = project.updates.find(update => /preview/.test(`${update.label} ${update.detail}`));
     assert.ok(preparation);
-    assert.match(`${preparation.label} ${preparation.detail}`, /beta\/preview/);
+    assert.match(`${preparation.label} ${preparation.detail}`, /preview/);
     assert.ok(preparation.evidence.some(item => item.url.includes(`/${project.repo}/commit/`)));
     assert.match(project.nextAction, /No new ENS name|No Canopy token/);
   }
   for (const id of ['calendar', 'pilgrimages']) {
     const project = data.projects.find(row => row.id === id);
     assert.ok(project.updates.some(update => update.evidence.some(item => item.url.endsWith('/releases/tag/v0.1.0'))));
-    assert.match(project.currentState, /preparation is running/);
-    assert.match(project.currentState, /no own minted\/listed Supporter|not evidence of a minted\/listed Supporter/);
+    assert.match(project.currentState, /preparation is running|v0\.1\.1 preparation is pending/);
+    assert.match(project.currentState, /no own minted\/listed Supporter|not evidence of a minted\/listed Supporter/i);
   }
+  const pilgrimages = data.projects.find(row => row.id === 'pilgrimages');
+  assert.match(pilgrimages.currentState, /v0\.1\.0 remains frozen, unminted and superseded/);
 });
