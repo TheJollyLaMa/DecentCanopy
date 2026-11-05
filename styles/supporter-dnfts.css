@@ -30,6 +30,13 @@
 .supporter-release-art img { box-shadow: -2px 0 8px #55baff55, 2px -1px 8px #ffe36b44, 0 3px 10px #64efac55; }
 .supporter-owned { border-top: 1px solid #64efac66; padding-top: 1rem; margin-top: 1rem; }
 .supporter-owned p { overflow-wrap: anywhere; }
+#canopy-about-dialog a, #canopy-about-dialog a:visited, .supporter-owned a, .supporter-owned a:visited,
+[data-jolly-planning] a, [data-jolly-planning] a:visited { color: #88edc0; text-decoration: underline; text-underline-offset: .2em; overflow-wrap: anywhere; }
+#canopy-about-dialog a:hover, .supporter-owned a:hover, [data-jolly-planning] a:hover { color: #ffe36b; }
+#canopy-about-dialog a:focus-visible, .supporter-owned a:focus-visible, [data-jolly-planning] a:focus-visible { outline: 2px solid #ffe36b; outline-offset: 3px; border-radius: 2px; }
+#canopy-supporter-buy { padding: .8rem 1rem; border: 1px solid #88edc0; color: #e6fff2; background: #204e3d; }
+#canopy-supporter-buy:disabled { opacity: .65; }
+#canopy-purchase-status, #canopy-purchase-transactions { overflow-wrap: anywhere; }
 [data-jolly-planning] .creator-project-card-body { display: grid; gap: .5rem; }
 @keyframes supporter-swivel { from { transform: rotateY(-12deg) rotateZ(-2deg); } to { transform: rotateY(12deg) rotateZ(2deg); } }
 @keyframes supporter-sparkle { from { opacity: .5; } to { opacity: 1; } }

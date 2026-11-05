@@ -305,6 +305,12 @@
       });
     }
 
+    window.addEventListener('decentcanopy:supporter-purchased', () => {
+      syncWalletState().catch(error => {
+        console.error('[Canopy purchase wallet refresh]', error);
+        showWalletMessage(`Purchase confirmed, but wallet display could not refresh: ${error.message || 'provider error'}`);
+      });
+    });
     syncWalletState().catch(error => {
       showWalletMessage(`Could not read wallet state: ${error.message || 'provider error'}`);
     });

@@ -13,7 +13,8 @@ test('own About Supporter card links only its verified token 79/listing 9 editio
   assert.match(card, /data-supporter-state="verified"/);
   assert.match(card, /1,000 editions at 10 USDC each on Base/);
   assert.match(card, /Token 79 · listing 9/);
-  assert.match(card, /listingId=9&amp;priceUSDC=10000000/);
+  assert.match(card, /id="canopy-supporter-buy"/);
+  assert.match(card, /nftContract=0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B&amp;tokenId=79/);
   assert.match(card, /rechecks price and stock/);
   assert.match(card, /role="status"/);
   assert.match(card, /other independent projects/);

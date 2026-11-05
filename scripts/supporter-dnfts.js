@@ -61,7 +61,7 @@
     }
     return frame;
   }
-  function card(token, data) {
+  function card(token, data, inlineCheckout = false) {
     const mirror = root.CanopyRepositoryActivity?.releaseMirror(root.CanopyRepositoryActivityUI?.getData(), token);
     const item = element('details', undefined, 'supporter-token');
     const summary = element('summary');
@@ -76,7 +76,19 @@
     const offers = token.listings.filter(l => l.active && BigInt(l.available) > 0n);
     for (const offer of offers) {
       content.append(element('p', `${offer.price} ${offer.currency}${offer.currency !== 'ETH' && offer.ethPrice && offer.priceETH !== '0' ? ` / ${offer.ethPrice} ETH` : ''} · ${offer.available} available · Listing #${offer.id}${stale ? ' (last observed; recheck before supporting)' : ''}`));
-      if (model.checkoutSupported(token, offer)) content.append(link(model.listingUrl(token, offer), 'Support on DecentMarket ↗'));
+      const own = root.CanopySupporterPurchase?.EDITION;
+      if (inlineCheckout && own && token.chainId === own.chainId && token.contract.toLowerCase() === own.nft.toLowerCase()
+        && token.tokenId === own.tokenId && offer.id === own.listingId) {
+        const buy = element('button', 'Buy here · 10 USDC + gas', 'toolbar-btn');
+        buy.type = 'button';
+        buy.addEventListener('click', () => {
+          const checkout = document.getElementById('canopy-supporter-buy');
+          checkout.scrollIntoView({ block: 'center' }); checkout.focus();
+          checkout.click();
+        });
+        content.append(buy);
+      }
+      else if (model.checkoutSupported(token, offer)) content.append(link(model.listingUrl(token, offer), 'Support on DecentMarket ↗'));
       else content.append(element('p', 'This observed listing is not supported by the current Base USDC checkout. View its chain/contract evidence; no purchase link invented.', 'details-muted'));
     }
     if (!offers.length) content.append(element('p', 'No available escrow listing observed.'));
@@ -107,7 +119,7 @@
     content.append(element('p', `Contract: ${token.contract} · Token ID: ${token.tokenId}`, 'supporter-token-address'));
     if (token.creator) content.append(element('p', `Creator wallet: ${token.creator}`, 'supporter-token-address'));
     content.append(link(model.listingUrl(token), 'View on DecentMarket ↗'), document.createTextNode(' · '), link(`${chain.explorer}/token/${token.contract}?a=${token.tokenId}`, 'Block explorer ↗'));
-    if (offers.length) content.append(element('p', 'Opens the public buyer page for this chain, escrow and listing. It rechecks the listing before any wallet purchase. Availability and price may have changed.', 'details-muted'));
+    if (offers.length) content.append(element('p', inlineCheckout ? 'Buy here uses the Canopy checkout above. Market and explorer links remain available for independent review. Availability and price are rechecked before purchase.' : 'Opens the public buyer page for this chain, escrow and listing. It rechecks the listing before any wallet purchase. Availability and price may have changed.', 'details-muted'));
     if (token.projects.length) content.append(element('p', `Project match: ${token.projects.map(p => `${p.repo} (${p.matchedBy})`).join(', ')}. Metadata is a discovery claim, not verified project ownership.`, 'details-muted'));
     const properties = token.properties || {};
     // Release metadata claims; ENS may still serve an earlier version until the steward signs.
@@ -127,7 +139,7 @@
     item.append(content);
     return item;
   }
-  function rolodex(container, tokens, data) {
+  function rolodex(container, tokens, data, inlineCheckout = false) {
     const controls = element('div', undefined, 'supporter-controls');
     const label = element('label', 'Find a Supporter edition');
     const search = element('input');
@@ -147,7 +159,7 @@
       position.textContent = visible.length ? `${selected + 1} of ${visible.length} · newest known releases first; undated editions follow` : 'No matching Supporter editions.';
       stage.replaceChildren();
       if (visible.length) {
-        const token = visible[selected], item = card(token, data);
+        const token = visible[selected], item = card(token, data, inlineCheckout);
         item.open = true; stage.append(item);
       }
     }
@@ -232,7 +244,7 @@
       container.replaceChildren();
       container.append(element('p', `Public contract / escrow inventory observed ${data.generatedAt}. Prices and stock are snapshots; buyer checkout rechecks them. No equity or financial return promised. Incomplete chains remain labeled on each edition.`, 'details-muted'));
       if (warning) container.append(element('p', warning, 'details-muted'));
-      rolodex(container, data.tokens, data);
+      rolodex(container, tokensForNode(data, { kind: 'repository', repoUrl: 'https://github.com/TheJollyLaMa/DecentCanopy' }), data, true);
       if (linked) {
         container.scrollIntoView({ block: 'start' });
         container.querySelector('input')?.focus({ preventScroll: true });

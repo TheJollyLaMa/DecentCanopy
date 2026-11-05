@@ -168,14 +168,17 @@
         <h2 id="canopy-supporter-title">🌿 Support DecentCanopy</h2>
         <p><strong>v0.1.0 Supporter edition.</strong> 1,000 editions at 10 USDC each on Base, plus network gas.</p>
         <p id="canopy-supporter-status" role="status">Token 79 · listing 9. Mint and escrow stock independently verified with at least 12 confirmations. Published evidence is not live availability; checkout rechecks price and stock.</p>
-        <a class="about-repo-link" href="https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&amp;escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&amp;listingId=9&amp;priceUSDC=10000000" target="_blank" rel="noopener noreferrer" aria-describedby="canopy-supporter-status">Support Canopy · 10 USDC ↗</a>
-        <p>The map's Supporter cards describe other independent projects; this is DecentCanopy's own version-backed token. External DecentHead checkout handles signing; opening About does not request a wallet or payment.</p>
+        <button id="canopy-supporter-buy" class="toolbar-btn" type="button" aria-describedby="canopy-purchase-status">Buy one Canopy edition · 10 USDC + gas</button>
+        <p id="canopy-purchase-status" role="status">Buy here with your wallet: exact 10-USDC approval if needed, then a separate purchase confirmation. Live token, metadata, listing, price and stock are rechecked before purchase.</p>
+        <div id="canopy-purchase-transactions"></div>
+        <a class="about-repo-link" href="https://thejollylama.github.io/DecentMarket/?supporters=1&amp;chainId=8453&amp;nftContract=0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B&amp;tokenId=79" target="_blank" rel="noopener noreferrer">Explore A Decent Series in the Market · Canopy selected ↗</a>
+        <p>The map's Supporter cards describe other independent projects; this is DecentCanopy's own version-backed token. Opening About does not request a wallet or payment. Purchase here only when you choose Buy, or explore the whole series in A Decent Market.</p>
         <p>Support is optional: no token is needed to explore or participate. A Supporter edition is not project ownership, equity, a promise of rewards or a financial return.</p>
         <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy/releases/download/v0.1.0/supporter-minted.json" target="_blank" rel="noopener noreferrer">View verified public mint/listing evidence ↗</a>
       </section>
       <section class="about-supporter" aria-labelledby="canopy-series-title">
-        <h2 id="canopy-series-title">Support the Decent Series</h2>
-        <p>Support The Jolly LaMa, our independent projects and one another. Explore the editions below; participation in Canopy stays free.</p>
+        <h2 id="canopy-series-title">DecentCanopy editions</h2>
+        <p>Only this project's editions belong in About. Support The Jolly LaMa and one another; participation in Canopy stays free.</p>
         <div id="canopy-supporter-series"><p>Loading the public Supporter inventory…</p></div>
       </section>
       <section class="about-build" aria-labelledby="about-build-title">
@@ -844,6 +847,7 @@
     <script src="scripts/repository-activity.js"></script>
     <script src="scripts/repository-activity-ui.js"></script>
     <script src="scripts/supporter-dnfts.js"></script>
+    <script src="scripts/canopy-supporter-purchase.js"></script>
     <script src="scripts/artizen-financials.js"></script>
     <script src="scripts/project-ens.js"></script>
     <script src="scripts/graph-identity.js"></script>

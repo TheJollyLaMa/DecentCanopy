@@ -829,17 +829,42 @@ Support the work with a [Supporter DNFT](https://thejollylama.github.io/DecentMa
 
 ## Supporter DNFT coins (Base + Optimism)
 
-**About → Support the Decent Series** now has a searchable one-edition rolodex,
+**About → DecentCanopy editions** has only Canopy's matching editions in a searchable one-edition rolodex,
 not an all-at-once token wall. Previous/Next, left/right arrow keys on the stage,
 horizontal trackpad scrolling and touch swipes browse it. Search matches project,
 description, metadata type/category, chain, version and `available`/`legacy`.
 Matched official release dates (or declared metadata release dates) order newest
 first; undated editions follow with no invented date or cross-chain token-ID
 chronology. Scan timestamps never determine release age.
-Share [the collection directly](https://thejollylama.github.io/DecentCanopy/?supporters=1)
+Share [Canopy's editions directly](https://thejollylama.github.io/DecentCanopy/?supporters=1)
 to open About at the rolodex without overlaying the first-visit tour. The
 [beginner tour link](https://thejollylama.github.io/DecentCanopy/?tour=1)
 explicitly reopens the five-step tour, including for returning visitors.
+
+The About **Buy one Canopy edition** button purchases token 79/listing 9 here,
+not in another site. Only clicking Buy requests a wallet: switch/add Base,
+recheck the exact frozen metadata, NFT, active stock and 10-USDC terms, approve
+exactly 10 USDC if necessary, then separately confirm one edition. Wallet changes,
+insufficient funds and changed terms stop the flow. A submitted purchase locks
+retries for this page session; receipt links and a matching escrow event distinguish
+confirmation from an uncertain submission. Approval alone is not a purchase.
+Reloading clears that UI lock: always inspect a submitted receipt before retrying.
+No token or payment is required to participate.
+
+For **all A Decent Series Supporters**, use
+[Market's Supporter DNFT Star, Canopy selected](https://thejollylama.github.io/DecentMarket/?supporters=1&chainId=8453&nftContract=0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B&tokenId=79).
+The selected purchase card opens above the series catalog; closing it reveals the
+other observed Base offerings. Unavailable reads are not successful listings.
+
+Reuse decision: About needs in-place checkout without changing the existing raw
+injected-wallet/ethers UMD header. Adapted Planning Office
+`js/supporter-checkout.js` at `940859b` (Apache-2.0), retaining explicit consent,
+exact allowance, context guards and receipt/event checks rather than importing its
+ES-module wallet session/progress-feed dependencies. Added exact frozen-URI checking.
+Model tests exercise approvals, rejected consent, changed price/account, failed
+receipts and event mismatch; the panel browser verifier covers About's scope,
+inline consent, narrow layouts and themed links. Matching sidepanel rolodexes and
+held-edition reads remain separate.
 
 Project, repository, and creator detail sidepanels use the same rolodex for
 their matching editions only. A blue/yellow/green glow, slow coin swivel and
