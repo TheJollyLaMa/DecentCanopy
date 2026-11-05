@@ -29,7 +29,7 @@ test('current brief separates merged local work, unmerged builds and financial c
   assert.match(html('big-nuten'), /not automatic cross-browser sync|does not provide automatic cross-browser sync/);
   assert.match(html('big-nuten'), /MERGED SOURCE/);
   assert.match(html('big-nuten'), /PLANNED \/ NOT DELIVERED/);
-  assert.match(html('pilgrimages'), /OPEN PR \/ NOT MERGED/);
+  assert.match(html('pilgrimages'), /PR #6 merged at 5b9d499/);
   assert.match(html('pilgrimages'), /35 contract\/offline, 44 UI and 6 Chromium/);
   assert.match(html('babel-bet'), /16 reported/);
   assert.match(html('babel-bet'), /No new game/);
@@ -87,6 +87,7 @@ test('Calendar has an explicit public repository without claiming a deployed app
   const calendar = fixture().projects.find(project => project.id === 'calendar');
   assert.equal(calendar.repo, 'TheJollyLaMa/DecentCalendar');
   assert.match(calendar.repositoryNote, /have not been verified/);
-  assert.match(calendar.currentState, /public committed preparation, not evidence of a published GitHub release/);
+  assert.match(calendar.currentState, /v0.1.0 is published from 27dbbec/);
+  assert.match(calendar.currentState, /publication is not evidence of a minted\/listed Supporter/);
   assert.ok(calendar.evidence.some(row => row.url === `https://github.com/${calendar.repo}`));
 });

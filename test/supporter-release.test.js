@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
-const HEAD_SHA = '2b87543db1ff5c44c720e5c7f782386bbd702bc1';
+const HEAD_SHA = '76b7e9443fdedea7872569a9583356b640a5c4d8';
 
 test('own About Supporter card remains unavailable without published evidence', () => {
   const html = read('index.html');
@@ -35,6 +35,7 @@ test('caller workflows use one immutable reviewed kit, exact root and approved t
   }
   const prepare = read('.github/workflows/supporter-release.yml');
   assert.match(prepare, /site_root: '\.'/);
+  assert.match(prepare, /preview_query: '\?canopy=agency'/);
   assert.match(prepare, /quantity: '1000'/);
   assert.match(prepare, /price_usdc: '10000000'/);
   assert.match(prepare, /vars.SUPPORTER_ENS_NAME/);
@@ -56,14 +57,20 @@ test('PR 58 adaptation preserves main BigNuten evidence and independent Canopy i
   assert.equal(canopy.ens, 'decentcanopy.eth');
 });
 
-test('all three upcoming previews remain pending and retain independent public evidence', () => {
+test('published previews and pending Canopy retain separate release versus mint evidence', () => {
   const data = JSON.parse(read('data/agency-map.json'));
   for (const id of ['calendar', 'pilgrimages', 'decent-canopy']) {
     const project = data.projects.find(row => row.id === id);
-    const preparation = project.updates.find(update => update.state === 'in-flight');
+    const preparation = project.updates.find(update => /beta\/preview/.test(`${update.label} ${update.detail}`));
     assert.ok(preparation);
     assert.match(`${preparation.label} ${preparation.detail}`, /beta\/preview/);
     assert.ok(preparation.evidence.some(item => item.url.includes(`/${project.repo}/commit/`)));
     assert.match(project.nextAction, /No new ENS name|No Canopy token/);
+  }
+  for (const id of ['calendar', 'pilgrimages']) {
+    const project = data.projects.find(row => row.id === id);
+    assert.ok(project.updates.some(update => update.evidence.some(item => item.url.endsWith('/releases/tag/v0.1.0'))));
+    assert.match(project.currentState, /preparation is running/);
+    assert.match(project.currentState, /no own minted\/listed Supporter|not evidence of a minted\/listed Supporter/);
   }
 });

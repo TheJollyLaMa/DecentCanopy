@@ -11,8 +11,9 @@ does not publish the release or authorize a mint.
   purchase unavailable** until reviewed public mint/listing evidence exists.
 - Immutable DecentHead prepare/announce workflow callers, explicit Base
   preparation terms of 1,000 editions at 10 USDC, and exact-tag static root `.`.
-- Current pending-release map entries for Calendar, Pilgrimages and Canopy,
-  without claiming any of those projects has minted or deployed an ENS site.
+- Calendar/Pilgrimages published v0.1.0 beta/preview entries and Canopy's
+  pending release entry, without claiming any of those projects has minted
+  or deployed an ENS site.
 - Preserved newest BigNuten live-edition evidence, with verified art-history
   provenance adapted from PR #58 rather than replacing newer main work.
 
@@ -26,8 +27,9 @@ Support is optional and is not ownership, yield or a financial-return promise.
 
 ## Before release / mint approval
 
-Review the exact-tag card preview: the default clean visit may show the tour,
-so capture the Agency view deliberately rather than approving an overlay.
+Review the exact-tag card preview: the pinned kit now captures the Agency view
+using validated `preview_query: '?canopy=agency'`, bypassing the first-visit
+tour without changing ordinary onboarding.
 Configure approved steward-controlled ENS/Discord settings, verify preparation
 artifacts, and require separate public mint/listing receipts before adding the
 existing validated Head buyer route. No new ENS name, token ID or listing ID

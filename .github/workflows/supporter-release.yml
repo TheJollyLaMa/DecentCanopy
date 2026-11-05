@@ -15,13 +15,14 @@ concurrency:
   cancel-in-progress: false
 jobs:
   prepare:
-    uses: TheJollyLaMa/DecentHead/.github/workflows/product-supporter-prepare.yml@2b87543db1ff5c44c720e5c7f782386bbd702bc1
+    uses: TheJollyLaMa/DecentHead/.github/workflows/product-supporter-prepare.yml@76b7e9443fdedea7872569a9583356b640a5c4d8
     with:
       tag: ${{ inputs.tag || github.event.release.tag_name }}
-      head_ref: 2b87543db1ff5c44c720e5c7f782386bbd702bc1
+      head_ref: 76b7e9443fdedea7872569a9583356b640a5c4d8
       product_name: DecentCanopy
       tagline: A living map of connected work
       site_root: '.'
+      preview_query: '?canopy=agency'
       quantity: '1000'
       price_usdc: '10000000'
       ens_name: ${{ vars.SUPPORTER_ENS_NAME }}

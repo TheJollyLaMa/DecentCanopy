@@ -65,7 +65,8 @@ existing reviewed mint/announcement path without duplicating signing code.
   `templates/supporter/supporter-release.yml`,
   `templates/supporter/supporter-announce.yml` and the reusable workflows.
   Adopted the parent's published static-root-compatible kit
-  **2b87543db1ff5c44c720e5c7f782386bbd702bc1** in both `uses` and `head_ref`.
+  **76b7e9443fdedea7872569a9583356b640a5c4d8** in both `uses` and `head_ref`
+  (includes static-root support from `2b87543` and validated preview queries).
   The shared kit owns rendering, exact-tag archives, manifests and announcements;
   Canopy does not extract another helper.
 - Inspected BigNuten `js/supporterToken.mjs`, especially
@@ -101,13 +102,13 @@ existing reviewed mint/announcement path without duplicating signing code.
   uses a clean Chromium context, reduced motion and a five-second settle.
   Canopy also loads CDN/browser assets and public data; inspect the actual
   preview for missing map data or network/script failures.
-- **Art gate:** a clean visit to `/` can open the first-visit tour. For a map
-  preview use `/?canopy=agency` (the Agency-ready event bypasses onboarding),
-  or dismiss the tour deliberately before capturing; do not change visitors'
-  onboarding just to render art. The pinned reusable workflow does not yet
-  expose a product URL/query input. Coordinate that kit capability with the
-  parent before dispatch or manually verify/correct art before mint approval.
-  Do not mint a tour overlay or call an uninspected screenshot approved.
+- **Art gate:** a clean visit to `/` can open the first-visit tour. The caller
+  now passes **`preview_query: '?canopy=agency'`** to the pinned shared kit:
+  the Agency-ready event bypasses onboarding without changing ordinary visitors.
+  The kit validates query-only syntax, cannot replace the local preview origin
+  or selected static path, and records the query in artwork provenance.
+  The routing blocker is fixed; the exact-tag screenshot must still be inspected
+  before mint approval. Do not mint missing data or an uninspected screenshot.
 
 ## Workflow and configuration gates (#34 remains open)
 
@@ -116,9 +117,11 @@ tag dispatch. It passes `1000`, `10000000` and root `'.'`; no transaction key
 is present. `supporter-announce.yml` calls the same immutable Head kit and
 remains gated on `vars.SUPPORTER_DISCORD_ENABLED == 'true'`.
 
-Cross-project coordination update (2026-11-05): Calendar's public readiness
-commit `f4a03dc` and Pilgrimages `28567d7` are preparing their own v0.1.0
-beta/previews, not minted editions. The parent reports Pinata privately
+Cross-project coordination update (2026-11-05): Calendar v0.1.0 is published
+from `27dbbecffa89ca4091ebef3478ad0b1a6ddd69f8`; Pilgrimages PR #6 is merged
+at `5b9d499a4197433b132212f306c88337146ff7f6` and its v0.1.0 is published
+at that commit. Both are regular GitHub releases labeled beta/preview, with
+Supporter preparation running, **not minted editions**. The parent reports Pinata privately
 configured and verified for both repositories; no secret values were accessed
 here. Their separate app roots remain `decent-calendar-vanilla/` and `public/`.
 Office `ad034c1` observes all three projects among 19, with receipt gates;
@@ -192,8 +195,22 @@ v3.3.0 release and verified to preserve old/new CIDs for token 76, unchanged
 supply/price/listing and the recorded URI-update transaction. Beneficial change
 adapted: add that art-history evidence to **main's existing** live update, keep
 #416/#417 links, ENS and token/listing terms, and add independent regression
-coverage. Remaining broad inventory rewrite explicitly deferred. PR stays
-open for owner reconciliation; do not auto-close it as merged.
+coverage. The broad older inventory rewrite is deliberately not adopted.
+**Recommended disposition: parent may close PR #58 as superseded, not merged,
+after integrating this release-readiness branch.** There is no remaining
+release dependency in that PR; a future BigNuten inventory refresh should use
+current evidence rather than the older wholesale card. Until the verified
+art-history adaptation is integrated, keep the PR open.
+
+Recommended public comment (not posted by this task):
+
+> Superseded by main's live BigNuten v3.3.0 update (2ccb65c) and the selective
+> release-readiness adaptation. We preserved token 76 / escrow listing 6 /
+> 10 USDC, bignuten.decentagency.eth and existing #416/#417 evidence, and
+> verified and retained the published supporter-art-refresh.json history.
+> The older wholesale inventory rewrite and time-sensitive issue-count claims
+> are intentionally not merged. Closing as superseded after that adaptation
+> lands; no token, listing or financial integration is recreated by this.
 
 ## Every remote branch and cached tracking ref
 
