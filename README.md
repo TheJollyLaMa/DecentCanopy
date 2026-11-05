@@ -4,7 +4,9 @@
 
 The About dialog now distinguishes **DecentCanopy's own edition (purchase unavailable)**
 from the map's inventory of other projects' tokens. Proposed first tag: **v0.1.0**;
-planned terms: **1,000 editions, 10 USDC each on Base**. Nothing has been minted,
+planned terms: **1,000 editions, 10 USDC each on Base**. This is a regular-release
+candidate labeled **beta / preview**; [draft release notes](wiki/Release-Notes-v0.1.0.md)
+are ready for review. Nothing has been minted,
 listed, deployed or announced by this preparation change.
 
 See [Supporter release readiness and outstanding-work dispositions](wiki/Supporter-Release.md)

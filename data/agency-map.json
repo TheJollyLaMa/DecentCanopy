@@ -118,7 +118,10 @@
     },
     {
       "id": "decent-canopy",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-05",
+      "updates": [
+        {"state": "in-flight", "label": "First versioned Supporter preview is preparing", "detail": "Release-readiness branch proposes v0.1.0 as a beta/preview release with 1,000 editions at 10 USDC on Base. About keeps purchase unavailable; pinned Head prepare/announce callers do not mint. Release, reviewed art, public mint/listing receipts and ENS/announcement gates remain pending. No new ENS name, token or listing ID is assigned.", "evidence": [{"label": "Committed release-readiness implementation", "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/b8a8931b2bc2d443040d72e6a9731d919174ef2f"}, {"label": "Open Supporter adoption #34", "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/34"}]}
+      ],
       "name": "DecentCanopy",
       "ens": "decentcanopy.eth",
       "focus": "now",
@@ -1328,16 +1331,16 @@
     },
     {
       "id": "pilgrimages",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-05",
       "updates": [
-        {"state": "in-flight", "label": "Base V1 build is open for review", "detail": "PR #6 reports 56 receiving tests and guided shared-Head/atlas/radio integration. Legacy obligations are unresolved; no deployment, fund movement or payroll/helper activation is claimed.", "evidence": [{"label": "Unmerged Base V1 PR #6", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/pull/6"}]},
+        {"state": "in-flight", "label": "Base V1 and Supporter preview are preparing", "detail": "The release-readiness branch includes open PR #6 plus public-only site, attribution and unavailable About support state. The worker reports 35 contract/offline, 44 UI and 6 Chromium checks passing. Proposed v0.1.0 is a beta/preview, not a released or minted edition. No deployment, fund movement or payroll/helper activation is claimed.", "evidence": [{"label": "Unmerged Base V1 PR #6", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/pull/6"}, {"label": "Public release-readiness and attribution commit", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/commit/28567d7643c6db385f2118b324ebb8f1961a5a0f"}]},
         {"state": "planned", "label": "Overseer and migration gate", "detail": "Organizer approval, not browser location, controls rewards. Review source, accounting and development advisories before approving any Base deployment.", "evidence": [{"label": "V1 acceptance #5", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/5"}]}
       ],
       "name": "DecentPilgrimages",
       "focus": "next",
       "repo": "TheJollyLaMa/DecentPilgrimages",
       "purpose": "Purposeful journeys, local welcome and organizer-approved sponsored rewards; selected for a first-version build on Base.",
-      "nextAction": "Deliver the steward-selected Base V1 through contract, experience and contributor-operations workers with an integration overseer. Browser location is optional guidance; organizer approval controls rewards. Preserve legacy obligations and require explicit deployment, payroll and assistant activation gates.",
+      "nextAction": "Review the prepared v0.1.0 beta/preview branch and PR #6 before an explicitly approved release; verify public mint/listing receipts before enabling a Supporter buyer route. Browser location is optional guidance; organizer approval controls rewards. Preserve legacy obligations and require explicit deployment, payroll and assistant activation gates. No new ENS name is assigned.",
       "evidence": [
         { "label": "Base contract worker and acceptance", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/2" },
         { "label": "Shared Decent experience worker", "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/3" },
@@ -1346,10 +1349,10 @@
       ],
       "reviewNote": "Public committed source inspected 2026-10-20 at 7b97c4ae. Not executed, deployment-verified, or integration-tested in this review.",
       "reviewCaveats": [
-        "No automated test cases were found; package.json's test script exits with 'no test specified'. Reviewer suggestion: add tests for whitelist authorization, sponsor accounting, claim/recovery, and token transfer behavior.",
+        "The 2026-10-20 legacy review found placeholder tests; that observation is historical, not the current release-readiness branch. New worker-reported checks do not prove deployed contract acceptance or resolve legacy obligations.",
         "Claiming is whitelist-gated, and token transfer behavior depends on the selected ERC-20 token."
       ],
-      "currentState": "Base V1 implementation is in open PR #6, deliberately unmerged for review. It reports 56 receiving contract/UI/helper/payroll/radio tests, versioned artifacts, shared Head and a guided atlas. This supersedes the old placeholder-test picture for that branch, not main. No Base contract deployment, legacy migration, funds, payroll activation or live assistant request is claimed; development-toolchain advisories remain a review gate.",
+      "currentState": "Base V1 remains in open PR #6; the separate feat/supporter-release branch includes that implementation and pending v0.1.0 beta/preview readiness. Public site root is public/ only, with project attribution and an unavailable Supporter About state. The worker reports 35 contract/offline, 44 UI and 6 Chromium checks passing. No GitHub release or own minted/listed Supporter is established here. No Base deployment, legacy migration, funds, payroll activation or live assistant request is claimed.",
       "offers": [
         {
           "id": "decentpilgrimages-sponsored-location-rewards",
@@ -1758,10 +1761,13 @@
       "id": "calendar",
       "name": "DecentCalendar",
       "repo": "TheJollyLaMa/DecentCalendar",
-      "reviewedAt": "2026-11-03",
-      "purpose": "Paid time, presence and knowledge exchange; public blueprint only.",
-      "currentState": "The Planning Office has an approved public DecentCalendar blueprint and map/provenance jobs #15-17. This map does not read or publish private implementation or infer a standalone released dapp.",
-      "nextAction": "Work from the approved public job board and source-provenance acceptance before raising delivered structures.",
+      "reviewedAt": "2026-11-05",
+      "purpose": "Paid time, presence and knowledge exchange; public beta/preview release preparation.",
+      "currentState": "Public release/calendar-supporter-readiness branch prepares a v0.1.0 beta/preview with an honest unavailable Supporter About state and pinned shared Head workflows. The static app root is decent-calendar-vanilla/. This is public committed preparation, not evidence of a published GitHub release, minted/listed Supporter, live settlement or deployed ENS site.",
+      "nextAction": "Review the public readiness branch and followup before the approved v0.1.0 beta/preview release. Require exact-tag art review and public mint/listing receipts before enabling support purchases; configure ENS/announcement only with approved steward-controlled names. No new ENS name is assigned.",
+      "updates": [
+        {"state": "in-flight", "label": "First Supporter beta/preview is preparing", "detail": "Public preparation commit adds the unavailable About state and Head callers rooted at decent-calendar-vanilla/. Proposed terms are 1,000 editions at 10 USDC on Base; no token or listing ID is assigned. Office observation is not a mint receipt.", "evidence": [{"label": "Public Calendar readiness commit", "url": "https://github.com/TheJollyLaMa/DecentCalendar/commit/f4a03dc1f46aab29596aa5f745aede00ac9eea4c"}]}
+      ],
       "evidence": [{"label": "Public repository identity", "url": "https://github.com/TheJollyLaMa/DecentCalendar"}, {"label": "Public blueprint", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/15"}, {"label": "Public map and provenance acceptance", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/17"}],
       "repositoryNote": "Public repository identity confirmed; implementation, deployment and settlement behavior have not been verified by this review."
     },

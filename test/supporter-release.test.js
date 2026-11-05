@@ -55,3 +55,15 @@ test('PR 58 adaptation preserves main BigNuten evidence and independent Canopy i
   assert.match(canopy.nextAction, /No Canopy token or listing ID is assigned/);
   assert.equal(canopy.ens, 'decentcanopy.eth');
 });
+
+test('all three upcoming previews remain pending and retain independent public evidence', () => {
+  const data = JSON.parse(read('data/agency-map.json'));
+  for (const id of ['calendar', 'pilgrimages', 'decent-canopy']) {
+    const project = data.projects.find(row => row.id === id);
+    const preparation = project.updates.find(update => update.state === 'in-flight');
+    assert.ok(preparation);
+    assert.match(`${preparation.label} ${preparation.detail}`, /beta\/preview/);
+    assert.ok(preparation.evidence.some(item => item.url.includes(`/${project.repo}/commit/`)));
+    assert.match(project.nextAction, /No new ENS name|No Canopy token/);
+  }
+});

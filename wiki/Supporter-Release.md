@@ -4,7 +4,9 @@
 
 Audit date: 2026-11-05. Receiving app: DecentCanopy, independently of Calendar,
 Pilgrimages, Head, Market or BigNuten. Recommended first tag: **v0.1.0**, an early
-version, not a claim that the platform/ArtFi roadmap is complete. No published
+version, not a claim that the platform/ArtFi roadmap is complete. Recommend a
+regular GitHub release visibly labeled **beta / preview**;
+[draft release notes](Release-Notes-v0.1.0.md) are ready for owner review. No published
 GitHub releases or local version tags were returned during this audit.
 
 Work is based on fetched `origin/main` **fa3dd5366810184c9c15cc8915a5ac02e0fe6075**
@@ -75,7 +77,7 @@ existing reviewed mint/announcement path without duplicating signing code.
 - Receiving-app acceptance: About cannot offer a purchase before evidence;
   caller pins match and terms/root are explicit; BigNuten's latest live state
   is preserved. `test/supporter-release.test.js` passes, along with the full
-  **301-test** Node suite.
+  **302-test** Node suite.
 
 ## Exact app root, rendering and publication
 
@@ -113,6 +115,14 @@ New `supporter-release.yml` calls prepare for a published release or explicit
 tag dispatch. It passes `1000`, `10000000` and root `'.'`; no transaction key
 is present. `supporter-announce.yml` calls the same immutable Head kit and
 remains gated on `vars.SUPPORTER_DISCORD_ENABLED == 'true'`.
+
+Cross-project coordination update (2026-11-05): Calendar's public readiness
+commit `f4a03dc` and Pilgrimages `28567d7` are preparing their own v0.1.0
+beta/previews, not minted editions. The parent reports Pinata privately
+configured and verified for both repositories; no secret values were accessed
+here. Their separate app roots remain `decent-calendar-vanilla/` and `public/`.
+Office `ad034c1` observes all three projects among 19, with receipt gates;
+observation is not mint/listing evidence. No new ENS names are assumed.
 
 Names only were inspected with `gh secret list` / `gh variable list`:
 `PINATA_JWT` exists; `DISCORD_SUPPORTER_WEBHOOK` and repository ENS variables
@@ -239,7 +249,8 @@ Unique deferred patches are not release dependencies.
 ## Validation and limitations
 
 - Targeted release/map/community/inventory/site-pinning run: **53 passed**.
-- Full `node --test test/*.test.js test/*.test.mjs`: **301 passed**.
+- Full `node --test test/*.test.js test/*.test.mjs`: **302 passed** after the
+  coordinated pending-preview map followup (initial readiness run: 301).
 - Restored existing relay dependencies with `npm ci --prefix relay --omit=dev`
   only after the full suite reported missing `ethers`; audit reported no
   vulnerabilities. No manifest changes.
