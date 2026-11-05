@@ -2178,10 +2178,8 @@
       "evidence":[{"label":"Busking game proposal #243","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/243"},{"label":"Voyager integration pointers","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/243#issuecomment-6670391716"},{"label":"Shipped game core","url":"https://github.com/TheJollyLaMa/DecentVoyager/blob/c6ae584/src/js/game.js"}]
     },
     {
-      "source":"asteroid","target":"planning-office","type":"capability-match","state":"proposed",
-      "offer":"ast-game",
-      "note":"A Planning Office-themed Voyager clone can launch from an explicit rocket at the end of the one-way track. The tower/Supporter edition display is separate from playable widget adoption.",
-      "nextTest":"Implement lifecycle-safe guest overlay and restore the Office endpoint, selection, camera and focus on exit; gate wallet actions until replay identity and funded reward acceptance are verified.",
+      "source":"asteroid","target":"planning-office","type":"could-integrate","state":"proposed",
+      "note":"A Planning Office-themed Voyager clone can launch from an explicit rocket at the end of the one-way track. The tower/Supporter edition display is separate from playable widget adoption. Test lifecycle-safe guest overlay and restoration of endpoint, selection, camera and focus; gate wallet actions until replay identity and funded reward acceptance are verified.",
       "evidence":[{"label":"Office DVoyager widget request #20","url":"https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20"}]
     },
     {
