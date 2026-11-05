@@ -379,3 +379,25 @@ test('creator project cards have collapsed artwork summaries, websites, and owne
   assert.doesNotMatch(visitorHtml, /data-creator-project-edit|data-creator-open/);
   assert.match(visitorHtml, /Project website/);
 });
+test('Planning Office replaces only Jolly creator sidepanel, never another profile or signed/editor project data', () => {
+  const h = harness();
+  vm.runInNewContext(fs.readFileSync(require.resolve('../scripts/planning-office.js'), 'utf8'), {
+    window: h.window, URL,
+  });
+  const record = {
+    wallet: '0x807061df657a7697c04045da7d16d941861caabc', revision: 1, updatedAt: '2026-11-05',
+    name: 'Jolly', projects: [{ key: 'old', name: 'Old project', status: 'active', description: 'Kept signed' }],
+    funds: [], funding: [], journey: [],
+  };
+  const before = JSON.stringify(record), escape = value => String(value);
+  const html = h.window.DecentCreators.renderDetails({ kind: 'creator', creatorRecord: record }, escape);
+  assert.match(html, /data-jolly-planning/);
+  assert.doesNotMatch(html, /creator-project-list/);
+  const other = h.window.DecentCreators.renderDetails({ kind: 'creator', creatorRecord: { ...record, wallet } }, escape);
+  assert.doesNotMatch(other, /data-jolly-planning/);
+  assert.match(other, /Old project/);
+  const project = h.window.DecentCreators.renderDetails({ kind: 'project', creatorRecord: record, creatorProjectKey: 'old' }, escape);
+  assert.doesNotMatch(project, /data-jolly-planning/);
+  assert.match(project, /Progress: active/);
+  assert.equal(JSON.stringify(record), before);
+});

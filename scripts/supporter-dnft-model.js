@@ -49,10 +49,18 @@
     return matches.map(c => ({ repo: c.repo, name: c.name, ...(c.aliases?.length ? { aliases: c.aliases } : {}), matchedBy: explicit.length ? 'properties.project' : 'name/description' }));
   }
   function tokenKey(token) { return `${token.chainId}:${token.contract.toLowerCase()}:${token.tokenId}`; }
+  function checkoutSupported(token, listing) {
+    const config = CHAINS[8453];
+    return token.chainId === 8453 && token.contract.toLowerCase() === config.nft.toLowerCase()
+      && listing?.active && BigInt(listing.available) > 0n && listing.priceETH === '0'
+      && listing.priceToken.toLowerCase() === config.usdc.toLowerCase()
+      && ['10000000', '100000000'].includes(listing.priceAmount);
+  }
   function listingUrl(token, listing) {
-    const u = new URL(listing ? 'supporter/buy.html' : '', MARKET);
-    u.search = new URLSearchParams(listing
-      ? { chainId: token.chainId, escrow: CHAINS[token.chainId].escrow, listingId: listing.id }
+    const buy = listing && checkoutSupported(token, listing);
+    const u = new URL(buy ? 'supporter/buy.html' : '', MARKET);
+    u.search = new URLSearchParams(buy
+      ? { chainId: token.chainId, escrow: CHAINS[token.chainId].escrow, listingId: listing.id, priceUSDC: listing.priceAmount }
       : { chainId: token.chainId, nftContract: token.contract, tokenId: token.tokenId }).toString();
     return u.href;
   }
@@ -65,6 +73,63 @@
       for (const github of t.creatorGithub || []) add(byCreator, `github:${github.toLowerCase()}`, t.id);
     }
     return { byProject, byCreator };
+  }
+  function releaseDate(token, activity) {
+    const row = activity?.repositories?.find(row => {
+      const s = row.release?.supporter;
+      return row.status !== 'unavailable' && s && s.chainId === token.chainId && s.contract.toLowerCase() === token.contract.toLowerCase()
+        && s.tokenId === token.tokenId && mediaUrl(s.metadataURI) === mediaUrl(token.metadataUri);
+    });
+    const date = row?.release?.publishedAt || token.properties?.release_date;
+    return typeof date === 'string' && Number.isFinite(Date.parse(date)) ? Date.parse(date) : 0;
+  }
+  function selectTokens(tokens, query = '', activity) {
+    const terms = words(query).split(' ').filter(Boolean);
+    return tokens.filter(token => {
+      const text = words([token.name, token.description, CHAINS[token.chainId].name, token.tokenId,
+        token.listings.some(l => checkoutSupported(token, l)) ? 'available purchase listed' : 'legacy unavailable checkout',
+        ...token.projects.flatMap(p => [p.name, p.repo, ...(p.aliases || [])]),
+        ...['type', 'category', 'version'].map(k => token.properties?.[k])].join(' '));
+      return terms.every(term => text.includes(term));
+    }).slice().sort((a, b) => releaseDate(b, activity) - releaseDate(a, activity)
+      || (a.chainId === b.chainId && a.contract.toLowerCase() === b.contract.toLowerCase()
+        ? (BigInt(a.tokenId) < BigInt(b.tokenId) ? 1 : BigInt(a.tokenId) > BigInt(b.tokenId) ? -1 : 0)
+        : a.id.localeCompare(b.id)));
+  }
+  async function readHoldings(data, wallet, ethers) {
+    validateSnapshot(data);
+    if (!address(wallet)) throw new Error('A valid public wallet is required to read Supporter holdings.');
+    if (!ethers?.JsonRpcProvider || !ethers?.Contract) throw new Error('Wallet balance reader unavailable. Reload or retry.');
+    const groups = new Map(), holdings = [], errors = [], observations = [];
+    for (const token of data.tokens) {
+      const key = `${token.chainId}:${token.contract.toLowerCase()}`;
+      if (!groups.has(key)) groups.set(key, []);
+      groups.get(key).push(token);
+    }
+    for (const tokens of groups.values()) {
+      const { chainId, contract } = tokens[0], config = CHAINS[chainId];
+      let success = false;
+      for (const url of config.rpcs) {
+        const request = new ethers.FetchRequest(url); request.timeout = 12000;
+        const provider = new ethers.JsonRpcProvider(request, undefined, { batchMaxCount: 1 });
+        try {
+          if ((await provider.getNetwork()).chainId !== BigInt(chainId)) throw new Error('Wrong balance network');
+          const block = await provider.getBlockNumber();
+          const nft = new ethers.Contract(contract, ['function balanceOfBatch(address[],uint256[]) view returns (uint256[])'], provider);
+          const result = [];
+          for (let offset = 0; offset < tokens.length; offset += 64) {
+            const batch = tokens.slice(offset, offset + 64);
+            const balances = await nft.balanceOfBatch(batch.map(() => wallet), batch.map(t => t.tokenId), { blockTag: block });
+            if (balances.length !== batch.length || balances.some(n => typeof n !== 'bigint' || n < 0n)) throw new Error('Invalid balance response');
+            batch.forEach((token, i) => { if (balances[i] > 0n) result.push({ token, quantity: String(balances[i]), block }); });
+          }
+          holdings.push(...result); observations.push({ chainId, contract, block }); success = true; break;
+        } catch { /* Retry this contract on the next configured public RPC; failed groups remain explicitly unknown. */ }
+        finally { provider.destroy(); }
+      }
+      if (!success) errors.push(`${config.name} ${contract}: balances unavailable; not zero.`);
+    }
+    return { wallet: wallet.toLowerCase(), holdings, errors, observations, checkedAt: new Date().toISOString() };
   }
   function validateSnapshot(data) {
     if (data?.version !== 1 || !Array.isArray(data.tokens) || !data.chains || typeof data.generatedAt !== 'string' || !Number.isFinite(Date.parse(data.generatedAt))) throw new Error('Invalid Supporter DNFT snapshot');
@@ -83,7 +148,7 @@
     for (const key of ['byProject', 'byCreator']) if (JSON.stringify(data[key]) !== JSON.stringify(indices[key])) throw new Error(`Invalid ${key} index`);
     return data;
   }
-  const api = { MARKET, CHAINS, address, httpsUrl, mediaUrl, normalizeRepo, mentions, isSupporter, matchProjects, tokenKey, listingUrl, indexTokens, validateSnapshot };
+  const api = { MARKET, CHAINS, address, httpsUrl, mediaUrl, normalizeRepo, mentions, isSupporter, matchProjects, tokenKey, listingUrl, checkoutSupported, indexTokens, validateSnapshot, releaseDate, selectTokens, readHoldings };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.CanopySupporterModel = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));

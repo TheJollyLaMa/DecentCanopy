@@ -829,14 +829,74 @@ Support the work with a [Supporter DNFT](https://thejollylama.github.io/DecentMa
 
 ## Supporter DNFT coins (Base + Optimism)
 
-Project, repository, and creator detail sidepanels show small Supporter DNFT coins;
-click/tap a coin (or use the keyboard) to expand its edition supply/minted count,
+**About → Support the Decent Series** now has a searchable one-edition rolodex,
+not an all-at-once token wall. Previous/Next, left/right arrow keys on the stage,
+horizontal trackpad scrolling and touch swipes browse it. Search matches project,
+description, metadata type/category, chain, version and `available`/`legacy`.
+Matched official release dates (or declared metadata release dates) order newest
+first; undated editions follow with no invented date or cross-chain token-ID
+chronology. Scan timestamps never determine release age.
+Share [the collection directly](https://thejollylama.github.io/DecentCanopy/?supporters=1)
+to open About at the rolodex without overlaying the first-visit tour. The
+[beginner tour link](https://thejollylama.github.io/DecentCanopy/?tour=1)
+explicitly reopens the five-step tour, including for returning visitors.
+
+Project, repository, and creator detail sidepanels use the same rolodex for
+their matching editions only. A blue/yellow/green glow, slow coin swivel and
+sparkles distinguish the editions; reduced-motion preferences keep static glow.
+Click/tap the summary (or use the keyboard) to expand its supply/minted count,
 last-observed price/stock, creator wallet, chain, contract/token ID, metadata claims,
 and DecentMarket / explorer links. Missing/broken artwork falls back to initials.
+The current external checkout supports the deployed Base NFT's 10/100-USDC
+listings only. Links carry the actual observed `priceUSDC` (including Busking's
+100-USDC edition), which checkout rechecks. Historical Optimism editions and
+unsupported currencies/collections remain discoverable with explicit no-checkout
+states, not misleading buy links.
 These are cached public-ledger observations, **not ownership verification or a live
 price quote**. Creator matches use the contract's `creatorOf`, not token ownership
 or inferred GitHub repository ownership. A project panel never inherits every
 Supporter DNFT belonging to its steward.
+
+### Owned editions and Jolly's Planning Office
+
+A separate **held editions** section appears below the matching rolodex. On a
+creator panel it reads that creator's public wallet; on project/repository panels
+it reads the connected viewer's wallet, filtered to that project. **Check / refresh
+holdings** requests read-only ERC-1155 `balanceOfBatch` calls on the configured
+Base/Optimism RPCs (up to 64 IDs per batch), pins reads to a block and verifies the
+network. It never requests a signature, wallet switch, allowance or payment.
+Quantities, block numbers, wallet and timestamp are shown. Holdings include
+gifts/transfers and creator-retained units; they are **not purchase history**.
+No wallet balance is inferred from escrow stock or `creatorOf`. Refresh after a
+purchase/transfer. Account changes clear prior results; late responses cannot
+replace a newer wallet's view. Failed contract groups remain explicitly unknown,
+not zero, while successful groups remain visible. Discovery covers only the
+known contract/escrow inventory: a complete zero read is not proof of no other
+Supporter holdings, especially when registry/metadata discovery is incomplete.
+Public RPC operators can observe these explicit wallet queries; results are not
+stored in the creator record or published as a new snapshot.
+
+Only the exact Jolly creator wallet
+`0x807061df657a7697c04045da7d16d941861caabc` has its read-only **Projects going
+forward** sidepanel replaced by the Planning Office mirror. It combines the
+existing public Canopy agency registry with the Office's public
+`data/progress.json` and privacy-filtered `data/project.json`: public project
+statuses/horizons, curated current/next steps, issue milestones, board jobs and
+links to the corresponding Office sites. Source timestamps, incomplete source
+reads and closure-not-delivery caveats remain visible. This is a fetched
+representation, not an edit to Jolly's signed profile, a private-board export,
+or synchronization of everybody's projects. Other creators and project editors
+remain unchanged; unavailable feeds show an error, retry and direct Office link.
+
+Reuse decision: adapt the existing `scripts/supporter-dnfts.js` /
+`scripts/supporter-dnft-model.js` inventory, matching and safe text-node cards;
+consume the public Planning Office feed and canonical `?site=` address protocol
+at Office commit `940859b`, rather than copy its private source board or rebuild
+its city. Ethers v6 is already loaded by Canopy. No new package, indexer, escrow
+contract or automatic purchase-history claim is added. Receiving-app validation:
+`node --test test/*.test.js` and `scripts/verify-supporter-panels.mjs`
+(`CANOPY_URL`, `PLAYWRIGHT_MODULE`, optional `SCREENSHOT_DIR`), including narrow
+layouts, search, one-card output, reduced motion and wallet-change races.
 
 `data/supporter-dnfts.json` is a version-1 snapshot with `tokens`, `byProject`
 (normalized `owner/repo`), `byCreator` (wallet, or self-declared `github:login` when

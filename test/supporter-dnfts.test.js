@@ -15,8 +15,9 @@ function fixture() {
 }
 function ui(data = fixture(), failure = false, extras = {}) {
   class Element {
-    constructor(tag) { this.tagName = tag; this.children = []; this.attributes = {}; this.listeners = {}; this.isConnected = true; }
+    constructor(tag) { this.tagName = tag; this.children = []; this.attributes = {}; this.listeners = {}; this.isConnected = true; this.value = ''; this.dataset = {}; }
     append(...nodes) { this.children.push(...nodes); }
+    replaceChildren(...nodes) { this.children = nodes; }
     setAttribute(key, value) { this.attributes[key] = value; }
     addEventListener(name, listener) { this.listeners[name] = listener; }
     querySelector() { return null; }

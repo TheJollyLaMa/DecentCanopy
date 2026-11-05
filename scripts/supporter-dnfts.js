@@ -1,6 +1,7 @@
 (function (root) {
   'use strict';
   const model = root.CanopySupporterModel;
+  const ownedViews = new Map();
   let snapshot, loadedAt = 0;
   function load() {
     if (!snapshot || Date.now() - loadedAt > 60000) {
@@ -70,6 +71,15 @@
     const chain = model.CHAINS[token.chainId];
     const stale = token.stale || data.chains[token.chainId].status !== 'ok';
     content.append(element('p', `${chain.name} · Minted ${token.totalMinted ?? 'unknown'} / ${token.maxSupply === '0' ? 'uncapped' : token.maxSupply ?? 'unknown'} editions`));
+    const date = model.releaseDate(token, root.CanopyRepositoryActivityUI?.getData());
+    content.append(element('p', date ? `Release date: ${new Date(date).toISOString().slice(0, 10)} (published evidence / metadata)` : 'Release date unknown; not sorted by scan timestamp.', 'details-muted'));
+    const offers = token.listings.filter(l => l.active && BigInt(l.available) > 0n);
+    for (const offer of offers) {
+      content.append(element('p', `${offer.price} ${offer.currency}${offer.currency !== 'ETH' && offer.ethPrice && offer.priceETH !== '0' ? ` / ${offer.ethPrice} ETH` : ''} · ${offer.available} available · Listing #${offer.id}${stale ? ' (last observed; recheck before supporting)' : ''}`));
+      if (model.checkoutSupported(token, offer)) content.append(link(model.listingUrl(token, offer), 'Support on DecentMarket ↗'));
+      else content.append(element('p', 'This observed listing is not supported by the current Base USDC checkout. View its chain/contract evidence; no purchase link invented.', 'details-muted'));
+    }
+    if (!offers.length) content.append(element('p', 'No available escrow listing observed.'));
     if (token.description) content.append(element('p', token.description));
     if (token.metadataStatus && token.metadataStatus !== 'ok') content.append(element('p', `Token metadata ${token.metadataStatus}; name/artwork may come from a prior snapshot or the on-chain listing note.`, 'details-muted'));
     if (mirror) {
@@ -96,12 +106,6 @@
     }
     content.append(element('p', `Contract: ${token.contract} · Token ID: ${token.tokenId}`, 'supporter-token-address'));
     if (token.creator) content.append(element('p', `Creator wallet: ${token.creator}`, 'supporter-token-address'));
-    const offers = token.listings.filter(l => l.active && BigInt(l.available) > 0n);
-    for (const offer of offers) {
-      content.append(element('p', `${offer.price} ${offer.currency}${offer.currency !== 'ETH' && offer.ethPrice && offer.priceETH !== '0' ? ` / ${offer.ethPrice} ETH` : ''} · ${offer.available} available · Listing #${offer.id}${stale ? ' (last observed; recheck before supporting)' : ''}`));
-      content.append(link(model.listingUrl(token, offer), 'Support on DecentMarket ↗'));
-    }
-    if (!offers.length) content.append(element('p', 'No available escrow listing observed.'));
     content.append(link(model.listingUrl(token), 'View on DecentMarket ↗'), document.createTextNode(' · '), link(`${chain.explorer}/token/${token.contract}?a=${token.tokenId}`, 'Block explorer ↗'));
     if (offers.length) content.append(element('p', 'Opens the public buyer page for this chain, escrow and listing. It rechecks the listing before any wallet purchase. Availability and price may have changed.', 'details-muted'));
     if (token.projects.length) content.append(element('p', `Project match: ${token.projects.map(p => `${p.repo} (${p.matchedBy})`).join(', ')}. Metadata is a discovery claim, not verified project ownership.`, 'details-muted'));
@@ -123,9 +127,117 @@
     item.append(content);
     return item;
   }
+  function rolodex(container, tokens, data) {
+    const controls = element('div', undefined, 'supporter-controls');
+    const label = element('label', 'Find a Supporter edition');
+    const search = element('input');
+    search.type = 'search'; search.placeholder = 'Project, type, chain or version'; label.append(search);
+    const prev = element('button', 'Previous'), next = element('button', 'Next');
+    prev.type = next.type = 'button';
+    prev.className = next.className = 'toolbar-btn';
+    const position = element('p', '', 'details-muted');
+    position.setAttribute('role', 'status');
+    const stage = element('div', undefined, 'supporter-rolodex-stage');
+    stage.tabIndex = 0; stage.setAttribute('aria-label', 'Supporter rolodex; use left and right arrows to browse');
+    let selected = 0, visible = [];
+    function render() {
+      visible = model.selectTokens(tokens, search.value, root.CanopyRepositoryActivityUI?.getData());
+      selected = Math.min(selected, Math.max(0, visible.length - 1));
+      prev.disabled = selected === 0; next.disabled = selected >= visible.length - 1;
+      position.textContent = visible.length ? `${selected + 1} of ${visible.length} · newest known releases first; undated editions follow` : 'No matching Supporter editions.';
+      stage.replaceChildren();
+      if (visible.length) {
+        const token = visible[selected], item = card(token, data);
+        item.open = true; stage.append(item);
+      }
+    }
+    function move(delta) { selected = Math.max(0, Math.min(visible.length - 1, selected + delta)); render(); }
+    search.addEventListener('input', () => { selected = 0; render(); });
+    prev.addEventListener('click', () => move(-1)); next.addEventListener('click', () => move(1));
+    stage.addEventListener('keydown', event => {
+      if (event.target !== stage || !['ArrowLeft', 'ArrowRight'].includes(event.key)) return;
+      event.preventDefault(); move(event.key === 'ArrowRight' ? 1 : -1);
+    });
+    let wheelAt = 0, touchX = null;
+    stage.addEventListener('wheel', event => {
+      if (Math.abs(event.deltaX) < 15 || Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
+      event.preventDefault();
+      if (Date.now() - wheelAt > 250) { wheelAt = Date.now(); move(Math.sign(event.deltaX)); }
+    }, { passive: false });
+    stage.addEventListener('touchstart', event => { touchX = event.touches[0]?.clientX ?? null; }, { passive: true });
+    stage.addEventListener('touchend', event => {
+      const end = event.changedTouches[0]?.clientX;
+      if (touchX !== null && end !== undefined && Math.abs(end - touchX) > 60) move(end < touchX ? 1 : -1);
+      touchX = null;
+    });
+    controls.append(label, prev, next, position);
+    container.append(controls, stage); render();
+  }
+  function mountOwned(container, data, node) {
+    const section = element('section', undefined, 'details-group supporter-owned');
+    section.setAttribute('data-supporter-owned', '');
+    section.append(element('h3', node.kind === 'creator' ? 'Supporter editions held by this creator' : 'Your Supporter editions for this project'));
+    section.append(element('p', 'Current wallet holdings, not purchase history: gifts/transfers may be included. Read-only public RPC queries; no signature or payment. Coverage is limited to this known inventory.', 'details-muted'));
+    const status = element('p', '', 'details-muted'), refresh = element('button', 'Check / refresh holdings', 'toolbar-btn'), results = element('div');
+    status.setAttribute('role', 'status'); refresh.type = 'button';
+    section.append(status, refresh, results); container.append(section);
+    let generation = 0;
+    async function check() {
+      const request = ++generation;
+      results.replaceChildren();
+      const wallet = node.kind === 'creator' ? node.creatorRecord?.wallet || node.wallet || node.address : root.decentCanopyWallet?.address;
+      if (!model.address(wallet)) { status.textContent = 'Connect a wallet to see your holdings. No ownership inferred from creator or escrow stock.'; refresh.disabled = false; return; }
+      refresh.disabled = true; status.textContent = `Reading balances for ${wallet}…`;
+      try {
+        const result = await model.readHoldings(data, wallet, root.ethers);
+        if (!section.isConnected || request !== generation) return;
+        const ids = node.kind === 'creator' ? null : new Set(tokensForNode(data, node).map(t => t.id));
+        const owned = result.holdings.filter(h => !ids || ids.has(h.token.id));
+        status.textContent = `${owned.length ? `${owned.length} held edition(s)` : result.errors.length ? 'Holdings not fully known' : 'No held editions found in the checked inventory'}. Wallet ${result.wallet}. Checked ${result.checkedAt}. ${result.errors.join(' ')}${Object.values(data.chains).some(c => c.status !== 'ok') ? ' Inventory discovery is incomplete; absence here is not proof of no other holdings.' : ''}`;
+        for (const h of owned) {
+          const row = element('p', `${h.token.name} · quantity ${h.quantity} · ${model.CHAINS[h.token.chainId].name} block ${h.block} · `);
+          row.append(link(`${model.CHAINS[h.token.chainId].explorer}/token/${h.token.contract}?a=${wallet}`, 'View wallet holdings ↗'));
+          results.append(row);
+        }
+      } catch (error) {
+        if (section.isConnected && request === generation) status.textContent = `Holdings unavailable: ${error.message}`;
+      } finally { if (request === generation) refresh.disabled = false; }
+    }
+    refresh.addEventListener('click', check);
+    if (node.kind !== 'creator' && root.addEventListener) {
+      for (const view of ownedViews.keys()) if (!view.isConnected) ownedViews.delete(view);
+      ownedViews.set(section, check);
+    }
+    status.textContent = 'Choose Check / refresh holdings to query this public wallet. Unknown until checked.';
+  }
+  function mountSeries() {
+    const container = document.getElementById('canopy-supporter-series');
+    if (!container || container.dataset.loaded) return;
+    container.dataset.loaded = 'true';
+    const linked = new URLSearchParams(root.location.search).get('supporters') === '1';
+    if (linked) {
+      document.getElementById('decent-head-about-button').click();
+      container.scrollIntoView({ block: 'start' });
+    }
+    Promise.all([load(), root.CanopyRepositoryActivityUI?.getData() || root.CanopyRepositoryActivityUI?.load().catch(() => null)])
+      .then(([data]) => {
+      container.replaceChildren();
+      container.append(element('p', `Public contract / escrow inventory observed ${data.generatedAt}. Prices and stock are snapshots; buyer checkout rechecks them. No equity or financial return promised. Incomplete chains remain labeled on each edition.`, 'details-muted'));
+      rolodex(container, data.tokens, data);
+      if (linked) {
+        container.scrollIntoView({ block: 'start' });
+        container.querySelector('input')?.focus({ preventScroll: true });
+      }
+    }).catch(error => {
+      container.dataset.loaded = '';
+      container.replaceChildren(element('p', `Supporter inventory unavailable: ${error.message}`));
+      const retry = element('button', 'Retry Supporter inventory'); retry.type = 'button';
+      retry.addEventListener('click', mountSeries); container.append(retry);
+    });
+  }
   function mount(container, node) {
     if (!container || !node || !['project', 'repository', 'creator', 'initiative', 'product'].includes(node.kind)) return;
-    container.querySelector('[data-supporter-dnfts]')?.remove();
+    if (container.querySelector('[data-supporter-dnfts]')) return;
     const section = element('section', undefined, 'details-group supporter-dnfts');
     section.setAttribute('data-supporter-dnfts', '');
     section.append(element('h3', 'Supporter DNFTs'));
@@ -137,12 +249,22 @@
       const tokens = tokensForNode(data, node);
       const incomplete = Object.values(data.chains).some(c => c.status !== 'ok');
       status.textContent = `${tokens.length ? `${tokens.length} Supporter DNFT token${tokens.length === 1 ? '' : 's'}` : 'No matching Supporter DNFTs in this snapshot'}. Updated ${data.generatedAt}; scheduled about every 6 hours, not live stock. ${incomplete ? 'Chain reads are incomplete/unavailable; absence is not evidence that none exist.' : 'Cached public-ledger data; prices and availability may change.'}`;
-      tokens.forEach(token => section.append(card(token, data)));
+      rolodex(section, tokens, data);
+      mountOwned(section, data, node);
     }).catch(() => {
       if (section.isConnected) status.textContent = 'Supporter DNFT snapshot unavailable. This does not mean no tokens exist.';
     });
   }
-  const api = { load, tokensForNode, mount };
+  if (root.addEventListener) {
+    root.addEventListener('DOMContentLoaded', mountSeries);
+    root.addEventListener('decentcanopy:wallet-change', () => {
+      for (const [view, check] of ownedViews) {
+        if (view.isConnected) check();
+        else ownedViews.delete(view);
+      }
+    });
+  }
+  const api = { load, tokensForNode, mount, rolodex, mountSeries };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.CanopySupporterDNFTs = api;
 }(typeof window !== 'undefined' ? window : globalThis));

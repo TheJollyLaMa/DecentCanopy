@@ -1,5 +1,6 @@
 .supporter-token { margin: .65rem 0; border: 1px solid #bba25455; border-radius: .8rem; padding: .65rem; }
-.supporter-token > summary { display: flex; align-items: center; gap: .8rem; cursor: pointer; }
+.supporter-token > summary { display: flex; flex-wrap: wrap; align-items: center; gap: .8rem; cursor: pointer; }
+.supporter-token > summary > span:last-child { min-width: 0; flex: 1 1 11rem; overflow-wrap: anywhere; }
 .supporter-token > summary:focus-visible { outline: 2px solid #f4d477; outline-offset: 4px; }
 .supporter-coin { position: relative; display: inline-grid; place-items: center; flex: 0 0 3.3rem; width: 3.3rem; height: 3.3rem; overflow: hidden; border-radius: 50%; border: 3px ridge #dfc474; background: radial-gradient(circle at 30% 25%, #f7e6ad, #88702c 70%); box-shadow: 0 0 12px #e8cd7133, inset 0 0 0 2px #fff5; transition: transform .35s ease, box-shadow .35s ease; }
 .supporter-coin::after { content: ''; position: absolute; inset: 0; border-radius: inherit; background: linear-gradient(125deg, #fff6, transparent 45%, #0002); pointer-events: none; }
@@ -16,3 +17,25 @@
 .supporter-release-art { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .supporter-release-art figure { flex: 1 1 100px; min-width: 0; margin: 0; }
 .supporter-release-art img { display: block; width: 100%; height: auto; border-radius: 0.5rem; }
+.supporter-controls { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin: .8rem 0; }
+.supporter-controls label, [data-jolly-planning] label { display: grid; flex: 1 0 100%; gap: .4rem; }
+.supporter-controls input, [data-jolly-planning] input { width: 100%; min-width: 0; box-sizing: border-box; padding: .6rem; background: #101923; color: #eef5ff; border: 1px solid #55baff; border-radius: .4rem; }
+.supporter-controls button, .supporter-owned button { padding: .6rem .9rem; cursor: pointer; }
+.supporter-controls p { flex: 1 0 100%; margin: 0; }
+.supporter-rolodex-stage { perspective: 700px; touch-action: pan-y; padding: .7rem; border-radius: .8rem; }
+.supporter-rolodex-stage:focus-visible { outline: 2px solid #ffe36b; outline-offset: 2px; }
+.supporter-rolodex-stage .supporter-token { margin: 0; max-height: 36rem; overflow: auto; background: #121b25; box-shadow: -3px 0 12px #55baff66, 3px -2px 12px #ffe36b55, 0 4px 14px #64efac66; border-color: #64efac; }
+.supporter-rolodex-stage .supporter-coin { width: 5rem; height: 5rem; flex-basis: 5rem; border-radius: .5rem; box-shadow: -3px 0 12px #55baff88, 3px -2px 12px #ffe36b66, 0 4px 14px #64efac88; animation: supporter-swivel 6s ease-in-out infinite alternate; }
+.supporter-rolodex-stage .supporter-coin::after { content: "\2726 \2727"; inset: 3px 2px auto auto; color: #ffe36b; background: none; text-shadow: -2px 0 5px #55baff, 2px 2px 5px #64efac; animation: supporter-sparkle 3s ease-in-out infinite alternate; }
+.supporter-release-art img { box-shadow: -2px 0 8px #55baff55, 2px -1px 8px #ffe36b44, 0 3px 10px #64efac55; }
+.supporter-owned { border-top: 1px solid #64efac66; padding-top: 1rem; margin-top: 1rem; }
+.supporter-owned p { overflow-wrap: anywhere; }
+[data-jolly-planning] .creator-project-card-body { display: grid; gap: .5rem; }
+@keyframes supporter-swivel { from { transform: rotateY(-12deg) rotateZ(-2deg); } to { transform: rotateY(12deg) rotateZ(2deg); } }
+@keyframes supporter-sparkle { from { opacity: .5; } to { opacity: 1; } }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .supporter-rolodex-stage .supporter-token:hover .supporter-coin { animation-duration: 2s; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .supporter-rolodex-stage .supporter-coin, .supporter-rolodex-stage .supporter-coin::after { animation: none; transform: none; transition: none; }
+}

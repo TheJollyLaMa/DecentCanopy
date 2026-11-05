@@ -2098,6 +2098,7 @@
   function showDetails(node) {
     showDetailsContent(node);
     window.CanopySupporterDNFTs?.mount(detailsContentEl, node);
+    window.CanopyPlanningOffice?.mount(detailsContentEl, node);
     window.CanopyRepositoryActivityUI?.mount(detailsContentEl, node);
     window.CanopyPublicSourceUI?.mount(detailsContentEl, node);
     graphIdentity?.mount(detailsContentEl, node);
