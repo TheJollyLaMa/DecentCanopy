@@ -1,0 +1,29 @@
+name: Prepare Supporter DNFT
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published release tag to prepare
+        required: true
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: supporter-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  prepare:
+    uses: TheJollyLaMa/DecentHead/.github/workflows/product-supporter-prepare.yml@2b87543db1ff5c44c720e5c7f782386bbd702bc1
+    with:
+      tag: ${{ inputs.tag || github.event.release.tag_name }}
+      head_ref: 2b87543db1ff5c44c720e5c7f782386bbd702bc1
+      product_name: DecentCanopy
+      tagline: A living map of connected work
+      site_root: '.'
+      quantity: '1000'
+      price_usdc: '10000000'
+      ens_name: ${{ vars.SUPPORTER_ENS_NAME }}
+    secrets:
+      PINATA_JWT: ${{ secrets.PINATA_JWT }}

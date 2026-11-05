@@ -1,5 +1,16 @@
 # DecentCanopy
 
+## First versioned Supporter release: preparing
+
+The About dialog now distinguishes **DecentCanopy's own edition (purchase unavailable)**
+from the map's inventory of other projects' tokens. Proposed first tag: **v0.1.0**;
+planned terms: **1,000 editions, 10 USDC each on Base**. Nothing has been minted,
+listed, deployed or announced by this preparation change.
+
+See [Supporter release readiness and outstanding-work dispositions](wiki/Supporter-Release.md)
+for the complete issue/PR/remote-branch audit, exact-tag rendering requirements,
+immutable DecentHead workflow pins, validation and remaining steward gates.
+
 ### Standalone DBusk radio host
 
 The header mounts **DBusk.decentagency.eth** from

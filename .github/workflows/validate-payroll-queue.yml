@@ -125,6 +125,9 @@ jobs:
       - name: Test map rendering budgets
         run: node --test test/map-performance.test.js
 
+      - name: Test Supporter release readiness
+        run: node --test test/supporter-release.test.js test/agency-current-evidence.test.js
+
       - name: Test map selection and source scopes
         run: node --test test/map-views.test.js
 
