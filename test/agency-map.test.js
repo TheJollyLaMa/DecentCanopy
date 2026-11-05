@@ -85,6 +85,17 @@ test('Pilgrimages V1 and BabelBet preparation retain separate gates and proposed
   assert.ok(data.projects.find(p => p.id === 'pilgrimages').needs.every(need => need.state === 'issue-reported'));
 });
 
+test('Calendar support has its own verified release and listing without implying booking settlement', () => {
+  const graph = Model.transform(fixture());
+  const calendar = graph.projects.find(node => node.id === id('calendar'));
+  assert.match(calendar.agencyDetails.currentState, /token 77/);
+  assert.match(calendar.agencyDetails.currentState, /listing 7 at 10 USDC/);
+  assert.match(calendar.agencyDetails.currentState, /does not verify booking settlement/);
+  const evidence = calendar.agencyDetails.updates.flatMap(update => update.evidence);
+  assert.ok(evidence.some(row => row.url === 'https://github.com/TheJollyLaMa/DecentCalendar/releases/download/v0.1.0/supporter-minted.json'));
+  assert.ok(evidence.some(row => new URL(row.url).searchParams.get('listingId') === '7'));
+});
+
 test('invalid versions, identifiers, dates, evidence, and unsupported relationship claims fail explicitly', () => {
   const mutations = [
     d => { d.version = 99; },
