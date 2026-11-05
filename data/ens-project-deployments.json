@@ -4,9 +4,9 @@
   "parent": "decentagency.eth",
   "owner": "0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a",
   "gasBudgetWei": "3000000000000000",
-  "totalGasPaidWei": "1194747174722298",
+  "totalGasPaidWei": "1269445153856883",
   "verificationRpc": "https://eth.drpc.org",
-  "verifiedAt": "2026-11-05T12:54:28.672Z",
+  "verifiedAt": "2026-11-05T13:01:35.164Z",
   "deployments": [
     {
       "name": "decentcalendar.decentagency.eth",
@@ -18,6 +18,7 @@
       "records": {
         "avatar": "ipfs://bafybeicish7wmiwukbleu6qgtcljcjjosjtuzufhkq64l5uxbcdb2m7ylm/avatar.png",
         "com.twitter.header": "ipfs://bafybeicish7wmiwukbleu6qgtcljcjjosjtuzufhkq64l5uxbcdb2m7ylm/banner.png",
+        "banner": "ipfs://QmTDwBg4DxH9w2M5imvjE6MGXCFjBC65CSMzrmrTzHkMvr/banner.png",
         "description": "Time and knowledge exchange; small-value booking beta.",
         "url": "https://decentcalendar.decentagency.eth.limo",
         "com.github": "TheJollyLaMa/DecentCalendar"
@@ -69,6 +70,7 @@
       "records": {
         "avatar": "ipfs://bafybeifyivbzvs45325c7h2ae747iobjrobylw7og4f6bhhbqdxn4dypiu/avatar.png",
         "com.twitter.header": "ipfs://bafybeifyivbzvs45325c7h2ae747iobjrobylw7og4f6bhhbqdxn4dypiu/banner.png",
+        "banner": "ipfs://QmajxyzWeXKEqwkPRu5bezrUtrCgR8ztVFduXXTgWF4aVJ/banner.png",
         "description": "Your trail. Your agency. Sponsored-journey preview.",
         "url": "https://decentpilgrimages.decentagency.eth.limo",
         "com.github": "TheJollyLaMa/DecentPilgrimages"
@@ -120,6 +122,7 @@
       "records": {
         "avatar": "ipfs://bafybeibxcfbzj2y3t5gdcjim3v6wzj4ylypn74wmynpjgtuqknjb4k3odm/avatar.png",
         "com.twitter.header": "ipfs://bafybeibxcfbzj2y3t5gdcjim3v6wzj4ylypn74wmynpjgtuqknjb4k3odm/banner.png",
+        "banner": "ipfs://QmS3cQE9PmfXR6aW7hovbomEic3qb57S8iK2jrF6uCWQki/banner.png",
         "description": "An evidence-aware map of connected projects and public code.",
         "url": "https://decentcanopy.decentagency.eth.limo",
         "com.github": "TheJollyLaMa/DecentCanopy"
@@ -171,6 +174,7 @@
       "records": {
         "avatar": "ipfs://bafybeiblo6o4bmy5zztwoaylg3clpepfr4ju2ix3qrbdbsnd3mz5lhwucu/avatar.png",
         "com.twitter.header": "ipfs://bafybeiblo6o4bmy5zztwoaylg3clpepfr4ju2ix3qrbdbsnd3mz5lhwucu/banner.png",
+        "banner": "ipfs://QmRGL2gHB2TtJPak9GBVJJFw44To88BXm2eH4LnWzRJmLG/banner.png",
         "description": "A Decent Agency project city and evidence-backed planning office.",
         "url": "https://planningoffice.decentagency.eth.limo",
         "com.github": "A-Decent-Agency/a-decent-agency.github.io"
@@ -211,6 +215,21 @@
           "sha256": "52b451c254e46ee8829cdff72bb178e5d441d701468296ddb1d7763edb5dfd7b"
         }
       ]
+    }
+  ],
+  "additionalTransactions": [
+    {
+      "hash": "0x4b272ad80bcf20f2509483b4ff3dbf1286cf2c2f0478c2038cd56afee51165c9",
+      "action": "set-compatible-banner-records",
+      "names": [
+        "decentcalendar.decentagency.eth",
+        "decentpilgrimages.decentagency.eth",
+        "decentcanopy.decentagency.eth",
+        "planningoffice.decentagency.eth"
+      ],
+      "blockNumber": 26348795,
+      "gasUsed": "350495",
+      "gasPaidWei": "74697979134585"
     }
   ],
   "caveats": [

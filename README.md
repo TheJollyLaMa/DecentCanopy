@@ -11,9 +11,11 @@ serve a different dated snapshot; no ownership was transferred.
 
 [Public deployment evidence](data/ens-project-deployments.json) records all four
 approved names (Calendar, Pilgrimages, Canopy and Planning Office), source commits,
-IPFS CIDs, artwork checksums and eight successful transactions. All names remain
-owned by the DecentAgency owner. Total gas was **0.001194747174722298 ETH**, below
+IPFS CIDs, artwork checksums and nine successful transactions. All names remain
+owned by the DecentAgency owner. Total gas was **0.001269445153856883 ETH**, below
 the approved 0.003 ETH cap. No other names or existing contenthashes were changed.
+Banner images are set as both `com.twitter.header` and `banner` records; the
+content-equivalent CIDv0 banner URLs support the ecosystem's existing profile reader.
 Public site/artifact bytes were verified before signing. These are fixed,
 reviewed public snapshots, not automatic whole-library synchronization; ENS
 gateway caching and profile-image support vary.

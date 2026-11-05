@@ -113,6 +113,7 @@ test('four approved ENS websites have bounded public deployment evidence and ret
     assert.match(row.siteCid, /^b[a-z2-7]{20,}$/);
     assert.match(row.records.avatar, /^ipfs:\/\/b[a-z2-7]+\/avatar\.png$/);
     assert.match(row.records['com.twitter.header'], /^ipfs:\/\/b[a-z2-7]+\/banner\.png$/);
+    assert.match(row.records.banner, /^ipfs:\/\/Qm[1-9A-HJ-NP-Za-km-z]{44}\/banner\.png$/);
     assert.equal(row.records['com.github'], row.repo);
     assert.equal(row.records.url, `https://${row.name}.limo`);
     assert.equal(row.gatewayProofs.length, 3);
@@ -124,6 +125,12 @@ test('four approved ENS websites have bounded public deployment evidence and ret
       spent += BigInt(tx.gasPaidWei);
     }
   }
+  assert.equal(deployments.additionalTransactions.length, 1);
+  const supplemental = deployments.additionalTransactions[0];
+  assert.equal(supplemental.action, 'set-compatible-banner-records');
+  assert.deepEqual(supplemental.names, rows.map(row => row.name));
+  assert.match(supplemental.hash, /^0x[a-f0-9]{64}$/);
+  spent += BigInt(supplemental.gasPaidWei);
   assert.equal(spent, BigInt(deployments.totalGasPaidWei));
   assert.ok(spent < BigInt(deployments.gasBudgetWei));
   const projects = fixture().projects;
