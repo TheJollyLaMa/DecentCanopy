@@ -16,6 +16,23 @@ Search proportionately: inspect the likely donors first, broaden when necessary,
 
 ## Reuse decision and delivery evidence
 
+### Voyager v1 release and host clones
+
+The stable `asteroid` map node now points to
+[`DecentVoyager`](https://github.com/TheJollyLaMa/DecentVoyager).
+The v1.0.0 Supporter mint (token 80 / listing 10) has published, dated Base
+verification. Its original frozen metadata retains the pre-rename repository
+identity; no source archive or token metadata was rewritten.
+
+The Planning Office reuses its existing receipt-backed floor, billboard and
+sidepanel checkout helpers for this edition. A playable end-of-track clone is
+still [proposed in Office #20](https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20),
+with [donor pointers on Busking #243](https://github.com/TheJollyLaMa/DecentBusking/issues/243#issuecomment-6670391716).
+Do not equate Voyager's 20-sector gauntlet with Busking's 100-level, fixed-roster,
+beat/weekly-playlist specification. Both hosts need lifecycle and replay-adapter
+acceptance. Game prize tables are not funded inventory; the observed prize
+contract holds zero units of all configured rewards.
+
 ### Selected November receivers
 
 Steward direction on 1 November 2026 puts **DecentPilgrimages** and **BabelBet**

@@ -2029,29 +2029,55 @@
     },
     {
       "id": "asteroid",
-      "name": "Asteroid",
-      "repo": "TheJollyLaMa/AsteRoid",
-      "repositoryNote": "The public repository is named AsteRoid. No integration with Busking's proposed game mode is established.",
-      "reviewNote": "Public committed source inspected 2026-10-20 at 0460fee1. Not executed, deployment-verified, or integration-tested in this review.",
+      "name": "Decent Voyager",
+      "repo": "TheJollyLaMa/DecentVoyager",
+      "ens": "voyager.decentagency.eth",
+      "reviewedAt": "2026-11-05",
+      "repositoryNote": "Renamed from AsteRoid to DecentVoyager; stable map id asteroid is retained for existing connections. Frozen v1.0.0 metadata retains its original repository identity. Widget integrations remain proposed, not shipped.",
+      "reviewNote": "v1.0.0 mint and listing independently read on Base at block 53623806. Pages About, keyboard movement/firing/POV/pause and renamed links verified. This is a dated public observation, not live stock synchronization.",
       "reviewCaveats": [
-        "Only one expressed need found. Reviewer suggestion, not a need: tests (npm test is a placeholder).",
-        "Committed bundle.js."
+        "Token 80 / listing 10 had 1,000 editions available at 10 USDC on Base at the observed block; checkout must recheck current price and stock.",
+        "All six configured reward token types have zero inventory in VoyagerPrizes at the observed block. Game logic is not a funded reward reserve.",
+        "Integrated-browser wallet signing and an actual winning-flight queue append/claim are not yet verified. GitHub-backed authenticated queue reads were checked.",
+        "ENS contenthash is set; eth.limo currently fails during TLS setup. Pages is the verified play route.",
+        "Busking #243 requires 100 levels, fixed NFT target rosters, beat attacks and a frozen weekly playlist reward; Voyager v1 does not fulfill that entire specification."
       ],
-      "currentState": "Small browserify canvas Asteroids game.",
+      "currentState": "Decent Voyager v1.0.0 is released and playable on Pages: 10 guest sectors plus 10 Ace/pilot-gated future sectors, overview/POV, Nova charge cannon, gamepad input, recorded battle stats and cards, IPFS saves and separate Base pilot/arena/prize/stamp contracts. Supporter DNFT token 80 is minted and escrowed in listing 10 at 10 USDC. Referee uses GitHub-backed queues; real winning-flight reward acceptance remains open.",
+      "nextAction": "Build lifecycle-safe, pinned clones for the Planning Office end-of-track rocket (#20) and Busking end-of-timeline rocket (#243); preserve host radio and input ownership. The reward reserve is currently unfunded: approve limited inventory and verify a real winning claim before guaranteeing prize transfers.",
+      "updates": [
+        {
+          "state": "merged",
+          "label": "v1.0.0 Supporter token 80 / listing 10",
+          "detail": "1,000 editions minted and listed at 10 USDC on Base. Supplemental published evidence checks the original frozen metadata, mint receipt, royalty and current listing at block 53623806. Repo rename does not rewrite the minted metadata. No widget adoption or funded game-prize inventory implied.",
+          "evidence": [
+            { "label": "Voyager v1 release", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/tag/v1.0.0" },
+            { "label": "Verified mint and listing", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/download/v1.0.0/supporter-minted.json" },
+            { "label": "Support Voyager / listing 10", "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=10" }
+          ]
+        }
+      ],
+      "evidence": [
+        { "label": "Play Decent Voyager", "url": "https://thejollylama.github.io/DecentVoyager/" },
+        { "label": "v1.0.0 release", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/tag/v1.0.0" },
+        { "label": "Verified token 80 mint / listing 10", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/download/v1.0.0/supporter-minted.json" },
+        { "label": "Support Voyager", "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=10" },
+        { "label": "Planning Office widget request", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20" },
+        { "label": "Busking implementation guidance", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/243#issuecomment-6670391716" }
+      ],
       "offers": [
         {
           "id": "ast-game",
-          "label": "Canvas game modules",
+          "label": "Voyager simulation, input and rendering",
           "state": "code-observed",
-          "detail": "app.js, spaceship, bullet, asteroid and circle-distance collision modules. Not run.",
+          "detail": "DOM-free Game simulation with seeded layouts, run logs/replay, controller input and canvas overview/POV. Adapt the full-page app behind a tested mount/pause/destroy boundary; it is not yet a drop-in widget.",
           "evidence": [
             {
               "label": "app.js",
-              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/src/js/app.js"
+              "url": "https://github.com/TheJollyLaMa/DecentVoyager/blob/c6ae584/src/js/app.js"
             },
             {
-              "label": "collision.js",
-              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/src/js/collision.js"
+              "label": "Game and replay",
+              "url": "https://github.com/TheJollyLaMa/DecentVoyager/blob/c6ae584/src/js/game.js"
             }
           ]
         },
@@ -2059,15 +2085,15 @@
           "id": "ast-readme",
           "label": "Documented game features",
           "state": "documented",
-          "detail": "README lists Game Over/Win screens and fragmentation on collision; browserify build script in package.json.",
+          "detail": "Published gameplay/controls and separate Base contract/referee APIs; host-specific simulation changes require compatible replay adapters before wallet rewards are enabled.",
           "evidence": [
             {
               "label": "README",
-              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/README.md"
+              "url": "https://github.com/TheJollyLaMa/DecentVoyager/blob/c6ae584/README.md"
             },
             {
-              "label": "package.json",
-              "url": "https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/package.json"
+              "label": "Referee API",
+              "url": "https://github.com/TheJollyLaMa/DecentVoyager/blob/c6ae584/docs/SERVER.md"
             }
           ]
         }
@@ -2147,9 +2173,14 @@
     {
       "source":"asteroid","target":"decent-busking","type":"capability-match","state":"proposed",
       "offer":"ast-game","need":"asteroid-game-proposal",
-      "note":"Existing canvas movement/collision modules may provide a small gameplay reference for the proposed radio game. They do not implement 100 levels, NFT rewards, 3D scenes or radio combat.",
-      "nextTest":"Run an isolated licensed-code assessment and deterministic collision/input tests; compare one playable scene with #243 before choosing reuse, adaptation or rejection. Keep wallets and rewards out of the experiment.",
-      "evidence":[{"label":"Busking game proposal #243","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/243"},{"label":"Existing game modules","url":"https://github.com/TheJollyLaMa/AsteRoid/blob/0460fee1ef7cf7b320421dc5e053557bffe2567b/src/js/app.js"}]
+      "note":"Reuse the shipped DecentVoyager game as a Busking-themed clone at the end-of-timeline rocket. Voyager has 20 sectors and separate reward contracts, but not Busking's 100-level all-targets rule, beat attacks or frozen weekly playlist reward.",
+      "nextTest":"Pin the donor and prototype guest-only mount/pause/destroy, preserving radio playback and timeline focus. Then test a Busking-specific 100-level replay adapter and funded reward acceptance before activating wallet claims.",
+      "evidence":[{"label":"Busking game proposal #243","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/243"},{"label":"Voyager integration pointers","url":"https://github.com/TheJollyLaMa/DecentBusking/issues/243#issuecomment-6670391716"},{"label":"Shipped game core","url":"https://github.com/TheJollyLaMa/DecentVoyager/blob/c6ae584/src/js/game.js"}]
+    },
+    {
+      "source":"asteroid","target":"planning-office","type":"could-integrate","state":"proposed",
+      "note":"A Planning Office-themed Voyager clone can launch from an explicit rocket at the end of the one-way track. The tower/Supporter edition display is separate from playable widget adoption. Test lifecycle-safe guest overlay and restoration of endpoint, selection, camera and focus; gate wallet actions until replay identity and funded reward acceptance are verified.",
+      "evidence":[{"label":"Office DVoyager widget request #20","url":"https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20"}]
     },
     {
       "source":"asteroid","target":"jolly-sim-siddhi","type":"capability-match","state":"proposed",
