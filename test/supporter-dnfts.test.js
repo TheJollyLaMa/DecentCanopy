@@ -27,7 +27,7 @@ function ui(data = fixture(), failure = false, extras = {}) {
   const document = { createElement: tag => new Element(tag), createTextNode: text => ({ textContent: text }) };
   const window = { CanopySupporterModel: M, ...extras };
   let requests = 0;
-  vm.runInNewContext(read('scripts/supporter-dnfts.js'), { window, document, URL, BigInt, fetch: async () => { requests++; return { ok: !failure, json: async () => data }; } });
+  vm.runInNewContext(read('scripts/supporter-dnfts.js'), { window, document, URL, BigInt, AbortSignal, fetch: async () => { requests++; return { ok: !failure, json: async () => data }; } });
   const flatten = element => [element, ...(element.children || []).flatMap(flatten)];
   return { api: window.CanopySupporterDNFTs, container: new Element('div'), flatten, requests: () => requests };
 }

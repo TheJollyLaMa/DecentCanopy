@@ -6,7 +6,7 @@
   function load() {
     if (!snapshot || Date.now() - loadedAt > 60000) {
       loadedAt = Date.now();
-      snapshot = fetch('data/supporter-dnfts.json', { cache: 'no-store' }).then(response => {
+      snapshot = fetch('data/supporter-dnfts.json', { cache: 'no-store', signal: AbortSignal.timeout(15000) }).then(response => {
         if (!response.ok) throw new Error('Snapshot unavailable');
         return response.json();
       }).then(model.validateSnapshot).catch(error => { snapshot = null; throw error; });
@@ -189,7 +189,9 @@
       if (!model.address(wallet)) { status.textContent = 'Connect a wallet to see your holdings. No ownership inferred from creator or escrow stock.'; refresh.disabled = false; return; }
       refresh.disabled = true; status.textContent = `Reading balances for ${wallet}…`;
       try {
-        const result = await model.readHoldings(data, wallet, root.ethers);
+        const tokens = node.kind === 'creator' ? data.tokens : tokensForNode(data, node);
+        const scope = { ...data, tokens, ...model.indexTokens(tokens) };
+        const result = await model.readHoldings(scope, wallet, root.ethers);
         if (!section.isConnected || request !== generation) return;
         const ids = node.kind === 'creator' ? null : new Set(tokensForNode(data, node).map(t => t.id));
         const owned = result.holdings.filter(h => !ids || ids.has(h.token.id));
@@ -219,10 +221,17 @@
       document.getElementById('decent-head-about-button').click();
       container.scrollIntoView({ block: 'start' });
     }
-    Promise.all([load(), root.CanopyRepositoryActivityUI?.getData() || root.CanopyRepositoryActivityUI?.load().catch(() => null)])
-      .then(([data]) => {
+    let timer;
+    const activity = root.CanopyRepositoryActivityUI;
+    const ready = activity?.getData() ? Promise.resolve('') : Promise.race([
+      activity?.load(),
+      new Promise((resolve, reject) => { timer = setTimeout(() => reject(new Error('release mirror read timed out')), 12000); }),
+    ]).then(() => '', error => `Official release artwork/date mirrors unavailable: ${error.message}. Cached metadata, if present, is still shown.`)
+      .finally(() => clearTimeout(timer));
+    Promise.all([load(), ready]).then(([data, warning]) => {
       container.replaceChildren();
       container.append(element('p', `Public contract / escrow inventory observed ${data.generatedAt}. Prices and stock are snapshots; buyer checkout rechecks them. No equity or financial return promised. Incomplete chains remain labeled on each edition.`, 'details-muted'));
+      if (warning) container.append(element('p', warning, 'details-muted'));
       rolodex(container, data.tokens, data);
       if (linked) {
         container.scrollIntoView({ block: 'start' });
