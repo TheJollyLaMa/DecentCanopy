@@ -1,0 +1,28 @@
+name: Send approved Canopy invitation once
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: supporter-${{ github.repository }}
+  cancel-in-progress: false
+jobs:
+  invite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: TheJollyLaMa/DecentHead
+          ref: 599241344849af1921f6a9a59431f4b2f300d417
+          path: .supporter-kit
+          persist-credentials: false
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Verify and deliver approved invitation with token artwork
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISCORD_SUPPORTER_WEBHOOK: ${{ secrets.DISCORD_SUPPORTER_WEBHOOK }}
+        run: node scripts/announce-canopy-invite.mjs

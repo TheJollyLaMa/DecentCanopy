@@ -1,0 +1,21 @@
+const test = require('node:test');
+const assert = require('node:assert/strict');
+test('approved invitation includes whole-series mission, exact Canopy landing, tutorial, attached visual and no mentions', async () => {
+  const { buildInvitePayload, validateArtwork } = await import('../scripts/announce-canopy-invite.mjs');
+  const payload = buildInvitePayload();
+  assert.ok(payload.content.length <= 2000);
+  assert.match(payload.content, /Add yourself and your projects/);
+  assert.match(payload.content, /A Decent Series/);
+  assert.match(payload.content, /increase their agency against “evil corp”/);
+  assert.match(payload.content, /Participation is free/);
+  assert.match(payload.content, /DecentCanopy\/\?tour=1/);
+  const url = new URL(payload.embeds[0].url);
+  assert.equal(url.pathname, '/DecentMarket/');
+  assert.equal(url.searchParams.get('tokenId'), '79');
+  assert.equal(url.searchParams.get('supporters'), '1');
+  assert.deepEqual(payload.allowed_mentions, { parse: [] });
+  assert.equal(payload.embeds[0].image.url, `attachment://${payload.attachments[0].filename}`);
+  validateArtwork(Uint8Array.from([137, 80, 78, 71, 13, 10, 26, 10]));
+  assert.throws(() => validateArtwork(new Uint8Array(20)));
+  assert.throws(() => validateArtwork(new Uint8Array(9 * 1024 * 1024)));
+});

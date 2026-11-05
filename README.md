@@ -829,6 +829,17 @@ Support the work with a [Supporter DNFT](https://thejollylama.github.io/DecentMa
 
 ## Supporter DNFT coins (Base + Optimism)
 
+The manual-only **Send approved Canopy invitation once** workflow sends the
+approved v0.1.0 map/support invitation with the official token front PNG attached.
+It reuses pinned Head protocol `599241344849af1921f6a9a59431f4b2f300d417` for
+on-chain verification and durable delivery markers, with the same concurrency
+group as the generic notifier. It does not enable scheduled announcements.
+Existing sent markers skip delivery; pending markers block ambiguous retries.
+The webhook remains an Actions secret, never a browser credential.
+Independent community release integration is tracked in
+[Market #72](https://github.com/TheJollyLaMa/DecentMarket/issues/72), building on
+creator authorization #47 rather than duplicating the minter in Canopy.
+
 **About → DecentCanopy editions** has only Canopy's matching editions in a searchable one-edition rolodex,
 not an all-at-once token wall. Previous/Next, left/right arrow keys on the stage,
 horizontal trackpad scrolling and touch swipes browse it. Search matches project,
