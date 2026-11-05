@@ -96,6 +96,44 @@ test('Calendar support has its own verified release and listing without implying
   assert.ok(evidence.some(row => new URL(row.url).searchParams.get('listingId') === '7'));
 });
 
+test('four approved ENS websites have bounded public deployment evidence and retain Canopy identity', () => {
+  const deployments = JSON.parse(read('data/ens-project-deployments.json'));
+  assert.equal(deployments.chainId, 1);
+  assert.equal(deployments.owner, '0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a');
+  assert.equal(deployments.gasBudgetWei, '3000000000000000');
+  const rows = deployments.deployments;
+  assert.deepEqual(rows.map(row => row.name), [
+    'decentcalendar.decentagency.eth', 'decentpilgrimages.decentagency.eth',
+    'decentcanopy.decentagency.eth', 'planningoffice.decentagency.eth',
+  ]);
+  let spent = 0n;
+  for (const row of rows) {
+    assert.equal(row.owner, deployments.owner);
+    assert.match(row.sourceCommit, /^[a-f0-9]{40}$/);
+    assert.match(row.siteCid, /^b[a-z2-7]{20,}$/);
+    assert.match(row.records.avatar, /^ipfs:\/\/b[a-z2-7]+\/avatar\.png$/);
+    assert.match(row.records['com.twitter.header'], /^ipfs:\/\/b[a-z2-7]+\/banner\.png$/);
+    assert.equal(row.records['com.github'], row.repo);
+    assert.equal(row.records.url, `https://${row.name}.limo`);
+    assert.equal(row.gatewayProofs.length, 3);
+    row.gatewayProofs.forEach(proof => assert.match(proof.sha256, /^[a-f0-9]{64}$/));
+    assert.deepEqual(row.transactions.map(tx => tx.action), ['create-subname', 'set-site-and-art']);
+    for (const tx of row.transactions) {
+      assert.match(tx.hash, /^0x[a-f0-9]{64}$/);
+      assert.ok(Number.isSafeInteger(tx.blockNumber) && tx.blockNumber > 0);
+      spent += BigInt(tx.gasPaidWei);
+    }
+  }
+  assert.equal(spent, BigInt(deployments.totalGasPaidWei));
+  assert.ok(spent < BigInt(deployments.gasBudgetWei));
+  const projects = fixture().projects;
+  assert.equal(projects.find(project => project.id === 'calendar').ens, rows[0].name);
+  assert.equal(projects.find(project => project.id === 'pilgrimages').ens, rows[1].name);
+  assert.equal(projects.find(project => project.name === 'Agency Planning Office').ens, rows[3].name);
+  assert.equal(projects.find(project => project.id === 'decent-canopy').ens, 'decentcanopy.eth');
+  assert.match(deployments.caveats.join(' '), /not continuous synchronization/);
+});
+
 test('invalid versions, identifiers, dates, evidence, and unsupported relationship claims fail explicitly', () => {
   const mutations = [
     d => { d.version = 99; },

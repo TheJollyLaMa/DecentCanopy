@@ -49,7 +49,7 @@ test('Head and Market cards render the completed proof and explicit open boundar
   assert.ok(project('market').needs.some(item => item.id === 'decentmarket-creator-minting'));
   assert.ok(project('head').needs.some(item => item.id === 'multilingual-host-adapter'));
   assert.match(project('decent-canopy').currentState, /PR #26.*PR #27/);
-  assert.match(project('decent-canopy').nextAction, /Prepare the first versioned Canopy Supporter release under #34/);
+  assert.match(project('decent-canopy').nextAction, /Complete the prepared first versioned Canopy Supporter release under #34/);
   assert.match(project('decent-canopy').nextAction, /purchase unavailable until published mint\/listing evidence is verified/);
   assert.match(project('artfi').currentState, /not a rename or migration/);
   for (const id of ['head', 'market']) assert.ok(project(id).evidence.some(item => item.url.includes('/supporter/buy.html?')));

@@ -1,0 +1,222 @@
+{
+  "schema": 1,
+  "chainId": 1,
+  "parent": "decentagency.eth",
+  "owner": "0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a",
+  "gasBudgetWei": "3000000000000000",
+  "totalGasPaidWei": "1194747174722298",
+  "verificationRpc": "https://eth.drpc.org",
+  "verifiedAt": "2026-11-05T12:54:28.672Z",
+  "deployments": [
+    {
+      "name": "decentcalendar.decentagency.eth",
+      "repo": "TheJollyLaMa/DecentCalendar",
+      "sourceCommit": "357d77dabd8f74f9a14e5ec2ae20eb719d6a98e3",
+      "owner": "0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a",
+      "resolver": "0xF29100983E058B709F3D539b0c765937B804AC15",
+      "siteCid": "bafybeihbfqlxekv27psip2koubfzuacfqiouaeyehddyrzmqmhyhtsheke",
+      "records": {
+        "avatar": "ipfs://bafybeicish7wmiwukbleu6qgtcljcjjosjtuzufhkq64l5uxbcdb2m7ylm/avatar.png",
+        "com.twitter.header": "ipfs://bafybeicish7wmiwukbleu6qgtcljcjjosjtuzufhkq64l5uxbcdb2m7ylm/banner.png",
+        "description": "Time and knowledge exchange; small-value booking beta.",
+        "url": "https://decentcalendar.decentagency.eth.limo",
+        "com.github": "TheJollyLaMa/DecentCalendar"
+      },
+      "transactions": [
+        {
+          "hash": "0x869b2fffc0020f4ab6e2480ba693bb4a90bf462364fde8181a717a16712b4a92",
+          "action": "create-subname",
+          "blockNumber": 26348741,
+          "gasUsed": "74368",
+          "gasPaidWei": "41868751698816"
+        },
+        {
+          "hash": "0x5e9a2c71854ca21b3079384072618f10f7f648bb7f8e5feb1e7456a5e8deb7a9",
+          "action": "set-site-and-art",
+          "blockNumber": 26348743,
+          "gasUsed": "490494",
+          "gasPaidWei": "264496199630904"
+        }
+      ],
+      "gatewayProofs": [
+        {
+          "name": "decentcalendar.decentagency.eth",
+          "path": "bafybeihbfqlxekv27psip2koubfzuacfqiouaeyehddyrzmqmhyhtsheke/index.html",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "959d0cee4986c44f3f282f1a919544c3877ef24e42012a017142bd69272eae89"
+        },
+        {
+          "name": "decentcalendar.decentagency.eth",
+          "path": "bafybeicish7wmiwukbleu6qgtcljcjjosjtuzufhkq64l5uxbcdb2m7ylm/avatar.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "e9dbc6577c574349ef3130373ddc96688dc5745286ae38d4dba4a6754e3c4ffa"
+        },
+        {
+          "name": "decentcalendar.decentagency.eth",
+          "path": "bafybeicish7wmiwukbleu6qgtcljcjjosjtuzufhkq64l5uxbcdb2m7ylm/banner.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "caaece7710eef602d9257efad55301c5a13a51569cf95c999a6b800ccff8028b"
+        }
+      ]
+    },
+    {
+      "name": "decentpilgrimages.decentagency.eth",
+      "repo": "TheJollyLaMa/DecentPilgrimages",
+      "sourceCommit": "a2f5930ca3d4deb58dd5b5572436f076a84322b2",
+      "owner": "0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a",
+      "resolver": "0xF29100983E058B709F3D539b0c765937B804AC15",
+      "siteCid": "bafybeifnksx4xrfxgve3bc5lhknrqzpatfvggmarr22hqu4weu3zblc75i",
+      "records": {
+        "avatar": "ipfs://bafybeifyivbzvs45325c7h2ae747iobjrobylw7og4f6bhhbqdxn4dypiu/avatar.png",
+        "com.twitter.header": "ipfs://bafybeifyivbzvs45325c7h2ae747iobjrobylw7og4f6bhhbqdxn4dypiu/banner.png",
+        "description": "Your trail. Your agency. Sponsored-journey preview.",
+        "url": "https://decentpilgrimages.decentagency.eth.limo",
+        "com.github": "TheJollyLaMa/DecentPilgrimages"
+      },
+      "transactions": [
+        {
+          "hash": "0x46a4076428ef3f343ba26c6adf98e94123666284a553894d1b5b0571051c936d",
+          "action": "create-subname",
+          "blockNumber": 26348745,
+          "gasUsed": "74380",
+          "gasPaidWei": "40428681034320"
+        },
+        {
+          "hash": "0x7c48d8454d484b0f8b5f123aed828ccda05b1b3f8beaaa5b54d47dee3286e558",
+          "action": "set-site-and-art",
+          "blockNumber": 26348747,
+          "gasUsed": "490542",
+          "gasPaidWei": "261608203551006"
+        }
+      ],
+      "gatewayProofs": [
+        {
+          "name": "decentpilgrimages.decentagency.eth",
+          "path": "bafybeifnksx4xrfxgve3bc5lhknrqzpatfvggmarr22hqu4weu3zblc75i/index.html",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "7b0c7345d838b413535761a3fe6e7156eb156f6507cbb85a444eae32e2441f4f"
+        },
+        {
+          "name": "decentpilgrimages.decentagency.eth",
+          "path": "bafybeifyivbzvs45325c7h2ae747iobjrobylw7og4f6bhhbqdxn4dypiu/avatar.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "bcdb29d6e809b72461b96bd22090e12f9bfb6ec08080246f6310096dab3d5a3e"
+        },
+        {
+          "name": "decentpilgrimages.decentagency.eth",
+          "path": "bafybeifyivbzvs45325c7h2ae747iobjrobylw7og4f6bhhbqdxn4dypiu/banner.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "f537d6ba311ad8013dd6bdc92f24010ef29f2b9fd743ab371c9febde63fc7ed8"
+        }
+      ]
+    },
+    {
+      "name": "decentcanopy.decentagency.eth",
+      "repo": "TheJollyLaMa/DecentCanopy",
+      "sourceCommit": "35273484dfff71d6b99e44714b7fb3b43c243aec",
+      "owner": "0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a",
+      "resolver": "0xF29100983E058B709F3D539b0c765937B804AC15",
+      "siteCid": "bafybeifuvktv6ribvqsmr6ouc5ezjj7og2cd42qbne2v5ced2l7umzoalq",
+      "records": {
+        "avatar": "ipfs://bafybeibxcfbzj2y3t5gdcjim3v6wzj4ylypn74wmynpjgtuqknjb4k3odm/avatar.png",
+        "com.twitter.header": "ipfs://bafybeibxcfbzj2y3t5gdcjim3v6wzj4ylypn74wmynpjgtuqknjb4k3odm/banner.png",
+        "description": "An evidence-aware map of connected projects and public code.",
+        "url": "https://decentcanopy.decentagency.eth.limo",
+        "com.github": "TheJollyLaMa/DecentCanopy"
+      },
+      "transactions": [
+        {
+          "hash": "0xb2bb059df69ebfc4738fdb14431903a7bf519809dfdb829bd1119c27cf2caf59",
+          "action": "create-subname",
+          "blockNumber": 26348750,
+          "gasUsed": "74380",
+          "gasPaidWei": "35892685684580"
+        },
+        {
+          "hash": "0x2f8010d2655c1640ec15b00d64e0d34cc56578a79ee24baa4f7e9fd1af2c85e6",
+          "action": "set-site-and-art",
+          "blockNumber": 26348752,
+          "gasUsed": "490530",
+          "gasPaidWei": "249429247499460"
+        }
+      ],
+      "gatewayProofs": [
+        {
+          "name": "decentcanopy.decentagency.eth",
+          "path": "bafybeifuvktv6ribvqsmr6ouc5ezjj7og2cd42qbne2v5ced2l7umzoalq/index.html",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "0bcff5853962e5401b489074aaa06c3e22ff9271eca853adf4c8790cc2dc99ec"
+        },
+        {
+          "name": "decentcanopy.decentagency.eth",
+          "path": "bafybeibxcfbzj2y3t5gdcjim3v6wzj4ylypn74wmynpjgtuqknjb4k3odm/avatar.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "ccd991cd7af301ac8533965e4ac6d5972af829397bb29483793e7838c7bf1e26"
+        },
+        {
+          "name": "decentcanopy.decentagency.eth",
+          "path": "bafybeibxcfbzj2y3t5gdcjim3v6wzj4ylypn74wmynpjgtuqknjb4k3odm/banner.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "660bc3cba4029e6d85b61fe161ebb542ad1ba875d58b92275f76212b1fe77848"
+        }
+      ]
+    },
+    {
+      "name": "planningoffice.decentagency.eth",
+      "repo": "A-Decent-Agency/a-decent-agency.github.io",
+      "sourceCommit": "6f142bd1e534a0db60be702b37c90490cae5f7bd",
+      "owner": "0xcAeEd8422fB5682C298B7F0971906d446fFd4e7a",
+      "resolver": "0xF29100983E058B709F3D539b0c765937B804AC15",
+      "siteCid": "bafybeichqlpab7g7rmruzbahngodz434xtgjeein6jjmxmglwyr3g4njzq",
+      "records": {
+        "avatar": "ipfs://bafybeiblo6o4bmy5zztwoaylg3clpepfr4ju2ix3qrbdbsnd3mz5lhwucu/avatar.png",
+        "com.twitter.header": "ipfs://bafybeiblo6o4bmy5zztwoaylg3clpepfr4ju2ix3qrbdbsnd3mz5lhwucu/banner.png",
+        "description": "A Decent Agency project city and evidence-backed planning office.",
+        "url": "https://planningoffice.decentagency.eth.limo",
+        "com.github": "A-Decent-Agency/a-decent-agency.github.io"
+      },
+      "transactions": [
+        {
+          "hash": "0x91101f36314e0b82a838921aef2139fd5e1bd84b328fef0a3339c49d388501dd",
+          "action": "create-subname",
+          "blockNumber": 26348754,
+          "gasUsed": "74380",
+          "gasPaidWei": "37724460316440"
+        },
+        {
+          "hash": "0x4952e49a29d2fa9bbc378c2c6ffad1665297473261e88f25b01bf697860d2015",
+          "action": "set-site-and-art",
+          "blockNumber": 26348756,
+          "gasUsed": "558148",
+          "gasPaidWei": "263298945306772"
+        }
+      ],
+      "gatewayProofs": [
+        {
+          "name": "planningoffice.decentagency.eth",
+          "path": "bafybeichqlpab7g7rmruzbahngodz434xtgjeein6jjmxmglwyr3g4njzq/index.html",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "b4c555248162cc597f93b877df528e7937bf10c91779b486affb89b556d2489c"
+        },
+        {
+          "name": "planningoffice.decentagency.eth",
+          "path": "bafybeiblo6o4bmy5zztwoaylg3clpepfr4ju2ix3qrbdbsnd3mz5lhwucu/avatar.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "6e4bb51e2757f71d0bcd10933434c25cdcfad70a00f9ab2ccc7251e0fcba852b"
+        },
+        {
+          "name": "planningoffice.decentagency.eth",
+          "path": "bafybeiblo6o4bmy5zztwoaylg3clpepfr4ju2ix3qrbdbsnd3mz5lhwucu/banner.png",
+          "gateway": "https://ipfs.filebase.io/ipfs/",
+          "sha256": "52b451c254e46ee8829cdff72bb178e5d441d701468296ddb1d7763edb5dfd7b"
+        }
+      ]
+    }
+  ],
+  "caveats": [
+    "Point-in-time public build and chain verification, not continuous synchronization.",
+    "Frozen Supporter manifests, token metadata and existing ENS names are unchanged.",
+    "No third-party or unverified-site project names were registered.",
+    "ENS gateway caches and image support vary; IPFS artifacts were checked separately by hash."
+  ]
+}

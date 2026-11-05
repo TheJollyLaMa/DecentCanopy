@@ -1,13 +1,33 @@
 # DecentCanopy
 
-## First versioned Supporter release: preparing
+## ENS websites
+
+[decentcanopy.decentagency.eth](https://decentcanopy.decentagency.eth.limo)
+is the Agency-owned alias for reviewed public build `3527348`. Its own canopy
+avatar, banner, description and repository records were independently checked
+through two Ethereum RPC endpoints on 2026-11-05. The existing
+**[decentcanopy.eth](https://decentcanopy.eth.limo)** remains unchanged and may
+serve a different dated snapshot; no ownership was transferred.
+
+[Public deployment evidence](data/ens-project-deployments.json) records all four
+approved names (Calendar, Pilgrimages, Canopy and Planning Office), source commits,
+IPFS CIDs, artwork checksums and eight successful transactions. All names remain
+owned by the DecentAgency owner. Total gas was **0.001194747174722298 ETH**, below
+the approved 0.003 ETH cap. No other names or existing contenthashes were changed.
+Public site/artifact bytes were verified before signing. These are fixed,
+reviewed public snapshots, not automatic whole-library synchronization; ENS
+gateway caching and profile-image support vary.
+
+## First versioned Supporter release: prepared, mint evidence pending
 
 The About dialog now distinguishes **DecentCanopy's own edition (purchase unavailable)**
-from the map's inventory of other projects' tokens. Proposed first tag: **v0.1.0**;
-planned terms: **1,000 editions, 10 USDC each on Base**. This is a regular-release
-candidate labeled **beta / preview**; [draft release notes](wiki/Release-Notes-v0.1.0.md)
-are ready for review. Nothing has been minted,
-listed, deployed or announced by this preparation change.
+from the map's inventory of other projects' tokens. Published first tag:
+**[v0.1.0](https://github.com/TheJollyLaMa/DecentCanopy/releases/tag/v0.1.0)**;
+prepared terms: **1,000 editions, 10 USDC each on Base**. This is a regular
+release labeled **beta / preview**; [release notes](wiki/Release-Notes-v0.1.0.md)
+record the scope. ENS hosting does not establish a mint or listing. Frozen
+Supporter manifests remain unchanged; purchase stays unavailable until public
+mint/listing evidence is independently verified.
 
 See [Supporter release readiness and outstanding-work dispositions](wiki/Supporter-Release.md)
 for the complete issue/PR/remote-branch audit, exact-tag rendering requirements,
