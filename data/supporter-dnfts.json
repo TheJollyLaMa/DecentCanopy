@@ -1006,14 +1006,14 @@
       "creatorGithub": []
     },
     {
-      "metadataStatus": "unavailable",
+      "metadataStatus": "ok",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "80",
-      "name": "TheJollyLaMa/AsteRoid v1.0.0 Supporter DNFT",
-      "description": "Name from on-chain escrow listing note; token metadata unavailable.",
-      "image": "",
-      "metadataUri": "https://ipfs.io/ipfs/QmacnQSJCxmqjWnMxDqhkLXCJv1zqp1EKoeF7nY782rGpe",
+      "name": "Decent Voyager v1.0.0 Supporter DNFT",
+      "description": "Support the Decent Voyager release. Clone the tagged source under its license. No product ownership or financial return promised.",
+      "image": "https://ipfs.io/ipfs/QmRBdBUg73Cd3y1aAzTT6jVgcRaVbw3roPpb4KaCrVqxce",
+      "metadataUri": "https://ipfs.io/ipfs/QmYyFwg2BXcz63uVRSFF6L2crxe1Avhb234fzXdkwYCQaU",
       "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
       "totalMinted": "1000",
       "maxSupply": "1000",
@@ -1039,7 +1039,7 @@
         },
         {
           "id": "18",
-          "active": true,
+          "active": false,
           "available": "900",
           "priceETH": "0",
           "ethPrice": "0.0",
@@ -1048,12 +1048,45 @@
           "currency": "USDC",
           "price": "10.0",
           "note": "TheJollyLaMa/AsteRoid v1.0.0 Supporter DNFT"
+        },
+        {
+          "id": "19",
+          "active": true,
+          "available": "900",
+          "priceETH": "0",
+          "ethPrice": "0.0",
+          "priceToken": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913",
+          "priceAmount": "10000000",
+          "currency": "USDC",
+          "price": "10.0",
+          "note": "TheJollyLaMa/DecentVoyager v1.0.0 Supporter DNFT"
         }
       ],
-      "properties": {},
-      "observedAt": "2026-11-06T00:41:49.076Z",
+      "properties": {
+        "repo": "TheJollyLaMa/DecentVoyager",
+        "version": "v1.0.0",
+        "commit": "f7b71fbd7f5a549f0b2be3f6c35b38f3b655b9f8",
+        "code_archive_cid": "QmY2BdbKmqLYnvRHupFRRR4fZFeY6WAtQFfnmBS1PyEqaq",
+        "creator": "thejollylama.eth",
+        "creator_address": "0x807061DF657A7697c04045dA7d16D941861cAABc",
+        "release_date": "2026-11-05T21:10:31.000Z",
+        "back_image": "ipfs://QmXFXwtsuCg6EdWdhRmv5BPB6LD66AmLnqfoqNntxfG7SQ",
+        "supply": 1000,
+        "price": "10 USDC",
+        "chain": "Base",
+        "royalty_bps": 1000,
+        "license": "Apache-2.0 + NOTICE",
+        "product": {
+          "version": "v1.0.0",
+          "repo_url": "https://github.com/TheJollyLaMa/DecentVoyager",
+          "commit": "https://github.com/TheJollyLaMa/DecentVoyager/commit/f7b71fbd7f5a549f0b2be3f6c35b38f3b655b9f8",
+          "artifact_cid": "ipfs://QmY2BdbKmqLYnvRHupFRRR4fZFeY6WAtQFfnmBS1PyEqaq"
+        }
+      },
+      "observedAt": "2026-11-06T01:35:11.877Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80",
-      "creatorGithub": []
+      "creatorGithub": [],
+      "stale": false
     }
   ],
   "byProject": {
