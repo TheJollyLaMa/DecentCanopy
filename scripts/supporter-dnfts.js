@@ -46,7 +46,7 @@
   function coin(token, mirror) {
     const frame = element('span', undefined, 'supporter-coin');
     frame.setAttribute('aria-hidden', 'true');
-    const initials = token.projects[0]?.name || token.name;
+    const initials = token.projects[0]?.name || model.tokenName(token);
     const fallback = element('span', initials.split(/\s+/).map(w => w[0]).join('').slice(0, 3).toUpperCase(), 'supporter-coin-initials');
     frame.append(fallback);
     const url = mirror?.frontPreview || model.mediaUrl(token.image);
@@ -65,7 +65,7 @@
     const mirror = root.CanopyRepositoryActivity?.releaseMirror(root.CanopyRepositoryActivityUI?.getData(), token);
     const item = element('details', undefined, 'supporter-token');
     const summary = element('summary');
-    summary.append(coin(token, mirror), element('span', token.name));
+    summary.append(coin(token, mirror), element('span', model.tokenName(token)));
     item.append(summary);
     const content = element('div', undefined, 'supporter-token-body');
     const chain = model.CHAINS[token.chainId];
@@ -93,6 +93,7 @@
     }
     if (!offers.length) content.append(element('p', 'No available escrow listing observed.'));
     if (token.description) content.append(element('p', token.description));
+    if (model.tokenName(token) !== token.name) content.append(element('p', 'Project renamed to Decent Voyager. The canonical display name is shown; the observed escrow note still contains the historical name. This is not proof of an on-chain metadata correction.', 'details-muted'));
     if (token.metadataStatus && token.metadataStatus !== 'ok') content.append(element('p', `Token metadata ${token.metadataStatus}; name/artwork may come from a prior snapshot or the on-chain listing note.`, 'details-muted'));
     if (mirror) {
       item.open = true;
@@ -103,7 +104,7 @@
         if (preview) {
           const image = element('img');
           image.src = preview;
-          image.alt = `${token.name} — ${side.toLowerCase()} artwork`;
+          image.alt = `${model.tokenName(token)} — ${side.toLowerCase()} artwork`;
           image.loading = 'lazy';
           image.addEventListener('error', () => {
             figure.append(element('p', `${side} artwork unavailable; open the official release asset below.`));
@@ -209,7 +210,7 @@
         const owned = result.holdings.filter(h => !ids || ids.has(h.token.id));
         status.textContent = `${owned.length ? `${owned.length} held edition(s)` : result.errors.length ? 'Holdings not fully known' : 'No held editions found in the checked inventory'}. Wallet ${result.wallet}. Checked ${result.checkedAt}. ${result.errors.join(' ')}${Object.values(data.chains).some(c => c.status !== 'ok') ? ' Inventory discovery is incomplete; absence here is not proof of no other holdings.' : ''}`;
         for (const h of owned) {
-          const row = element('p', `${h.token.name} · quantity ${h.quantity} · ${model.CHAINS[h.token.chainId].name} block ${h.block} · `);
+          const row = element('p', `${model.tokenName(h.token)} · quantity ${h.quantity} · ${model.CHAINS[h.token.chainId].name} block ${h.block} · `);
           row.append(link(`${model.CHAINS[h.token.chainId].explorer}/token/${h.token.contract}?a=${wallet}`, 'View wallet holdings ↗'));
           results.append(row);
         }
