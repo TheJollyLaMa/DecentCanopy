@@ -2033,16 +2033,16 @@
       "repo": "TheJollyLaMa/DecentVoyager",
       "ens": "voyager.decentagency.eth",
       "reviewedAt": "2026-11-05",
-      "repositoryNote": "Canonical project/repository: Decent Voyager / TheJollyLaMa/DecentVoyager. Stable legacy map id asteroid is retained for existing connections. Token 80's original metadata and escrow note still contain the former repository identity; the in-place branding correction is prepared but not yet confirmed on-chain. Original archives and transaction logs remain historical evidence. Widget integrations remain proposed, not shipped.",
+      "repositoryNote": "Canonical project/repository: Decent Voyager / TheJollyLaMa/DecentVoyager. Token80 metadata and active listing19 were corrected on Base, without reminting or changing reserves. Stable legacy map id asteroid is retained for existing connections. Original archives and superseded transaction/listing logs remain historical evidence. Widget integrations remain proposed, not shipped.",
       "reviewNote": "v1.0.0 mint checked at Base block 53623806; finite reserve custody and replacement listings independently checked at block 53644409. 710 Supporter NFTs and 10,000 BNut are held by VoyagerRewards. This is a dated public observation, not live stock synchronization.",
       "reviewCaveats": [
-        "Token 80 moved from original listing 10 to replacement listing 18: 900 editions remain for sale at 10 USDC and 100 are held for game rewards at the observed block; checkout must recheck stock.",
+        "Token 80's verified branding correction updated its metadata and provenance links to DecentVoyager. Corrected listing 19 replaces listings 10/18: 900 editions remain for sale at 10 USDC and 100 remain reserved for rewards; checkout must recheck stock.",
         "VoyagerRewards holds the approved 710-NFT reserve and 10,000 BNut. Custody is not proof of an earned award or successful transfer; eligibility, unexpired-voucher reservations and finite stock still gate claims.",
         "Integrated-browser wallet signing and an actual winning-flight queue append/claim are not yet verified. GitHub-backed authenticated queue reads were checked.",
         "ENS contenthash is set; eth.limo currently fails during TLS setup. Pages is the verified play route.",
         "Busking #243 requires 100 levels, fixed NFT target rosters, beat attacks and a frozen weekly playlist reward; Voyager v1 does not fulfill that entire specification."
       ],
-      "currentState": "Decent Voyager is playable on Pages, with 10 guest sectors and whitelisted Pilot/Ace future sectors. Mobile touch/opt-in tilt, sharper rendering, responsive steering, weapon cycling and marathon receipts are delivered in PR #6. VoyagerRewards holds 710 Supporter NFTs plus 10,000 BNut for atomic Perfect Pilot awards. Token 80 has 900 sale editions in replacement listing 18 at 10 USDC. Referee uses GitHub-backed queues; physical MetaMask-device acceptance and a real winning-flight claim remain open.",
+      "currentState": "Decent Voyager is playable on Pages, with 10 guest sectors and whitelisted Pilot/Ace future sectors. Mobile touch/opt-in tilt, sharper rendering, responsive steering, weapon cycling and marathon receipts are delivered in PR #6. VoyagerRewards holds 710 Supporter NFTs plus 10,000 BNut for atomic Perfect Pilot awards. Token 80 has corrected Voyager metadata and 900 sale editions in listing 19 at 10 USDC. Referee uses GitHub-backed queues; physical MetaMask-device acceptance and a real winning-flight claim remain open.",
       "nextAction": "Verify a legitimately earned wallet claim and physical MetaMask mobile controls; do not treat emulated sensor tests as a device certification. Build lifecycle-safe pinned Office (#20) and Busking (#243) clones, preserving host radio and input ownership.",
       "updates": [
         {
@@ -2070,7 +2070,7 @@
         { "label": "Play Decent Voyager", "url": "https://thejollylama.github.io/DecentVoyager/" },
         { "label": "v1.0.0 release", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/tag/v1.0.0" },
         { "label": "Verified token 80 mint / listing 10", "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/download/v1.0.0/supporter-minted.json" },
-        { "label": "Support Voyager", "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=18&priceUSDC=10000000" },
+        { "label": "Support Voyager", "url": "https://thejollylama.github.io/DecentHead/supporter/buy.html?chainId=8453&escrow=0x31b07b83e99A9bdF379bf40225b8A80d3804C89d&listingId=19&priceUSDC=10000000" },
         { "label": "Planning Office widget request", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20" },
         { "label": "Busking implementation guidance", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/243#issuecomment-6670391716" }
       ],
