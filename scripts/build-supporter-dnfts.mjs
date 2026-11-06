@@ -138,6 +138,9 @@ export async function scan(chainId, config, catalog, previous, dependencies = {}
         const totalMinted = await optional('totalMinted');
         const maxSupply = await optional('maxSupply');
         const token = { metadataStatus, chainId: Number(chainId), contract, tokenId, name: typeof m.name === 'string' ? m.name : `Supporter DNFT #${tokenId}`, description: typeof m.description === 'string' ? m.description : '', image: Model.mediaUrl(m.image), metadataUri: Model.mediaUrl(uri), creator: creator === ZERO ? null : creator, totalMinted: totalMinted === null ? null : String(totalMinted), maxSupply: maxSupply === null ? null : String(maxSupply), projects: Model.matchProjects(m, catalog), listings: offers, properties: m.properties && typeof m.properties === 'object' ? m.properties : {}, observedAt: new Date().toISOString() };
+        if (!token.projects.length && Model.tokenName(token) !== token.name) {
+          token.projects = Model.matchProjects({ ...m, name: Model.tokenName(token) }, catalog);
+        }
         token.id = Model.tokenKey(token);
         tokens.push(token);
         console.log(`${config.name}: ${JSON.stringify(token.name)} (#${tokenId}) → ${token.projects.map(p => p.repo).join(', ') || 'creator only'}`);

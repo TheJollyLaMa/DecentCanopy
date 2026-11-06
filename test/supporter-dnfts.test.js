@@ -44,6 +44,31 @@ test('S11 repo wins over conflicting project/name metadata; unknown repos remain
   assert.equal(M.matchProjects({ properties: { repo: 'https://github.com/new/project' } }, catalog)[0].repo, 'new/project');
 });
 
+test('Voyager rename canonicalizes only the real repository and known token, preserving raw evidence', async () => {
+  const repo = 'thejollylama/decentvoyager';
+  assert.equal(M.normalizeRepo('TheJollyLaMa/AsteRoid'), repo);
+  assert.equal(M.normalizeRepo('Other/AsteRoid'), 'other/asteroid');
+  assert.equal(M.matchProjects({ properties: { repo: 'TheJollyLaMa/AsteRoid' } }, [{ repo, name: 'Decent Voyager' }])[0].repo, repo);
+  const data = fixture(), token = data.tokens[0];
+  token.tokenId = '80'; token.id = M.tokenKey(token);
+  token.name = 'TheJollyLaMa/AsteRoid v1.0.0 Supporter DNFT';
+  token.projects = [{ repo, name: 'Decent Voyager', matchedBy: 'name/description' }];
+  token.metadataStatus = 'unavailable';
+  token.listings[0].note = token.name;
+  Object.assign(data, M.indexTokens(data.tokens));
+  assert.equal(M.tokenName(token), 'Decent Voyager v1.0.0 Supporter DNFT');
+  assert.equal(M.tokenName({ ...token, tokenId: '79' }), token.name);
+  assert.equal(M.tokenName({ ...token, chainId: 10 }), token.name);
+  assert.equal(M.selectTokens([token], 'Decent Voyager').length, 1);
+  const { api, container, flatten } = ui(data);
+  api.mount(container, { kind: 'repository', repoUrl: `https://github.com/${repo}` });
+  await new Promise(resolve => setImmediate(resolve));
+  const nodes = flatten(container);
+  assert.ok(nodes.some(node => node.textContent === 'Decent Voyager v1.0.0 Supporter DNFT'));
+  assert.ok(nodes.some(node => node.textContent?.includes('not proof of an on-chain metadata correction')));
+  assert.equal(token.listings[0].note, token.name);
+});
+
 test('project property, legacy name/description, and word boundaries avoid collection bleed', () => {
   assert.equal(M.matchProjects({ name: 'BigNuten Supporter', properties: { project: 'DecentBusking' } }, catalog)[0].repo, catalog[1].repo);
   assert.equal(M.matchProjects({ properties: { project: 'https://github.com/TheJollyLaMa/DecentBusking' } }, catalog)[0].matchedBy, 'properties.project');

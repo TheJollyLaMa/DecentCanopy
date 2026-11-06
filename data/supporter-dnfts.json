@@ -1017,7 +1017,13 @@
       "creator": "0x807061DF657A7697c04045dA7d16D941861cAABc",
       "totalMinted": "1000",
       "maxSupply": "1000",
-      "projects": [],
+      "projects": [
+        {
+          "repo": "thejollylama/decentvoyager",
+          "name": "Decent Voyager",
+          "matchedBy": "name/description"
+        }
+      ],
       "listings": [
         {
           "id": "10",
@@ -1086,6 +1092,9 @@
     ],
     "thejollylama/decentcanopy": [
       "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79"
+    ],
+    "thejollylama/decentvoyager": [
+      "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80"
     ]
   },
   "byCreator": {

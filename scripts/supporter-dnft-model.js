@@ -24,7 +24,9 @@
       const u = new URL(value.includes('://') ? value : `https://github.com/${value}`);
       if (u.protocol !== 'https:' || u.hostname.toLowerCase() !== 'github.com' || u.username || u.password) return '';
       const parts = u.pathname.replace(/\/+$/, '').replace(/\.git$/i, '').split('/').filter(Boolean);
-      return parts.length === 2 && parts.every(p => /^[\w.-]+$/.test(p) && p !== '.' && p !== '..') ? parts.join('/').toLowerCase() : '';
+      if (parts.length !== 2 || !parts.every(p => /^[\w.-]+$/.test(p) && p !== '.' && p !== '..')) return '';
+      const repo = parts.join('/').toLowerCase();
+      return repo === 'thejollylama/asteroid' ? 'thejollylama/decentvoyager' : repo;
     } catch { return ''; }
   }
   const words = value => String(value || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
@@ -49,6 +51,13 @@
     return matches.map(c => ({ repo: c.repo, name: c.name, ...(c.aliases?.length ? { aliases: c.aliases } : {}), matchedBy: explicit.length ? 'properties.project' : 'name/description' }));
   }
   function tokenKey(token) { return `${token.chainId}:${token.contract.toLowerCase()}:${token.tokenId}`; }
+  function tokenName(token) {
+    if (token.chainId === 8453 && token.contract.toLowerCase() === CHAINS[8453].nft.toLowerCase() &&
+        token.tokenId === '80' && /^TheJollyLaMa\/AsteRoid v1\.0\.0 Supporter DNFT$/i.test(token.name)) {
+      return 'Decent Voyager v1.0.0 Supporter DNFT';
+    }
+    return token.name;
+  }
   function checkoutSupported(token, listing) {
     const config = CHAINS[8453];
     return token.chainId === 8453 && token.contract.toLowerCase() === config.nft.toLowerCase()
@@ -86,7 +95,7 @@
   function selectTokens(tokens, query = '', activity) {
     const terms = words(query).split(' ').filter(Boolean);
     return tokens.filter(token => {
-      const text = words([token.name, token.description, CHAINS[token.chainId].name, token.tokenId,
+      const text = words([tokenName(token), token.description, CHAINS[token.chainId].name, token.tokenId,
         token.listings.some(l => checkoutSupported(token, l)) ? 'available purchase listed' : 'legacy unavailable checkout',
         ...token.projects.flatMap(p => [p.name, p.repo, ...(p.aliases || [])]),
         ...['type', 'category', 'version'].map(k => token.properties?.[k])].join(' '));
@@ -148,7 +157,7 @@
     for (const key of ['byProject', 'byCreator']) if (JSON.stringify(data[key]) !== JSON.stringify(indices[key])) throw new Error(`Invalid ${key} index`);
     return data;
   }
-  const api = { MARKET, CHAINS, address, httpsUrl, mediaUrl, normalizeRepo, mentions, isSupporter, matchProjects, tokenKey, listingUrl, checkoutSupported, indexTokens, validateSnapshot, releaseDate, selectTokens, readHoldings };
+  const api = { MARKET, CHAINS, address, httpsUrl, mediaUrl, normalizeRepo, mentions, isSupporter, matchProjects, tokenKey, tokenName, listingUrl, checkoutSupported, indexTokens, validateSnapshot, releaseDate, selectTokens, readHoldings };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   else root.CanopySupporterModel = api;
 }(typeof globalThis !== 'undefined' ? globalThis : this));
