@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-07T06:28:26.352Z",
+  "generatedAt": "2026-11-07T12:25:36.274Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,14 +29,13 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-11-07T06:27:29.504Z"
+      "attemptedAt": "2026-11-07T12:24:37.757Z"
     },
     "8453": {
       "status": "partial",
       "registered": 81,
       "listings": 20,
       "issues": [
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:30: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:31: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:32: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:33: metadata or contract reads unavailable",
@@ -70,21 +69,21 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:61: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:62: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:63: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:66: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:64: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:65: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:67: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:68: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75: metadata unavailable; previous metadata used",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:76: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:77: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:78: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80: metadata unavailable; previous metadata used"
       ],
-      "attemptedAt": "2026-11-07T06:28:26.352Z"
+      "attemptedAt": "2026-11-07T12:25:36.274Z"
     }
   },
   "tokens": [
@@ -122,7 +121,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:26:14.219Z",
+      "observedAt": "2026-11-07T12:23:22.940Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -163,7 +162,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:26:14.180Z",
+      "observedAt": "2026-11-07T12:23:22.938Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -201,7 +200,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:27:17.179Z",
+      "observedAt": "2026-11-07T12:24:25.478Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -239,7 +238,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:26:26.731Z",
+      "observedAt": "2026-11-07T12:23:35.302Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -280,7 +279,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:26:27.037Z",
+      "observedAt": "2026-11-07T12:23:35.664Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -321,12 +320,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:26:26.990Z",
+      "observedAt": "2026-11-07T12:23:35.707Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "70",
@@ -392,7 +391,7 @@
           "artifact_cid": "ipfs://QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6"
         }
       },
-      "observedAt": "2026-11-07T06:28:26.352Z",
+      "observedAt": "2026-11-07T12:25:30.921Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
@@ -462,7 +461,7 @@
           "artifact_cid": "ipfs://QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG"
         }
       },
-      "observedAt": "2026-11-07T06:28:21.825Z",
+      "observedAt": "2026-11-07T12:25:31.086Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     },
@@ -525,7 +524,7 @@
         "site_cid": "bafybeigsij2lmbgkuctllu6xdrb6w4hk5cmrbih2pxl4fzrj45s45eandm",
         "ens_name": "djuke.decentagency.eth"
       },
-      "observedAt": "2026-11-07T06:28:22.088Z",
+      "observedAt": "2026-11-07T12:25:31.253Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
       "creatorGithub": []
     },
@@ -588,7 +587,7 @@
         "site_cid": "bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
         "ens_name": "dvert.decentagency.eth"
       },
-      "observedAt": "2026-11-07T06:28:22.349Z",
+      "observedAt": "2026-11-07T12:25:31.416Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
       "creatorGithub": []
     },
@@ -651,7 +650,7 @@
         "site_cid": "bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
         "ens_name": "dbusk.decentagency.eth"
       },
-      "observedAt": "2026-11-07T06:28:22.629Z",
+      "observedAt": "2026-11-07T12:25:31.584Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74",
       "creatorGithub": []
     },
@@ -726,12 +725,12 @@
         "site_cid": "bafybeichwabguwq5amum7lxokuqvuro6kiulhz5lotpgplnetdffidzxvy",
         "ens_name": "decentbusking.decentagency.eth"
       },
-      "observedAt": "2026-11-07T06:28:22.896Z",
+      "observedAt": "2026-11-07T12:25:32.056Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "stale",
+      "metadataStatus": "ok",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "76",
@@ -801,7 +800,7 @@
         "site_cid": "bafybeieokd6tbhjaehhtpbiz5mzn7yq7ifq2vmgho6cfqw2j57rmnr33ou",
         "ens_name": "bignuten.decentagency.eth"
       },
-      "observedAt": "2026-11-07T06:28:23.153Z",
+      "observedAt": "2026-11-07T12:25:36.274Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:76",
       "creatorGithub": []
     },
@@ -874,7 +873,7 @@
         },
         "site_cid": "bafybeigu4i6ovdf5drmb7eyqhopnaureofxinokwn45pp7qiuwus4loucq"
       },
-      "observedAt": "2026-11-07T06:28:23.423Z",
+      "observedAt": "2026-11-07T12:25:33.536Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:77",
       "creatorGithub": []
     },
@@ -924,7 +923,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-07T06:28:23.461Z",
+      "observedAt": "2026-11-07T12:25:33.712Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:78",
       "creatorGithub": []
     },
@@ -997,7 +996,7 @@
         },
         "site_cid": "bafybeifj3o26zsw6lidchygkr4ygybobfcpe5ydl5om23wx3o5ymnhm6wy"
       },
-      "observedAt": "2026-11-07T06:28:24.019Z",
+      "observedAt": "2026-11-07T12:25:33.880Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79",
       "creatorGithub": []
     },
@@ -1079,7 +1078,7 @@
           "artifact_cid": "ipfs://QmY2BdbKmqLYnvRHupFRRR4fZFeY6WAtQFfnmBS1PyEqaq"
         }
       },
-      "observedAt": "2026-11-07T06:28:24.087Z",
+      "observedAt": "2026-11-07T12:25:34.050Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80",
       "creatorGithub": []
     }
