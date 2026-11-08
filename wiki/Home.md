@@ -11,6 +11,7 @@ A home for independent creators to stay connected, document their projects and f
 | [Expanded profile design](Expanded-Profiles.md) | Understand the proposed pinner-qualified capacity model; design only, no new allowance enabled |
 | [Public project sources](Public-Sources.md) | Read qualified Busking fund/payroll evidence, source blockers and the reusable schema |
 | [Deployment](Deployment.md) | Configure publishing, secrets and Pages; troubleshoot |
+| [Marathon sprint](Marathon-Sprint.md) | Read public release evidence, remaining gates and the combined Jolly Sim Siddhi direction |
 
 Visit [the canopy](https://thejollylama.github.io/DecentCanopy/) or return to the [README](../README.md).
 
