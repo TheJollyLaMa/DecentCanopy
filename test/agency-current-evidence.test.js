@@ -35,7 +35,7 @@ test('current brief separates merged local work, unmerged builds and financial c
   assert.match(html('babel-bet'), /16 reported/);
   assert.match(html('babel-bet'), /No new game/);
   assert.equal(byId['agency-project:big-nuten'].agencyDetails.reviewedAt, '2026-11-03');
-  assert.equal(byId['agency-project:head'].agencyDetails.reviewedAt, '2026-10-22');
+  assert.equal(byId['agency-project:head'].agencyDetails.reviewedAt, '2026-11-08');
 });
 
 test('bad dates, duplicate identities and unsupported update evidence fail explicitly', () => {

@@ -1,5 +1,14 @@
 # DecentCanopy
 
+## Marathon sprint
+
+The [public sprint record](wiki/Marathon-Sprint.md) separates reviewed source,
+frontend publication and remaining deployment/integration gates. The Agency map
+now includes six administrative releases and the single **Jolly Sim Siddhi**
+homestead product direction, with Arduino Smarthome retained as its backbone
+source lineage rather than a second site/header rollout. No new contracts,
+ENS transactions or fund movement are included in this frontend sprint.
+
 ## ENS websites
 
 [decentcanopy.decentagency.eth](https://decentcanopy.decentagency.eth.limo)
