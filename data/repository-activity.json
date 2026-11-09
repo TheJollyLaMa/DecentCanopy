@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-09T04:55:25.546Z",
+  "generatedAt": "2026-11-09T05:16:41.547Z",
   "repositories": [
     {
       "repo": "a-decent-agency/a-decent-agency.github.io",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:15.756Z",
-      "checkedAt": "2026-11-09T04:55:15.756Z",
-      "windowStart": "2026-11-02T04:55:16.158Z",
+      "attemptedAt": "2026-11-09T05:15:58.071Z",
+      "checkedAt": "2026-11-09T05:15:58.071Z",
+      "windowStart": "2026-11-02T05:15:58.428Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -100,9 +100,9 @@
     {
       "repo": "a-decent-agency/dbuskradio",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:15.758Z",
-      "checkedAt": "2026-11-09T04:55:15.758Z",
-      "windowStart": "2026-11-02T04:55:16.150Z",
+      "attemptedAt": "2026-11-09T05:15:58.072Z",
+      "checkedAt": "2026-11-09T05:15:58.072Z",
+      "windowStart": "2026-11-02T05:15:58.426Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -116,19 +116,9 @@
       "release": {
         "tag": "v0.2.0",
         "publishedAt": "2026-10-24T19:24:36Z",
-        "url": "https://github.com/A-Decent-Agency/DBuskRadio/releases/tag/v0.2.0",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "74",
-          "metadataURI": "ipfs://QmT8TsfjAyiKmqVsScag18JTcpMoc9NJ7kftEgvFFgciWC",
-          "front": "https://github.com/A-Decent-Agency/DBuskRadio/releases/download/v0.2.0/supporter-front.png",
-          "back": "https://github.com/A-Decent-Agency/DBuskRadio/releases/download/v0.2.0/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/c159acec3f5cafc21ea6a177/front.png",
-          "backPreview": "assets/supporter-releases/c159acec3f5cafc21ea6a177/back.png"
-        }
+        "url": "https://github.com/A-Decent-Agency/DBuskRadio/releases/tag/v0.2.0"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "a-decent-agency/dbuskradio",
@@ -155,9 +145,9 @@
     {
       "repo": "a-decent-agency/decentjukebox",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:18.083Z",
-      "checkedAt": "2026-11-09T04:55:18.083Z",
-      "windowStart": "2026-11-02T04:55:18.331Z",
+      "attemptedAt": "2026-11-09T05:16:10.495Z",
+      "checkedAt": "2026-11-09T05:16:10.495Z",
+      "windowStart": "2026-11-02T05:16:10.802Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -171,19 +161,9 @@
       "release": {
         "tag": "v0.2.0",
         "publishedAt": "2026-10-24T19:24:20Z",
-        "url": "https://github.com/A-Decent-Agency/DecentJukebox/releases/tag/v0.2.0",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "72",
-          "metadataURI": "ipfs://QmaF9gLkty8kJH3ZdKX9VerYG5eVn32afWDActGVaGSzyQ",
-          "front": "https://github.com/A-Decent-Agency/DecentJukebox/releases/download/v0.2.0/supporter-front.png",
-          "back": "https://github.com/A-Decent-Agency/DecentJukebox/releases/download/v0.2.0/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/53969af89cce7e710f8cc94d/front.png",
-          "backPreview": "assets/supporter-releases/53969af89cce7e710f8cc94d/back.png"
-        }
+        "url": "https://github.com/A-Decent-Agency/DecentJukebox/releases/tag/v0.2.0"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "a-decent-agency/decentjukebox",
@@ -201,9 +181,9 @@
     {
       "repo": "a-decent-agency/dvert",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:15.758Z",
-      "checkedAt": "2026-11-09T04:55:15.758Z",
-      "windowStart": "2026-11-02T04:55:16.130Z",
+      "attemptedAt": "2026-11-09T05:15:58.074Z",
+      "checkedAt": "2026-11-09T05:15:58.074Z",
+      "windowStart": "2026-11-02T05:15:58.393Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -217,19 +197,9 @@
       "release": {
         "tag": "v0.2.1",
         "publishedAt": "2026-10-24T19:31:34Z",
-        "url": "https://github.com/A-Decent-Agency/DVert/releases/tag/v0.2.1",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "73",
-          "metadataURI": "ipfs://QmVpSejr4Cqo1MmsWR8zdxDUfLqt3ajWN67FhNhLCyEiAR",
-          "front": "https://github.com/A-Decent-Agency/DVert/releases/download/v0.2.1/supporter-front.png",
-          "back": "https://github.com/A-Decent-Agency/DVert/releases/download/v0.2.1/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/743d306c387f6ececfee5f36/front.png",
-          "backPreview": "assets/supporter-releases/743d306c387f6ececfee5f36/back.png"
-        }
+        "url": "https://github.com/A-Decent-Agency/DVert/releases/tag/v0.2.1"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "a-decent-agency/dvert",
@@ -247,9 +217,9 @@
     {
       "repo": "cadcad-org/cadcad",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:20.028Z",
-      "checkedAt": "2026-11-09T04:55:20.028Z",
-      "windowStart": "2026-11-02T04:55:20.277Z",
+      "attemptedAt": "2026-11-09T05:16:15.260Z",
+      "checkedAt": "2026-11-09T05:16:15.260Z",
+      "windowStart": "2026-11-02T05:16:15.559Z",
       "defaultBranch": "master",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -273,9 +243,9 @@
     {
       "repo": "thejollylama/ajollydecentcodecamp",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:20.085Z",
-      "checkedAt": "2026-11-09T04:55:20.085Z",
-      "windowStart": "2026-11-02T04:55:20.282Z",
+      "attemptedAt": "2026-11-09T05:16:16.320Z",
+      "checkedAt": "2026-11-09T05:16:16.320Z",
+      "windowStart": "2026-11-02T05:16:16.578Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -295,9 +265,9 @@
     {
       "repo": "thejollylama/arduino_smarthome",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:19.640Z",
-      "checkedAt": "2026-11-09T04:55:19.640Z",
-      "windowStart": "2026-11-02T04:55:19.836Z",
+      "attemptedAt": "2026-11-09T05:16:14.880Z",
+      "checkedAt": "2026-11-09T05:16:14.880Z",
+      "windowStart": "2026-11-02T05:16:15.204Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -317,9 +287,9 @@
     {
       "repo": "thejollylama/artfi",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:15.620Z",
-      "checkedAt": "2026-11-09T04:55:15.620Z",
-      "windowStart": "2026-11-02T04:55:16.101Z",
+      "attemptedAt": "2026-11-09T05:15:58.028Z",
+      "checkedAt": "2026-11-09T05:15:58.028Z",
+      "windowStart": "2026-11-02T05:15:58.372Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -339,9 +309,9 @@
     {
       "repo": "thejollylama/babelbet",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:23.734Z",
-      "checkedAt": "2026-11-09T04:55:23.734Z",
-      "windowStart": "2026-11-02T04:55:23.944Z",
+      "attemptedAt": "2026-11-09T05:16:33.746Z",
+      "checkedAt": "2026-11-09T05:16:33.746Z",
+      "windowStart": "2026-11-02T05:16:34.039Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -361,9 +331,9 @@
     {
       "repo": "thejollylama/bignuten_vanilla",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:17.502Z",
-      "checkedAt": "2026-11-09T04:55:17.502Z",
-      "windowStart": "2026-11-02T04:55:17.729Z",
+      "attemptedAt": "2026-11-09T05:16:10.355Z",
+      "checkedAt": "2026-11-09T05:16:10.355Z",
+      "windowStart": "2026-11-02T05:16:10.697Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -379,7 +349,7 @@
         "publishedAt": "2026-11-03T11:49:16Z",
         "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/releases/tag/v3.3.0"
       },
-      "error": "Supporter release artwork unavailable: Release manifest, metadata and mint evidence disagree.",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
       "referencesCapped": true
@@ -387,9 +357,9 @@
     {
       "repo": "thejollylama/decent_nda",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:23.049Z",
-      "checkedAt": "2026-11-09T04:55:23.049Z",
-      "windowStart": "2026-11-02T04:55:23.255Z",
+      "attemptedAt": "2026-11-09T05:16:31.352Z",
+      "checkedAt": "2026-11-09T05:16:31.352Z",
+      "windowStart": "2026-11-02T05:16:31.597Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -409,9 +379,9 @@
     {
       "repo": "thejollylama/decent_ucan_play",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:23.366Z",
-      "checkedAt": "2026-11-09T04:55:23.366Z",
-      "windowStart": "2026-11-02T04:55:23.548Z",
+      "attemptedAt": "2026-11-09T05:16:32.493Z",
+      "checkedAt": "2026-11-09T05:16:32.493Z",
+      "windowStart": "2026-11-02T05:16:32.789Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -431,9 +401,9 @@
     {
       "repo": "thejollylama/decentagency",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:16.927Z",
-      "checkedAt": "2026-11-09T04:55:16.927Z",
-      "windowStart": "2026-11-02T04:55:17.288Z",
+      "attemptedAt": "2026-11-09T05:15:59.541Z",
+      "checkedAt": "2026-11-09T05:15:59.541Z",
+      "windowStart": "2026-11-02T05:15:59.859Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -453,9 +423,9 @@
     {
       "repo": "thejollylama/decentairdrop",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:22.623Z",
-      "checkedAt": "2026-11-09T04:55:22.623Z",
-      "windowStart": "2026-11-02T04:55:22.850Z",
+      "attemptedAt": "2026-11-09T05:16:25.252Z",
+      "checkedAt": "2026-11-09T05:16:25.252Z",
+      "windowStart": "2026-11-02T05:16:25.563Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -475,9 +445,9 @@
     {
       "repo": "thejollylama/decentbusking",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:17.405Z",
-      "checkedAt": "2026-11-09T04:55:17.405Z",
-      "windowStart": "2026-11-02T04:55:17.598Z",
+      "attemptedAt": "2026-11-09T05:16:00.723Z",
+      "checkedAt": "2026-11-09T05:16:00.723Z",
+      "windowStart": "2026-11-02T05:16:01.011Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 8,
@@ -491,19 +461,9 @@
       "release": {
         "tag": "v1.0.0",
         "publishedAt": "2026-10-26T00:12:09Z",
-        "url": "https://github.com/TheJollyLaMa/DecentBusking/releases/tag/v1.0.0",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "75",
-          "metadataURI": "ipfs://QmZroFCEhaKoctVqW682Uzv5i6WWiQtuWvTAYkQBYfH6TD",
-          "front": "https://github.com/TheJollyLaMa/DecentBusking/releases/download/v1.0.0/supporter-front.png",
-          "back": "https://github.com/TheJollyLaMa/DecentBusking/releases/download/v1.0.0/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/3cada58a00e5a2b9eba27925/front.png",
-          "backPreview": "assets/supporter-releases/3cada58a00e5a2b9eba27925/back.png"
-        }
+        "url": "https://github.com/TheJollyLaMa/DecentBusking/releases/tag/v1.0.0"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "thejollylama/decentbusking",
@@ -530,9 +490,9 @@
     {
       "repo": "thejollylama/decentcalendar",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:22.857Z",
-      "checkedAt": "2026-11-09T04:55:22.857Z",
-      "windowStart": "2026-11-02T04:55:23.061Z",
+      "attemptedAt": "2026-11-09T05:16:26.511Z",
+      "checkedAt": "2026-11-09T05:16:26.511Z",
+      "windowStart": "2026-11-02T05:16:26.761Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 23,
@@ -546,19 +506,9 @@
       "release": {
         "tag": "v0.1.0",
         "publishedAt": "2026-11-05T11:24:34Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCalendar/releases/tag/v0.1.0",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "77",
-          "metadataURI": "ipfs://QmPqCy2g53t4BaffprtfjfM4L5imACB1nWZK63HyN9o3Tj",
-          "front": "https://github.com/TheJollyLaMa/DecentCalendar/releases/download/v0.1.0/supporter-front.png",
-          "back": "https://github.com/TheJollyLaMa/DecentCalendar/releases/download/v0.1.0/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/3d21e8669f02b4333955a26d/front.png",
-          "backPreview": "assets/supporter-releases/3d21e8669f02b4333955a26d/back.png"
-        }
+        "url": "https://github.com/TheJollyLaMa/DecentCalendar/releases/tag/v0.1.0"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "thejollylama/decentcalendar",
@@ -576,35 +526,25 @@
     {
       "repo": "thejollylama/decentcanopy",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:17.264Z",
-      "checkedAt": "2026-11-09T04:55:17.264Z",
-      "windowStart": "2026-11-02T04:55:17.525Z",
+      "attemptedAt": "2026-11-09T05:15:59.603Z",
+      "checkedAt": "2026-11-09T05:15:59.603Z",
+      "windowStart": "2026-11-02T05:15:59.930Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 19,
       "commits7d": 100,
       "capped": true,
       "latestCommit": {
-        "sha": "52c7110c42ec9bf4957ac8ee155ae4aa3b472ccd",
-        "date": "2026-11-09T04:41:07Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/52c7110c42ec9bf4957ac8ee155ae4aa3b472ccd"
+        "sha": "ddbae22cf11568ba5d021d31ed33cf7164e011fa",
+        "date": "2026-11-09T04:56:04Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/ddbae22cf11568ba5d021d31ed33cf7164e011fa"
       },
       "release": {
         "tag": "v0.1.0",
         "publishedAt": "2026-11-05T11:33:17Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/releases/tag/v0.1.0",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "79",
-          "metadataURI": "ipfs://QmQqQtuSeab78F3pdBcMbvSopYZLa51zJ4JxcodQ2ugy9d",
-          "front": "https://github.com/TheJollyLaMa/DecentCanopy/releases/download/v0.1.0/supporter-front.png",
-          "back": "https://github.com/TheJollyLaMa/DecentCanopy/releases/download/v0.1.0/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/89e4de4e64ac36fa0b71a8f0/front.png",
-          "backPreview": "assets/supporter-releases/89e4de4e64ac36fa0b71a8f0/back.png"
-        }
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/releases/tag/v0.1.0"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "thejollylama/decentcanopy",
@@ -712,9 +652,9 @@
     {
       "repo": "thejollylama/decentescrow",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:21.919Z",
-      "checkedAt": "2026-11-09T04:55:21.919Z",
-      "windowStart": "2026-11-02T04:55:22.104Z",
+      "attemptedAt": "2026-11-09T05:16:22.984Z",
+      "checkedAt": "2026-11-09T05:16:22.984Z",
+      "windowStart": "2026-11-02T05:16:23.224Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -734,9 +674,9 @@
     {
       "repo": "thejollylama/decenthead",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:21.225Z",
-      "checkedAt": "2026-11-09T04:55:21.225Z",
-      "windowStart": "2026-11-02T04:55:21.426Z",
+      "attemptedAt": "2026-11-09T05:16:18.668Z",
+      "checkedAt": "2026-11-09T05:16:18.668Z",
+      "windowStart": "2026-11-02T05:16:18.933Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -750,19 +690,9 @@
       "release": {
         "tag": "v2.0.0",
         "publishedAt": "2026-10-21T21:28:52Z",
-        "url": "https://github.com/TheJollyLaMa/DecentHead/releases/tag/v2.0.0",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "70",
-          "metadataURI": "ipfs://QmVGmpz63TS9XkTHMxf2sybHv5k9Vdoyr2Spi9QqZ4pzfj",
-          "front": "https://github.com/TheJollyLaMa/DecentHead/releases/download/v2.0.0/supporter-front.png",
-          "back": "https://github.com/TheJollyLaMa/DecentHead/releases/download/v2.0.0/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/41cb727cd2415a9cd36c568d/front.png",
-          "backPreview": "assets/supporter-releases/41cb727cd2415a9cd36c568d/back.png"
-        }
+        "url": "https://github.com/TheJollyLaMa/DecentHead/releases/tag/v2.0.0"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
       "referencesCapped": false
@@ -770,9 +700,9 @@
     {
       "repo": "thejollylama/decentinvoice",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:22.484Z",
-      "checkedAt": "2026-11-09T04:55:22.484Z",
-      "windowStart": "2026-11-02T04:55:22.734Z",
+      "attemptedAt": "2026-11-09T05:16:24.082Z",
+      "checkedAt": "2026-11-09T05:16:24.082Z",
+      "windowStart": "2026-11-02T05:16:24.364Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -792,9 +722,9 @@
     {
       "repo": "thejollylama/decentmarket",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:21.575Z",
-      "checkedAt": "2026-11-09T04:55:21.575Z",
-      "windowStart": "2026-11-02T04:55:21.771Z",
+      "attemptedAt": "2026-11-09T05:16:22.965Z",
+      "checkedAt": "2026-11-09T05:16:22.965Z",
+      "windowStart": "2026-11-02T05:16:23.219Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 4,
@@ -808,19 +738,9 @@
       "release": {
         "tag": "v0.3.1",
         "publishedAt": "2026-10-22T02:26:31Z",
-        "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/tag/v0.3.1",
-        "supporter": {
-          "chainId": 8453,
-          "contract": "0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B",
-          "tokenId": "71",
-          "metadataURI": "ipfs://QmUR29d2NeRH94ceLDxHqDvDi4eNdSRTNM1wZ6UPDsvWqi",
-          "front": "https://github.com/TheJollyLaMa/DecentMarket/releases/download/v0.3.1/supporter-front.png",
-          "back": "https://github.com/TheJollyLaMa/DecentMarket/releases/download/v0.3.1/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/b74c1027737989889574f943/front.png",
-          "backPreview": "assets/supporter-releases/b74c1027737989889574f943/back.png"
-        }
+        "url": "https://github.com/TheJollyLaMa/DecentMarket/releases/tag/v0.3.1"
       },
-      "error": "",
+      "error": "Supporter release artwork unavailable: Public GitHub read failed (HTTP 504).",
       "crossReferences": [
         {
           "source": "thejollylama/decentmarket",
@@ -874,9 +794,9 @@
     {
       "repo": "thejollylama/decentpilgrimages",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:21.008Z",
-      "checkedAt": "2026-11-09T04:55:21.008Z",
-      "windowStart": "2026-11-02T04:55:21.242Z",
+      "attemptedAt": "2026-11-09T05:16:18.348Z",
+      "checkedAt": "2026-11-09T05:16:18.348Z",
+      "windowStart": "2026-11-02T05:16:18.582Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -897,12 +817,10 @@
           "tokenId": "78",
           "metadataURI": "ipfs://QmNe9SYSyrZYV66X29Wp4hBLbCDpQDjnJsAJLDdAytALEN",
           "front": "https://github.com/TheJollyLaMa/DecentPilgrimages/releases/download/v0.1.1/supporter-front.png",
-          "back": "https://github.com/TheJollyLaMa/DecentPilgrimages/releases/download/v0.1.1/supporter-back.png",
-          "frontPreview": "assets/supporter-releases/853fb2b85e9cc887c1b30e5c/front.png",
-          "backPreview": "assets/supporter-releases/853fb2b85e9cc887c1b30e5c/back.png"
+          "back": "https://github.com/TheJollyLaMa/DecentPilgrimages/releases/download/v0.1.1/supporter-back.png"
         }
       },
-      "error": "",
+      "error": "Release artwork preview unavailable: Artwork HTTP 504",
       "crossReferences": [
         {
           "source": "thejollylama/decentpilgrimages",
@@ -929,9 +847,9 @@
     {
       "repo": "thejollylama/decentsubscriptions",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:20.948Z",
-      "checkedAt": "2026-11-09T04:55:20.948Z",
-      "windowStart": "2026-11-02T04:55:21.168Z",
+      "attemptedAt": "2026-11-09T05:16:17.499Z",
+      "checkedAt": "2026-11-09T05:16:17.499Z",
+      "windowStart": "2026-11-02T05:16:17.776Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -951,9 +869,9 @@
     {
       "repo": "thejollylama/decentvoyager",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:23.971Z",
-      "checkedAt": "2026-11-09T04:55:23.971Z",
-      "windowStart": "2026-11-02T04:55:24.228Z",
+      "attemptedAt": "2026-11-09T05:16:34.893Z",
+      "checkedAt": "2026-11-09T05:16:34.893Z",
+      "windowStart": "2026-11-02T05:16:35.163Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -1005,9 +923,9 @@
     {
       "repo": "thejollylama/greenteahut_01",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:18.870Z",
-      "checkedAt": "2026-11-09T04:55:18.870Z",
-      "windowStart": "2026-11-02T04:55:19.092Z",
+      "attemptedAt": "2026-11-09T05:16:13.447Z",
+      "checkedAt": "2026-11-09T05:16:13.447Z",
+      "windowStart": "2026-11-02T05:16:13.729Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -1027,9 +945,9 @@
     {
       "repo": "thejollylama/jolly-sim-siddhi",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:18.946Z",
-      "checkedAt": "2026-11-09T04:55:18.946Z",
-      "windowStart": "2026-11-02T04:55:19.191Z",
+      "attemptedAt": "2026-11-09T05:16:13.928Z",
+      "checkedAt": "2026-11-09T05:16:13.928Z",
+      "windowStart": "2026-11-02T05:16:14.220Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -1086,9 +1004,9 @@
     {
       "repo": "thejollylama/jollysandbox",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:20.625Z",
-      "checkedAt": "2026-11-09T04:55:20.625Z",
-      "windowStart": "2026-11-02T04:55:20.870Z",
+      "attemptedAt": "2026-11-09T05:16:17.257Z",
+      "checkedAt": "2026-11-09T05:16:17.257Z",
+      "windowStart": "2026-11-02T05:16:17.501Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1108,9 +1026,9 @@
     {
       "repo": "thejollylama/qart-code",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:24.321Z",
-      "checkedAt": "2026-11-09T04:55:24.321Z",
-      "windowStart": "2026-11-02T04:55:24.524Z",
+      "attemptedAt": "2026-11-09T05:16:35.596Z",
+      "checkedAt": "2026-11-09T05:16:35.596Z",
+      "windowStart": "2026-11-02T05:16:35.909Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -1130,9 +1048,9 @@
     {
       "repo": "thejollylama/thegreenteaparty",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:18.810Z",
-      "checkedAt": "2026-11-09T04:55:18.810Z",
-      "windowStart": "2026-11-02T04:55:18.999Z",
+      "attemptedAt": "2026-11-09T05:16:12.253Z",
+      "checkedAt": "2026-11-09T05:16:12.253Z",
+      "windowStart": "2026-11-02T05:16:12.518Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -1152,9 +1070,9 @@
     {
       "repo": "thejollylama/umbrellaacademy",
       "status": "ok",
-      "attemptedAt": "2026-11-09T04:55:20.031Z",
-      "checkedAt": "2026-11-09T04:55:20.031Z",
-      "windowStart": "2026-11-02T04:55:20.233Z",
+      "attemptedAt": "2026-11-09T05:16:16.039Z",
+      "checkedAt": "2026-11-09T05:16:16.039Z",
+      "windowStart": "2026-11-02T05:16:16.355Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
