@@ -1880,20 +1880,38 @@
       "repositoryNote": "Public repository identity unresolved."
     },
     {
+      "id": "dlang",
+      "name": "DLang",
+      "repo": "TheJollyLaMa/DLang",
+      "focus": "next",
+      "reviewedAt": "2026-11-10",
+      "purpose": "Independent visual language learning: notice, name, narrate across original scenes and several languages together.",
+      "currentState": "Independent public repository and GitHub Pages preview. Seven original SVG scenes, twelve concepts, two-minute daily attempts, five seed language packs, local consent profiles, illustrated About and rabbit tutorial. 22 receiving tests and 13 local escrow tests pass. A local Base-native-USDC fork at block 55819909 also passed entry, settlement, claim and shutdown refund; no remote transaction was sent. No contract deployed, payments enabled, Supporter token minted or language/content review claimed.",
+      "nextAction": "Review seed vocabulary and artwork with testers for November 16. Finish verified ENS/Discord profile integration, signed deployment/source verification, full fee cap checks, transaction UI and steward result/dispute operations before any 1 USDC buy-in. Voice is backlog, not active.",
+      "updates": [
+        {"state": "merged", "label": "Independent DLang source and nonfinancial preview", "detail": "Five languages include Hindi and Simplified Mandarin with pinyin for study only. Reviewed five-member eligibility snapshot includes explicitly invited GrannyLyn and Bobdub; it is neither live registration synchronization nor financial authorization. Payments remain disabled; editable local history is not a settlement oracle.", "evidence": [{"label": "Independent public source", "url": "https://github.com/TheJollyLaMa/DLang"}, {"label": "Published preview", "url": "https://thejollylama.github.io/DLang/"}]}
+      ],
+      "offers": [
+        {"id": "dlang-observation-preview", "label": "Scene-linked simultaneous multilingual study", "state": "code-observed", "detail": "Original candidate SVG variants, keyboard/touch controls, exact 76/84 threshold and local weekly recovery. Seed labels need fluent review; no learning outcome measured.", "evidence": [{"label": "Receiving tests and reuse decision", "url": "https://github.com/TheJollyLaMa/DLang/blob/main/README.md"}]}
+      ],
+      "needs": [
+        {"id": "dlang-pilot-gates", "label": "Reviewed curriculum and financial launch gates", "state": "documented", "detail": "Deploy/sign/verify within cap, complete on-chain participant and steward interfaces, review results/disputes/refunds and obtain participant/content acceptance before real buy-ins.", "evidence": [{"label": "Pilot configuration and blockers", "url": "https://github.com/TheJollyLaMa/DLang/blob/main/docs/Pilot-Configuration.md"}]},
+        {"id": "dlang-voice", "label": "Consent-based speech and conversation", "state": "issue-reported", "detail": "Consider LiveKit transport with speech/feedback services outside scored rounds first; transcript matching is not pronunciation assessment or a financial oracle.", "evidence": [{"label": "Transferred LiveKit issue", "url": "https://github.com/TheJollyLaMa/DLang/issues/2"}]}
+      ]
+    },
+    {
       "id": "babel-bet",
       "reviewedAt": "2026-11-10",
       "updates": [
-        {"state": "planned", "label": "DLang: visual scenes and three or more languages together", "detail": "Working title for our own language-learning experience in the BabelBet / DuoDuel lineage: original seek-and-find scenes, many visual exemplars of each concept rather than one repeated picture, and an optional mode showing three or more languages simultaneously for the same object/concept. Proposed first acceptance includes unfamiliar-exemplar recognition, reviewed contextual labels, keyboard/touch access and asset provenance. This is design intent, not a delivered game, repository rename or authorization for Duolingo access, wagers or payouts.", "evidence": [{"label": "DLang direction and proposed first slice #6", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/6"}]},
         {"state": "in-flight", "label": "Preparation only, not a game launch", "detail": "PR #5 reports 16 tests for shared experience, local recovery, opt-in radio and inactive payroll. Provider/watcher entrypoints are quarantined on that branch. Keep unmerged for review.", "evidence": [{"label": "Unmerged preparation PR #5", "url": "https://github.com/TheJollyLaMa/BabelBet/pull/5"}]},
         {"state": "planned", "label": "Separate game and provider decisions", "detail": "No official/unofficial Duolingo, wagering, settlement engine, live payroll or AI activation is authorized by preparation.", "evidence": [{"label": "Preparation acceptance #4", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/4"}]}
       ],
       "name": "BabelBet",
       "focus": "next",
       "repo": "TheJollyLaMa/BabelBet",
-      "purpose": "Language learning and cooperative accountability. DLang is the planned visual, scene-centered evolution of BabelBet / DuoDuel, with varied concept imagery and a simultaneous three-or-more-language mode; the existing build remains preparation only.",
-      "nextAction": "Scope DLang issue #6: choose an original/licensed scene, varied exemplars and reviewed vocabulary for at least three simultaneous languages; agree on the first non-wagering prototype and unfamiliar-example recognition test for a separately approved build. Review preparation PR #5 separately. Keep official and unofficial Duolingo access and legacy watchers disabled; do not activate stakes, payouts or payroll.",
+      "purpose": "Historical language-learning and cooperative-accountability sandbox. The existing build remains preparation only; it is not the independent DLang application.",
+      "nextAction": "Review preparation PR #5 separately. Keep official and unofficial Duolingo access and legacy watchers disabled; do not activate stakes, payouts or payroll. Any future game needs a separately approved build. Independent DLang has its own repository and map card.",
       "evidence": [
-        { "label": "DLang visual and multilingual design intent", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/6" },
         { "label": "Shared experience preparation", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/2" },
         { "label": "Gated payroll and provider etiquette", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/3" },
         { "label": "Preparation overseer and no-provider acceptance", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/4" }
@@ -1932,13 +1950,6 @@
         }
       ],
       "needs": [
-        {
-          "id": "dlang-visual-multilingual",
-          "label": "DLang scene learning, varied exemplars and simultaneous multilingual labels",
-          "state": "issue-reported",
-          "detail": "Plan original seek-and-find scenes with multiple visual versions of each concept and three or more languages shown together. First prototype acceptance should check recognition of an unfamiliar exemplar, contextual concept/label linkage, asset rights and accessible scene exploration. No learning engine or prototype is delivered by this issue.",
-          "evidence": [{ "label": "DLang intent #6", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/6" }]
-        },
         {
           "id": "babelbet-shared-preparation",
           "label": "Shared Decent shell and newcomer preparation",
