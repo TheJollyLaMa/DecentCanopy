@@ -26,7 +26,7 @@ test('all requested names survive as projects, with separate public repo identit
     'AJollyDecentCodeCamp', 'JollySandbox', 'DecentSubscriptions', 'DecentPilgrimages',
     'DecentHead', 'DecentCanvas', 'DecentFooter', 'DecentMarket', 'DecentEscrow',
     'DecentInvoice', 'DecentAirdrop', 'DecentCalendar', 'Decent_NDA', 'Decent_UCANN_Play',
-    'DuoDuel', 'BabelBet', 'BabelBet_OG_Prototype', 'TheJokerWillPlay', 'Bean', 'Decent Voyager',
+    'DuoDuel', 'DLang', 'BabelBet', 'BabelBet_OG_Prototype', 'TheJokerWillPlay', 'Bean', 'Decent Voyager',
     'DecentSettlementsRouter', 'Agency Planning Office', 'DBuskRadio widget', 'DVert widget'
   ];
   assert.deepEqual(graph.projects.filter(n => n.kind !== 'repository').map(n => n.name).sort(), expected.sort());
@@ -55,7 +55,7 @@ test('focus, external scope, unresolved identities, and reported payouts remain 
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'now').map(n => n.name).sort(),
     ['Agency Planning Office', 'BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy', 'DecentSettlementsRouter']);
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name),
-    ['DecentLending / DLend (ArtFi)', 'DecentPilgrimages', 'BabelBet']);
+    ['DecentLending / DLend (ArtFi)', 'DecentPilgrimages', 'DLang', 'BabelBet']);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
   assert.equal(graph.projects.find(n => n.name === 'Bean').repoUrl, null);
   assert.equal(graph.projects.find(n => n.name === 'BabelBet_OG_Prototype').repoUrl, 'https://github.com/TheJollyLaMa/BabelBet');
@@ -225,7 +225,7 @@ test('capabilities require evidence and candidate matches resolve the exact offe
 test('public capability inventory keeps private/local review payloads outside publication', () => {
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
-  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 49);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 50);
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
   assert.match(nutrition.detail, /separate deployed synthetic acceptance/i);
@@ -263,7 +263,7 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(consent.detail, /anyone can claim an invited address/);
   assert.match(consent.detail, /not wallet ownership or private-access verification/);
   assert.match(consent.detail, /explicit lookup click/);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 38);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 39);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {
