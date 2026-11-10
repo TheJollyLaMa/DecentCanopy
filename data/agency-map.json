@@ -1881,17 +1881,19 @@
     },
     {
       "id": "babel-bet",
-      "reviewedAt": "2026-11-03",
+      "reviewedAt": "2026-11-10",
       "updates": [
+        {"state": "planned", "label": "DLang: visual scenes and three or more languages together", "detail": "Working title for our own language-learning experience in the BabelBet / DuoDuel lineage: original seek-and-find scenes, many visual exemplars of each concept rather than one repeated picture, and an optional mode showing three or more languages simultaneously for the same object/concept. Proposed first acceptance includes unfamiliar-exemplar recognition, reviewed contextual labels, keyboard/touch access and asset provenance. This is design intent, not a delivered game, repository rename or authorization for Duolingo access, wagers or payouts.", "evidence": [{"label": "DLang direction and proposed first slice #6", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/6"}]},
         {"state": "in-flight", "label": "Preparation only, not a game launch", "detail": "PR #5 reports 16 tests for shared experience, local recovery, opt-in radio and inactive payroll. Provider/watcher entrypoints are quarantined on that branch. Keep unmerged for review.", "evidence": [{"label": "Unmerged preparation PR #5", "url": "https://github.com/TheJollyLaMa/BabelBet/pull/5"}]},
         {"state": "planned", "label": "Separate game and provider decisions", "detail": "No official/unofficial Duolingo, wagering, settlement engine, live payroll or AI activation is authorized by preparation.", "evidence": [{"label": "Preparation acceptance #4", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/4"}]}
       ],
       "name": "BabelBet",
       "focus": "next",
       "repo": "TheJollyLaMa/BabelBet",
-      "purpose": "Social language practice and cooperative commitment; current scope is preparation only, not a new game or wagering launch.",
-      "nextAction": "A preparation worker and integration overseer update the shared Decent experience and gated contributor workflow. Disable all official and unofficial Duolingo access in runtime, tests and CI; document provider etiquette and unresolved game decisions for a separately approved build.",
+      "purpose": "Language learning and cooperative accountability. DLang is the planned visual, scene-centered evolution of BabelBet / DuoDuel, with varied concept imagery and a simultaneous three-or-more-language mode; the existing build remains preparation only.",
+      "nextAction": "Scope DLang issue #6: choose an original/licensed scene, varied exemplars and reviewed vocabulary for at least three simultaneous languages; agree on the first non-wagering prototype and unfamiliar-example recognition test for a separately approved build. Review preparation PR #5 separately. Keep official and unofficial Duolingo access and legacy watchers disabled; do not activate stakes, payouts or payroll.",
       "evidence": [
+        { "label": "DLang visual and multilingual design intent", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/6" },
         { "label": "Shared experience preparation", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/2" },
         { "label": "Gated payroll and provider etiquette", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/3" },
         { "label": "Preparation overseer and no-provider acceptance", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/4" }
@@ -1930,6 +1932,13 @@
         }
       ],
       "needs": [
+        {
+          "id": "dlang-visual-multilingual",
+          "label": "DLang scene learning, varied exemplars and simultaneous multilingual labels",
+          "state": "issue-reported",
+          "detail": "Plan original seek-and-find scenes with multiple visual versions of each concept and three or more languages shown together. First prototype acceptance should check recognition of an unfamiliar exemplar, contextual concept/label linkage, asset rights and accessible scene exploration. No learning engine or prototype is delivered by this issue.",
+          "evidence": [{ "label": "DLang intent #6", "url": "https://github.com/TheJollyLaMa/BabelBet/issues/6" }]
+        },
         {
           "id": "babelbet-shared-preparation",
           "label": "Shared Decent shell and newcomer preparation",

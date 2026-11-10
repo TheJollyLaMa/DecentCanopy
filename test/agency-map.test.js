@@ -263,7 +263,7 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(consent.detail, /anyone can claim an invited address/);
   assert.match(consent.detail, /not wallet ownership or private-access verification/);
   assert.match(consent.detail, /explicit lookup click/);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 37);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 38);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {

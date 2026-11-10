@@ -47,6 +47,15 @@ in Next, with distinct acceptance scopes:
   or official/unofficial Duolingo request; provider permission and etiquette
   remain prerequisites for a future build.
 
+On 10 November, [BabelBet #6](https://github.com/TheJollyLaMa/BabelBet/issues/6)
+records **DLang** as a working title for a separately planned learning experience
+in the BabelBet / DuoDuel lineage: original seek-and-find scenes, multiple visual
+exemplars per concept and a mode showing three or more languages simultaneously.
+This is not a launched game or a repository rename. Inspect the preparation
+shell and suitable scene/content donors before implementation; neither a scene
+engine nor a tested multilingual integration is established by this planning
+update. Keep Duolingo access and financial activation disabled.
+
 The [Office towers](https://a-decent-agency.github.io/) link workers to public
 acceptance issues and real milestones. Head v2.0.0 is a proposed reusable donor,
 not proof of either receiving application's adoption. Both repos prepare the
