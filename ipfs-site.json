@@ -2,19 +2,24 @@
   "format": "decentcanopy-site-pin",
   "version": 1,
   "provider": "Pinata",
-  "cid": "bafybeia3rn6jhpldjyp2gezydorbrteqnlp4j5rdso3et2mlczpwfgoxgq",
-  "uri": "ipfs://bafybeia3rn6jhpldjyp2gezydorbrteqnlp4j5rdso3et2mlczpwfgoxgq",
+  "cid": "bafybeia7z7jifzzqhvwvrbybbvcszm3bhstcnduglad2blaoccwhg6oomu",
+  "uri": "ipfs://bafybeia7z7jifzzqhvwvrbybbvcszm3bhstcnduglad2blaoccwhg6oomu",
   "urls": {
-    "inbrowser": "https://bafybeia3rn6jhpldjyp2gezydorbrteqnlp4j5rdso3et2mlczpwfgoxgq.ipfs.inbrowser.link/",
-    "dweb": "https://bafybeia3rn6jhpldjyp2gezydorbrteqnlp4j5rdso3et2mlczpwfgoxgq.ipfs.dweb.link/",
-    "pinata": "https://gateway.pinata.cloud/ipfs/bafybeia3rn6jhpldjyp2gezydorbrteqnlp4j5rdso3et2mlczpwfgoxgq/"
+    "inbrowser": "https://bafybeia7z7jifzzqhvwvrbybbvcszm3bhstcnduglad2blaoccwhg6oomu.ipfs.inbrowser.link/",
+    "dweb": "https://bafybeia7z7jifzzqhvwvrbybbvcszm3bhstcnduglad2blaoccwhg6oomu.ipfs.dweb.link/",
+    "pinata": "https://gateway.pinata.cloud/ipfs/bafybeia7z7jifzzqhvwvrbybbvcszm3bhstcnduglad2blaoccwhg6oomu/"
   },
-  "pinnedAt": "2026-11-11T18:16:28.854Z",
-  "commit": "e691ecae6003bb3e3a07c46ece3434264fb50f79",
-  "siteSha256": "7482d9ea5e824acdd382d1068f4361ecb9c8e6369406f12eb55d0f75f639908c",
+  "pinnedAt": "2026-11-11T18:24:31.297Z",
+  "commit": "8fa1055a48ad1aa7727a751390f88672a2831757",
+  "siteSha256": "d639a4104ca2f7bd60873d67e01fd02e2e5094f2d1583b4de8cd6d2daf14dfe8",
   "fileCount": 147,
-  "bytes": 27610714,
+  "bytes": 27611753,
   "recent": [
+    {
+      "cid": "bafybeia7z7jifzzqhvwvrbybbvcszm3bhstcnduglad2blaoccwhg6oomu",
+      "pinnedAt": "2026-11-11T18:24:31.297Z",
+      "commit": "8fa1055a48ad1aa7727a751390f88672a2831757"
+    },
     {
       "cid": "bafybeia3rn6jhpldjyp2gezydorbrteqnlp4j5rdso3et2mlczpwfgoxgq",
       "pinnedAt": "2026-11-11T18:16:28.854Z",
@@ -34,11 +39,6 @@
       "cid": "bafybeicqawlbmkptx5cedjekqpt3jhs7tsgymtdr5j4ed2qzrpeb42pi4a",
       "pinnedAt": "2026-11-11T17:26:12.756Z",
       "commit": "b7e4ff243030ccd25cc664b424b2d7f539284732"
-    },
-    {
-      "cid": "bafybeiao4shmzw7m4q5ijidlojktxc4ygd2zcp5hxszw2qqfsngospbyia",
-      "pinnedAt": "2026-11-11T17:15:07.728Z",
-      "commit": "6a9359ad16f70cf9ad58eaf5bef40adcc5da1511"
     }
   ]
 }
