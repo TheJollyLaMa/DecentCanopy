@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-11T00:43:05.738Z",
+  "generatedAt": "2026-11-11T06:31:46.589Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,14 +29,61 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-11-11T00:40:38.294Z"
+      "attemptedAt": "2026-11-11T06:30:43.393Z"
     },
     "8453": {
-      "status": "ok",
+      "status": "partial",
       "registered": 81,
       "listings": 21,
-      "issues": [],
-      "attemptedAt": "2026-11-11T00:43:05.738Z"
+      "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:34: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:36: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:37: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:38: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:39: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:40: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:41: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:42: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:43: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:44: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:45: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:46: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:47: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:48: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:49: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:50: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:51: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:52: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:53: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:54: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:55: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:56: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:57: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:58: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:59: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:60: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:61: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:62: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:64: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:65: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:66: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:67: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:68: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:69: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:76: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:77: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:78: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79: metadata unavailable; previous metadata used",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80: metadata unavailable; previous metadata used"
+      ],
+      "attemptedAt": "2026-11-11T06:31:46.589Z"
     }
   },
   "tokens": [
@@ -74,7 +121,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-11T00:39:22.673Z",
+      "observedAt": "2026-11-11T06:29:28.858Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -115,7 +162,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-11T00:39:22.754Z",
+      "observedAt": "2026-11-11T06:29:28.868Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -153,7 +200,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-11T00:40:25.936Z",
+      "observedAt": "2026-11-11T06:30:31.141Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -191,7 +238,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-11T00:39:35.176Z",
+      "observedAt": "2026-11-11T06:29:41.178Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -232,7 +279,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-11T00:39:35.703Z",
+      "observedAt": "2026-11-11T06:29:41.490Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -273,12 +320,12 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-11T00:39:35.674Z",
+      "observedAt": "2026-11-11T06:29:41.687Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "70",
@@ -344,12 +391,12 @@
           "artifact_cid": "ipfs://QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6"
         }
       },
-      "observedAt": "2026-11-11T00:42:46.103Z",
+      "observedAt": "2026-11-11T06:31:42.519Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "71",
@@ -414,12 +461,12 @@
           "artifact_cid": "ipfs://QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG"
         }
       },
-      "observedAt": "2026-11-11T00:42:48.222Z",
+      "observedAt": "2026-11-11T06:31:42.559Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "72",
@@ -477,12 +524,12 @@
         "site_cid": "bafybeigsij2lmbgkuctllu6xdrb6w4hk5cmrbih2pxl4fzrj45s45eandm",
         "ens_name": "djuke.decentagency.eth"
       },
-      "observedAt": "2026-11-11T00:42:50.604Z",
+      "observedAt": "2026-11-11T06:31:43.978Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "73",
@@ -540,12 +587,12 @@
         "site_cid": "bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
         "ens_name": "dvert.decentagency.eth"
       },
-      "observedAt": "2026-11-11T00:42:50.893Z",
+      "observedAt": "2026-11-11T06:31:42.982Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "74",
@@ -603,12 +650,12 @@
         "site_cid": "bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
         "ens_name": "dbusk.decentagency.eth"
       },
-      "observedAt": "2026-11-11T00:42:55.235Z",
+      "observedAt": "2026-11-11T06:31:43.113Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "75",
@@ -678,12 +725,12 @@
         "site_cid": "bafybeichwabguwq5amum7lxokuqvuro6kiulhz5lotpgplnetdffidzxvy",
         "ens_name": "decentbusking.decentagency.eth"
       },
-      "observedAt": "2026-11-11T00:42:56.534Z",
+      "observedAt": "2026-11-11T06:31:43.245Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "76",
@@ -753,12 +800,12 @@
         "site_cid": "bafybeieokd6tbhjaehhtpbiz5mzn7yq7ifq2vmgho6cfqw2j57rmnr33ou",
         "ens_name": "bignuten.decentagency.eth"
       },
-      "observedAt": "2026-11-11T00:42:55.378Z",
+      "observedAt": "2026-11-11T06:31:43.437Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:76",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "77",
@@ -838,12 +885,12 @@
         },
         "site_cid": "bafybeigu4i6ovdf5drmb7eyqhopnaureofxinokwn45pp7qiuwus4loucq"
       },
-      "observedAt": "2026-11-11T00:43:01.688Z",
+      "observedAt": "2026-11-11T06:31:43.564Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:77",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "78",
@@ -911,12 +958,12 @@
         },
         "site_cid": "bafybeidwl2lauhzriokkdpyp24kmo4ro6p5u75s63f7vcttch7ns5gotzq"
       },
-      "observedAt": "2026-11-11T00:43:02.106Z",
+      "observedAt": "2026-11-11T06:31:43.975Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:78",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "79",
@@ -984,12 +1031,12 @@
         },
         "site_cid": "bafybeifj3o26zsw6lidchygkr4ygybobfcpe5ydl5om23wx3o5ymnhm6wy"
       },
-      "observedAt": "2026-11-11T00:43:02.619Z",
+      "observedAt": "2026-11-11T06:31:44.111Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79",
       "creatorGithub": []
     },
     {
-      "metadataStatus": "ok",
+      "metadataStatus": "stale",
       "chainId": 8453,
       "contract": "0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b",
       "tokenId": "80",
@@ -1066,7 +1113,7 @@
           "artifact_cid": "ipfs://QmY2BdbKmqLYnvRHupFRRR4fZFeY6WAtQFfnmBS1PyEqaq"
         }
       },
-      "observedAt": "2026-11-11T00:43:05.738Z",
+      "observedAt": "2026-11-11T06:31:44.141Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80",
       "creatorGithub": []
     }
