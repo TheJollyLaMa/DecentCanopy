@@ -13,7 +13,8 @@ test('DLang has an independent source and preview without implying funded launch
   const project = byId['agency-project:dlang'];
   assert.equal(project.repoUrl, 'https://github.com/TheJollyLaMa/DLang');
   assert.match(project.agencyDetails.currentState, /22 receiving tests/);
-  assert.match(project.agencyDetails.currentState, /No contract deployed/);
+  assert.match(project.agencyDetails.currentState, /No funded round or payments enabled/);
+  assert.match(project.agencyDetails.currentState, /Sourcify exactly matched/);
   assert.ok(project.agencyDetails.needs.some(need => need.id === 'dlang-pilot-gates'));
   const escape = value => String(value ?? '').replace(/[&<>"']/g, character =>
     ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[character]));
