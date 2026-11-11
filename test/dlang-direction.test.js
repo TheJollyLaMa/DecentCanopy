@@ -12,7 +12,9 @@ test('DLang has an independent source and preview without implying funded launch
   const byId = Object.fromEntries(graph.projects.map(project => [project.id, project]));
   const project = byId['agency-project:dlang'];
   assert.equal(project.repoUrl, 'https://github.com/TheJollyLaMa/DLang');
-  assert.match(project.agencyDetails.currentState, /22 receiving tests/);
+  assert.match(project.agencyDetails.currentState, /36 receiving tests/);
+  assert.match(project.agencyDetails.currentState, /1,095 reproducible/);
+  assert.match(project.agencyDetails.currentState, /signed production upload not performed/);
   assert.match(project.agencyDetails.currentState, /No funded round or payments enabled/);
   assert.match(project.agencyDetails.currentState, /Sourcify exactly matched/);
   assert.ok(project.agencyDetails.needs.some(need => need.id === 'dlang-pilot-gates'));

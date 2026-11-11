@@ -225,7 +225,7 @@ test('capabilities require evidence and candidate matches resolve the exact offe
 test('public capability inventory keeps private/local review payloads outside publication', () => {
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
-  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 50);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 51);
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
   assert.match(nutrition.detail, /separate deployed synthetic acceptance/i);
