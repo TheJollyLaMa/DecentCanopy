@@ -1,6 +1,24 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!-- Static metadata: link crawlers do not execute the app. -->
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="DecentCanopy">
+    <meta property="og:title" content="DecentCanopy | Fractal Project Constellation">
+    <meta property="og:description" content="DecentCanopy — Fractal Constellation for multi-project mapping and stewardship coordination.">
+    <meta property="og:url" content="https://thejollylama.github.io/DecentCanopy/">
+    <meta property="og:image" content="https://thejollylama.github.io/DecentCanopy/assets/social-preview.jpg">
+    <meta property="og:image:secure_url" content="https://thejollylama.github.io/DecentCanopy/assets/social-preview.jpg">
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="DecentCanopy website preview">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="DecentCanopy | Fractal Project Constellation">
+    <meta name="twitter:description" content="DecentCanopy — Fractal Constellation for multi-project mapping and stewardship coordination.">
+    <meta name="twitter:image" content="https://thejollylama.github.io/DecentCanopy/assets/social-preview.jpg">
+    <meta name="twitter:image:alt" content="DecentCanopy website preview">
+
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
@@ -164,18 +182,6 @@
       <button class="toolbar-btn" data-creator-open type="button">Create / edit my Decent Creator</button>
       <p><a href="https://github.com/TheJollyLaMa/DecentCanopy/tree/main/wiki" target="_blank" rel="noopener noreferrer">Read the canopy wiki</a> · Creator guides, pinning and contributing.</p>
       <p class="canopy-about-note">DecentCanopy grew from the early Green Tea Party meeting circles. The network is still growing.</p>
-      <section class="about-supporter supporter-token" aria-labelledby="canopy-supporter-title" data-supporter-state="verified">
-        <h2 id="canopy-supporter-title">🌿 Support DecentCanopy</h2>
-        <p><strong>v0.1.0 Supporter edition.</strong> 1,000 editions at 10 USDC each on Base, plus network gas.</p>
-        <p id="canopy-supporter-status" role="status">Token 79 · listing 9. Mint and escrow stock independently verified with at least 12 confirmations. Published evidence is not live availability; checkout rechecks price and stock.</p>
-        <button id="canopy-supporter-buy" class="toolbar-btn" type="button" aria-describedby="canopy-purchase-status">Buy one Canopy edition · 10 USDC + gas</button>
-        <p id="canopy-purchase-status" role="status">Buy here with your wallet: exact 10-USDC approval if needed, then a separate purchase confirmation. Live token, metadata, listing, price and stock are rechecked before purchase.</p>
-        <div id="canopy-purchase-transactions"></div>
-        <a class="about-repo-link" href="https://thejollylama.github.io/DecentMarket/?supporters=1&amp;chainId=8453&amp;nftContract=0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B&amp;tokenId=79" target="_blank" rel="noopener noreferrer">Explore A Decent Series in the Market · Canopy selected ↗</a>
-        <p>The map's Supporter cards describe other independent projects; this is DecentCanopy's own version-backed token. Opening About does not request a wallet or payment. Purchase here only when you choose Buy, or explore the whole series in A Decent Market.</p>
-        <p>Support is optional: no token is needed to explore or participate. A Supporter edition is not project ownership, equity, a promise of rewards or a financial return.</p>
-        <a class="about-repo-link" href="https://github.com/TheJollyLaMa/DecentCanopy/releases/download/v0.1.0/supporter-minted.json" target="_blank" rel="noopener noreferrer">View verified public mint/listing evidence ↗</a>
-      </section>
       <section class="about-supporter" aria-labelledby="canopy-series-title">
         <h2 id="canopy-series-title">DecentCanopy editions</h2>
         <p>Only this project's editions belong in About. Support The Jolly LaMa and one another; participation in Canopy stays free.</p>
@@ -847,7 +853,6 @@
     <script src="scripts/repository-activity.js"></script>
     <script src="scripts/repository-activity-ui.js"></script>
     <script src="scripts/supporter-dnfts.js"></script>
-    <script src="scripts/canopy-supporter-purchase.js"></script>
     <script src="scripts/artizen-financials.js"></script>
     <script src="scripts/project-ens.js"></script>
     <script src="scripts/graph-identity.js"></script>

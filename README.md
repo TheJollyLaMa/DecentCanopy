@@ -869,22 +869,17 @@ to open About at the rolodex without overlaying the first-visit tour. The
 [beginner tour link](https://thejollylama.github.io/DecentCanopy/?tour=1)
 explicitly reopens the five-step tour, including for returning visitors.
 
-The About **Buy one Canopy edition** button purchases token 79/listing 9 here,
-not in another site. Only clicking Buy requests a wallet: switch/add Base,
-recheck the exact frozen metadata, NFT, active stock and 10-USDC terms, approve
-exactly 10 USDC if necessary, then separately confirm one edition. Wallet changes,
-insufficient funds and changed terms stop the flow. A submitted purchase locks
-retries for this page session; receipt links and a matching escrow event distinguish
-confirmation from an uncertain submission. Approval alone is not a purchase.
-Reloading clears that UI lock: always inspect a submitted receipt before retrying.
-No token or payment is required to participate.
+About uses one live-inventory **DecentCanopy editions** section. The duplicate
+static token-79 checkout and repeated support copy have been removed. The
+inventory card retains its current-listing **Support on DecentMarket** link and the buyer's live purchase checks;
+opening About does not request a wallet. No token or payment is required to participate.
 
 For **all A Decent Series Supporters**, use
 [Market's Supporter DNFT Star, Canopy selected](https://thejollylama.github.io/DecentMarket/?supporters=1&chainId=8453&nftContract=0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B&tokenId=79).
 The selected purchase card opens above the series catalog; closing it reveals the
 other observed Base offerings. Unavailable reads are not successful listings.
 
-Reuse decision: About needs in-place checkout without changing the existing raw
+Historical reuse decision: About originally needed in-place checkout without changing the existing raw
 injected-wallet/ethers UMD header. Adapted Planning Office
 `js/supporter-checkout.js` at `940859b` (Apache-2.0), retaining explicit consent,
 exact allowance, context guards and receipt/event checks rather than importing its
@@ -1006,3 +1001,14 @@ IPFS metadata was unavailable on the attempted public gateways: the six observed
 Supporter entries use on-chain listing-note names and initials artwork. Fifteen
 other Optimism IDs could not be classified (one further ID is an achievement); coverage is explicitly partial, not a
 claim that these six are every existing Supporter DNFT.
+
+
+## Link previews
+
+Public entry pages include static Open Graph and Twitter large-image metadata,
+with an absolute HTTPS image URL. The 1200 x 630 JPEG at
+`assets/social-preview.jpg` previews this public website without a connected wallet.
+Keep the image in the deployed artifact when changing the build. After updating
+it, check the raw HTML and image response as a crawler; Discord and other services
+may cache earlier previews. ENS/IPFS snapshots need a separate site publication;
+metadata alone does not update an existing immutable snapshot.

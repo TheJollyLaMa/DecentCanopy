@@ -6,20 +6,15 @@ const path = require('node:path');
 const read = file => fs.readFileSync(path.join(__dirname, '..', file), 'utf8');
 const HEAD_SHA = '599241344849af1921f6a9a59431f4b2f300d417';
 
-test('own About Supporter card links only its verified token 79/listing 9 edition', () => {
+test('About has one project-editions section, not a duplicate static checkout', () => {
   const html = read('index.html');
   const card = html.match(/<section class="about-supporter[\s\S]*?<\/section>/)?.[0];
   assert.ok(card);
-  assert.match(card, /data-supporter-state="verified"/);
-  assert.match(card, /1,000 editions at 10 USDC each on Base/);
-  assert.match(card, /Token 79 · listing 9/);
-  assert.match(card, /id="canopy-supporter-buy"/);
-  assert.match(card, /nftContract=0xe63EC9f8228720bAAC2fD528C0A6d06B3Dc5439B&amp;tokenId=79/);
-  assert.match(card, /rechecks price and stock/);
-  assert.match(card, /role="status"/);
-  assert.match(card, /other independent projects/);
-  assert.match(card, /not project ownership/);
-  assert.match(card, /\/v0\.1\.0\/supporter-minted\.json/);
+  assert.match(card, /id="canopy-series-title"/);
+  assert.match(card, /id="canopy-supporter-series"/);
+  assert.match(card, /participation in Canopy stays free/);
+  assert.doesNotMatch(html, /id="canopy-supporter-buy"|id="canopy-purchase-status"|Support DecentCanopy/);
+  assert.equal((html.match(/<section class="about-supporter/g) || []).length, 1);
   assert.doesNotMatch(card, /onclick|<script/);
   const inventory = JSON.parse(read('data/supporter-dnfts.json'));
   assert.ok(['ok', 'partial', 'unavailable'].includes(inventory.chains['8453'].status));

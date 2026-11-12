@@ -25,17 +25,16 @@ try {
     throw Object.assign(new Error('Declined by test wallet'), { code: 4001 });
   } }; });
   assert.deepEqual(await page.evaluate(() => window.purchaseRequests), []);
-  await page.locator('#canopy-supporter-buy').click();
-  await page.waitForFunction(() => document.getElementById('canopy-purchase-status').textContent.includes('declined'));
-  assert.deepEqual(await page.evaluate(() => window.purchaseRequests), ['eth_requestAccounts']);
-  assert.equal(await page.locator('#canopy-supporter-buy').isDisabled(), false);
+  assert.equal(await page.locator('#canopy-supporter-buy').count(), 0);
+  assert.equal(await page.locator('#canopy-about-dialog .about-supporter').count(), 1);
   assert.equal(await page.locator('#canopy-about-dialog a').first().evaluate(e => getComputedStyle(e).color), 'rgb(136, 237, 192)');
   const search = series.getByRole('searchbox');
   await search.fill('DecentCanopy');
   assert.match(await series.locator('summary').innerText(), /DecentCanopy/);
-  await series.getByRole('button', { name: 'Buy here · 10 USDC + gas', exact: true }).click();
-  await page.waitForFunction(() => window.purchaseRequests.length === 2);
-  assert.deepEqual(await page.evaluate(() => window.purchaseRequests), ['eth_requestAccounts', 'eth_requestAccounts']);
+  const supportLink = series.getByRole('link', { name: 'Support on DecentMarket ↗', exact: true });
+  assert.match(await supportLink.getAttribute('href'), /listingId=/);
+  assert.deepEqual(await page.evaluate(() => window.purchaseRequests), []);
+  assert.doesNotMatch(await series.innerText(), /checkout above/);
   await search.fill('no-such-edition-xyz');
   assert.equal(await series.locator('.supporter-token').count(), 0);
   assert.match(await series.innerText(), /No matching/);
@@ -52,54 +51,6 @@ try {
   }
   await page.emulateMedia({ reducedMotion: 'reduce' });
   assert.equal(await series.locator('.supporter-coin').evaluate(e => getComputedStyle(e).animationName), 'none');
-  await page.evaluate(() => {
-    const own = window.CanopySupporterPurchase.EDITION, realEthers = window.ethers;
-    const account = `0x${'1'.repeat(40)}`;
-    window.ethereum = { request: async ({ method }) => method === 'eth_chainId' ? '0x2105' : [account] };
-    window.checkoutSubmissions = 0;
-    class BrowserProvider {
-      async getNetwork() { return { chainId: 8453n }; }
-      async getSigner() { return { getAddress: async () => account }; }
-      destroy() {}
-    }
-    class Contract {
-      constructor() {
-        this.interface = { parseLog: () => ({ name: 'Purchased', args: {
-          listingId: 9n, amount: 1n, buyer: account, paymentToken: own.usdc, totalPaid: own.price,
-        } }) };
-        this.purchaseWithToken = async () => {
-          window.checkoutSubmissions++;
-          return { hash: `0x${'a'.repeat(64)}`, wait: () => new Promise(resolve => {
-            window.finishCheckout = () => resolve({ status: 1, logs: [{ address: own.escrow }] });
-          }) };
-        };
-        this.purchaseWithToken.estimateGas = async () => 1n;
-      }
-      connect() { return this; }
-      async getListing() { return { nftContract: own.nft, tokenId: 79n, priceETH: 0n,
-        priceToken: own.usdc, priceAmount: own.price, available: 1000n, active: true }; }
-      async getNFTBalance() { return 1000n; }
-      async paused() { return false; }
-      async uri() { return own.metadataURI; }
-      async balanceOf() { return own.price; }
-      async allowance() { return own.price; }
-    }
-    window.ethers = { BrowserProvider, Contract };
-    window.restoreCheckoutTools = () => { window.ethers = realEthers; };
-  });
-  await page.locator('#canopy-supporter-buy').scrollIntoViewIfNeeded();
-  await page.locator('#canopy-supporter-buy').click();
-  await page.waitForFunction(() => !!window.finishCheckout);
-  assert.equal(await page.locator('#canopy-supporter-buy').isDisabled(), true);
-  await page.keyboard.press('Escape');
-  assert.equal(await page.locator('#canopy-about-dialog').isVisible(), true);
-  await page.evaluate(() => document.getElementById('canopy-supporter-buy').click());
-  assert.equal(await page.evaluate(() => window.checkoutSubmissions), 1);
-  await page.evaluate(() => window.finishCheckout());
-  await page.waitForFunction(() => document.getElementById('canopy-purchase-status').textContent.includes('confirmed on Base'));
-  assert.equal(await page.locator('#canopy-supporter-buy').isDisabled(), true);
-  assert.match(await page.locator('#canopy-purchase-transactions').innerText(), /purchase receipt/);
-  await page.evaluate(() => window.restoreCheckoutTools());
   await page.locator('.canopy-about-close').first().click();
   await page.evaluate(() => window.dispatchEvent(new CustomEvent('decentcanopy:select-entity', {
     detail: 'decent-creator:0x807061df657a7697c04045da7d16d941861caabc',
@@ -163,5 +114,5 @@ try {
   await page.goto(new URL('?tour=1', base).href);
   await page.locator('#canopy-tour-dialog').waitFor({ state: 'visible' });
   assert.deepEqual(errors, []);
-  console.log('PASS: Canopy-only About, own listing 9, explicit inline purchase with safe rejection, no consent on open, themed links, 1440/390/320px, reduced motion; 30+ Jolly-only public Office projects; separate holdings, partial errors, account-switch race and disconnect. No signing or transactions.');
+  console.log('PASS: Canopy-only About, one editions section, current Market listing link, no wallet request on open, themed links, 1440/390/320px, reduced motion; 30+ Jolly-only public Office projects; separate holdings, partial errors, account-switch race and disconnect. No signing or transactions.');
 } finally { await browser.close(); }
