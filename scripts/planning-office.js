@@ -11,7 +11,7 @@
     }
     return agency.projects.filter(p => model.normalizeRepo(p.repo)).map(p => {
       const repo = model.normalizeRepo(p.repo);
-      const observation = progress.repositories.find(r => model.normalizeRepo(r.repository) === repo);
+      const observation = p.entityId ? undefined : progress.repositories.find(r => model.normalizeRepo(r.repository) === repo);
       const tasks = p.entityId ? [] : board.items.filter(i => model.normalizeRepo(i.fields?.Project || i.repository) === repo);
       const portfolio = tasks.find(i => i.fields?.Kind === 'Portfolio');
       const site = p.entityId ? `entity:${p.entityId}` : `project:${repo}`;
