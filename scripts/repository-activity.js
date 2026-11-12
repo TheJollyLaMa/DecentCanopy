@@ -58,6 +58,24 @@
       if (row.release && (!date(row.release.publishedAt) || typeof row.release.tag !== 'string' ||
           !repoLink(row.release.url, row.repo, 'releases/tag/'))) throw new Error('Invalid release evidence.');
       validateReferences(row);
+      if (row.work !== undefined) {
+        if (!row.work || !['ok', 'unavailable'].includes(row.work.status) || typeof row.work.capped !== 'boolean'
+          || !Array.isArray(row.work.open) || !Array.isArray(row.work.recent)
+          || row.work.open.length > 10 || row.work.recent.length > 10) throw new Error('Invalid public work sample.');
+        for (const [field, entries] of [['open', row.work.open], ['recent', row.work.recent]]) {
+          const seenWork = new Set();
+          for (const entry of entries) {
+            const suffix = entry.kind === 'issue' ? 'issues/' : entry.kind === 'pull-request' ? 'pull/' : '';
+            if (!suffix || !Number.isSafeInteger(entry.number) || entry.number < 1
+              || !repoLink(entry.url, row.repo, suffix) || new URL(entry.url).pathname.toLowerCase() !== `/${row.repo}/${suffix}${entry.number}`
+              || typeof entry.title !== 'string' || !entry.title.trim() || entry.title.length > 200
+              || !date(entry.updatedAt) || !['open', 'closed'].includes(entry.state) || field === 'open' && entry.state !== 'open'
+              || !['completed', 'not_planned', 'reopened', 'unknown'].includes(entry.stateReason)
+              || seenWork.has(`${entry.kind}:${entry.number}`)) throw new Error('Invalid public work evidence.');
+            seenWork.add(`${entry.kind}:${entry.number}`);
+          }
+        }
+      }
       if (row.release?.supporter) {
         const s = row.release.supporter;
         const chain = Repos.CHAINS[s.chainId];

@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-12T11:25:17.537Z",
+  "generatedAt": "2026-11-12T11:38:52.332Z",
   "repositories": [
     {
       "repo": "a-decent-agency/a-decent-agency.github.io",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:04.688Z",
-      "checkedAt": "2026-11-12T11:25:04.688Z",
-      "windowStart": "2026-11-05T11:25:05.189Z",
+      "attemptedAt": "2026-11-12T11:38:38.522Z",
+      "checkedAt": "2026-11-12T11:38:38.522Z",
+      "windowStart": "2026-11-05T11:38:39.071Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
-      "commits7d": 49,
+      "commits7d": 48,
       "capped": true,
       "latestCommit": {
         "sha": "89ad40b15850eb981e5b08f3fb7d643f33a90b19",
@@ -59,14 +59,157 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 20,
+            "title": "DVoyager widget: launch a Planning Office clone from the end-of-track rocket",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T22:00:08Z"
+          },
+          {
+            "number": 19,
+            "title": "Shared city: Canopy citizen onboarding, purpose-led neighborhoods and a first-friend pilot",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/19",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T11:32:53Z"
+          },
+          {
+            "number": 15,
+            "title": "DecentCalendar v1 blueprint: paid time, presence and knowledge on Base",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/15",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T22:32:02Z"
+          },
+          {
+            "number": 17,
+            "title": "Planning Office: wire and verify the DecentCalendar v1 public job board and construction provenance",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/17",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T11:43:24Z"
+          },
+          {
+            "number": 16,
+            "title": "SimCity: render the approved DecentCalendar blueprint without reading its private repository",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/16",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T11:33:10Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 30,
+            "title": "Show DLang yearlong practice and reviewed voice pipeline",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/30",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T02:49:48Z"
+          },
+          {
+            "number": 29,
+            "title": "Record DLang verified empty Base escrow and remaining launch gates",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/29",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T00:06:07Z"
+          },
+          {
+            "number": 28,
+            "title": "Track independent DLang preview and remaining pilot gates",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/28",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T23:49:38Z"
+          },
+          {
+            "number": 27,
+            "title": "Plan DLang visual scenes and simultaneous multilingual learning",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/27",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T13:29:01Z"
+          },
+          {
+            "number": 26,
+            "title": "Update Voyager tower to corrected artwork and listing19",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/26",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:46:34Z"
+          },
+          {
+            "number": 25,
+            "title": "Clarify pending Voyager token branding correction",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/25",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:19:31Z"
+          },
+          {
+            "number": 24,
+            "title": "Add Voyager battle spaceport and observed reward traffic",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/24",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T23:40:59Z"
+          },
+          {
+            "number": 23,
+            "title": "Use reserve-backed current Supporter listings throughout Office",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/23",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T23:01:25Z"
+          },
+          {
+            "number": 22,
+            "title": "Show one unobstructed Voyager rocket crown",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/22",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T22:02:21Z"
+          },
+          {
+            "number": 20,
+            "title": "DVoyager widget: launch a Planning Office clone from the end-of-track rocket",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/issues/20",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T22:00:08Z"
+          }
+        ]
+      }
     },
     {
       "repo": "a-decent-agency/dbuskradio",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:04.689Z",
-      "checkedAt": "2026-11-12T11:25:04.689Z",
-      "windowStart": "2026-11-05T11:25:05.184Z",
+      "attemptedAt": "2026-11-12T11:38:38.523Z",
+      "checkedAt": "2026-11-12T11:38:38.523Z",
+      "windowStart": "2026-11-05T11:38:39.078Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -95,14 +238,20 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [],
+        "recent": []
+      }
     },
     {
       "repo": "a-decent-agency/decentjukebox",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:07.770Z",
-      "checkedAt": "2026-11-12T11:25:07.770Z",
-      "windowStart": "2026-11-05T11:25:08.135Z",
+      "attemptedAt": "2026-11-12T11:38:41.726Z",
+      "checkedAt": "2026-11-12T11:38:41.726Z",
+      "windowStart": "2026-11-05T11:38:41.994Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -131,14 +280,48 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "📜⚸ 🎰 🎶 Juke the Squid  🦑",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:58Z"
+          },
+          {
+            "number": 2,
+            "title": "Revamp the AddAlbum modal!",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:55Z"
+          },
+          {
+            "number": 3,
+            "title": "Add ART contributor payroll flow",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/pull/3",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-09-16T14:53:59Z"
+          }
+        ],
+        "recent": []
+      }
     },
     {
       "repo": "a-decent-agency/dvert",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:04.690Z",
-      "checkedAt": "2026-11-12T11:25:04.690Z",
-      "windowStart": "2026-11-05T11:25:05.279Z",
+      "attemptedAt": "2026-11-12T11:38:38.523Z",
+      "checkedAt": "2026-11-12T11:38:38.523Z",
+      "windowStart": "2026-11-05T11:38:39.025Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -167,14 +350,20 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [],
+        "recent": []
+      }
     },
     {
       "repo": "cadcad-org/cadcad",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:10.255Z",
-      "checkedAt": "2026-11-12T11:25:10.255Z",
-      "windowStart": "2026-11-05T11:25:10.744Z",
+      "attemptedAt": "2026-11-12T11:38:44.415Z",
+      "checkedAt": "2026-11-12T11:38:44.415Z",
+      "windowStart": "2026-11-05T11:38:44.800Z",
       "defaultBranch": "master",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -193,14 +382,111 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 362,
+            "title": "__version__ is undefined",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/362",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2024-08-01T16:25:33Z"
+          },
+          {
+            "number": 353,
+            "title": "Test fails if jupyter is not installed",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/353",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2024-06-07T18:59:53Z"
+          },
+          {
+            "number": 346,
+            "title": "Add Test Coverage Report on the CI/CD and README",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/346",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2024-06-07T18:59:52Z"
+          },
+          {
+            "number": 351,
+            "title": "Bug: cadCAD underutilizes CPU and opens too many filehandles",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/351",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2024-06-07T18:59:50Z"
+          },
+          {
+            "number": 350,
+            "title": "Bug: simulations are crashing when the number of sweeps is large",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/350",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2024-06-07T18:59:49Z"
+          },
+          {
+            "number": 352,
+            "title": "fix: this refactors execution to properly use the process pool",
+            "url": "https://github.com/cadCAD-org/cadCAD/pull/352",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2024-04-18T19:13:41Z"
+          },
+          {
+            "number": 259,
+            "title": "State Update Function PSUB key not checked",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/259",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2023-12-21T14:46:09Z"
+          },
+          {
+            "number": 327,
+            "title": "Feature Request: a more natural way for handling random seeds",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/327",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2023-12-15T23:28:11Z"
+          },
+          {
+            "number": 326,
+            "title": "Integrate documentation from cadCAD.tools and cadCAD.diagram submodules",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/326",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2023-12-15T23:27:56Z"
+          },
+          {
+            "number": 325,
+            "title": "Write unit and integrations tests for the cadCAD.tools and cadCAD.diagram submodules",
+            "url": "https://github.com/cadCAD-org/cadCAD/issues/325",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2023-12-15T23:27:40Z"
+          }
+        ],
+        "recent": []
+      }
     },
     {
       "repo": "thejollylama/ajollydecentcodecamp",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:10.949Z",
-      "checkedAt": "2026-11-12T11:25:10.949Z",
-      "windowStart": "2026-11-05T11:25:11.225Z",
+      "attemptedAt": "2026-11-12T11:38:44.854Z",
+      "checkedAt": "2026-11-12T11:38:44.854Z",
+      "windowStart": "2026-11-05T11:38:45.086Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -215,14 +501,40 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "Add prepared 12-week dapp course",
+            "url": "https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/pull/1",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:31Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 1,
+            "title": "Add prepared 12-week dapp course",
+            "url": "https://github.com/TheJollyLaMa/AJollyDecentCodeCamp/pull/1",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:31Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/arduino_smarthome",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:09.817Z",
-      "checkedAt": "2026-11-12T11:25:09.817Z",
-      "windowStart": "2026-11-05T11:25:10.135Z",
+      "attemptedAt": "2026-11-12T11:38:43.720Z",
+      "checkedAt": "2026-11-12T11:38:43.720Z",
+      "windowStart": "2026-11-05T11:38:43.969Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -237,14 +549,30 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "ChatGPT gives the main program an exception handle:",
+            "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2023-05-11T13:17:32Z"
+          }
+        ],
+        "recent": []
+      }
     },
     {
       "repo": "thejollylama/artfi",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:04.580Z",
-      "checkedAt": "2026-11-12T11:25:04.580Z",
-      "windowStart": "2026-11-05T11:25:05.233Z",
+      "attemptedAt": "2026-11-12T11:38:38.491Z",
+      "checkedAt": "2026-11-12T11:38:38.491Z",
+      "windowStart": "2026-11-05T11:38:38.944Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -259,14 +587,58 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 62,
+            "title": "DecentSettlementsRouter: independent identity, public ledger and custody/migration makeover",
+            "url": "https://github.com/TheJollyLaMa/ArtFi/issues/62",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-31T11:01:49Z"
+          },
+          {
+            "number": 61,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/ArtFi/issues/61",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:14:01Z"
+          },
+          {
+            "number": 58,
+            "title": "Make ArtFi public-ready: onboarding, Canopy publishing, and node rewards",
+            "url": "https://github.com/TheJollyLaMa/ArtFi/issues/58",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-09-27T12:19:56Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 63,
+            "title": "Record GrannyLyn wallet-only trial invitation",
+            "url": "https://github.com/TheJollyLaMa/ArtFi/pull/63",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T16:45:46Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/babelbet",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:15.387Z",
-      "checkedAt": "2026-11-12T11:25:15.387Z",
-      "windowStart": "2026-11-05T11:25:15.692Z",
+      "attemptedAt": "2026-11-12T11:38:50.022Z",
+      "checkedAt": "2026-11-12T11:38:50.022Z",
+      "windowStart": "2026-11-05T11:38:50.299Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -281,14 +653,76 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 5,
+            "title": "Prepare BabelBet with the Decent experience and gated payroll",
+            "url": "https://github.com/TheJollyLaMa/BabelBet/pull/5",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:32Z"
+          },
+          {
+            "number": 4,
+            "title": "Preparation overseer: validate offline boundary and record future build gates",
+            "url": "https://github.com/TheJollyLaMa/BabelBet/issues/4",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T19:27:12Z"
+          },
+          {
+            "number": 3,
+            "title": "Preparation: gated autopayroll and newcomer contribution/provider etiquette",
+            "url": "https://github.com/TheJollyLaMa/BabelBet/issues/3",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T19:27:12Z"
+          },
+          {
+            "number": 2,
+            "title": "Preparation: update shared Decent experience without building the game",
+            "url": "https://github.com/TheJollyLaMa/BabelBet/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T19:27:12Z"
+          },
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/BabelBet/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:14:17Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 5,
+            "title": "Prepare BabelBet with the Decent experience and gated payroll",
+            "url": "https://github.com/TheJollyLaMa/BabelBet/pull/5",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:32Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/bignuten_vanilla",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:07.369Z",
-      "checkedAt": "2026-11-12T11:25:07.369Z",
-      "windowStart": "2026-11-05T11:25:07.686Z",
+      "attemptedAt": "2026-11-12T11:38:40.931Z",
+      "checkedAt": "2026-11-12T11:38:40.931Z",
+      "windowStart": "2026-11-05T11:38:41.222Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 4,
@@ -307,14 +741,148 @@
       "error": "Supporter release artwork unavailable: Release manifest, metadata and mint evidence disagree.",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 431,
+            "title": "Jazz up the BigNuten header and add DBusk workout radio",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/431",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T21:42:31Z"
+          },
+          {
+            "number": 430,
+            "title": "Group whole-food ingredients into reusable named meals",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/430",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T13:18:39Z"
+          },
+          {
+            "number": 426,
+            "title": "Repair food entries and simplify nutrition logging and portion lookup",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/426",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T02:26:15Z"
+          },
+          {
+            "number": 412,
+            "title": "Epic: BigNuten financial build — Base DeFi, commitment settlement, treasury & payroll",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/412",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T10:14:45Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 431,
+            "title": "Jazz up the BigNuten header and add DBusk workout radio",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/431",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T21:42:31Z"
+          },
+          {
+            "number": 430,
+            "title": "Group whole-food ingredients into reusable named meals",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/430",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T13:18:39Z"
+          },
+          {
+            "number": 429,
+            "title": "Refine Ekadasi stories and tracker layout",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/429",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T21:51:00Z"
+          },
+          {
+            "number": 426,
+            "title": "Repair food entries and simplify nutrition logging and portion lookup",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/426",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T02:26:15Z"
+          },
+          {
+            "number": 428,
+            "title": "Expose visible Edit and Delete actions on food entries",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/428",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T02:24:32Z"
+          },
+          {
+            "number": 427,
+            "title": "Repair food entries and simplify nutrition logging",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/427",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:47:53Z"
+          },
+          {
+            "number": 423,
+            "title": "Track micronutrients end-to-end with accurate units and coverage",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/423",
+            "kind": "issue",
+            "state": "closed",
+            "stateReason": "completed",
+            "updatedAt": "2026-11-06T00:38:37Z"
+          },
+          {
+            "number": 425,
+            "title": "Track micronutrients and upgrade incomplete food cards",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/425",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T00:37:06Z"
+          },
+          {
+            "number": 424,
+            "title": "Use BigNuten Supporter reserve replacement listing",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/424",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T22:59:57Z"
+          },
+          {
+            "number": 420,
+            "title": "Follow the White Rabbit: 30-card onboarding and guided first logs",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/420",
+            "kind": "issue",
+            "state": "closed",
+            "stateReason": "completed",
+            "updatedAt": "2026-11-05T21:21:17Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decent_nda",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:14.202Z",
-      "checkedAt": "2026-11-12T11:25:14.202Z",
-      "windowStart": "2026-11-05T11:25:14.471Z",
+      "attemptedAt": "2026-11-12T11:38:48.631Z",
+      "checkedAt": "2026-11-12T11:38:48.631Z",
+      "windowStart": "2026-11-05T11:38:48.855Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -329,14 +897,40 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/Decent_NDA/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:00Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 2,
+            "title": "Add local encrypted agreement packages and verified header controls",
+            "url": "https://github.com/TheJollyLaMa/Decent_NDA/pull/2",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:38:08Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decent_ucan_play",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:14.683Z",
-      "checkedAt": "2026-11-12T11:25:14.683Z",
-      "windowStart": "2026-11-05T11:25:15.059Z",
+      "attemptedAt": "2026-11-12T11:38:49.555Z",
+      "checkedAt": "2026-11-12T11:38:49.555Z",
+      "windowStart": "2026-11-05T11:38:49.845Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -351,14 +945,49 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 2,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:03Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 1,
+            "title": "Preserve legacy app and add a Pinata-backed modern flow",
+            "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/pull/1",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:44:36Z"
+          },
+          {
+            "number": 3,
+            "title": "Deliver public-only BYOK UCAN demo and verified header controls",
+            "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/pull/3",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:38:17Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentagency",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:06.507Z",
-      "checkedAt": "2026-11-12T11:25:06.507Z",
-      "windowStart": "2026-11-05T11:25:06.821Z",
+      "attemptedAt": "2026-11-12T11:38:40.281Z",
+      "checkedAt": "2026-11-12T11:38:40.281Z",
+      "windowStart": "2026-11-05T11:38:40.511Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -373,14 +1002,30 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentAgency/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T15:59:48Z"
+          }
+        ],
+        "recent": []
+      }
     },
     {
       "repo": "thejollylama/decentairdrop",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:13.853Z",
-      "checkedAt": "2026-11-12T11:25:13.853Z",
-      "windowStart": "2026-11-05T11:25:14.155Z",
+      "attemptedAt": "2026-11-12T11:38:48.417Z",
+      "checkedAt": "2026-11-12T11:38:48.417Z",
+      "windowStart": "2026-11-05T11:38:48.694Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -395,14 +1040,58 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 3,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentAirdrop/issues/3",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:01:12Z"
+          },
+          {
+            "number": 2,
+            "title": "Could not load new album",
+            "url": "https://github.com/TheJollyLaMa/DecentAirdrop/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:01:09Z"
+          },
+          {
+            "number": 1,
+            "title": "Decent Air Drop failed to send",
+            "url": "https://github.com/TheJollyLaMa/DecentAirdrop/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:01:07Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 4,
+            "title": "Preserve exact airdrop amounts and add verified header controls",
+            "url": "https://github.com/TheJollyLaMa/DecentAirdrop/pull/4",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:38:13Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentbusking",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:06.786Z",
-      "checkedAt": "2026-11-12T11:25:06.786Z",
-      "windowStart": "2026-11-05T11:25:07.087Z",
+      "attemptedAt": "2026-11-12T11:38:40.850Z",
+      "checkedAt": "2026-11-12T11:38:40.850Z",
+      "windowStart": "2026-11-05T11:38:41.144Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 10,
@@ -441,23 +1130,211 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 324,
+            "title": "Add right-side Archive stack and BigNuten musician-care widget",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/324",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T21:41:11Z"
+          },
+          {
+            "number": 318,
+            "title": "DHearse: reusable DecentRehearsals practice-stage widget and ENS entry point",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/318",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T14:44:36Z"
+          },
+          {
+            "number": 243,
+            "title": "Rocket game mode: 100-level NFT asteroid challenge with radio combat and weekly victory NFT",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/243",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T23:07:04Z"
+          },
+          {
+            "number": 305,
+            "title": "Investigate and reduce unsustainable Alchemy costs: reconcile October invoice and audit RPC workloads",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/305",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-02T06:46:42Z"
+          },
+          {
+            "number": 306,
+            "title": "Explain why DJuke checkout is disabled beside Queue Song",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/306",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-02T03:37:44Z"
+          },
+          {
+            "number": 304,
+            "title": "Separate walletless song comments from member-verified prize voting",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/304",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T14:08:53Z"
+          },
+          {
+            "number": 302,
+            "title": "Add admin promotional campaigns and referral rewards",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/302",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-30T21:14:46Z"
+          },
+          {
+            "number": 301,
+            "title": "Admin: Invites & Promotions campaigns with capped rewards and referral tracking",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/301",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-30T18:32:02Z"
+          },
+          {
+            "number": 209,
+            "title": "Explore 3D animated jukebox for DJuke panel, single-play NFT cards, and context-themed side panels",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/209",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:52Z"
+          },
+          {
+            "number": 291,
+            "title": "DBusker: wallet-allowlisted community guide and lower-right chat companion",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/291",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:47Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 327,
+            "title": "Add Friday live-radio advert handoffs and persistent artist stage",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/327",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T02:27:37Z"
+          },
+          {
+            "number": 326,
+            "title": "Explain private room entry and remove duplicated setup help",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/326",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T23:56:30Z"
+          },
+          {
+            "number": 325,
+            "title": "Add a friendly performer studio and safe headphone monitoring",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/325",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T23:48:48Z"
+          },
+          {
+            "number": 324,
+            "title": "Add right-side Archive stack and BigNuten musician-care widget",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/324",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T21:41:11Z"
+          },
+          {
+            "number": 321,
+            "title": "Give invited performers a wallet-linked practice stage",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/321",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T16:35:46Z"
+          },
+          {
+            "number": 323,
+            "title": "Allow verified private checkpoint writes to finish",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/323",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T16:35:08Z"
+          },
+          {
+            "number": 322,
+            "title": "Recognize delivered audio on either native peer connection",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/322",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T16:25:54Z"
+          },
+          {
+            "number": 320,
+            "title": "Welcome performers with a warm invitation and cosmic confirmation",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/320",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T15:33:30Z"
+          },
+          {
+            "number": 319,
+            "title": "Show live invitations in Profile and clarify performer steps",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/319",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T13:58:53Z"
+          },
+          {
+            "number": 318,
+            "title": "DHearse: reusable DecentRehearsals practice-stage widget and ENS entry point",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/318",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T14:44:36Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentcalendar",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:14.133Z",
-      "checkedAt": "2026-11-12T11:25:14.133Z",
-      "windowStart": "2026-11-05T11:25:14.493Z",
+      "attemptedAt": "2026-11-12T11:38:48.607Z",
+      "checkedAt": "2026-11-12T11:38:48.607Z",
+      "windowStart": "2026-11-05T11:38:48.890Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 23,
-      "commits7d": 8,
+      "commits7d": 10,
       "capped": false,
       "latestCommit": {
-        "sha": "261546b142c3c40c6398edac1bd1767d5ecdb863",
-        "date": "2026-11-09T00:54:42Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCalendar/commit/261546b142c3c40c6398edac1bd1767d5ecdb863"
+        "sha": "a5c5bb26d6b86944ebfe9fa493e6acd67731c903",
+        "date": "2026-11-12T11:29:50Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCalendar/commit/a5c5bb26d6b86944ebfe9fa493e6acd67731c903"
       },
       "release": {
         "tag": "v0.1.0",
@@ -487,23 +1364,157 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 31,
+            "title": "Invitations: invite by ENS/address/link, add-to-calendar, then enforced invite-only seats",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/31",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-29T12:12:45Z"
+          },
+          {
+            "number": 29,
+            "title": "Base v1 deployment, funds operations and honest planning-map release evidence",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/29",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-29T12:12:44Z"
+          },
+          {
+            "number": 23,
+            "title": "v1 agreement model: settlement, cancellations, fee custody and slot ownership",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/23",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T22:32:00Z"
+          },
+          {
+            "number": 22,
+            "title": "v1 release plan: Base paid scheduling, shared DecentHead and Rabbit Hole",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/22",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T22:31:59Z"
+          },
+          {
+            "number": 25,
+            "title": "DCal About and Follow the White Rabbit: explain paid time without taking actions",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/25",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T20:32:42Z"
+          },
+          {
+            "number": 24,
+            "title": "Adopt current canonical DecentHead: Base session, orbit style and host-owned IPFS controls",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/24",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T20:04:04Z"
+          },
+          {
+            "number": 21,
+            "title": "v1 Supporter DNFT release workflow after Calendar is supportable",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/21",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T11:33:49Z"
+          },
+          {
+            "number": 28,
+            "title": "v1 release gates: two-party lifecycle, privacy, failure recovery and mainnet rehearsal",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/28",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T11:33:47Z"
+          },
+          {
+            "number": 15,
+            "title": "Mobile and accessible DCal: calendar, Head, checkout and Rabbit Hole",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/15",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T11:33:45Z"
+          },
+          {
+            "number": 27,
+            "title": "Optional hardline: shared five-minute countdown and scheduled call termination",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/27",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-28T11:33:43Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 37,
+            "title": "Replace About dropdowns with an imagery-led walkthrough",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/pull/37",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T11:29:51Z"
+          },
+          {
+            "number": 36,
+            "title": "Release invited appointments, public layers and booking gifts",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/pull/36",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:54:43Z"
+          },
+          {
+            "number": 35,
+            "title": "Fix DCal checkout after gift-stock reallocation",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/pull/35",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:38:57Z"
+          },
+          {
+            "number": 34,
+            "title": "Mint Supporter DNFT for v0.1.0",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/issues/34",
+            "kind": "issue",
+            "state": "closed",
+            "stateReason": "completed",
+            "updatedAt": "2026-11-05T13:04:21Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentcanopy",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:06.582Z",
-      "checkedAt": "2026-11-12T11:25:06.582Z",
-      "windowStart": "2026-11-05T11:25:06.923Z",
+      "attemptedAt": "2026-11-12T11:38:40.661Z",
+      "checkedAt": "2026-11-12T11:38:40.661Z",
+      "windowStart": "2026-11-05T11:38:40.929Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 19,
       "commits7d": 100,
       "capped": true,
       "latestCommit": {
-        "sha": "fcbbce22d7732ba37dada831d585b64da7f94b62",
-        "date": "2026-11-12T11:15:12Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/fcbbce22d7732ba37dada831d585b64da7f94b62"
+        "sha": "e31c41c6aea3d4a8b3a83f317f94f738dae961ed",
+        "date": "2026-11-12T11:25:59Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/e31c41c6aea3d4a8b3a83f317f94f738dae961ed"
       },
       "release": {
         "tag": "v0.1.0",
@@ -551,14 +1562,202 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 59,
+            "title": "Map Web3Blend and the Blender → Market creator flow (DecentGumroad)",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/59",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T14:21:19Z"
+          },
+          {
+            "number": 57,
+            "title": "Shared city entry: opt-in creator plans and a versioned Agency city projection",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/57",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T11:32:53Z"
+          },
+          {
+            "number": 9,
+            "title": "Epic: Build DecentCanopy as a reusable project, fund, and interaction platform",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/9",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T10:55:17Z"
+          },
+          {
+            "number": 15,
+            "title": "Integration: Route Canopy JukeLoop playback through the supported radio media endpoint",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/15",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:45Z"
+          },
+          {
+            "number": 14,
+            "title": "Integration: Add DecentBusking public ledger and fund adapter as a reference project",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/14",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:42Z"
+          },
+          {
+            "number": 34,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/34",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:40Z"
+          },
+          {
+            "number": 22,
+            "title": "ArtFi: Explain and safely link creator giving and receiving flows",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/22",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:37Z"
+          },
+          {
+            "number": 21,
+            "title": "ArtFi: Add end-to-end tests and contributor guidance for the integration",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/21",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:35Z"
+          },
+          {
+            "number": 20,
+            "title": "ArtFi: Verify contract deployments, funding flow, permissions, and event sources",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/20",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:33Z"
+          },
+          {
+            "number": 19,
+            "title": "ArtFi: Build a dedicated canopy view for public funding interactions",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/19",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:30Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 70,
+            "title": "Record DLang yearlong practice and voice sharing",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/70",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T02:49:20Z"
+          },
+          {
+            "number": 69,
+            "title": "Record verified empty DLang Base escrow deployment",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/69",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T00:05:25Z"
+          },
+          {
+            "number": 68,
+            "title": "Give DLang its independent source, preview and launch gates",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/68",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T23:48:24Z"
+          },
+          {
+            "number": 67,
+            "title": "Record planned DLang visual-scene and multilingual direction",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/67",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T13:28:25Z"
+          },
+          {
+            "number": 66,
+            "title": "Publish verified marathon releases and unified Siddhi direction",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/66",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:52:18Z"
+          },
+          {
+            "number": 65,
+            "title": "Record confirmed Voyager metadata correction and listing19",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/65",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:46:34Z"
+          },
+          {
+            "number": 64,
+            "title": "Show canonical Voyager Supporter identity without hiding chain evidence",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/64",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:20:38Z"
+          },
+          {
+            "number": 63,
+            "title": "Record funded Voyager reserves and replacement sale evidence",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/63",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T23:00:00Z"
+          },
+          {
+            "number": 62,
+            "title": "Record Decent Voyager v1 mint and proposed host integrations",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/62",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T21:58:15Z"
+          },
+          {
+            "number": 61,
+            "title": "Record GrannyLyn wallet-only trial invitation",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/61",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T16:45:51Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentescrow",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:12.953Z",
-      "checkedAt": "2026-11-12T11:25:12.953Z",
-      "windowStart": "2026-11-05T11:25:13.262Z",
+      "attemptedAt": "2026-11-12T11:38:47.202Z",
+      "checkedAt": "2026-11-12T11:38:47.202Z",
+      "windowStart": "2026-11-05T11:38:47.440Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -573,18 +1772,44 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentEscrow/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T15:59:55Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 2,
+            "title": "Add generalized escrow workspace and verified header controls",
+            "url": "https://github.com/TheJollyLaMa/DecentEscrow/pull/2",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:37:58Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decenthead",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:12.115Z",
-      "checkedAt": "2026-11-12T11:25:12.115Z",
-      "windowStart": "2026-11-05T11:25:12.441Z",
+      "attemptedAt": "2026-11-12T11:38:46.256Z",
+      "checkedAt": "2026-11-12T11:38:46.256Z",
+      "windowStart": "2026-11-05T11:38:46.547Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 11,
+      "commits7d": 9,
       "capped": false,
       "latestCommit": {
         "sha": "2b9479abb0bd8dc663481898807d30237cde507d",
@@ -609,14 +1834,58 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 27,
+            "title": "Next version: multilingual host adapter with remembered language selection",
+            "url": "https://github.com/TheJollyLaMa/DecentHead/issues/27",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:01:01Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 35,
+            "title": "Verify provider connectivity before reporting IPFS ready",
+            "url": "https://github.com/TheJollyLaMa/DecentHead/pull/35",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:44:34Z"
+          },
+          {
+            "number": 34,
+            "title": "Avoid rate-limited RPC polling in historical Supporter checkout",
+            "url": "https://github.com/TheJollyLaMa/DecentHead/pull/34",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T23:07:02Z"
+          },
+          {
+            "number": 33,
+            "title": "Preserve Supporter checkout across reserve listing cutovers",
+            "url": "https://github.com/TheJollyLaMa/DecentHead/pull/33",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T22:47:59Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentinvoice",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:13.485Z",
-      "checkedAt": "2026-11-12T11:25:13.485Z",
-      "windowStart": "2026-11-05T11:25:13.792Z",
+      "attemptedAt": "2026-11-12T11:38:48.189Z",
+      "checkedAt": "2026-11-12T11:38:48.189Z",
+      "windowStart": "2026-11-05T11:38:48.432Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -631,14 +1900,40 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentInvoice/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T15:59:58Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 2,
+            "title": "Add generalized invoice workspace and verified header controls",
+            "url": "https://github.com/TheJollyLaMa/DecentInvoice/pull/2",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:38:01Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentmarket",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:12.385Z",
-      "checkedAt": "2026-11-12T11:25:12.385Z",
-      "windowStart": "2026-11-05T11:25:12.642Z",
+      "attemptedAt": "2026-11-12T11:38:46.409Z",
+      "checkedAt": "2026-11-12T11:38:46.409Z",
+      "windowStart": "2026-11-05T11:38:46.694Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 4,
@@ -677,18 +1972,107 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 72,
+            "title": "Community Supporter releases: independent creators, Canopy discovery and verified Discord announcements",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/issues/72",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T16:32:11Z"
+          },
+          {
+            "number": 71,
+            "title": "DecentGumroad: creator digital-product lane (Blender works first)",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/issues/71",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T14:21:18Z"
+          },
+          {
+            "number": 47,
+            "title": "DecentNFT v0.3: creator permissions, atomic batch minting, and batch payouts",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/issues/47",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:01:05Z"
+          },
+          {
+            "number": 49,
+            "title": "DJuke pinner rewards share: 8/2/90",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/49",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-10T17:52:01Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 76,
+            "title": "Show loading progress immediately for Supporter NFT links",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/76",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T10:16:15Z"
+          },
+          {
+            "number": 75,
+            "title": "Publish corrected Voyager metadata and current listing19",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/75",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:46:35Z"
+          },
+          {
+            "number": 74,
+            "title": "Use current Head and Voyager Supporter reserve listings",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/74",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T22:59:54Z"
+          },
+          {
+            "number": 73,
+            "title": "Add Decent Voyager v1.0.0 Supporter release",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/73",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T21:18:57Z"
+          },
+          {
+            "number": 72,
+            "title": "Community Supporter releases: independent creators, Canopy discovery and verified Discord announcements",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/issues/72",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T16:32:11Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentpilgrimages",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:11.701Z",
-      "checkedAt": "2026-11-12T11:25:11.701Z",
-      "windowStart": "2026-11-05T11:25:12.052Z",
+      "attemptedAt": "2026-11-12T11:38:45.966Z",
+      "checkedAt": "2026-11-12T11:38:45.966Z",
+      "windowStart": "2026-11-05T11:38:46.251Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
-      "commits7d": 4,
+      "commits7d": 3,
       "capped": false,
       "latestCommit": {
         "sha": "b57bc2a59dca7e97bf838dc4f1beebabf63bdcab",
@@ -720,26 +2104,88 @@
           "date": "2026-11-05T13:12:33Z",
           "label": "Issue #8",
           "id": "[\"thejollylama/decentpilgrimages\",\"thejollylama/decenthead\",\"issue\",\"https://github.com/TheJollyLaMa/DecentPilgrimages/issues/8\",\"2026-11-05T13:12:33Z\"]"
-        },
-        {
-          "source": "thejollylama/decentpilgrimages",
-          "target": "thejollylama/decenthead",
-          "kind": "issue",
-          "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/7",
-          "date": "2026-11-05T11:33:20Z",
-          "label": "Issue #7",
-          "id": "[\"thejollylama/decentpilgrimages\",\"thejollylama/decenthead\",\"issue\",\"https://github.com/TheJollyLaMa/DecentPilgrimages/issues/7\",\"2026-11-05T11:33:20Z\"]"
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 5,
+            "title": "V1 overseer: prove newcomer journey and approve Base migration readiness",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/5",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T01:30:55Z"
+          },
+          {
+            "number": 4,
+            "title": "V1: steward-gated autopayroll, optional helper and contributor instructions",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/4",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T19:27:12Z"
+          },
+          {
+            "number": 3,
+            "title": "V1: shared Decent Head, ankhs, journey onboarding and radio",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/3",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T19:27:12Z"
+          },
+          {
+            "number": 2,
+            "title": "V1: version Base contracts with organizer-approved location rewards",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-01T19:27:12Z"
+          },
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T15:59:53Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 9,
+            "title": "Add GrannyLyn to static pilgrimage wallet whitelist",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/pull/9",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T16:46:26Z"
+          },
+          {
+            "number": 8,
+            "title": "Mint Supporter DNFT for v0.1.1",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/issues/8",
+            "kind": "issue",
+            "state": "closed",
+            "stateReason": "completed",
+            "updatedAt": "2026-11-05T13:12:33Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentsubscriptions",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:11.612Z",
-      "checkedAt": "2026-11-12T11:25:11.612Z",
-      "windowStart": "2026-11-05T11:25:11.973Z",
+      "attemptedAt": "2026-11-12T11:38:45.826Z",
+      "checkedAt": "2026-11-12T11:38:45.826Z",
+      "windowStart": "2026-11-05T11:38:46.106Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -754,14 +2200,40 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 2,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T15:59:50Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 3,
+            "title": "Add prepaid subscription workspace and verified header controls",
+            "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/pull/3",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T23:38:05Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/decentvoyager",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:16.056Z",
-      "checkedAt": "2026-11-12T11:25:16.056Z",
-      "windowStart": "2026-11-05T11:25:16.444Z",
+      "attemptedAt": "2026-11-12T11:38:50.701Z",
+      "checkedAt": "2026-11-12T11:38:50.701Z",
+      "windowStart": "2026-11-05T11:38:50.930Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -808,14 +2280,139 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": true,
+        "open": [
+          {
+            "number": 10,
+            "title": "Fix full IPFS app startup: missing wallet/header under gateway rate limits",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/issues/10",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T01:55:42Z"
+          },
+          {
+            "number": 5,
+            "title": "Prepare finite 10% Supporter reserves and level-20 Voyager award",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/issues/5",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T23:05:45Z"
+          },
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:14:20Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 32,
+            "title": "Correct DCal purchase link to listing 20",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/32",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:39:06Z"
+          },
+          {
+            "number": 31,
+            "title": "Require X or Escape to dismiss captured Supporter presentations",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/31",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-08T11:32:30Z"
+          },
+          {
+            "number": 30,
+            "title": "Polish capture collection, NFT rolodex and boss balance",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/30",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T23:46:39Z"
+          },
+          {
+            "number": 29,
+            "title": "Remove main-screen signed flight retry button",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/29",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T19:26:31Z"
+          },
+          {
+            "number": 28,
+            "title": "Keep first Supporter encounters at levels 9 and 10",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/28",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T19:18:30Z"
+          },
+          {
+            "number": 27,
+            "title": "Fix mobile difficulty selection and rotate affordable Supporter prizes",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/27",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T18:59:34Z"
+          },
+          {
+            "number": 26,
+            "title": "Record Continue transitions in signed flight replays",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/26",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T17:59:00Z"
+          },
+          {
+            "number": 25,
+            "title": "Collect captured NFTs directly and recover them in Flight Logs",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/25",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T17:34:28Z"
+          },
+          {
+            "number": 24,
+            "title": "Add final bosses, Flight Logs and prominent flight signing",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/24",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T17:05:30Z"
+          },
+          {
+            "number": 23,
+            "title": "Clean flight manual project links and footer",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/23",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-07T16:15:38Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/dlang",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:15.107Z",
-      "checkedAt": "2026-11-12T11:25:15.107Z",
-      "windowStart": "2026-11-05T11:25:15.351Z",
+      "attemptedAt": "2026-11-12T11:38:49.918Z",
+      "checkedAt": "2026-11-12T11:38:49.918Z",
+      "windowStart": "2026-11-05T11:38:50.169Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -912,14 +2509,112 @@
         }
       ],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 3,
+            "title": "Steward economy: native-speaker narration, 2-of-3 review, per-play earnings, Ommm gems and DNFT awards",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/3",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T10:55:56Z"
+          },
+          {
+            "number": 5,
+            "title": "Explore a DecentSubscription wrapper to fund DLang native-speaker playback and rewards",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/5",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T10:55:40Z"
+          },
+          {
+            "number": 4,
+            "title": "Add DVERT sponsor ad purchases to fund DLang playback and steward rewards",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/4",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T10:55:40Z"
+          },
+          {
+            "number": 1,
+            "title": "Plan DLang: varied visual concepts, seek-and-find scenes and 3+ languages together",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T02:51:30Z"
+          },
+          {
+            "number": 2,
+            "title": "Explore LiveKit voice practice, scene conversations and multilingual learning",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T22:55:42Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 3,
+            "title": "Steward economy: native-speaker narration, 2-of-3 review, per-play earnings, Ommm gems and DNFT awards",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/3",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T10:55:56Z"
+          },
+          {
+            "number": 5,
+            "title": "Explore a DecentSubscription wrapper to fund DLang native-speaker playback and rewards",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/5",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T10:55:40Z"
+          },
+          {
+            "number": 4,
+            "title": "Add DVERT sponsor ad purchases to fund DLang playback and steward rewards",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/4",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T10:55:40Z"
+          },
+          {
+            "number": 1,
+            "title": "Plan DLang: varied visual concepts, seek-and-find scenes and 3+ languages together",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-11T02:51:30Z"
+          },
+          {
+            "number": 2,
+            "title": "Explore LiveKit voice practice, scene conversations and multilingual learning",
+            "url": "https://github.com/TheJollyLaMa/DLang/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T22:55:42Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/greenteahut_01",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:08.906Z",
-      "checkedAt": "2026-11-12T11:25:08.906Z",
-      "windowStart": "2026-11-05T11:25:09.230Z",
+      "attemptedAt": "2026-11-12T11:38:42.724Z",
+      "checkedAt": "2026-11-12T11:38:42.724Z",
+      "windowStart": "2026-11-05T11:38:42.979Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -934,14 +2629,49 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 45,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/issues/45",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:14:00Z"
+          },
+          {
+            "number": 36,
+            "title": "Build Payouts MVP v1 in existing 🎖️ view (QR clock-in/out, 15-min accrual, reviewer settlement, anti-double-pay)",
+            "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/issues/36",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-07-28T07:21:52Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 46,
+            "title": "Record GrannyLyn wallet-only trial invitation",
+            "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/pull/46",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-05T16:45:56Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/jolly-sim-siddhi",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:09.119Z",
-      "checkedAt": "2026-11-12T11:25:09.119Z",
-      "windowStart": "2026-11-05T11:25:09.423Z",
+      "attemptedAt": "2026-11-12T11:38:43.458Z",
+      "checkedAt": "2026-11-12T11:38:43.458Z",
+      "windowStart": "2026-11-05T11:38:43.718Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -956,14 +2686,39 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 3,
+            "title": "Jolly Sim City dovetail: a synthetic cadCAD what-if experiment, separate from observed reality",
+            "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/issues/3",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T11:32:53Z"
+          },
+          {
+            "number": 2,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/jolly-sim-siddhi/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:14:04Z"
+          }
+        ],
+        "recent": []
+      }
     },
     {
       "repo": "thejollylama/jollysandbox",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:11.098Z",
-      "checkedAt": "2026-11-12T11:25:11.098Z",
-      "windowStart": "2026-11-05T11:25:11.422Z",
+      "attemptedAt": "2026-11-12T11:38:45.074Z",
+      "checkedAt": "2026-11-12T11:38:45.074Z",
+      "windowStart": "2026-11-05T11:38:45.298Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -978,14 +2733,40 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 1,
+            "title": "Add bounded course ledger rehearsal to JollySandbox",
+            "url": "https://github.com/TheJollyLaMa/JollySandbox/pull/1",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:31Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 1,
+            "title": "Add bounded course ledger rehearsal to JollySandbox",
+            "url": "https://github.com/TheJollyLaMa/JollySandbox/pull/1",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:31Z"
+          }
+        ]
+      }
     },
     {
       "repo": "thejollylama/qart-code",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:16.149Z",
-      "checkedAt": "2026-11-12T11:25:16.149Z",
-      "windowStart": "2026-11-05T11:25:16.446Z",
+      "attemptedAt": "2026-11-12T11:38:51.010Z",
+      "checkedAt": "2026-11-12T11:38:51.010Z",
+      "windowStart": "2026-11-05T11:38:51.266Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -1000,14 +2781,20 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [],
+        "recent": []
+      }
     },
     {
       "repo": "thejollylama/thegreenteaparty",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:08.389Z",
-      "checkedAt": "2026-11-12T11:25:08.389Z",
-      "windowStart": "2026-11-05T11:25:08.707Z",
+      "attemptedAt": "2026-11-12T11:38:42.546Z",
+      "checkedAt": "2026-11-12T11:38:42.546Z",
+      "windowStart": "2026-11-05T11:38:42.843Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -1022,14 +2809,39 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": true
+      "referencesCapped": true,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 47,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/issues/47",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:13:58Z"
+          },
+          {
+            "number": 46,
+            "title": "Add ART contributor payroll flow",
+            "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/pull/46",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-09-16T15:11:51Z"
+          }
+        ],
+        "recent": []
+      }
     },
     {
       "repo": "thejollylama/umbrellaacademy",
       "status": "ok",
-      "attemptedAt": "2026-11-12T11:25:10.463Z",
-      "checkedAt": "2026-11-12T11:25:10.463Z",
-      "windowStart": "2026-11-05T11:25:10.774Z",
+      "attemptedAt": "2026-11-12T11:38:44.581Z",
+      "checkedAt": "2026-11-12T11:38:44.581Z",
+      "windowStart": "2026-11-05T11:38:44.791Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -1044,7 +2856,42 @@
       "error": "",
       "crossReferences": [],
       "crossReferenceStatus": "ok",
-      "referencesCapped": false
+      "referencesCapped": false,
+      "work": {
+        "status": "ok",
+        "capped": false,
+        "open": [
+          {
+            "number": 2,
+            "title": "Add contextual DecentHead header to Umbrella Academy",
+            "url": "https://github.com/TheJollyLaMa/UmbrellaAcademy/pull/2",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:31Z"
+          },
+          {
+            "number": 1,
+            "title": "Adopt standard Supporter DNFT release workflows",
+            "url": "https://github.com/TheJollyLaMa/UmbrellaAcademy/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-23T06:14:05Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 2,
+            "title": "Add contextual DecentHead header to Umbrella Academy",
+            "url": "https://github.com/TheJollyLaMa/UmbrellaAcademy/pull/2",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-09T00:32:31Z"
+          }
+        ]
+      }
     }
   ]
 }

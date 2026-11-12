@@ -199,7 +199,7 @@
             ...common, id, name: project.repo, kind: 'repository', track: 'Repositories',
             status: focus, description: 'Public repository linked by this curated planning map; source code and issue status are not synchronized live.',
             repoUrl: `https://github.com/${project.repo}`, tags: project.tags || [],
-            agencyDetails: { ...details, name: project.repo, evidence: [
+            agencyDetails: { ...details, name: project.repo, repositoryProjects: [{ id: project.id, name: project.name, currentState: details.currentState, nextAction: details.nextAction, reviewedAt: details.reviewedAt }], evidence: [
               { label: 'Public GitHub repository', url: `https://github.com/${project.repo}` },
               ...details.evidence
             ] }
@@ -208,6 +208,7 @@
           projects.push(repo);
         } else {
           const repo = repos.get(id);
+          repo.agencyDetails.repositoryProjects.push({ id: project.id, name: project.name, currentState: details.currentState, nextAction: details.nextAction, reviewedAt: details.reviewedAt });
           if (['now', 'next', 'inventory'].indexOf(focus) < ['now', 'next', 'inventory'].indexOf(repo.status)) {
             repo.status = focus;
             repo.agencyDetails.focus = focus;
@@ -218,6 +219,19 @@
           sourceLabel: 'Curated project-to-repository association', relationshipState: 'reported',
           note: details.repositoryNote, evidence: [], reviewedAt: data.reviewedAt
         });
+        for (const repo of repos.values()) {
+          if (repo.agencyDetails.repositoryProjects.length < 2) continue;
+          const contexts = repo.agencyDetails.repositoryProjects;
+          repo.agencyDetails.currentState = 'Shared source repository, not a single combined product. Review the separate project contexts below; releases, deployments and financial evidence are not automatically attributed to every project sharing this source.';
+          repo.agencyDetails.nextAction = 'Select the specific project context for its dated plan, evidence and acceptance gates.';
+          repo.agencyDetails.reviewNote = 'Repository association only. The project-specific review notes, capabilities and evidence live on their individual project cards.';
+          repo.agencyDetails.offers = [];
+          repo.agencyDetails.needs = [];
+          repo.agencyDetails.updates = [];
+          repo.agencyDetails.reviewCaveats = [];
+          repo.agencyDetails.evidence = [{ label: 'Public GitHub repository', url: repo.repoUrl }];
+          repo.agencyDetails.repositoryNote = `${contexts.length} separately curated project contexts share this source; this does not merge their products or readiness.`;
+        }
       }
     });
     data.relationships.forEach(edge => associations.push({

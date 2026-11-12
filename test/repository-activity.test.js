@@ -244,8 +244,8 @@ test('reference collector covers commit/release/issue/PR evidence with stable ID
     if (url.includes('/commits?')) return response([{ ...commit(), commit: { ...commit().commit, message } },
       { ...commit('2026-10-01T00:00:00Z'), commit: { committer: { date: '2026-10-01T00:00:00Z' }, message } }]);
     if (url.includes('/issues?')) return issueFailure ? response(null, 429) : response([
-      { number: 1, html_url: `${node.repoUrl}/issues/1`, updated_at: now.toISOString(), title: 'other/project', body: 'do not retain raw body' },
-      { number: 2, html_url: `${node.repoUrl}/pull/2`, updated_at: now.toISOString(), title: 'Adapter', body: message, pull_request: {} }
+      { number: 1, state: 'open', html_url: `${node.repoUrl}/issues/1`, updated_at: now.toISOString(), title: 'other/project', body: 'do not retain raw body' },
+      { number: 2, state: 'open', html_url: `${node.repoUrl}/pull/2`, updated_at: now.toISOString(), title: 'Adapter', body: message, pull_request: {} }
     ]);
     return response({ tag_name: 'v1', published_at: now.toISOString(), html_url: `${node.repoUrl}/releases/tag/v1`, assets: [], body: message });
   };

@@ -20,7 +20,10 @@
     return `<p class="details-track">${e(node.kind)} · Focus: ${e(model.FOCUS[d.focus])}</p>
       <h2 class="details-title">${e(node.name)}</h2>
       <p class="data-provenance">Curated project map · Reviewed ${e(d.reviewedAt)}</p>
+      <p class="details-muted">Planning notes below are dated source reviews, not live status. Public GitHub observations and current backlog links are shown separately in this panel; merged source does not establish deployment or financial readiness.</p>
+      ${node.repoUrl ? `<p><a href="${e(node.repoUrl)}" target="_blank" rel="noopener noreferrer">Public source repository ↗</a></p>` : '<p>No public repository identity has been confirmed for this project. No source, activity or completion is invented.</p>'}
       <p class="details-desc">${e(node.description)}</p>
+      ${d.repositoryProjects?.length > 1 ? `<section class="details-group"><h3>Separate project contexts (${d.repositoryProjects.length})</h3>${d.repositoryProjects.map(project => `<article><h4>${e(project.name)} · reviewed ${e(project.reviewedAt)}</h4><p>${e(project.currentState)}</p><p>Next: ${e(project.nextAction)}</p><button type="button" class="related-entity" data-related-node="agency-project:${e(project.id)}">Open this project context</button></article>`).join('')}</section>` : ''}
       ${d.updates?.length ? `<section class="agency-updates" aria-label="Reviewed project updates">${d.updates.map(update => `<article class="agency-update">
         <span class="agency-state" data-state="${e(update.state)}">${update.state === 'merged' ? 'MERGED SOURCE' : update.state === 'in-flight' ? 'OPEN PR / NOT MERGED' : 'PLANNED / NOT DELIVERED'}</span>
         <h3>${e(update.label)}</h3><p>${e(update.detail)}</p>${links(update.evidence)}</article>`).join('')}</section>` : ''}
@@ -31,7 +34,7 @@
         <p>${e(d.reviewNote || 'Capability review pending or public identity unresolved. No private/local findings are published here.')}</p>
         ${d.reviewCaveats?.length ? `<ul>${d.reviewCaveats.map(note => `<li>${e(note)}</li>`).join('')}</ul>` : ''}
       </details>
-      <section class="details-group"><h3>Next useful move · ${e(model.FOCUS[d.focus])}</h3><p>${e(d.nextAction)}</p></section>
+      <section class="details-group"><h3>Next useful move · ${e(model.FOCUS[d.focus])} · curated ${e(d.reviewedAt)}</h3><p>${e(d.nextAction)}</p></section>
       ${capabilities('offers', 'Code / patterns to offer')}
       ${capabilities('needs', 'Expressed needs')}
       <details class="details-group"><summary>Sources &amp; existing work</summary>${links(d.evidence)}</details>
@@ -45,7 +48,7 @@
           <p>${e(edge.note)}</p>${edge.type === 'capability-match' ? `<p><strong>Offer:</strong> ${e(entities[edge.source].agencyDetails.offers.find(item => item.id === edge.offer).label)}
             <br><strong>Need:</strong> ${e(entities[edge.target].agencyDetails.needs.find(item => item.id === edge.need).label)}</p>
             <p><strong>Next validation:</strong> ${e(edge.nextTest)}</p>` : ''}${links(edge.evidence)}</details></li>`;
-      }).join('')}</ul></details>
+      }).join('') || '<li>No public connection recorded; this is not evidence that none exists.</li>'}</ul></details>
       <p class="details-muted">This is a curated public discovery map, not GitHub authorization, proof of ownership, a shared treasury, or a promise of rewards. Proposed reuse must be adapted and tested in each dapp's context. Do not publish private health data or credentials.</p>`;
   }
 

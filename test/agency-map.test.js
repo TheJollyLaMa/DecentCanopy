@@ -22,7 +22,7 @@ test('all requested names survive as projects, with separate public repo identit
   const expected = [
     'DecentAgency', 'DecentCanopy', 'DecentBusking', 'DecentJukebox', 'BigNuten_Vanilla',
     'TheGreenTeaParty', 'GreenTeaHut_01', 'DecentLending / DLend (ArtFi)', 'JacobsLadder26', 'DecentMaker',
-    'JollySimSiddhi', 'Arduino Smarthome', 'cadCAD', 'TheUmbrellaAcademy',
+    'Jolly Sim Siddhi', 'Arduino Smarthome', 'cadCAD', 'TheUmbrellaAcademy',
     'AJollyDecentCodeCamp', 'JollySandbox', 'DecentSubscriptions', 'DecentPilgrimages',
     'DecentHead', 'DecentCanvas', 'DecentFooter', 'DecentMarket', 'DecentEscrow',
     'DecentInvoice', 'DecentAirdrop', 'DecentCalendar', 'Decent_NDA', 'Decent_UCANN_Play',

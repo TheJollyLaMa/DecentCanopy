@@ -75,6 +75,26 @@
         : `${Model.LEVELS[state].label} · ${row.commits7d} commits in the seven-day window, sampled from at most 100 default-branch commits${row.capped ? ' (sample capped; not an exhaustive total)' : ''}.`));
       section.append(element('small', `Checked ${row.checkedAt} · Window starts ${row.windowStart} · Branch ${row.defaultBranch}${row.archived ? ' · Archived repository' : ''}`));
       section.append(element('p', `${row.openIssuesAndPRs} open issues + pull requests combined. A count is not a readiness or impact score.`));
+      section.append(link(`https://github.com/${repo}/issues`, 'Full issue backlog'), element('span', ' · '),
+        link(`https://github.com/${repo}/pulls`, 'All pull requests'));
+      if (row.work?.status === 'ok') {
+        for (const [field, title] of [['open', 'Open / next public work'], ['recent', 'Recently updated issues and pull requests']]) {
+          const details = element('details'), list = element('ul');
+          details.append(element('summary', `${title} (${row.work[field].length} sampled)`));
+          for (const entry of row.work[field]) {
+            const item = element('li');
+            const state = entry.kind === 'pull-request' && entry.state === 'closed' ? 'Closed PR / merge not established'
+              : entry.state === 'closed' && entry.stateReason === 'not_planned' ? 'Closed as not planned / not delivery'
+              : entry.state === 'closed' ? `Closed issue / ${entry.stateReason}; not deployment proof` : 'Open / not delivered';
+            item.append(link(entry.url, `${entry.kind === 'issue' ? 'Issue' : 'PR'} #${entry.number} · ${entry.title}`),
+              element('small', ` ${state} · updated ${entry.updatedAt}`));
+            list.append(item);
+          }
+          if (!row.work[field].length) list.append(element('li', 'None returned in this bounded observation; see the full backlog.'));
+          details.append(list); section.append(details);
+        }
+        section.append(element('small', `Public work is a bounded sample${row.work.capped ? ' / capped' : ''}, not an exhaustive task list. Checked ${row.checkedAt}.`));
+      } else section.append(element('p', 'Issue/PR details not observed in this snapshot. Use the full source links; no empty backlog or completion inferred.'));
       if (row.latestCommit) section.append(link(row.latestCommit.url, `Latest sampled commit ${row.latestCommit.sha.slice(0, 7)} · ${row.latestCommit.date}`));
       if (row.release) section.append(element('p'), link(row.release.url, `Latest published release ${row.release.tag} · ${row.release.publishedAt}`));
       else section.append(element('p', row.status === 'ok' ? 'No published release returned by GitHub.' : 'Latest release not confirmed.'));

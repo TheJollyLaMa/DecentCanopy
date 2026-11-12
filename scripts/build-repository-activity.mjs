@@ -148,7 +148,14 @@ export async function collect(repo, { fetchImpl = fetch, now = () => new Date(),
     if (catalog.length) {
       try {
         const issues = await request(`/issues?state=all&sort=updated&direction=desc&per_page=30&since=${encodeURIComponent(row.windowStart)}`);
+        const open = await request('/issues?state=open&sort=updated&direction=desc&per_page=10');
         if (!Array.isArray(issues) || issues.length > 30) throw new Error('Invalid public issue/PR sample.');
+        if (!Array.isArray(open) || open.length > 10) throw new Error('Invalid open work sample.');
+        const record = issue => ({ number: issue.number, title: String(issue.title || '').slice(0, 200),
+          url: issue.html_url, kind: issue.pull_request ? 'pull-request' : 'issue', state: issue.state,
+          stateReason: issue.state_reason || 'unknown', updatedAt: issue.updated_at });
+        row.work = { status: 'ok', capped: issues.length > 10 || open.length === 10,
+          open: open.map(record), recent: issues.slice(0, 10).map(record) };
         row.referencesCapped ||= issues.length === 30;
         for (const issue of issues) {
           if (!Number.isFinite(Date.parse(issue.updated_at))) throw new Error('Invalid issue/PR update time.');
@@ -156,8 +163,9 @@ export async function collect(repo, { fetchImpl = fetch, now = () => new Date(),
             `${issue.pull_request ? 'PR' : 'Issue'} #${issue.number}`, `${issue.title || ''}\n${issue.body || ''}`);
         }
       } catch (error) {
+        row.work = { status: 'unavailable', capped: false, open: [], recent: [] };
         row.crossReferenceStatus = 'partial';
-        row.error += `${row.error ? ' ' : ''}Cross-project issue/PR sample unavailable: ${error.message}`;
+        row.error += `${row.error ? ' ' : ''}Public issue/PR sample unavailable: ${error.message}`;
       }
       row.crossReferences.sort((a, b) => Date.parse(b.date) - Date.parse(a.date) || a.id.localeCompare(b.id));
       row.referencesCapped ||= row.crossReferences.length > 100;
