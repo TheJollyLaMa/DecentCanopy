@@ -1,22 +1,22 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-12T16:55:34.193Z",
+  "generatedAt": "2026-11-12T17:13:52.027Z",
   "repositories": [
     {
       "repo": "a-decent-agency/a-decent-agency.github.io",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:18.350Z",
-      "checkedAt": "2026-11-12T16:55:18.350Z",
-      "windowStart": "2026-11-05T16:55:18.722Z",
+      "attemptedAt": "2026-11-12T17:13:33.712Z",
+      "checkedAt": "2026-11-12T17:13:33.712Z",
+      "windowStart": "2026-11-05T17:13:34.108Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
-      "commits7d": 46,
+      "commits7d": 48,
       "capped": true,
       "latestCommit": {
-        "sha": "0a1dd7e73730efc2ebf90ed92c9c229e80148226",
-        "date": "2026-11-12T12:53:02Z",
-        "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/commit/0a1dd7e73730efc2ebf90ed92c9c229e80148226"
+        "sha": "d99010a30071a86794485edc846ea06e8f4a181e",
+        "date": "2026-11-12T17:05:23Z",
+        "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/commit/d99010a30071a86794485edc846ea06e8f4a181e"
       },
       "release": null,
       "error": "",
@@ -112,6 +112,15 @@
         ],
         "recent": [
           {
+            "number": 32,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/32",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:23Z"
+          },
+          {
             "number": 31,
             "title": "Populate every campus panel with dated public source work",
             "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/31",
@@ -191,15 +200,6 @@
             "state": "closed",
             "stateReason": "unknown",
             "updatedAt": "2026-11-05T23:01:25Z"
-          },
-          {
-            "number": 22,
-            "title": "Show one unobstructed Voyager rocket crown",
-            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/22",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-05T22:02:21Z"
           }
         ]
       }
@@ -207,18 +207,18 @@
     {
       "repo": "a-decent-agency/dbuskradio",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:18.351Z",
-      "checkedAt": "2026-11-12T16:55:18.351Z",
-      "windowStart": "2026-11-05T16:55:18.724Z",
+      "attemptedAt": "2026-11-12T17:13:33.713Z",
+      "checkedAt": "2026-11-12T17:13:33.713Z",
+      "windowStart": "2026-11-05T17:13:34.107Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
-      "commits7d": 0,
+      "commits7d": 3,
       "capped": false,
       "latestCommit": {
-        "sha": "6b67e0242e9377358c1d7c9196fa2a95163a1746",
-        "date": "2026-11-03T02:52:05Z",
-        "url": "https://github.com/A-Decent-Agency/DBuskRadio/commit/6b67e0242e9377358c1d7c9196fa2a95163a1746"
+        "sha": "1af4128d6fa5641879ce4487ddf459ecfa015090",
+        "date": "2026-11-12T17:13:15Z",
+        "url": "https://github.com/A-Decent-Agency/DBuskRadio/commit/1af4128d6fa5641879ce4487ddf459ecfa015090"
       },
       "release": {
         "tag": "v0.2.0",
@@ -243,24 +243,34 @@
         "status": "ok",
         "capped": false,
         "open": [],
-        "recent": []
+        "recent": [
+          {
+            "number": 9,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/A-Decent-Agency/DBuskRadio/pull/9",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:13:16Z"
+          }
+        ]
       }
     },
     {
       "repo": "a-decent-agency/decentjukebox",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:22.056Z",
-      "checkedAt": "2026-11-12T16:55:22.056Z",
-      "windowStart": "2026-11-05T16:55:22.391Z",
+      "attemptedAt": "2026-11-12T17:13:37.187Z",
+      "checkedAt": "2026-11-12T17:13:37.187Z",
+      "windowStart": "2026-11-05T17:13:37.499Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
-      "commits7d": 0,
+      "commits7d": 3,
       "capped": true,
       "latestCommit": {
-        "sha": "a84c90f1e8e52a2bffe6b8d185e9af10725b2971",
-        "date": "2026-11-03T02:52:02Z",
-        "url": "https://github.com/A-Decent-Agency/DecentJukebox/commit/a84c90f1e8e52a2bffe6b8d185e9af10725b2971"
+        "sha": "3958594ca7f355f412894291cb12de8dd2b12ed1",
+        "date": "2026-11-12T17:13:20Z",
+        "url": "https://github.com/A-Decent-Agency/DecentJukebox/commit/3958594ca7f355f412894291cb12de8dd2b12ed1"
       },
       "release": {
         "tag": "v0.2.0",
@@ -313,18 +323,28 @@
             "updatedAt": "2026-09-16T14:53:59Z"
           }
         ],
-        "recent": []
+        "recent": [
+          {
+            "number": 10,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/pull/10",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:13:21Z"
+          }
+        ]
       }
     },
     {
       "repo": "a-decent-agency/dvert",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:18.351Z",
-      "checkedAt": "2026-11-12T16:55:18.351Z",
-      "windowStart": "2026-11-05T16:55:18.757Z",
+      "attemptedAt": "2026-11-12T17:13:33.715Z",
+      "checkedAt": "2026-11-12T17:13:33.715Z",
+      "windowStart": "2026-11-05T17:13:34.153Z",
       "defaultBranch": "main",
       "archived": false,
-      "openIssuesAndPRs": 0,
+      "openIssuesAndPRs": 1,
       "commits7d": 0,
       "capped": false,
       "latestCommit": {
@@ -354,16 +374,36 @@
       "work": {
         "status": "ok",
         "capped": false,
-        "open": [],
-        "recent": []
+        "open": [
+          {
+            "number": 9,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/A-Decent-Agency/DVert/pull/9",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:11:49Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 9,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/A-Decent-Agency/DVert/pull/9",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:11:49Z"
+          }
+        ]
       }
     },
     {
       "repo": "cadcad-org/cadcad",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:24.557Z",
-      "checkedAt": "2026-11-12T16:55:24.557Z",
-      "windowStart": "2026-11-05T16:55:24.869Z",
+      "attemptedAt": "2026-11-12T17:13:41.531Z",
+      "checkedAt": "2026-11-12T17:13:41.531Z",
+      "windowStart": "2026-11-05T17:13:41.897Z",
       "defaultBranch": "master",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -484,9 +524,9 @@
     {
       "repo": "thejollylama/ajollydecentcodecamp",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:25.791Z",
-      "checkedAt": "2026-11-12T16:55:25.791Z",
-      "windowStart": "2026-11-05T16:55:26.077Z",
+      "attemptedAt": "2026-11-12T17:13:41.613Z",
+      "checkedAt": "2026-11-12T17:13:41.613Z",
+      "windowStart": "2026-11-05T17:13:41.953Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -532,18 +572,18 @@
     {
       "repo": "thejollylama/arduino_smarthome",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:24.249Z",
-      "checkedAt": "2026-11-12T16:55:24.249Z",
-      "windowStart": "2026-11-05T16:55:24.637Z",
+      "attemptedAt": "2026-11-12T17:13:39.503Z",
+      "checkedAt": "2026-11-12T17:13:39.503Z",
+      "windowStart": "2026-11-05T17:13:39.830Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 0,
+      "commits7d": 2,
       "capped": false,
       "latestCommit": {
-        "sha": "2c2b0ec98dec97b2b90956120f68391d0fe48569",
-        "date": "2026-10-21T13:12:10Z",
-        "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/commit/2c2b0ec98dec97b2b90956120f68391d0fe48569"
+        "sha": "bf99e9aa8548d6bbc01e412ca7d9ea2db6ac1124",
+        "date": "2026-11-12T17:05:23Z",
+        "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/commit/bf99e9aa8548d6bbc01e412ca7d9ea2db6ac1124"
       },
       "release": null,
       "error": "",
@@ -564,24 +604,34 @@
             "updatedAt": "2023-05-11T13:17:32Z"
           }
         ],
-        "recent": []
+        "recent": [
+          {
+            "number": 2,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/Arduino_Smarthome/pull/2",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:24Z"
+          }
+        ]
       }
     },
     {
       "repo": "thejollylama/artfi",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:18.313Z",
-      "checkedAt": "2026-11-12T16:55:18.313Z",
-      "windowStart": "2026-11-05T16:55:18.723Z",
+      "attemptedAt": "2026-11-12T17:13:33.550Z",
+      "checkedAt": "2026-11-12T17:13:33.550Z",
+      "windowStart": "2026-11-05T17:13:34.169Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
-      "commits7d": 0,
+      "commits7d": 2,
       "capped": true,
       "latestCommit": {
-        "sha": "e6665c9c08e8fe68ddbd3a645d3bed0fed565ce8",
-        "date": "2026-11-05T16:45:43Z",
-        "url": "https://github.com/TheJollyLaMa/ArtFi/commit/e6665c9c08e8fe68ddbd3a645d3bed0fed565ce8"
+        "sha": "f83fd410ecb04b8728c714fae0b0f3bceb026b18",
+        "date": "2026-11-12T17:05:23Z",
+        "url": "https://github.com/TheJollyLaMa/ArtFi/commit/f83fd410ecb04b8728c714fae0b0f3bceb026b18"
       },
       "release": null,
       "error": "",
@@ -620,15 +670,25 @@
             "updatedAt": "2026-09-27T12:19:56Z"
           }
         ],
-        "recent": []
+        "recent": [
+          {
+            "number": 64,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/ArtFi/pull/64",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:24Z"
+          }
+        ]
       }
     },
     {
       "repo": "thejollylama/babelbet",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:31.505Z",
-      "checkedAt": "2026-11-12T16:55:31.505Z",
-      "windowStart": "2026-11-05T16:55:31.802Z",
+      "attemptedAt": "2026-11-12T17:13:48.970Z",
+      "checkedAt": "2026-11-12T17:13:48.970Z",
+      "windowStart": "2026-11-05T17:13:49.361Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -710,12 +770,12 @@
     {
       "repo": "thejollylama/bignuten_vanilla",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:20.878Z",
-      "checkedAt": "2026-11-12T16:55:20.878Z",
-      "windowStart": "2026-11-05T16:55:21.246Z",
+      "attemptedAt": "2026-11-12T17:13:35.893Z",
+      "checkedAt": "2026-11-12T17:13:35.893Z",
+      "windowStart": "2026-11-05T17:13:36.228Z",
       "defaultBranch": "main",
       "archived": false,
-      "openIssuesAndPRs": 5,
+      "openIssuesAndPRs": 6,
       "commits7d": 6,
       "capped": true,
       "latestCommit": {
@@ -736,6 +796,15 @@
         "status": "ok",
         "capped": true,
         "open": [
+          {
+            "number": 433,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/433",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:04:13Z"
+          },
           {
             "number": 432,
             "title": "Add daily horse-stance, squat and wall-sit tracking to root chakra",
@@ -783,6 +852,15 @@
           }
         ],
         "recent": [
+          {
+            "number": 433,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/433",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:04:13Z"
+          },
           {
             "number": 432,
             "title": "Add daily horse-stance, squat and wall-sit tracking to root chakra",
@@ -863,15 +941,6 @@
             "state": "closed",
             "stateReason": "unknown",
             "updatedAt": "2026-11-06T00:37:06Z"
-          },
-          {
-            "number": 424,
-            "title": "Use BigNuten Supporter reserve replacement listing",
-            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/424",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-05T22:59:57Z"
           }
         ]
       }
@@ -879,18 +948,18 @@
     {
       "repo": "thejollylama/decent_nda",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:30.028Z",
-      "checkedAt": "2026-11-12T16:55:30.028Z",
-      "windowStart": "2026-11-05T16:55:30.307Z",
+      "attemptedAt": "2026-11-12T17:13:47.384Z",
+      "checkedAt": "2026-11-12T17:13:47.384Z",
+      "windowStart": "2026-11-05T17:13:47.698Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 2,
+      "commits7d": 4,
       "capped": false,
       "latestCommit": {
-        "sha": "c1da496c8d332ea9d7de25420d788972e6b1f425",
-        "date": "2026-11-08T23:38:08Z",
-        "url": "https://github.com/TheJollyLaMa/Decent_NDA/commit/c1da496c8d332ea9d7de25420d788972e6b1f425"
+        "sha": "07ac215e1c82724a847423f821553de4e1836ee2",
+        "date": "2026-11-12T17:05:27Z",
+        "url": "https://github.com/TheJollyLaMa/Decent_NDA/commit/07ac215e1c82724a847423f821553de4e1836ee2"
       },
       "release": null,
       "error": "",
@@ -913,6 +982,15 @@
         ],
         "recent": [
           {
+            "number": 3,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/Decent_NDA/pull/3",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:28Z"
+          },
+          {
             "number": 2,
             "title": "Add local encrypted agreement packages and verified header controls",
             "url": "https://github.com/TheJollyLaMa/Decent_NDA/pull/2",
@@ -927,18 +1005,18 @@
     {
       "repo": "thejollylama/decent_ucan_play",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:30.830Z",
-      "checkedAt": "2026-11-12T16:55:30.830Z",
-      "windowStart": "2026-11-05T16:55:31.075Z",
+      "attemptedAt": "2026-11-12T17:13:47.913Z",
+      "checkedAt": "2026-11-12T17:13:47.913Z",
+      "windowStart": "2026-11-05T17:13:48.281Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 3,
+      "commits7d": 5,
       "capped": false,
       "latestCommit": {
-        "sha": "72e4ef2a6b4cc386262742f913f96afe5b3b2141",
-        "date": "2026-11-08T23:38:16Z",
-        "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/commit/72e4ef2a6b4cc386262742f913f96afe5b3b2141"
+        "sha": "e150b8926492994ac6a24c332128afd5d622f522",
+        "date": "2026-11-12T17:05:27Z",
+        "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/commit/e150b8926492994ac6a24c332128afd5d622f522"
       },
       "release": null,
       "error": "",
@@ -960,6 +1038,15 @@
           }
         ],
         "recent": [
+          {
+            "number": 4,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/Decent_UCAN_Play/pull/4",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:28Z"
+          },
           {
             "number": 1,
             "title": "Preserve legacy app and add a Pinata-backed modern flow",
@@ -984,9 +1071,9 @@
     {
       "repo": "thejollylama/decentagency",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:20.334Z",
-      "checkedAt": "2026-11-12T16:55:20.334Z",
-      "windowStart": "2026-11-05T16:55:20.592Z",
+      "attemptedAt": "2026-11-12T17:13:35.629Z",
+      "checkedAt": "2026-11-12T17:13:35.629Z",
+      "windowStart": "2026-11-05T17:13:35.951Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1022,18 +1109,18 @@
     {
       "repo": "thejollylama/decentairdrop",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:29.568Z",
-      "checkedAt": "2026-11-12T16:55:29.568Z",
-      "windowStart": "2026-11-05T16:55:29.816Z",
+      "attemptedAt": "2026-11-12T17:13:46.421Z",
+      "checkedAt": "2026-11-12T17:13:46.421Z",
+      "windowStart": "2026-11-05T17:13:46.727Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
-      "commits7d": 2,
+      "commits7d": 4,
       "capped": false,
       "latestCommit": {
-        "sha": "01444d10599518ce75bbbd60c9d51459230e6a34",
-        "date": "2026-11-08T23:38:12Z",
-        "url": "https://github.com/TheJollyLaMa/DecentAirdrop/commit/01444d10599518ce75bbbd60c9d51459230e6a34"
+        "sha": "f3e242094427cd92d266dcf35e1f0c115634b0f8",
+        "date": "2026-11-12T17:05:28Z",
+        "url": "https://github.com/TheJollyLaMa/DecentAirdrop/commit/f3e242094427cd92d266dcf35e1f0c115634b0f8"
       },
       "release": null,
       "error": "",
@@ -1074,6 +1161,15 @@
         ],
         "recent": [
           {
+            "number": 5,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentAirdrop/pull/5",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:29Z"
+          },
+          {
             "number": 4,
             "title": "Preserve exact airdrop amounts and add verified header controls",
             "url": "https://github.com/TheJollyLaMa/DecentAirdrop/pull/4",
@@ -1088,18 +1184,18 @@
     {
       "repo": "thejollylama/decentbusking",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:20.518Z",
-      "checkedAt": "2026-11-12T16:55:20.518Z",
-      "windowStart": "2026-11-05T16:55:20.860Z",
+      "attemptedAt": "2026-11-12T17:13:35.873Z",
+      "checkedAt": "2026-11-12T17:13:35.873Z",
+      "windowStart": "2026-11-05T17:13:36.266Z",
       "defaultBranch": "main",
       "archived": false,
-      "openIssuesAndPRs": 10,
-      "commits7d": 34,
+      "openIssuesAndPRs": 11,
+      "commits7d": 38,
       "capped": true,
       "latestCommit": {
-        "sha": "27bf0812edf27f1afcdbda363930598dfcea75b1",
-        "date": "2026-11-11T02:07:49Z",
-        "url": "https://github.com/TheJollyLaMa/DecentBusking/commit/27bf0812edf27f1afcdbda363930598dfcea75b1"
+        "sha": "0b6edff82b8d68d68caa41e6c649a89d551613bc",
+        "date": "2026-11-12T17:05:32Z",
+        "url": "https://github.com/TheJollyLaMa/DecentBusking/commit/0b6edff82b8d68d68caa41e6c649a89d551613bc"
       },
       "release": {
         "tag": "v1.0.0",
@@ -1134,6 +1230,15 @@
         "status": "ok",
         "capped": true,
         "open": [
+          {
+            "number": 330,
+            "title": "Prevent mirror starvation and safely cancel deployment drains",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/330",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:12:54Z"
+          },
           {
             "number": 324,
             "title": "Add right-side Archive stack and BigNuten musician-care widget",
@@ -1214,18 +1319,36 @@
             "state": "open",
             "stateReason": "unknown",
             "updatedAt": "2026-10-27T16:00:52Z"
-          },
-          {
-            "number": 291,
-            "title": "DBusker: wallet-allowlisted community guide and lower-right chat companion",
-            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/291",
-            "kind": "issue",
-            "state": "open",
-            "stateReason": "unknown",
-            "updatedAt": "2026-10-27T16:00:47Z"
           }
         ],
         "recent": [
+          {
+            "number": 330,
+            "title": "Prevent mirror starvation and safely cancel deployment drains",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/330",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:12:54Z"
+          },
+          {
+            "number": 329,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/329",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:33Z"
+          },
+          {
+            "number": 328,
+            "title": "Protect paid playlists and drain radio before deployments",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/328",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:04:16Z"
+          },
           {
             "number": 327,
             "title": "Add Friday live-radio advert handoffs and persistent artist stage",
@@ -1288,33 +1411,6 @@
             "state": "closed",
             "stateReason": "unknown",
             "updatedAt": "2026-11-10T16:25:54Z"
-          },
-          {
-            "number": 320,
-            "title": "Welcome performers with a warm invitation and cosmic confirmation",
-            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/320",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-10T15:33:30Z"
-          },
-          {
-            "number": 319,
-            "title": "Show live invitations in Profile and clarify performer steps",
-            "url": "https://github.com/TheJollyLaMa/DecentBusking/pull/319",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-10T13:58:53Z"
-          },
-          {
-            "number": 318,
-            "title": "DHearse: reusable DecentRehearsals practice-stage widget and ENS entry point",
-            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/318",
-            "kind": "issue",
-            "state": "open",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-09T14:44:36Z"
           }
         ]
       }
@@ -1322,18 +1418,18 @@
     {
       "repo": "thejollylama/decentcalendar",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:29.934Z",
-      "checkedAt": "2026-11-12T16:55:29.934Z",
-      "windowStart": "2026-11-05T16:55:30.166Z",
+      "attemptedAt": "2026-11-12T17:13:47.190Z",
+      "checkedAt": "2026-11-12T17:13:47.190Z",
+      "windowStart": "2026-11-05T17:13:47.618Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 23,
-      "commits7d": 10,
+      "commits7d": 12,
       "capped": false,
       "latestCommit": {
-        "sha": "33d0aa01aa2b9a6eb3299de143ec5425ee27a2f1",
-        "date": "2026-11-12T16:19:52Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCalendar/commit/33d0aa01aa2b9a6eb3299de143ec5425ee27a2f1"
+        "sha": "08e60c4157e294be85d2fc88a5a53b33778d5bd9",
+        "date": "2026-11-12T17:05:32Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCalendar/commit/08e60c4157e294be85d2fc88a5a53b33778d5bd9"
       },
       "release": {
         "tag": "v0.1.0",
@@ -1451,6 +1547,15 @@
         ],
         "recent": [
           {
+            "number": 39,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentCalendar/pull/39",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:33Z"
+          },
+          {
             "number": 38,
             "title": "Point About DecentCanopy tile to its landing page",
             "url": "https://github.com/TheJollyLaMa/DecentCalendar/pull/38",
@@ -1492,18 +1597,18 @@
     {
       "repo": "thejollylama/decentcanopy",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:20.494Z",
-      "checkedAt": "2026-11-12T16:55:20.494Z",
-      "windowStart": "2026-11-05T16:55:20.719Z",
+      "attemptedAt": "2026-11-12T17:13:35.709Z",
+      "checkedAt": "2026-11-12T17:13:35.709Z",
+      "windowStart": "2026-11-05T17:13:36.002Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 19,
       "commits7d": 100,
       "capped": true,
       "latestCommit": {
-        "sha": "58a5ba287c270ac09e6e7d968e3444fa8c5a5748",
-        "date": "2026-11-12T16:41:11Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/58a5ba287c270ac09e6e7d968e3444fa8c5a5748"
+        "sha": "6872ca39e057593160d95a2d222e6dd818597240",
+        "date": "2026-11-12T17:06:11Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/6872ca39e057593160d95a2d222e6dd818597240"
       },
       "release": {
         "tag": "v0.1.0",
@@ -1640,6 +1745,15 @@
         ],
         "recent": [
           {
+            "number": 73,
+            "title": "Add friendly link previews and remove duplicate About checkout",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/73",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:34Z"
+          },
+          {
             "number": 71,
             "title": "Populate project sidepanels with dated public work evidence",
             "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/71",
@@ -1719,15 +1833,6 @@
             "state": "closed",
             "stateReason": "unknown",
             "updatedAt": "2026-11-06T01:20:38Z"
-          },
-          {
-            "number": 63,
-            "title": "Record funded Voyager reserves and replacement sale evidence",
-            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/63",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-05T23:00:00Z"
           }
         ]
       }
@@ -1735,18 +1840,18 @@
     {
       "repo": "thejollylama/decentescrow",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:28.023Z",
-      "checkedAt": "2026-11-12T16:55:28.023Z",
-      "windowStart": "2026-11-05T16:55:28.292Z",
+      "attemptedAt": "2026-11-12T17:13:45.611Z",
+      "checkedAt": "2026-11-12T17:13:45.611Z",
+      "windowStart": "2026-11-05T17:13:45.889Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 3,
+      "commits7d": 5,
       "capped": false,
       "latestCommit": {
-        "sha": "d130c53c3b57af54af516dc0243b643e45ad8a45",
-        "date": "2026-11-08T23:37:57Z",
-        "url": "https://github.com/TheJollyLaMa/DecentEscrow/commit/d130c53c3b57af54af516dc0243b643e45ad8a45"
+        "sha": "e73313e323c632dccb3d5c5daf884a4d345aee86",
+        "date": "2026-11-12T17:05:37Z",
+        "url": "https://github.com/TheJollyLaMa/DecentEscrow/commit/e73313e323c632dccb3d5c5daf884a4d345aee86"
       },
       "release": null,
       "error": "",
@@ -1769,6 +1874,15 @@
         ],
         "recent": [
           {
+            "number": 3,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentEscrow/pull/3",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:38Z"
+          },
+          {
             "number": 2,
             "title": "Add generalized escrow workspace and verified header controls",
             "url": "https://github.com/TheJollyLaMa/DecentEscrow/pull/2",
@@ -1783,18 +1897,18 @@
     {
       "repo": "thejollylama/decenthead",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:27.692Z",
-      "checkedAt": "2026-11-12T16:55:27.692Z",
-      "windowStart": "2026-11-05T16:55:27.983Z",
+      "attemptedAt": "2026-11-12T17:13:44.322Z",
+      "checkedAt": "2026-11-12T17:13:44.322Z",
+      "windowStart": "2026-11-05T17:13:44.662Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 9,
+      "commits7d": 11,
       "capped": false,
       "latestCommit": {
-        "sha": "2b9479abb0bd8dc663481898807d30237cde507d",
-        "date": "2026-11-08T23:44:34Z",
-        "url": "https://github.com/TheJollyLaMa/DecentHead/commit/2b9479abb0bd8dc663481898807d30237cde507d"
+        "sha": "d1b1d8139b127737508bf42dff0421cd8e0949ab",
+        "date": "2026-11-12T17:05:37Z",
+        "url": "https://github.com/TheJollyLaMa/DecentHead/commit/d1b1d8139b127737508bf42dff0421cd8e0949ab"
       },
       "release": {
         "tag": "v2.0.0",
@@ -1831,6 +1945,15 @@
         ],
         "recent": [
           {
+            "number": 36,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentHead/pull/36",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:37Z"
+          },
+          {
             "number": 35,
             "title": "Verify provider connectivity before reporting IPFS ready",
             "url": "https://github.com/TheJollyLaMa/DecentHead/pull/35",
@@ -1863,18 +1986,18 @@
     {
       "repo": "thejollylama/decentinvoice",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:29.430Z",
-      "checkedAt": "2026-11-12T16:55:29.430Z",
-      "windowStart": "2026-11-05T16:55:29.718Z",
+      "attemptedAt": "2026-11-12T17:13:46.021Z",
+      "checkedAt": "2026-11-12T17:13:46.021Z",
+      "windowStart": "2026-11-05T17:13:46.289Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 3,
+      "commits7d": 5,
       "capped": false,
       "latestCommit": {
-        "sha": "c06590f4762b2a9621cbe2ee04ecd7a1916ca8b9",
-        "date": "2026-11-08T23:38:01Z",
-        "url": "https://github.com/TheJollyLaMa/DecentInvoice/commit/c06590f4762b2a9621cbe2ee04ecd7a1916ca8b9"
+        "sha": "a5ca91430459612703df767f4711d4a339bdfc78",
+        "date": "2026-11-12T17:05:38Z",
+        "url": "https://github.com/TheJollyLaMa/DecentInvoice/commit/a5ca91430459612703df767f4711d4a339bdfc78"
       },
       "release": null,
       "error": "",
@@ -1897,6 +2020,15 @@
         ],
         "recent": [
           {
+            "number": 3,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentInvoice/pull/3",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:39Z"
+          },
+          {
             "number": 2,
             "title": "Add generalized invoice workspace and verified header controls",
             "url": "https://github.com/TheJollyLaMa/DecentInvoice/pull/2",
@@ -1911,18 +2043,18 @@
     {
       "repo": "thejollylama/decentmarket",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:27.726Z",
-      "checkedAt": "2026-11-12T16:55:27.726Z",
-      "windowStart": "2026-11-05T16:55:27.978Z",
+      "attemptedAt": "2026-11-12T17:13:44.788Z",
+      "checkedAt": "2026-11-12T17:13:44.788Z",
+      "windowStart": "2026-11-05T17:13:45.074Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 4,
-      "commits7d": 11,
+      "commits7d": 13,
       "capped": false,
       "latestCommit": {
-        "sha": "2274bb0061df0fcacb60ebd81a00e0ffbd42c496",
-        "date": "2026-11-08T10:16:14Z",
-        "url": "https://github.com/TheJollyLaMa/DecentMarket/commit/2274bb0061df0fcacb60ebd81a00e0ffbd42c496"
+        "sha": "9346baa86fbbdbc3f84e9fd93c57812a4f621fd2",
+        "date": "2026-11-12T17:10:05Z",
+        "url": "https://github.com/TheJollyLaMa/DecentMarket/commit/9346baa86fbbdbc3f84e9fd93c57812a4f621fd2"
       },
       "release": {
         "tag": "v0.3.1",
@@ -1996,6 +2128,15 @@
         ],
         "recent": [
           {
+            "number": 77,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/77",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:10:06Z"
+          },
+          {
             "number": 76,
             "title": "Show loading progress immediately for Supporter NFT links",
             "url": "https://github.com/TheJollyLaMa/DecentMarket/pull/76",
@@ -2037,18 +2178,18 @@
     {
       "repo": "thejollylama/decentpilgrimages",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:27.602Z",
-      "checkedAt": "2026-11-12T16:55:27.602Z",
-      "windowStart": "2026-11-05T16:55:27.909Z",
+      "attemptedAt": "2026-11-12T17:13:43.592Z",
+      "checkedAt": "2026-11-12T17:13:43.592Z",
+      "windowStart": "2026-11-05T17:13:43.874Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
-      "commits7d": 0,
+      "commits7d": 2,
       "capped": false,
       "latestCommit": {
-        "sha": "b57bc2a59dca7e97bf838dc4f1beebabf63bdcab",
-        "date": "2026-11-05T16:46:23Z",
-        "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/commit/b57bc2a59dca7e97bf838dc4f1beebabf63bdcab"
+        "sha": "16e54f5ae6599503279266d6ae42abb092008866",
+        "date": "2026-11-12T17:06:29Z",
+        "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/commit/16e54f5ae6599503279266d6ae42abb092008866"
       },
       "release": {
         "tag": "v0.1.1",
@@ -2119,24 +2260,34 @@
             "updatedAt": "2026-10-27T15:59:53Z"
           }
         ],
-        "recent": []
+        "recent": [
+          {
+            "number": 10,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentPilgrimages/pull/10",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:06:30Z"
+          }
+        ]
       }
     },
     {
       "repo": "thejollylama/decentsubscriptions",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:26.222Z",
-      "checkedAt": "2026-11-12T16:55:26.222Z",
-      "windowStart": "2026-11-05T16:55:26.457Z",
+      "attemptedAt": "2026-11-12T17:13:43.342Z",
+      "checkedAt": "2026-11-12T17:13:43.342Z",
+      "windowStart": "2026-11-05T17:13:43.714Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 3,
+      "commits7d": 5,
       "capped": false,
       "latestCommit": {
-        "sha": "21166d9b4dcc6f23614a44aa433f1a45c2533e0d",
-        "date": "2026-11-08T23:38:04Z",
-        "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/commit/21166d9b4dcc6f23614a44aa433f1a45c2533e0d"
+        "sha": "e280fd134eb2be3485fb275d8e338be1f23e58b3",
+        "date": "2026-11-12T17:05:43Z",
+        "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/commit/e280fd134eb2be3485fb275d8e338be1f23e58b3"
       },
       "release": null,
       "error": "",
@@ -2159,6 +2310,15 @@
         ],
         "recent": [
           {
+            "number": 4,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/pull/4",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:44Z"
+          },
+          {
             "number": 3,
             "title": "Add prepaid subscription workspace and verified header controls",
             "url": "https://github.com/TheJollyLaMa/DecentSubscriptions/pull/3",
@@ -2173,18 +2333,18 @@
     {
       "repo": "thejollylama/decentvoyager",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:32.346Z",
-      "checkedAt": "2026-11-12T16:55:32.346Z",
-      "windowStart": "2026-11-05T16:55:32.602Z",
+      "attemptedAt": "2026-11-12T17:13:49.630Z",
+      "checkedAt": "2026-11-12T17:13:49.630Z",
+      "windowStart": "2026-11-05T17:13:49.917Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
-      "commits7d": 72,
+      "commits7d": 74,
       "capped": false,
       "latestCommit": {
-        "sha": "2758711888a8fd321cfcf5113ad594579d915257",
-        "date": "2026-11-09T00:39:05Z",
-        "url": "https://github.com/TheJollyLaMa/DecentVoyager/commit/2758711888a8fd321cfcf5113ad594579d915257"
+        "sha": "04fec8c02c8ceb73003d2ee2b70745d77eb93a8e",
+        "date": "2026-11-12T17:05:47Z",
+        "url": "https://github.com/TheJollyLaMa/DecentVoyager/commit/04fec8c02c8ceb73003d2ee2b70745d77eb93a8e"
       },
       "release": {
         "tag": "v1.0.0",
@@ -2256,6 +2416,15 @@
           }
         ],
         "recent": [
+          {
+            "number": 33,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/33",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:48Z"
+          },
           {
             "number": 32,
             "title": "Correct DCal purchase link to listing 20",
@@ -2336,15 +2505,6 @@
             "state": "closed",
             "stateReason": "unknown",
             "updatedAt": "2026-11-07T17:05:30Z"
-          },
-          {
-            "number": 23,
-            "title": "Clean flight manual project links and footer",
-            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/23",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-07T16:15:38Z"
           }
         ]
       }
@@ -2352,18 +2512,18 @@
     {
       "repo": "thejollylama/dlang",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:31.240Z",
-      "checkedAt": "2026-11-12T16:55:31.240Z",
-      "windowStart": "2026-11-05T16:55:31.531Z",
+      "attemptedAt": "2026-11-12T17:13:48.302Z",
+      "checkedAt": "2026-11-12T17:13:48.302Z",
+      "windowStart": "2026-11-05T17:13:48.624Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 6,
-      "commits7d": 10,
+      "commits7d": 12,
       "capped": false,
       "latestCommit": {
-        "sha": "6067d3b3d4ca3b6613465bd1ef602d711bd4174f",
-        "date": "2026-11-12T16:30:58Z",
-        "url": "https://github.com/TheJollyLaMa/DLang/commit/6067d3b3d4ca3b6613465bd1ef602d711bd4174f"
+        "sha": "7000ff361004cae36fe76d86e820a0f81ed5de15",
+        "date": "2026-11-12T17:07:10Z",
+        "url": "https://github.com/TheJollyLaMa/DLang/commit/7000ff361004cae36fe76d86e820a0f81ed5de15"
       },
       "release": null,
       "error": "",
@@ -2513,6 +2673,15 @@
         ],
         "recent": [
           {
+            "number": 7,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/DLang/pull/7",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:07:11Z"
+          },
+          {
             "number": 3,
             "title": "Steward economy: native-speaker narration, 2-of-3 review, per-play earnings, Ommm gems and DNFT awards",
             "url": "https://github.com/TheJollyLaMa/DLang/issues/3",
@@ -2572,18 +2741,18 @@
     {
       "repo": "thejollylama/greenteahut_01",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:22.898Z",
-      "checkedAt": "2026-11-12T16:55:22.898Z",
-      "windowStart": "2026-11-05T16:55:23.129Z",
+      "attemptedAt": "2026-11-12T17:13:38.207Z",
+      "checkedAt": "2026-11-12T17:13:38.207Z",
+      "windowStart": "2026-11-05T17:13:38.766Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
-      "commits7d": 0,
+      "commits7d": 2,
       "capped": true,
       "latestCommit": {
-        "sha": "d5a711c3d9067df585d0f2be060f03a2d4271682",
-        "date": "2026-11-05T16:45:52Z",
-        "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/commit/d5a711c3d9067df585d0f2be060f03a2d4271682"
+        "sha": "0308532eadfc48018d78d81df2c698b0a6e45d4a",
+        "date": "2026-11-12T17:05:58Z",
+        "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/commit/0308532eadfc48018d78d81df2c698b0a6e45d4a"
       },
       "release": null,
       "error": "",
@@ -2613,15 +2782,25 @@
             "updatedAt": "2026-07-28T07:21:52Z"
           }
         ],
-        "recent": []
+        "recent": [
+          {
+            "number": 47,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/GreenTeaHut_01/pull/47",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:05:59Z"
+          }
+        ]
       }
     },
     {
       "repo": "thejollylama/jolly-sim-siddhi",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:22.986Z",
-      "checkedAt": "2026-11-12T16:55:22.986Z",
-      "windowStart": "2026-11-05T16:55:23.209Z",
+      "attemptedAt": "2026-11-12T17:13:38.326Z",
+      "checkedAt": "2026-11-12T17:13:38.326Z",
+      "windowStart": "2026-11-05T17:13:38.635Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2666,18 +2845,18 @@
     {
       "repo": "thejollylama/jollysandbox",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:26.161Z",
-      "checkedAt": "2026-11-12T16:55:26.161Z",
-      "windowStart": "2026-11-05T16:55:26.480Z",
+      "attemptedAt": "2026-11-12T17:13:43.242Z",
+      "checkedAt": "2026-11-12T17:13:43.242Z",
+      "windowStart": "2026-11-05T17:13:43.574Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 0,
+      "commits7d": 2,
       "capped": false,
       "latestCommit": {
-        "sha": "59041ce0d800842d68bdc542c5174977c809cfa9",
-        "date": "2026-10-21T13:12:53Z",
-        "url": "https://github.com/TheJollyLaMa/JollySandbox/commit/59041ce0d800842d68bdc542c5174977c809cfa9"
+        "sha": "ca61ea6845fa9e04f1d7d61b466b87a587e7ec55",
+        "date": "2026-11-12T17:06:03Z",
+        "url": "https://github.com/TheJollyLaMa/JollySandbox/commit/ca61ea6845fa9e04f1d7d61b466b87a587e7ec55"
       },
       "release": null,
       "error": "",
@@ -2700,6 +2879,15 @@
         ],
         "recent": [
           {
+            "number": 2,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/JollySandbox/pull/2",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:06:03Z"
+          },
+          {
             "number": 1,
             "title": "Add bounded course ledger rehearsal to JollySandbox",
             "url": "https://github.com/TheJollyLaMa/JollySandbox/pull/1",
@@ -2714,9 +2902,9 @@
     {
       "repo": "thejollylama/qart-code",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:32.428Z",
-      "checkedAt": "2026-11-12T16:55:32.428Z",
-      "windowStart": "2026-11-05T16:55:32.693Z",
+      "attemptedAt": "2026-11-12T17:13:49.780Z",
+      "checkedAt": "2026-11-12T17:13:49.780Z",
+      "windowStart": "2026-11-05T17:13:50.692Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -2742,18 +2930,18 @@
     {
       "repo": "thejollylama/thegreenteaparty",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:22.600Z",
-      "checkedAt": "2026-11-12T16:55:22.600Z",
-      "windowStart": "2026-11-05T16:55:22.861Z",
+      "attemptedAt": "2026-11-12T17:13:38.073Z",
+      "checkedAt": "2026-11-12T17:13:38.073Z",
+      "windowStart": "2026-11-05T17:13:38.425Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
-      "commits7d": 0,
+      "commits7d": 2,
       "capped": true,
       "latestCommit": {
-        "sha": "c21bf670d09d77bfdab8b934643bc185d0c385e8",
-        "date": "2026-10-21T13:12:55Z",
-        "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/commit/c21bf670d09d77bfdab8b934643bc185d0c385e8"
+        "sha": "940f8af670e9f3a3058a410b8dab09e604ce298f",
+        "date": "2026-11-12T17:06:08Z",
+        "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/commit/940f8af670e9f3a3058a410b8dab09e604ce298f"
       },
       "release": null,
       "error": "",
@@ -2783,15 +2971,25 @@
             "updatedAt": "2026-09-16T15:11:51Z"
           }
         ],
-        "recent": []
+        "recent": [
+          {
+            "number": 48,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/TheGreenTeaParty/pull/48",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:06:09Z"
+          }
+        ]
       }
     },
     {
       "repo": "thejollylama/umbrellaacademy",
       "status": "ok",
-      "attemptedAt": "2026-11-12T16:55:24.660Z",
-      "checkedAt": "2026-11-12T16:55:24.660Z",
-      "windowStart": "2026-11-05T16:55:24.941Z",
+      "attemptedAt": "2026-11-12T17:13:41.553Z",
+      "checkedAt": "2026-11-12T17:13:41.553Z",
+      "windowStart": "2026-11-05T17:13:42.012Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
