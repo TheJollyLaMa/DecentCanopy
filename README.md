@@ -220,8 +220,8 @@ External integration candidates, such as cadCAD, do not receive an umbrella asso
 - Targeted project `reviewedAt` dates do not re-date the older capability inspection.
   BigNuten's local continuity is not hosted/cross-browser synchronization, its
   Supporter listing is unconfigured, and financial closures consolidated into #412
-  do not mean delivered finance. Pilgrimages PR #6 and BabelBet PR #5 remain
-  unmerged preparation, with test counts attributed to their public PRs.
+  do not mean delivered finance. Pilgrimages PR #6 subsequently merged with its
+  separately evidenced v0.1.1 release; BabelBet PR #5 remains unmerged preparation.
 - **Solid blue** means source-observed; **dashed amber** steward-reported;
   **dashed purple** proposed only; **dashed gray** unresolved.
   These are planning evidence states, not the creator graph's wallet/transaction trust states.
@@ -234,6 +234,14 @@ The inventory lives in [`data/agency-map.json`](data/agency-map.json), validated
 Update its review date, source links, and relationship notes when revisiting it.
 Optional project `updates` contain up to six evidence-backed `merged`, `in-flight`
 or `planned` entries; these states never establish deployment or financial activity.
+Every agency project/repository panel labels these as dated plans and supplies
+an explicit public source link or unresolved-identity notice. Shared source
+repositories show all separate project contexts instead of inheriting the first
+product's status (notably ArtFi lending versus the independent settlements router).
+The public activity observer adds up to ten open and ten recently updated
+issue/PR signposts per repository, with source timestamps, explicit capped and
+unavailable states and full backlog links. Closed PRs are not called merged
+without merge evidence; issue closures do not imply deployment or payments.
 An optional unique `entityId` distinguishes infrastructure from its source repository.
 The three standalone widgets already have their own repositories, ENS identities
 and Supporter editions: DJuke (`djuke.decentagency.eth`, token 72), DVert

@@ -1053,7 +1053,7 @@
     {
       "id": "jolly-sim-siddhi",
       "reviewedAt": "2026-11-08",
-      "name": "JollySimSiddhi",
+      "name": "Jolly Sim Siddhi",
       "repo": "TheJollyLaMa/jolly-sim-siddhi",
       "repositoryNote": "Product name: Jolly Sim Siddhi. One future project site and header incorporates Arduino Smarthome as its backbone. Both repository identities remain for source history; no physical merge or deployed homestead integration is claimed.",
       "purpose": "A home-to-world HUD and eventual map of homesteads and their projects, supporting accountability, assistance and simulations on real-world resource datasets.",
@@ -1064,7 +1064,8 @@
         "Several README features are plans (🚧), not implementation.",
         "Worktree had uncommitted changes; none used."
       ],
-      "currentState": "Decent Smarthome 4.0: React + Express app combining MetaMask, web3.storage/IPFS and OpenAI chat assistants.",
+      "currentState": "One planned homestead product: Jolly Sim Siddhi, with Arduino Smarthome as its efficient-home and sensor-data backbone and the Jolly Sim Siddhi source as its home-to-world HUD/simulation lineage. Existing React/Express code was inspected as Decent Smarthome 4.0 with wallet, IPFS and assistant routes; it is not a tested current home-data deployment. GreenTeaHut currently supplies a ledger, not the future full resource dataset. Sensor sharing, real-world simulations and homestead accountability remain separate acceptance work.",
+      "nextAction": "Consolidate the two public source lineages into one project experience without losing firmware/dashboard history. Start with a synthetic home-resource fixture and reviewed privacy boundaries before real household sensors or public data sharing; keep Canopy creator/project relationships distinct from homestead relationships.",
       "offers": [
         {
           "id": "jss-express-api",
@@ -1533,7 +1534,7 @@
         "ENS deployable-site pin/record signatures, universal creator-facing artwork generation and standalone Footer/Canvas releases remain pending. A source archive CID is not a deployable website root."
       ],
       "currentState": "Market v0.3.1 is deployed on Base with pinned Head v2.0.0, sale-first verified discovery, two-sided star DNFTs, purchase cards and Regular/Supporter/Music lanes. Its Supporter token 71 / listing 1 was minted with 1,000 editions at 10 USDC, and its real Discord announcement and duplicate suppression are verified. This is not a new contract deployment or proof that every repository is integrated.",
-      "nextAction": "Offer the proven release/mint/purchase/notifier pattern to products once each is ready and explicitly approved; Canopy is preparing its first versioned Supporter release under #34, with mint and listing still pending. Keep ENS, creator authorization and standalone module follow-ups separate; never remint Head 70 or Market 71.",
+      "nextAction": "Offer the proven release/mint/purchase/notifier pattern to products once each is ready and explicitly approved. Canopy subsequently published v0.1.0 and token 79; its dated receipt and current purchase checks belong to the Canopy card, not a pending first mint. Keep creator authorization and standalone module follow-ups separate; never remint Head 70 or Market 71.",
       "evidence": [
         {
           "label": "Market v0.3.1 frozen release",
