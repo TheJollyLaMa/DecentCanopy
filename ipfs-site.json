@@ -2,19 +2,29 @@
   "format": "decentcanopy-site-pin",
   "version": 1,
   "provider": "Pinata",
-  "cid": "bafybeibyyarlvrabrxanaqn6kvcz3bmo2tgve3jbjnv2bi7kko2yvitocq",
-  "uri": "ipfs://bafybeibyyarlvrabrxanaqn6kvcz3bmo2tgve3jbjnv2bi7kko2yvitocq",
+  "cid": "bafybeih7qvv5ebo5rmx5h5oycqw44be6v6qgop6ani3lboqyslx62bv2fm",
+  "uri": "ipfs://bafybeih7qvv5ebo5rmx5h5oycqw44be6v6qgop6ani3lboqyslx62bv2fm",
   "urls": {
-    "inbrowser": "https://bafybeibyyarlvrabrxanaqn6kvcz3bmo2tgve3jbjnv2bi7kko2yvitocq.ipfs.inbrowser.link/",
-    "dweb": "https://bafybeibyyarlvrabrxanaqn6kvcz3bmo2tgve3jbjnv2bi7kko2yvitocq.ipfs.dweb.link/",
-    "pinata": "https://gateway.pinata.cloud/ipfs/bafybeibyyarlvrabrxanaqn6kvcz3bmo2tgve3jbjnv2bi7kko2yvitocq/"
+    "inbrowser": "https://bafybeih7qvv5ebo5rmx5h5oycqw44be6v6qgop6ani3lboqyslx62bv2fm.ipfs.inbrowser.link/",
+    "dweb": "https://bafybeih7qvv5ebo5rmx5h5oycqw44be6v6qgop6ani3lboqyslx62bv2fm.ipfs.dweb.link/",
+    "pinata": "https://gateway.pinata.cloud/ipfs/bafybeih7qvv5ebo5rmx5h5oycqw44be6v6qgop6ani3lboqyslx62bv2fm/"
   },
-  "pinnedAt": "2026-11-12T16:27:26.665Z",
-  "commit": "5629989802bf14ba04a08f22cbeb72328b8e8da6",
-  "siteSha256": "122fbfb06685fa913846c30e9724939647e9277dec51959b282ed48913ccd366",
+  "pinnedAt": "2026-11-12T16:56:17.112Z",
+  "commit": "ca7bd0364c93c8ce9d480be53f16d0a40308a275",
+  "siteSha256": "11a53172ba988eda0957ce7619c19349f12186936230c8f85da47026b52a911b",
   "fileCount": 147,
-  "bytes": 27690418,
+  "bytes": 27688944,
   "recent": [
+    {
+      "cid": "bafybeih7qvv5ebo5rmx5h5oycqw44be6v6qgop6ani3lboqyslx62bv2fm",
+      "pinnedAt": "2026-11-12T16:56:17.112Z",
+      "commit": "ca7bd0364c93c8ce9d480be53f16d0a40308a275"
+    },
+    {
+      "cid": "bafybeiaxoukoccx4cznghc4buljn2w7gvobugwqy5ulscrv3cqvh26zzqi",
+      "pinnedAt": "2026-11-12T16:41:08.369Z",
+      "commit": "e361670508ab23aba9ac5e598a002696a9f2ea45"
+    },
     {
       "cid": "bafybeibyyarlvrabrxanaqn6kvcz3bmo2tgve3jbjnv2bi7kko2yvitocq",
       "pinnedAt": "2026-11-12T16:27:26.665Z",
@@ -29,16 +39,6 @@
       "cid": "bafybeiexqg66r2fhfx3bolwxjfczypp2okdwmdbfapca5trvsmd54et5ty",
       "pinnedAt": "2026-11-12T15:56:02.166Z",
       "commit": "63bc92f13bf682d975b3d668aba1035923fb495e"
-    },
-    {
-      "cid": "bafybeig7zqtpeln6jv6ndj3e3rah2xytf4us23bhpxhi55ogijwod2vcma",
-      "pinnedAt": "2026-11-12T15:40:46.648Z",
-      "commit": "43ebb0ef1950d3587dfe1bea253f88e48ab55ac2"
-    },
-    {
-      "cid": "bafybeidvz6ofp3k76432mul2e63nx4v23ix4fs6xm4qao74h6p66435qa4",
-      "pinnedAt": "2026-11-12T15:26:45.566Z",
-      "commit": "4771836bf5ca72925c533267a1e2ebf63b30f1ec"
     }
   ]
 }
