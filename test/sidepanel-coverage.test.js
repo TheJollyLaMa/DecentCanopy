@@ -40,3 +40,17 @@ test('published public work samples cover all catalog observations without treat
   invalid.repositories.find(item => item.repo === row.repo).work.open[0].url = 'https://github.com/wrong/repo/issues/1';
   assert.throws(() => Activity.validate(invalid), /work evidence/);
 });
+
+test('creator Planning Office mirror never assigns lending observations or cards to the independent router', () => {
+  const vm = require('node:vm');
+  const sandbox = { URL, CanopySupporterModel: require('../scripts/supporter-dnft-model') };
+  vm.createContext(sandbox);
+  vm.runInContext(fs.readFileSync(new URL('../scripts/planning-office.js', `file://${__filename}`), 'utf8'), sandbox);
+  const observation = { repository: 'TheJollyLaMa/ArtFi', versions: [{ tag: 'lending-only' }] };
+  const result = sandbox.CanopyPlanningOffice.rows(data('agency-map.json'),
+    { schemaVersion: 2, checkedAt: '2026-11-12T00:00:00Z', repositories: [observation] },
+    { schemaVersion: 1, items: [{ title: 'Lending task', repository: 'TheJollyLaMa/ArtFi', fields: {} }] });
+  assert.equal(result.find(row => row.name === 'DecentSettlementsRouter').observation, undefined);
+  assert.equal(result.find(row => row.name === 'DecentSettlementsRouter').tasks.length, 0);
+  assert.equal(result.find(row => row.name.includes('DecentLending')).observation, observation);
+});
