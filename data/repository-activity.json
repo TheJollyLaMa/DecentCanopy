@@ -1,16 +1,16 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-17T16:27:25.231Z",
+  "generatedAt": "2026-11-17T16:40:09.561Z",
   "repositories": [
     {
       "repo": "a-decent-agency/a-decent-agency.github.io",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:10.997Z",
-      "checkedAt": "2026-11-17T16:27:10.997Z",
-      "windowStart": "2026-11-10T16:27:11.456Z",
+      "attemptedAt": "2026-11-17T16:39:54.242Z",
+      "checkedAt": "2026-11-17T16:39:54.242Z",
+      "windowStart": "2026-11-10T16:39:54.651Z",
       "defaultBranch": "main",
       "archived": false,
-      "openIssuesAndPRs": 5,
+      "openIssuesAndPRs": 6,
       "commits7d": 32,
       "capped": true,
       "latestCommit": {
@@ -21,6 +21,15 @@
       "release": null,
       "error": "",
       "crossReferences": [
+        {
+          "source": "a-decent-agency/a-decent-agency.github.io",
+          "target": "thejollylama/decentbusking",
+          "kind": "pull-request",
+          "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33",
+          "date": "2026-11-17T16:29:58Z",
+          "label": "PR #33",
+          "id": "[\"a-decent-agency/a-decent-agency.github.io\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33\",\"2026-11-17T16:29:58Z\"]"
+        },
         {
           "source": "a-decent-agency/a-decent-agency.github.io",
           "target": "thejollylama/decentvoyager",
@@ -37,6 +46,15 @@
         "status": "ok",
         "capped": false,
         "open": [
+          {
+            "number": 33,
+            "title": "Add DHearse pre-release widget card",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:29:58Z"
+          },
           {
             "number": 20,
             "title": "Connect DecentCity outskirts to Voyager with free-flight city physics",
@@ -84,6 +102,15 @@
           }
         ],
         "recent": [
+          {
+            "number": 33,
+            "title": "Add DHearse pre-release widget card",
+            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:29:58Z"
+          },
           {
             "number": 20,
             "title": "Connect DecentCity outskirts to Voyager with free-flight city physics",
@@ -144,9 +171,9 @@
     {
       "repo": "a-decent-agency/dbuskradio",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:10.999Z",
-      "checkedAt": "2026-11-17T16:27:10.999Z",
-      "windowStart": "2026-11-10T16:27:11.422Z",
+      "attemptedAt": "2026-11-17T16:39:54.244Z",
+      "checkedAt": "2026-11-17T16:39:54.244Z",
+      "windowStart": "2026-11-10T16:39:54.699Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -196,9 +223,9 @@
     {
       "repo": "a-decent-agency/decentjukebox",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:14.502Z",
-      "checkedAt": "2026-11-17T16:27:14.502Z",
-      "windowStart": "2026-11-10T16:27:14.855Z",
+      "attemptedAt": "2026-11-17T16:39:57.525Z",
+      "checkedAt": "2026-11-17T16:39:57.525Z",
+      "windowStart": "2026-11-10T16:39:57.813Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -276,9 +303,9 @@
     {
       "repo": "a-decent-agency/dvert",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:11.000Z",
-      "checkedAt": "2026-11-17T16:27:11.000Z",
-      "windowStart": "2026-11-10T16:27:11.454Z",
+      "attemptedAt": "2026-11-17T16:39:54.244Z",
+      "checkedAt": "2026-11-17T16:39:54.244Z",
+      "windowStart": "2026-11-10T16:39:54.658Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -328,9 +355,9 @@
     {
       "repo": "cadcad-org/cadcad",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:16.888Z",
-      "checkedAt": "2026-11-17T16:27:16.888Z",
-      "windowStart": "2026-11-10T16:27:17.222Z",
+      "attemptedAt": "2026-11-17T16:40:00.372Z",
+      "checkedAt": "2026-11-17T16:40:00.372Z",
+      "windowStart": "2026-11-10T16:40:00.791Z",
       "defaultBranch": "master",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -451,9 +478,9 @@
     {
       "repo": "thejollylama/ajollydecentcodecamp",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:17.355Z",
-      "checkedAt": "2026-11-17T16:27:17.355Z",
-      "windowStart": "2026-11-10T16:27:17.661Z",
+      "attemptedAt": "2026-11-17T16:40:01.231Z",
+      "checkedAt": "2026-11-17T16:40:01.231Z",
+      "windowStart": "2026-11-10T16:40:01.540Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -489,9 +516,9 @@
     {
       "repo": "thejollylama/arduino_smarthome",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:16.682Z",
-      "checkedAt": "2026-11-17T16:27:16.682Z",
-      "windowStart": "2026-11-10T16:27:16.982Z",
+      "attemptedAt": "2026-11-17T16:39:59.641Z",
+      "checkedAt": "2026-11-17T16:39:59.641Z",
+      "windowStart": "2026-11-10T16:39:59.933Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -537,9 +564,9 @@
     {
       "repo": "thejollylama/artfi",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:10.954Z",
-      "checkedAt": "2026-11-17T16:27:10.954Z",
-      "windowStart": "2026-11-10T16:27:11.395Z",
+      "attemptedAt": "2026-11-17T16:39:54.210Z",
+      "checkedAt": "2026-11-17T16:39:54.210Z",
+      "windowStart": "2026-11-10T16:39:54.665Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -603,9 +630,9 @@
     {
       "repo": "thejollylama/babelbet",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:23.007Z",
-      "checkedAt": "2026-11-17T16:27:23.007Z",
-      "windowStart": "2026-11-10T16:27:23.291Z",
+      "attemptedAt": "2026-11-17T16:40:06.998Z",
+      "checkedAt": "2026-11-17T16:40:06.998Z",
+      "windowStart": "2026-11-10T16:40:07.308Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -677,9 +704,9 @@
     {
       "repo": "thejollylama/bignuten_vanilla",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:13.216Z",
-      "checkedAt": "2026-11-17T16:27:13.216Z",
-      "windowStart": "2026-11-10T16:27:13.541Z",
+      "attemptedAt": "2026-11-17T16:39:56.520Z",
+      "checkedAt": "2026-11-17T16:39:56.520Z",
+      "windowStart": "2026-11-10T16:39:56.794Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 9,
@@ -882,9 +909,9 @@
     {
       "repo": "thejollylama/decent_nda",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:21.587Z",
-      "checkedAt": "2026-11-17T16:27:21.587Z",
-      "windowStart": "2026-11-10T16:27:21.869Z",
+      "attemptedAt": "2026-11-17T16:40:05.342Z",
+      "checkedAt": "2026-11-17T16:40:05.342Z",
+      "windowStart": "2026-11-10T16:40:05.649Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -930,9 +957,9 @@
     {
       "repo": "thejollylama/decent_ucan_play",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:21.870Z",
-      "checkedAt": "2026-11-17T16:27:21.870Z",
-      "windowStart": "2026-11-10T16:27:22.173Z",
+      "attemptedAt": "2026-11-17T16:40:05.789Z",
+      "checkedAt": "2026-11-17T16:40:05.789Z",
+      "windowStart": "2026-11-10T16:40:06.101Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -978,9 +1005,9 @@
     {
       "repo": "thejollylama/decentagency",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:12.928Z",
-      "checkedAt": "2026-11-17T16:27:12.928Z",
-      "windowStart": "2026-11-10T16:27:13.239Z",
+      "attemptedAt": "2026-11-17T16:39:56.090Z",
+      "checkedAt": "2026-11-17T16:39:56.090Z",
+      "windowStart": "2026-11-10T16:39:56.381Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1016,9 +1043,9 @@
     {
       "repo": "thejollylama/decentairdrop",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:20.656Z",
-      "checkedAt": "2026-11-17T16:27:20.656Z",
-      "windowStart": "2026-11-10T16:27:20.889Z",
+      "attemptedAt": "2026-11-17T16:40:04.702Z",
+      "checkedAt": "2026-11-17T16:40:04.702Z",
+      "windowStart": "2026-11-10T16:40:05.040Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -1082,13 +1109,13 @@
     {
       "repo": "thejollylama/decentbusking",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:13.156Z",
-      "checkedAt": "2026-11-17T16:27:13.156Z",
-      "windowStart": "2026-11-10T16:27:13.476Z",
+      "attemptedAt": "2026-11-17T16:39:56.367Z",
+      "checkedAt": "2026-11-17T16:39:56.367Z",
+      "windowStart": "2026-11-10T16:39:56.636Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 12,
-      "commits7d": 100,
+      "commits7d": 99,
       "capped": true,
       "latestCommit": {
         "sha": "35f9a96d34c552a98cbc14a7b5c6acb9dd01b41f",
@@ -1144,7 +1171,7 @@
             "kind": "issue",
             "state": "open",
             "stateReason": "unknown",
-            "updatedAt": "2026-11-17T04:30:18Z"
+            "updatedAt": "2026-11-17T16:30:16Z"
           },
           {
             "number": 324,
@@ -1230,6 +1257,15 @@
         ],
         "recent": [
           {
+            "number": 386,
+            "title": "DHearse backlog: reusable widget, second host and ENS entry point",
+            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/386",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:30:16Z"
+          },
+          {
             "number": 340,
             "title": "Investigate browser self-monitor making live performance unusable",
             "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/340",
@@ -1309,15 +1345,6 @@
             "state": "closed",
             "stateReason": "completed",
             "updatedAt": "2026-11-17T15:03:52Z"
-          },
-          {
-            "number": 342,
-            "title": "Celebrate live completion, confirmed payment and recording radio release",
-            "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/342",
-            "kind": "issue",
-            "state": "closed",
-            "stateReason": "completed",
-            "updatedAt": "2026-11-17T15:03:52Z"
           }
         ]
       }
@@ -1325,9 +1352,9 @@
     {
       "repo": "thejollylama/decentcalendar",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:21.355Z",
-      "checkedAt": "2026-11-17T16:27:21.355Z",
-      "windowStart": "2026-11-10T16:27:21.588Z",
+      "attemptedAt": "2026-11-17T16:40:05.330Z",
+      "checkedAt": "2026-11-17T16:40:05.330Z",
+      "windowStart": "2026-11-10T16:40:05.644Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 23,
@@ -1486,18 +1513,18 @@
     {
       "repo": "thejollylama/decentcanopy",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:13.053Z",
-      "checkedAt": "2026-11-17T16:27:13.053Z",
-      "windowStart": "2026-11-10T16:27:13.344Z",
+      "attemptedAt": "2026-11-17T16:39:56.305Z",
+      "checkedAt": "2026-11-17T16:39:56.305Z",
+      "windowStart": "2026-11-10T16:39:56.633Z",
       "defaultBranch": "main",
       "archived": false,
-      "openIssuesAndPRs": 20,
+      "openIssuesAndPRs": 21,
       "commits7d": 100,
       "capped": true,
       "latestCommit": {
-        "sha": "e051087cbc0a6cf4b3e8e586df318e64dcde45ab",
-        "date": "2026-11-17T16:18:17Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/e051087cbc0a6cf4b3e8e586df318e64dcde45ab"
+        "sha": "46c2d6630e50a26cef02effb111dc7538aa150ca",
+        "date": "2026-11-17T16:28:13Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/46c2d6630e50a26cef02effb111dc7538aa150ca"
       },
       "release": {
         "tag": "v0.1.0",
@@ -1541,6 +1568,15 @@
         "status": "ok",
         "capped": true,
         "open": [
+          {
+            "number": 75,
+            "title": "Add DHearse to the Canopy map",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/75",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:29:58Z"
+          },
           {
             "number": 74,
             "title": "Creator studio: self-service project Supporter DNFT minting and Market listings",
@@ -1621,18 +1657,18 @@
             "state": "open",
             "stateReason": "unknown",
             "updatedAt": "2026-10-27T16:00:35Z"
-          },
-          {
-            "number": 20,
-            "title": "ArtFi: Verify contract deployments, funding flow, permissions, and event sources",
-            "url": "https://github.com/TheJollyLaMa/DecentCanopy/issues/20",
-            "kind": "issue",
-            "state": "open",
-            "stateReason": "unknown",
-            "updatedAt": "2026-10-27T16:00:33Z"
           }
         ],
         "recent": [
+          {
+            "number": 75,
+            "title": "Add DHearse to the Canopy map",
+            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/75",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:29:58Z"
+          },
           {
             "number": 74,
             "title": "Creator studio: self-service project Supporter DNFT minting and Market listings",
@@ -1702,9 +1738,9 @@
     {
       "repo": "thejollylama/decentescrow",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:19.908Z",
-      "checkedAt": "2026-11-17T16:27:19.908Z",
-      "windowStart": "2026-11-10T16:27:20.199Z",
+      "attemptedAt": "2026-11-17T16:40:03.897Z",
+      "checkedAt": "2026-11-17T16:40:03.897Z",
+      "windowStart": "2026-11-10T16:40:04.132Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1750,9 +1786,9 @@
     {
       "repo": "thejollylama/decenthead",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:18.779Z",
-      "checkedAt": "2026-11-17T16:27:18.779Z",
-      "windowStart": "2026-11-10T16:27:19.009Z",
+      "attemptedAt": "2026-11-17T16:40:02.685Z",
+      "checkedAt": "2026-11-17T16:40:02.685Z",
+      "windowStart": "2026-11-10T16:40:03.001Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1812,9 +1848,9 @@
     {
       "repo": "thejollylama/decentinvoice",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:20.250Z",
-      "checkedAt": "2026-11-17T16:27:20.250Z",
-      "windowStart": "2026-11-10T16:27:20.470Z",
+      "attemptedAt": "2026-11-17T16:40:04.373Z",
+      "checkedAt": "2026-11-17T16:40:04.373Z",
+      "windowStart": "2026-11-10T16:40:04.672Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1860,9 +1896,9 @@
     {
       "repo": "thejollylama/decentmarket",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:19.800Z",
-      "checkedAt": "2026-11-17T16:27:19.800Z",
-      "windowStart": "2026-11-10T16:27:20.108Z",
+      "attemptedAt": "2026-11-17T16:40:03.262Z",
+      "checkedAt": "2026-11-17T16:40:03.262Z",
+      "windowStart": "2026-11-10T16:40:03.552Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 6,
@@ -2049,9 +2085,9 @@
     {
       "repo": "thejollylama/decentpilgrimages",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:18.491Z",
-      "checkedAt": "2026-11-17T16:27:18.491Z",
-      "windowStart": "2026-11-10T16:27:18.754Z",
+      "attemptedAt": "2026-11-17T16:40:02.416Z",
+      "checkedAt": "2026-11-17T16:40:02.416Z",
+      "windowStart": "2026-11-10T16:40:02.715Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -2147,9 +2183,9 @@
     {
       "repo": "thejollylama/decentsubscriptions",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:18.359Z",
-      "checkedAt": "2026-11-17T16:27:18.359Z",
-      "windowStart": "2026-11-10T16:27:18.618Z",
+      "attemptedAt": "2026-11-17T16:40:02.155Z",
+      "checkedAt": "2026-11-17T16:40:02.155Z",
+      "windowStart": "2026-11-10T16:40:02.523Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -2195,12 +2231,12 @@
     {
       "repo": "thejollylama/decentvoyager",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:23.253Z",
-      "checkedAt": "2026-11-17T16:27:23.253Z",
-      "windowStart": "2026-11-10T16:27:23.495Z",
+      "attemptedAt": "2026-11-17T16:40:07.697Z",
+      "checkedAt": "2026-11-17T16:40:07.697Z",
+      "windowStart": "2026-11-10T16:40:07.969Z",
       "defaultBranch": "main",
       "archived": false,
-      "openIssuesAndPRs": 3,
+      "openIssuesAndPRs": 4,
       "commits7d": 23,
       "capped": true,
       "latestCommit": {
@@ -2215,6 +2251,15 @@
       },
       "error": "",
       "crossReferences": [
+        {
+          "source": "thejollylama/decentvoyager",
+          "target": "thejollylama/decentbusking",
+          "kind": "pull-request",
+          "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44",
+          "date": "2026-11-17T16:29:58Z",
+          "label": "PR #44",
+          "id": "[\"thejollylama/decentvoyager\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentVoyager/pull/44\",\"2026-11-17T16:29:58Z\"]"
+        },
         {
           "source": "thejollylama/decentvoyager",
           "target": "thejollylama/decenthead",
@@ -2259,6 +2304,15 @@
         "capped": true,
         "open": [
           {
+            "number": 44,
+            "title": "Constrain Supporter rewards by pickup slot",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:29:58Z"
+          },
+          {
             "number": 10,
             "title": "Fix full IPFS app startup: missing wallet/header under gateway rate limits",
             "url": "https://github.com/TheJollyLaMa/DecentVoyager/issues/10",
@@ -2287,6 +2341,15 @@
           }
         ],
         "recent": [
+          {
+            "number": 44,
+            "title": "Constrain Supporter rewards by pickup slot",
+            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-17T16:29:58Z"
+          },
           {
             "number": 43,
             "title": "Document latest IPFS candidate acceptance",
@@ -2367,15 +2430,6 @@
             "state": "closed",
             "stateReason": "unknown",
             "updatedAt": "2026-11-13T01:24:19Z"
-          },
-          {
-            "number": 34,
-            "title": "Connect the level-20 finale to DecentCity via a shared two-way handoff",
-            "url": "https://github.com/TheJollyLaMa/DecentVoyager/issues/34",
-            "kind": "issue",
-            "state": "open",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-12T21:22:21Z"
           }
         ]
       }
@@ -2383,9 +2437,9 @@
     {
       "repo": "thejollylama/dlang",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:22.021Z",
-      "checkedAt": "2026-11-17T16:27:22.021Z",
-      "windowStart": "2026-11-10T16:27:22.300Z",
+      "attemptedAt": "2026-11-17T16:40:06.323Z",
+      "checkedAt": "2026-11-17T16:40:06.323Z",
+      "windowStart": "2026-11-10T16:40:06.595Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 6,
@@ -2621,9 +2675,9 @@
     {
       "repo": "thejollylama/greenteahut_01",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:15.349Z",
-      "checkedAt": "2026-11-17T16:27:15.349Z",
-      "windowStart": "2026-11-10T16:27:15.647Z",
+      "attemptedAt": "2026-11-17T16:39:58.724Z",
+      "checkedAt": "2026-11-17T16:39:58.724Z",
+      "windowStart": "2026-11-10T16:39:59.029Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2678,9 +2732,9 @@
     {
       "repo": "thejollylama/jolly-sim-siddhi",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:15.435Z",
-      "checkedAt": "2026-11-17T16:27:15.435Z",
-      "windowStart": "2026-11-10T16:27:15.729Z",
+      "attemptedAt": "2026-11-17T16:39:58.777Z",
+      "checkedAt": "2026-11-17T16:39:58.777Z",
+      "windowStart": "2026-11-10T16:39:59.025Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2725,9 +2779,9 @@
     {
       "repo": "thejollylama/jollysandbox",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:18.307Z",
-      "checkedAt": "2026-11-17T16:27:18.307Z",
-      "windowStart": "2026-11-10T16:27:18.557Z",
+      "attemptedAt": "2026-11-17T16:40:01.441Z",
+      "checkedAt": "2026-11-17T16:40:01.441Z",
+      "windowStart": "2026-11-10T16:40:01.792Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -2773,9 +2827,9 @@
     {
       "repo": "thejollylama/qart-code",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:23.316Z",
-      "checkedAt": "2026-11-17T16:27:23.316Z",
-      "windowStart": "2026-11-10T16:27:23.564Z",
+      "attemptedAt": "2026-11-17T16:40:07.811Z",
+      "checkedAt": "2026-11-17T16:40:07.811Z",
+      "windowStart": "2026-11-10T16:40:08.077Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -2801,9 +2855,9 @@
     {
       "repo": "thejollylama/thegreenteaparty",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:14.917Z",
-      "checkedAt": "2026-11-17T16:27:14.917Z",
-      "windowStart": "2026-11-10T16:27:15.176Z",
+      "attemptedAt": "2026-11-17T16:39:58.345Z",
+      "checkedAt": "2026-11-17T16:39:58.345Z",
+      "windowStart": "2026-11-10T16:39:58.619Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2858,9 +2912,9 @@
     {
       "repo": "thejollylama/umbrellaacademy",
       "status": "ok",
-      "attemptedAt": "2026-11-17T16:27:16.948Z",
-      "checkedAt": "2026-11-17T16:27:16.948Z",
-      "windowStart": "2026-11-10T16:27:17.232Z",
+      "attemptedAt": "2026-11-17T16:40:00.576Z",
+      "checkedAt": "2026-11-17T16:40:00.576Z",
+      "windowStart": "2026-11-10T16:40:00.842Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
