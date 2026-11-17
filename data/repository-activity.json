@@ -1,13 +1,13 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-17T12:20:51.858Z",
+  "generatedAt": "2026-11-17T12:32:55.956Z",
   "repositories": [
     {
       "repo": "a-decent-agency/a-decent-agency.github.io",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:32.938Z",
-      "checkedAt": "2026-11-17T12:20:32.938Z",
-      "windowStart": "2026-11-10T12:20:33.374Z",
+      "attemptedAt": "2026-11-17T12:32:43.959Z",
+      "checkedAt": "2026-11-17T12:32:43.959Z",
+      "windowStart": "2026-11-10T12:32:44.271Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -171,9 +171,9 @@
     {
       "repo": "a-decent-agency/dbuskradio",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:32.939Z",
-      "checkedAt": "2026-11-17T12:20:32.939Z",
-      "windowStart": "2026-11-10T12:20:33.357Z",
+      "attemptedAt": "2026-11-17T12:32:43.960Z",
+      "checkedAt": "2026-11-17T12:32:43.960Z",
+      "windowStart": "2026-11-10T12:32:44.314Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -223,9 +223,9 @@
     {
       "repo": "a-decent-agency/decentjukebox",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:36.294Z",
-      "checkedAt": "2026-11-17T12:20:36.294Z",
-      "windowStart": "2026-11-10T12:20:36.577Z",
+      "attemptedAt": "2026-11-17T12:32:46.810Z",
+      "checkedAt": "2026-11-17T12:32:46.810Z",
+      "windowStart": "2026-11-10T12:32:47.037Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -251,23 +251,61 @@
           "backPreview": "assets/supporter-releases/53969af89cce7e710f8cc94d/back.png"
         }
       },
-      "error": "Public issue/PR sample unavailable: Public GitHub read failed (HTTP 502).",
+      "error": "",
       "crossReferences": [],
-      "crossReferenceStatus": "partial",
+      "crossReferenceStatus": "ok",
       "referencesCapped": true,
       "work": {
-        "status": "unavailable",
+        "status": "ok",
         "capped": false,
-        "open": [],
-        "recent": []
+        "open": [
+          {
+            "number": 1,
+            "title": "📜⚸ 🎰 🎶 Juke the Squid  🦑",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/issues/1",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:58Z"
+          },
+          {
+            "number": 2,
+            "title": "Revamp the AddAlbum modal!",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/issues/2",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-10-27T16:00:55Z"
+          },
+          {
+            "number": 3,
+            "title": "Add ART contributor payroll flow",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/pull/3",
+            "kind": "pull-request",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-09-16T14:53:59Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 10,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/A-Decent-Agency/DecentJukebox/pull/10",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:13:21Z"
+          }
+        ]
       }
     },
     {
       "repo": "a-decent-agency/dvert",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:32.939Z",
-      "checkedAt": "2026-11-17T12:20:32.939Z",
-      "windowStart": "2026-11-10T12:20:33.308Z",
+      "attemptedAt": "2026-11-17T12:32:43.961Z",
+      "checkedAt": "2026-11-17T12:32:43.961Z",
+      "windowStart": "2026-11-10T12:32:44.291Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -317,9 +355,9 @@
     {
       "repo": "cadcad-org/cadcad",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:40.581Z",
-      "checkedAt": "2026-11-17T12:20:40.581Z",
-      "windowStart": "2026-11-10T12:20:40.874Z",
+      "attemptedAt": "2026-11-17T12:32:49.097Z",
+      "checkedAt": "2026-11-17T12:32:49.097Z",
+      "windowStart": "2026-11-10T12:32:49.361Z",
       "defaultBranch": "master",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -440,9 +478,9 @@
     {
       "repo": "thejollylama/ajollydecentcodecamp",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:42.171Z",
-      "checkedAt": "2026-11-17T12:20:42.171Z",
-      "windowStart": "2026-11-10T12:20:42.414Z",
+      "attemptedAt": "2026-11-17T12:32:49.459Z",
+      "checkedAt": "2026-11-17T12:32:49.459Z",
+      "windowStart": "2026-11-10T12:32:49.731Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -478,9 +516,9 @@
     {
       "repo": "thejollylama/arduino_smarthome",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:39.151Z",
-      "checkedAt": "2026-11-17T12:20:39.151Z",
-      "windowStart": "2026-11-10T12:20:39.470Z",
+      "attemptedAt": "2026-11-17T12:32:48.610Z",
+      "checkedAt": "2026-11-17T12:32:48.610Z",
+      "windowStart": "2026-11-10T12:32:48.867Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -526,9 +564,9 @@
     {
       "repo": "thejollylama/artfi",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:32.903Z",
-      "checkedAt": "2026-11-17T12:20:32.903Z",
-      "windowStart": "2026-11-10T12:20:33.290Z",
+      "attemptedAt": "2026-11-17T12:32:43.925Z",
+      "checkedAt": "2026-11-17T12:32:43.925Z",
+      "windowStart": "2026-11-10T12:32:44.306Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -592,9 +630,9 @@
     {
       "repo": "thejollylama/babelbet",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:50.001Z",
-      "checkedAt": "2026-11-17T12:20:50.001Z",
-      "windowStart": "2026-11-10T12:20:50.333Z",
+      "attemptedAt": "2026-11-17T12:32:54.484Z",
+      "checkedAt": "2026-11-17T12:32:54.484Z",
+      "windowStart": "2026-11-10T12:32:54.693Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -666,9 +704,9 @@
     {
       "repo": "thejollylama/bignuten_vanilla",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:35.044Z",
-      "checkedAt": "2026-11-17T12:20:35.044Z",
-      "windowStart": "2026-11-10T12:20:35.322Z",
+      "attemptedAt": "2026-11-17T12:32:45.873Z",
+      "checkedAt": "2026-11-17T12:32:45.873Z",
+      "windowStart": "2026-11-10T12:32:46.096Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 9,
@@ -684,23 +722,196 @@
         "publishedAt": "2026-11-03T11:49:16Z",
         "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/releases/tag/v3.3.0"
       },
-      "error": "Supporter release artwork unavailable: Release manifest, metadata and mint evidence disagree. Public issue/PR sample unavailable: Public GitHub read failed (HTTP 502).",
+      "error": "Supporter release artwork unavailable: Release manifest, metadata and mint evidence disagree.",
       "crossReferences": [],
-      "crossReferenceStatus": "partial",
+      "crossReferenceStatus": "ok",
       "referencesCapped": true,
       "work": {
-        "status": "unavailable",
+        "status": "ok",
         "capped": false,
-        "open": [],
-        "recent": []
+        "open": [
+          {
+            "number": 439,
+            "title": "Investigate a direct-YouTube fallback when research captions are unavailable",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/439",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T17:48:22Z"
+          },
+          {
+            "number": 438,
+            "title": "Add an evidence-aware DIY gut health observation checklist",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/438",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T17:34:36Z"
+          },
+          {
+            "number": 437,
+            "title": "Track amino acid profiles from foods, protein powders and supplements",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/437",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T13:40:46Z"
+          },
+          {
+            "number": 430,
+            "title": "Group whole-food ingredients into reusable named meals",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/430",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T18:22:09Z"
+          },
+          {
+            "number": 434,
+            "title": "Add evidence-aware nutrient balance and intake-ratio panel",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/434",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T18:22:03Z"
+          },
+          {
+            "number": 432,
+            "title": "Add daily horse-stance, squat and wall-sit tracking to root chakra",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/432",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T12:52:09Z"
+          },
+          {
+            "number": 431,
+            "title": "Jazz up the BigNuten header and add DBusk workout radio",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/431",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T21:42:31Z"
+          },
+          {
+            "number": 426,
+            "title": "Repair food entries and simplify nutrition logging and portion lookup",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/426",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-06T02:26:15Z"
+          },
+          {
+            "number": 412,
+            "title": "Epic: BigNuten financial build — Base DeFi, commitment settlement, treasury & payroll",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/412",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-03T10:14:45Z"
+          }
+        ],
+        "recent": [
+          {
+            "number": 439,
+            "title": "Investigate a direct-YouTube fallback when research captions are unavailable",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/439",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T17:48:22Z"
+          },
+          {
+            "number": 438,
+            "title": "Add an evidence-aware DIY gut health observation checklist",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/438",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T17:34:36Z"
+          },
+          {
+            "number": 437,
+            "title": "Track amino acid profiles from foods, protein powders and supplements",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/437",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T13:40:46Z"
+          },
+          {
+            "number": 435,
+            "title": "Track Super Yogurt intake and fasting context in gut observation periods",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/435",
+            "kind": "issue",
+            "state": "closed",
+            "stateReason": "completed",
+            "updatedAt": "2026-11-13T13:29:38Z"
+          },
+          {
+            "number": 436,
+            "title": "Add smoothie recipes and gut observation tracking",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/436",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-13T13:20:16Z"
+          },
+          {
+            "number": 430,
+            "title": "Group whole-food ingredients into reusable named meals",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/430",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T18:22:09Z"
+          },
+          {
+            "number": 434,
+            "title": "Add evidence-aware nutrient balance and intake-ratio panel",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/434",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T18:22:03Z"
+          },
+          {
+            "number": 433,
+            "title": "Add friendly website link preview images",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/pull/433",
+            "kind": "pull-request",
+            "state": "closed",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T17:18:12Z"
+          },
+          {
+            "number": 432,
+            "title": "Add daily horse-stance, squat and wall-sit tracking to root chakra",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/432",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-12T12:52:09Z"
+          },
+          {
+            "number": 431,
+            "title": "Jazz up the BigNuten header and add DBusk workout radio",
+            "url": "https://github.com/TheJollyLaMa/BigNuten_Vanilla/issues/431",
+            "kind": "issue",
+            "state": "open",
+            "stateReason": "unknown",
+            "updatedAt": "2026-11-10T21:42:31Z"
+          }
+        ]
       }
     },
     {
       "repo": "thejollylama/decent_nda",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:48.491Z",
-      "checkedAt": "2026-11-17T12:20:48.491Z",
-      "windowStart": "2026-11-10T12:20:48.801Z",
+      "attemptedAt": "2026-11-17T12:32:53.190Z",
+      "checkedAt": "2026-11-17T12:32:53.190Z",
+      "windowStart": "2026-11-10T12:32:53.443Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -746,9 +957,9 @@
     {
       "repo": "thejollylama/decent_ucan_play",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:48.624Z",
-      "checkedAt": "2026-11-17T12:20:48.624Z",
-      "windowStart": "2026-11-10T12:20:48.847Z",
+      "attemptedAt": "2026-11-17T12:32:53.325Z",
+      "checkedAt": "2026-11-17T12:32:53.325Z",
+      "windowStart": "2026-11-10T12:32:53.555Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -794,9 +1005,9 @@
     {
       "repo": "thejollylama/decentagency",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:34.882Z",
-      "checkedAt": "2026-11-17T12:20:34.882Z",
-      "windowStart": "2026-11-10T12:20:35.159Z",
+      "attemptedAt": "2026-11-17T12:32:45.579Z",
+      "checkedAt": "2026-11-17T12:32:45.579Z",
+      "windowStart": "2026-11-10T12:32:45.866Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -832,9 +1043,9 @@
     {
       "repo": "thejollylama/decentairdrop",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:48.110Z",
-      "checkedAt": "2026-11-17T12:20:48.110Z",
-      "windowStart": "2026-11-10T12:20:48.398Z",
+      "attemptedAt": "2026-11-17T12:32:52.182Z",
+      "checkedAt": "2026-11-17T12:32:52.182Z",
+      "windowStart": "2026-11-10T12:32:52.395Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -898,9 +1109,9 @@
     {
       "repo": "thejollylama/decentbusking",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:34.990Z",
-      "checkedAt": "2026-11-17T12:20:34.990Z",
-      "windowStart": "2026-11-10T12:20:35.230Z",
+      "attemptedAt": "2026-11-17T12:32:45.664Z",
+      "checkedAt": "2026-11-17T12:32:45.664Z",
+      "windowStart": "2026-11-10T12:32:45.929Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 20,
@@ -1141,9 +1352,9 @@
     {
       "repo": "thejollylama/decentcalendar",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:48.163Z",
-      "checkedAt": "2026-11-17T12:20:48.163Z",
-      "windowStart": "2026-11-10T12:20:48.415Z",
+      "attemptedAt": "2026-11-17T12:32:53.180Z",
+      "checkedAt": "2026-11-17T12:32:53.180Z",
+      "windowStart": "2026-11-10T12:32:53.460Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 23,
@@ -1302,18 +1513,18 @@
     {
       "repo": "thejollylama/decentcanopy",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:34.909Z",
-      "checkedAt": "2026-11-17T12:20:34.909Z",
-      "windowStart": "2026-11-10T12:20:35.180Z",
+      "attemptedAt": "2026-11-17T12:32:45.634Z",
+      "checkedAt": "2026-11-17T12:32:45.634Z",
+      "windowStart": "2026-11-10T12:32:45.894Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 20,
       "commits7d": 100,
       "capped": true,
       "latestCommit": {
-        "sha": "6a91ae7595bb7011427a07067a3df5c76fdf9c8d",
-        "date": "2026-11-17T11:55:39Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/6a91ae7595bb7011427a07067a3df5c76fdf9c8d"
+        "sha": "9154e8f360386fc3c74aa056bfb35462a35529e7",
+        "date": "2026-11-17T12:29:36Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/9154e8f360386fc3c74aa056bfb35462a35529e7"
       },
       "release": {
         "tag": "v0.1.0",
@@ -1536,9 +1747,9 @@
     {
       "repo": "thejollylama/decentescrow",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:46.684Z",
-      "checkedAt": "2026-11-17T12:20:46.684Z",
-      "windowStart": "2026-11-10T12:20:46.926Z",
+      "attemptedAt": "2026-11-17T12:32:51.721Z",
+      "checkedAt": "2026-11-17T12:32:51.721Z",
+      "windowStart": "2026-11-10T12:32:51.990Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1584,9 +1795,9 @@
     {
       "repo": "thejollylama/decenthead",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:45.128Z",
-      "checkedAt": "2026-11-17T12:20:45.128Z",
-      "windowStart": "2026-11-10T12:20:45.376Z",
+      "attemptedAt": "2026-11-17T12:32:50.711Z",
+      "checkedAt": "2026-11-17T12:32:50.711Z",
+      "windowStart": "2026-11-10T12:32:50.919Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1646,9 +1857,9 @@
     {
       "repo": "thejollylama/decentinvoice",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:47.134Z",
-      "checkedAt": "2026-11-17T12:20:47.134Z",
-      "windowStart": "2026-11-10T12:20:47.436Z",
+      "attemptedAt": "2026-11-17T12:32:52.031Z",
+      "checkedAt": "2026-11-17T12:32:52.031Z",
+      "windowStart": "2026-11-10T12:32:52.294Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1694,9 +1905,9 @@
     {
       "repo": "thejollylama/decentmarket",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:45.972Z",
-      "checkedAt": "2026-11-17T12:20:45.972Z",
-      "windowStart": "2026-11-10T12:20:46.246Z",
+      "attemptedAt": "2026-11-17T12:32:51.413Z",
+      "checkedAt": "2026-11-17T12:32:51.413Z",
+      "windowStart": "2026-11-10T12:32:51.634Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 6,
@@ -1883,9 +2094,9 @@
     {
       "repo": "thejollylama/decentpilgrimages",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:43.945Z",
-      "checkedAt": "2026-11-17T12:20:43.945Z",
-      "windowStart": "2026-11-10T12:20:44.234Z",
+      "attemptedAt": "2026-11-17T12:32:50.412Z",
+      "checkedAt": "2026-11-17T12:32:50.412Z",
+      "windowStart": "2026-11-10T12:32:50.641Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -1981,9 +2192,9 @@
     {
       "repo": "thejollylama/decentsubscriptions",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:43.572Z",
-      "checkedAt": "2026-11-17T12:20:43.572Z",
-      "windowStart": "2026-11-10T12:20:43.928Z",
+      "attemptedAt": "2026-11-17T12:32:50.356Z",
+      "checkedAt": "2026-11-17T12:32:50.356Z",
+      "windowStart": "2026-11-10T12:32:50.612Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -2029,9 +2240,9 @@
     {
       "repo": "thejollylama/decentvoyager",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:50.056Z",
-      "checkedAt": "2026-11-17T12:20:50.056Z",
-      "windowStart": "2026-11-10T12:20:50.326Z",
+      "attemptedAt": "2026-11-17T12:32:54.627Z",
+      "checkedAt": "2026-11-17T12:32:54.627Z",
+      "windowStart": "2026-11-10T12:32:54.844Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -2217,9 +2428,9 @@
     {
       "repo": "thejollylama/dlang",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:49.826Z",
-      "checkedAt": "2026-11-17T12:20:49.826Z",
-      "windowStart": "2026-11-10T12:20:50.093Z",
+      "attemptedAt": "2026-11-17T12:32:53.389Z",
+      "checkedAt": "2026-11-17T12:32:53.389Z",
+      "windowStart": "2026-11-10T12:32:53.629Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 6,
@@ -2455,9 +2666,9 @@
     {
       "repo": "thejollylama/greenteahut_01",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:37.299Z",
-      "checkedAt": "2026-11-17T12:20:37.299Z",
-      "windowStart": "2026-11-10T12:20:37.597Z",
+      "attemptedAt": "2026-11-17T12:32:47.544Z",
+      "checkedAt": "2026-11-17T12:32:47.544Z",
+      "windowStart": "2026-11-10T12:32:47.797Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2512,9 +2723,9 @@
     {
       "repo": "thejollylama/jolly-sim-siddhi",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:39.129Z",
-      "checkedAt": "2026-11-17T12:20:39.129Z",
-      "windowStart": "2026-11-10T12:20:39.354Z",
+      "attemptedAt": "2026-11-17T12:32:47.652Z",
+      "checkedAt": "2026-11-17T12:32:47.652Z",
+      "windowStart": "2026-11-10T12:32:47.991Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2559,9 +2770,9 @@
     {
       "repo": "thejollylama/jollysandbox",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:42.231Z",
-      "checkedAt": "2026-11-17T12:20:42.231Z",
-      "windowStart": "2026-11-10T12:20:42.518Z",
+      "attemptedAt": "2026-11-17T12:32:50.006Z",
+      "checkedAt": "2026-11-17T12:32:50.006Z",
+      "windowStart": "2026-11-10T12:32:50.275Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -2607,9 +2818,9 @@
     {
       "repo": "thejollylama/qart-code",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:50.388Z",
-      "checkedAt": "2026-11-17T12:20:50.388Z",
-      "windowStart": "2026-11-10T12:20:50.699Z",
+      "attemptedAt": "2026-11-17T12:32:54.734Z",
+      "checkedAt": "2026-11-17T12:32:54.734Z",
+      "windowStart": "2026-11-10T12:32:54.974Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -2635,9 +2846,9 @@
     {
       "repo": "thejollylama/thegreenteaparty",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:36.959Z",
-      "checkedAt": "2026-11-17T12:20:36.959Z",
-      "windowStart": "2026-11-10T12:20:37.275Z",
+      "attemptedAt": "2026-11-17T12:32:47.405Z",
+      "checkedAt": "2026-11-17T12:32:47.405Z",
+      "windowStart": "2026-11-10T12:32:47.647Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2692,9 +2903,9 @@
     {
       "repo": "thejollylama/umbrellaacademy",
       "status": "ok",
-      "attemptedAt": "2026-11-17T12:20:40.835Z",
-      "checkedAt": "2026-11-17T12:20:40.835Z",
-      "windowStart": "2026-11-10T12:20:41.080Z",
+      "attemptedAt": "2026-11-17T12:32:49.172Z",
+      "checkedAt": "2026-11-17T12:32:49.172Z",
+      "windowStart": "2026-11-10T12:32:49.414Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
