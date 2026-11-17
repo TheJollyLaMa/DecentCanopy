@@ -49,6 +49,22 @@
         node.x += f.x * scale; node.y += f.y * scale;
       }
     }
+    // Restoring forces can leave overlaps; enforce clearance after relaxation.
+    for (let pass = 0; pass < 32; pass++) {
+      let separated = false;
+      for (let i = 0; i < nodes.length; i++) for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i], b = nodes[j], dx = b.x - a.x, dy = b.y - a.y;
+        const distance = Math.hypot(dx, dy), minimum = a.size + b.size + 28;
+        if (distance >= minimum) continue;
+        const angle = unit(a.id + b.id) * Math.PI * 2;
+        const ux = distance ? dx / distance : Math.cos(angle), uy = distance ? dy / distance : Math.sin(angle);
+        const shift = (minimum - distance) / 2;
+        a.x -= ux * shift; a.y -= uy * shift;
+        b.x += ux * shift; b.y += uy * shift;
+        separated = true;
+      }
+      if (!separated) break;
+    }
     return new Map(nodes.map(n => [n.id, { x: n.x, y: n.y }]));
   }
   function interpolate(from, target, progress, reducedMotion = false) {
