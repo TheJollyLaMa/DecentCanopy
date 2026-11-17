@@ -74,8 +74,9 @@ test('DHearse source, requested identity, and downstream integrations retain sep
   const data = fixture();
   const graph = Model.transform(data);
   const dhearse = data.projects.find(project => project.id === 'dhearse');
-  assert.equal(dhearse.ens, undefined);
-  assert.match(dhearse.repositoryNote, /has not been verified or changed/);
+  assert.equal(dhearse.ens, 'dhearse.decentagency.eth');
+  assert.match(dhearse.repositoryNote, /Base Supporter token 81/);
+  assert.match(dhearse.repositoryNote, /ten transferred to VoyagerRewards/);
   assert.match(dhearse.currentState, /Real microphone\/two-device\/network acceptance/);
   assert.equal(dhearse.offers.length, 2);
   assert.equal(dhearse.needs.length, 2);
