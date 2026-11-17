@@ -82,8 +82,8 @@
       "ens": "dhearse.decentagency.eth",
       "purpose": "A cloneable private audio rehearsal widget for musicians and audio engineers to test their audio-to-computer-to-live-broadcast setup in a host-specific context.",
       "repositoryNote": "Prototype v0.1.1 source, Pages and exact-commit IPFS site are published. Ethereum ENS subname, avatar, banner, Pages URL and contenthash are receipt-verified. Base Supporter token 81 has 1,000 minted editions: 990 listed at 10 USDC as listing 21 and ten transferred to VoyagerRewards. These are historical verified snapshots, not guaranteed live stock.",
-      "currentState": "Standalone widget and worker source are published, with automated service, iframe-wallet, and mocked audio-room tests. Real microphone/two-device/network acceptance, musician validation, and a tested second host remain outstanding. Pages/IPFS display the prototype UI; live audio requires a configured worker. Private practice does not create an official show, soundcheck, booking, eligibility, or payment.",
-      "nextAction": "Ship the receipt-backed Office and Voyager integrations; deploy the worker and test with musicians, separate devices/networks, and an independent host. Keep prototype support separate from production-readiness claims.",
+      "currentState": "Standalone widget and worker source, the Office Supporter campus, and Voyager's level 9–10-only token 81 catalog are deployed. The live referee issued a token 81 plan at level 10; this is not a live capture or redemption claim. Real microphone/two-device/network acceptance, musician validation, and a tested second host remain outstanding. Pages/IPFS display the prototype UI; live audio requires a configured worker. Private practice does not create an official show, soundcheck, booking, eligibility, or payment.",
+      "nextAction": "Continue worker deployment, genuine second-host adoption, optional DCal evaluation, and musician/device/network acceptance in DHearse issue #4, not the closed Busking prototype milestone. Keep prototype support separate from production-readiness claims.",
       "tags": ["audio", "rehearsal", "widget", "cloneable"],
       "offers": [
         {
@@ -106,15 +106,8 @@
           "id": "real-rehearsal-acceptance",
           "label": "Real-device, musician, and second-host validation",
           "state": "issue-reported",
-          "detail": "Verify microphone permission, audio delivery between separate devices and networks, host-wallet integration, cleanup, and musician setup usability before treating the room as production-ready.",
-          "evidence": [{"label": "DecentBusking issue #386", "url": "https://github.com/TheJollyLaMa/DecentBusking/issues/386"}]
-        },
-        {
-          "id": "supporter-and-voyager-inventory",
-          "label": "Deploy the funded Supporter integrations",
-          "state": "issue-reported",
-          "detail": "The ENS identity, token 81 mint/listing and ten-edition funding are now verified. Ship the corresponding Office card and matched Voyager referee/browser catalog before claiming the level 9–10 pickup is live. Later levels must not select DHearse.",
-          "evidence": [{"label": "Voyager slot integration PR", "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44"}, {"label": "Verified funding receipt and balance", "url": "https://github.com/A-Decent-Agency/DHearse/releases/download/v0.1.1/dhearse-voyager-funding.json"}]
+          "detail": "Deploy a configured worker and select a genuine second receiving app; verify microphone permission, audio delivery between separate devices and networks, host-wallet integration, cleanup, and musician setup usability. Evaluate optional DCal association without turning scheduling into room access.",
+          "evidence": [{"label": "DHearse operational and second-host acceptance", "url": "https://github.com/A-Decent-Agency/DHearse/issues/4"}]
         }
       ],
       "evidence": [
@@ -2234,14 +2227,14 @@
       ]
     },
     {
-      "source": "dhearse", "target": "planning-office", "type": "could-integrate", "state": "proposed",
-      "note": "Planning Office can expose DHearse's prototype source, verified ENS profile and token 81 listing. Release evidence is published; the receiving Office integration remains a separate deployment gate.",
-      "evidence": [{"label": "DHearse clone and adaptation guide", "url": "https://github.com/A-Decent-Agency/DHearse/blob/cff4fcfb6e8a9c4acf5d6c29d17fa9fe46c31ee8/docs/CLONE_AND_ADAPT.md"}]
+      "source": "dhearse", "target": "planning-office", "type": "supports", "state": "observed",
+      "note": "The deployed Office campus exposes DHearse's prototype source, verified ENS profile, checksum-verified edition artwork and token 81/listing 21 checkout. This is a Supporter/project integration, not a second audio-room host.",
+      "evidence": [{"label": "Merged Office campus integration", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33"}, {"label": "Successful Office deployment", "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/actions/runs/44142922247"}]
     },
     {
-      "source": "asteroid", "target": "dhearse", "type": "could-integrate", "state": "proposed",
-      "note": "Ten DHearse token 81 editions are receipt-verified in VoyagerRewards. The level 9–10-only candidate and catalog are implemented in PR #44; deployment and live pickup verification remain separate from funded inventory.",
-      "evidence": [{"label": "Verified funding receipt and balance", "url": "https://github.com/A-Decent-Agency/DHearse/releases/download/v0.1.1/dhearse-voyager-funding.json"}, {"label": "Receiving integration PR", "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44"}]
+      "source": "asteroid", "target": "dhearse", "type": "supports", "state": "observed",
+      "note": "Ten DHearse token 81 editions are receipt-verified in VoyagerRewards. The matching browser catalog is deployed, and the live referee issued token 81 in the level 9–10 slot. Later-slot exclusion and capture/replay/voucher behavior are automated-test verified; no live capture, redemption or human gameplay acceptance is claimed.",
+      "evidence": [{"label": "Verified funding receipt and balance", "url": "https://github.com/A-Decent-Agency/DHearse/releases/download/v0.1.1/dhearse-voyager-funding.json"}, {"label": "Live referee and browser deployment check", "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44#issuecomment-6956481367"}, {"label": "Successful Voyager deployment", "url": "https://github.com/TheJollyLaMa/DecentVoyager/actions/runs/44142923767"}]
     },
     {
       "source": "head", "target": "pilgrimages", "type": "capability-match", "state": "proposed",
