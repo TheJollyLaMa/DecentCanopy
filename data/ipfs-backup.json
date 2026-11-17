@@ -1,12 +1,12 @@
 {
   "provider": "Pinata",
-  "cid": "bafybeig3dufm7lgodwkwz722eaiyblc3w5675lvqjdmix42fzghuhrnf6m",
-  "uri": "ipfs://bafybeig3dufm7lgodwkwz722eaiyblc3w5675lvqjdmix42fzghuhrnf6m",
-  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeig3dufm7lgodwkwz722eaiyblc3w5675lvqjdmix42fzghuhrnf6m",
-  "pinnedAt": "2026-11-17T14:44:17.018Z",
-  "dataSha256": "1755bfdd553b21197084514d41797d83482e55313e389de78a3398c9768e0b44",
-  "payloadSha256": "d20a3c9bba93d4d36f9112cd845b5830a997044d4ebc00281d07013ce6858944",
-  "payloadBytes": 6213508,
+  "cid": "bafybeidcgh5kzwahrw2pdynoumtl6afularkhnifpp5hqwr6fr23l2ilyy",
+  "uri": "ipfs://bafybeidcgh5kzwahrw2pdynoumtl6afularkhnifpp5hqwr6fr23l2ilyy",
+  "gatewayUrl": "https://gateway.pinata.cloud/ipfs/bafybeidcgh5kzwahrw2pdynoumtl6afularkhnifpp5hqwr6fr23l2ilyy",
+  "pinnedAt": "2026-11-17T17:59:20.640Z",
+  "dataSha256": "dae9cb155f95614c0da7d120331eaaf893abea84fc6d84fb8f46830b0a3a8f49",
+  "payloadSha256": "a795242f5993b3a9cf5411c04e6cc7d63f736149261d97099970d6cebb71f99c",
+  "payloadBytes": 6221234,
   "files": [
     "contributor-accounts.json",
     "data/activity.json",
@@ -29,6 +29,11 @@
     "community-rewards.json"
   ],
   "recentCids": [
+    {
+      "cid": "bafybeidcgh5kzwahrw2pdynoumtl6afularkhnifpp5hqwr6fr23l2ilyy",
+      "pinnedAt": "2026-11-17T17:59:20.640Z",
+      "payloadSha256": "a795242f5993b3a9cf5411c04e6cc7d63f736149261d97099970d6cebb71f99c"
+    },
     {
       "cid": "bafybeig3dufm7lgodwkwz722eaiyblc3w5675lvqjdmix42fzghuhrnf6m",
       "pinnedAt": "2026-11-17T14:44:17.018Z",
@@ -73,11 +78,6 @@
       "cid": "bafybeiehpxjhwzgtw5ftv65g6z2ee4mu7i45dkpb56l57x3pe25arhuzhy",
       "pinnedAt": "2026-11-11T02:49:29.160Z",
       "payloadSha256": "e073ccf52e8ae39cc0827c8807958d813c83d9dd0cb0c087e7cc4c42aae24fab"
-    },
-    {
-      "cid": "bafybeih3nu6kdvvcltvtiwoqjkmc4zbotsw6ihsc2x3ms32gp7p4tdb7pi",
-      "pinnedAt": "2026-11-11T00:05:34.419Z",
-      "payloadSha256": "ec144c53b756d22ca53c99e0df844a4f073272e8a5cf322b5406c09919f29d63"
     }
   ]
 }
