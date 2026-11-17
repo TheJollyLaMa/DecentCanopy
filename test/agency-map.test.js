@@ -27,7 +27,7 @@ test('all requested names survive as projects, with separate public repo identit
     'DecentHead', 'DecentCanvas', 'DecentFooter', 'DecentMarket', 'DecentEscrow',
     'DecentInvoice', 'DecentAirdrop', 'DecentCalendar', 'Decent_NDA', 'Decent_UCANN_Play',
     'DuoDuel', 'DLang', 'BabelBet', 'BabelBet_OG_Prototype', 'TheJokerWillPlay', 'Bean', 'Decent Voyager',
-    'DecentSettlementsRouter', 'Agency Planning Office', 'DBuskRadio widget', 'DVert widget'
+    'DecentSettlementsRouter', 'Agency Planning Office', 'DBuskRadio widget', 'DHearse', 'DVert widget'
   ];
   assert.deepEqual(graph.projects.filter(n => n.kind !== 'repository').map(n => n.name).sort(), expected.sort());
   assert.equal(new Set(graph.projects.map(n => n.id)).size, graph.projects.length);
@@ -53,7 +53,7 @@ test('all requested names survive as projects, with separate public repo identit
 test('focus, external scope, unresolved identities, and reported payouts remain explicit', () => {
   const graph = Model.transform(fixture());
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'now').map(n => n.name).sort(),
-    ['Agency Planning Office', 'BigNuten_Vanilla', 'DecentBusking', 'DecentCanopy', 'DecentSettlementsRouter']);
+    ['Agency Planning Office', 'BigNuten_Vanilla', 'DHearse', 'DecentBusking', 'DecentCanopy', 'DecentSettlementsRouter']);
   assert.deepEqual(graph.projects.filter(n => n.kind === 'project' && n.status === 'next').map(n => n.name),
     ['DecentLending / DLend (ArtFi)', 'DecentPilgrimages', 'DLang', 'BabelBet']);
   assert.ok(!graph.associations.some(a => a.type === 'under-umbrella' && a.target === id('cadcad')));
@@ -69,6 +69,27 @@ test('focus, external scope, unresolved identities, and reported payouts remain 
   const lineage = graph.associations.find(a => a.source === id('decent-jukebox') && a.target === busking.id);
   assert.equal(lineage.relationshipState, 'reported');
 });
+
+test('DHearse source, requested identity, and downstream integrations retain separate evidence states', () => {
+  const data = fixture();
+  const graph = Model.transform(data);
+  const dhearse = data.projects.find(project => project.id === 'dhearse');
+  assert.equal(dhearse.ens, undefined);
+  assert.match(dhearse.repositoryNote, /has not been verified or changed/);
+  assert.match(dhearse.currentState, /Real microphone\/two-device\/network acceptance/);
+  assert.equal(dhearse.offers.length, 2);
+  assert.equal(dhearse.needs.length, 2);
+  const lineage = graph.associations.find(edge =>
+    edge.source === id('decent-busking') && edge.target === id('dhearse'));
+  assert.equal(lineage.relationshipState, 'observed');
+  const office = graph.associations.find(edge =>
+    edge.source === id('dhearse') && edge.target === id('planning-office'));
+  const voyager = graph.associations.find(edge =>
+    edge.source === id('asteroid') && edge.target === id('dhearse'));
+  assert.equal(office.relationshipState, 'proposed');
+  assert.equal(voyager.relationshipState, 'proposed');
+});
+
 test('Pilgrimages V1 and BabelBet preparation retain separate gates and proposed Head reuse', () => {
   const data = fixture();
   const graph = Model.transform(data);
@@ -225,7 +246,7 @@ test('capabilities require evidence and candidate matches resolve the exact offe
 test('public capability inventory keeps private/local review payloads outside publication', () => {
   const data = fixture();
   assert.equal(data.projects.filter(p => p.reviewNote).length, 25);
-  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 51);
+  assert.equal(data.projects.reduce((n, p) => n + (p.offers?.length || 0), 0), 53);
   const nutrition = data.projects.find(project => project.id === 'big-nuten').offers.find(offer => offer.id === 'reviewed-nutrition-defaults');
   assert.equal(nutrition.state, 'code-observed');
   assert.match(nutrition.detail, /separate deployed synthetic acceptance/i);
@@ -263,7 +284,7 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(consent.detail, /anyone can claim an invited address/);
   assert.match(consent.detail, /not wallet ownership or private-access verification/);
   assert.match(consent.detail, /explicit lookup click/);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 39);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 41);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {
@@ -486,7 +507,7 @@ test('shared data layer preserves map metadata without overlaying creators or fr
   assert.equal(match.need, 'radio-media-route');
   assert.match(match.nextTest, /decoder/);
   sandbox.GTPData.setFilter('status', 'now');
-  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 5);
+  assert.equal(sandbox.GTPData.filterProjects().filter(n => n.kind === 'project').length, 6);
 });
 
 test('map ships through both publication paths and view links preserve agency context', () => {
