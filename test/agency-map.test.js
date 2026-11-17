@@ -79,7 +79,9 @@ test('DHearse source, requested identity, and downstream integrations retain sep
   assert.match(dhearse.repositoryNote, /ten transferred to VoyagerRewards/);
   assert.match(dhearse.currentState, /Real microphone\/two-device\/network acceptance/);
   assert.equal(dhearse.offers.length, 2);
-  assert.equal(dhearse.needs.length, 2);
+  assert.equal(dhearse.needs.length, 1);
+  assert.ok(dhearse.needs[0].evidence.some(row =>
+    row.url === 'https://github.com/A-Decent-Agency/DHearse/issues/4'));
   const lineage = graph.associations.find(edge =>
     edge.source === id('decent-busking') && edge.target === id('dhearse'));
   assert.equal(lineage.relationshipState, 'observed');
@@ -87,8 +89,10 @@ test('DHearse source, requested identity, and downstream integrations retain sep
     edge.source === id('dhearse') && edge.target === id('planning-office'));
   const voyager = graph.associations.find(edge =>
     edge.source === id('asteroid') && edge.target === id('dhearse'));
-  assert.equal(office.relationshipState, 'proposed');
-  assert.equal(voyager.relationshipState, 'proposed');
+  assert.equal(office.relationshipState, 'observed');
+  assert.equal(voyager.relationshipState, 'observed');
+  assert.match(office.note, /not a second audio-room host/);
+  assert.match(voyager.note, /no live capture/);
 });
 
 test('Pilgrimages V1 and BabelBet preparation retain separate gates and proposed Head reuse', () => {
@@ -285,7 +289,7 @@ test('public capability inventory keeps private/local review payloads outside pu
   assert.match(consent.detail, /anyone can claim an invited address/);
   assert.match(consent.detail, /not wallet ownership or private-access verification/);
   assert.match(consent.detail, /explicit lookup click/);
-  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 41);
+  assert.equal(data.projects.reduce((n, p) => n + (p.needs?.length || 0), 0), 40);
   assert.equal(data.relationships.filter(edge => edge.type === 'capability-match').length, 14);
   assert.doesNotMatch(JSON.stringify(data), /file:\/\/|\/Users\/|privateProjects|localEvidence/);
   for (const project of data.projects) {
