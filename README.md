@@ -721,6 +721,33 @@ A gateway check shows that the data is **available** through that gateway. It is
 - Updating removes a profile only from the latest discovery index, not from old IPFS copies. There is no wallet-recovery or public-profile removal flow yet. Lost signing keys cannot be recovered by a login.
 - This bootstrap still depends on the relay, GitHub index and community pinning availability. It does not claim censorship-resistant discovery or permanent availability from a single pinning account.
 
+### Steward preparation for Supporter project approval
+
+The draft DecentMarket creator collection requires both an authorized creator
+wallet and a separate, manually approved Canopy project. Before approving a
+project, a steward can prepare a **read-only** review from the current public
+index (the Node signature dependency is installed with `npm ci --prefix relay`):
+
+```sh
+node scripts/prepare-supporter-approval.js <creator-wallet> <project-key>
+```
+
+The tool reads the public GitHub `main` revision and its immutable index
+snapshot, checks that `main` did not change during the read, verifies canonical
+wallet signatures and indexed records, and rejects invalid CIDs, duplicate
+wallets, or missing projects. It reports the source revision, observation time,
+record revision, project ID and hash, and the proposed contract-call arguments.
+The CID is checked for format only, not IPFS availability or content. The
+profile is a signed **self-report**, not independent proof of project ownership.
+It does not use a local browser draft, choose a contract or chain, connect a
+wallet, sign, send a transaction or automatically approve anything.
+
+Review the evidence and re-run the check immediately before a separately
+authorized approval. An approval does not stay synchronized with Canopy: a
+steward must monitor eligibility and manually revoke it if needed. Project
+keys are case-sensitive. Test the preparer with
+`node --test test/supporter-approval.test.js`.
+
 ### In-app requests and the relay
 
 The browser never holds a GitHub token or the community Pinata token. Creator publishing, pinner signup and owner reviews use the Render relay:
