@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-24T17:54:51.190Z",
+  "generatedAt": "2026-11-24T18:17:37.233Z",
   "repositories": [
     {
       "repo": "a-decent-agency/a-decent-agency.github.io",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:36.963Z",
-      "checkedAt": "2026-11-24T17:54:36.963Z",
-      "windowStart": "2026-11-17T17:54:37.293Z",
+      "attemptedAt": "2026-11-24T18:17:20.905Z",
+      "checkedAt": "2026-11-24T18:17:20.905Z",
+      "windowStart": "2026-11-17T18:17:21.443Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
-      "commits7d": 25,
+      "commits7d": 21,
       "capped": true,
       "latestCommit": {
         "sha": "534401c0c483df155d3ded5548d62906b0722612",
@@ -20,44 +20,7 @@
       },
       "release": null,
       "error": "",
-      "crossReferences": [
-        {
-          "source": "a-decent-agency/a-decent-agency.github.io",
-          "target": "a-decent-agency/dhearse",
-          "kind": "pull-request",
-          "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34",
-          "date": "2026-11-17T18:12:18Z",
-          "label": "PR #34",
-          "id": "[\"a-decent-agency/a-decent-agency.github.io\",\"a-decent-agency/dhearse\",\"pull-request\",\"https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34\",\"2026-11-17T18:12:18Z\"]"
-        },
-        {
-          "source": "a-decent-agency/a-decent-agency.github.io",
-          "target": "thejollylama/decentbusking",
-          "kind": "pull-request",
-          "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34",
-          "date": "2026-11-17T18:12:18Z",
-          "label": "PR #34",
-          "id": "[\"a-decent-agency/a-decent-agency.github.io\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34\",\"2026-11-17T18:12:18Z\"]"
-        },
-        {
-          "source": "a-decent-agency/a-decent-agency.github.io",
-          "target": "thejollylama/decentcanopy",
-          "kind": "pull-request",
-          "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34",
-          "date": "2026-11-17T18:12:18Z",
-          "label": "PR #34",
-          "id": "[\"a-decent-agency/a-decent-agency.github.io\",\"thejollylama/decentcanopy\",\"pull-request\",\"https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34\",\"2026-11-17T18:12:18Z\"]"
-        },
-        {
-          "source": "a-decent-agency/a-decent-agency.github.io",
-          "target": "thejollylama/decentbusking",
-          "kind": "pull-request",
-          "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33",
-          "date": "2026-11-17T18:04:52Z",
-          "label": "PR #33",
-          "id": "[\"a-decent-agency/a-decent-agency.github.io\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33\",\"2026-11-17T18:04:52Z\"]"
-        }
-      ],
+      "crossReferences": [],
       "crossReferenceStatus": "ok",
       "referencesCapped": true,
       "work": {
@@ -110,34 +73,15 @@
             "updatedAt": "2026-10-28T11:33:10Z"
           }
         ],
-        "recent": [
-          {
-            "number": 34,
-            "title": "Point DHearse campus to its own acceptance follow-up",
-            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/34",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-17T18:12:18Z"
-          },
-          {
-            "number": 33,
-            "title": "Publish DHearse campus and verified Supporter release",
-            "url": "https://github.com/A-Decent-Agency/a-decent-agency.github.io/pull/33",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-17T18:04:52Z"
-          }
-        ]
+        "recent": []
       }
     },
     {
       "repo": "a-decent-agency/dbuskradio",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:36.964Z",
-      "checkedAt": "2026-11-24T17:54:36.964Z",
-      "windowStart": "2026-11-17T17:54:37.330Z",
+      "attemptedAt": "2026-11-24T18:17:20.906Z",
+      "checkedAt": "2026-11-24T18:17:20.906Z",
+      "windowStart": "2026-11-17T18:17:21.415Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -177,9 +121,9 @@
     {
       "repo": "a-decent-agency/decentjukebox",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:40.155Z",
-      "checkedAt": "2026-11-24T17:54:40.155Z",
-      "windowStart": "2026-11-17T17:54:40.430Z",
+      "attemptedAt": "2026-11-24T18:17:25.061Z",
+      "checkedAt": "2026-11-24T18:17:25.061Z",
+      "windowStart": "2026-11-17T18:17:25.390Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -247,13 +191,13 @@
     {
       "repo": "a-decent-agency/dhearse",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:38.432Z",
-      "checkedAt": "2026-11-24T17:54:38.432Z",
-      "windowStart": "2026-11-17T17:54:38.839Z",
+      "attemptedAt": "2026-11-24T18:17:22.992Z",
+      "checkedAt": "2026-11-24T18:17:22.992Z",
+      "windowStart": "2026-11-17T18:17:23.332Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
-      "commits7d": 1,
+      "commits7d": 0,
       "capped": false,
       "latestCommit": {
         "sha": "2041e63f0be1d45cce1e5f85a29ecaa662235332",
@@ -276,35 +220,7 @@
         }
       },
       "error": "",
-      "crossReferences": [
-        {
-          "source": "a-decent-agency/dhearse",
-          "target": "thejollylama/decentbusking",
-          "kind": "issue",
-          "url": "https://github.com/A-Decent-Agency/DHearse/issues/4",
-          "date": "2026-11-17T18:04:37Z",
-          "label": "Issue #4",
-          "id": "[\"a-decent-agency/dhearse\",\"thejollylama/decentbusking\",\"issue\",\"https://github.com/A-Decent-Agency/DHearse/issues/4\",\"2026-11-17T18:04:37Z\"]"
-        },
-        {
-          "source": "a-decent-agency/dhearse",
-          "target": "thejollylama/decentvoyager",
-          "kind": "issue",
-          "url": "https://github.com/A-Decent-Agency/DHearse/issues/4",
-          "date": "2026-11-17T18:04:37Z",
-          "label": "Issue #4",
-          "id": "[\"a-decent-agency/dhearse\",\"thejollylama/decentvoyager\",\"issue\",\"https://github.com/A-Decent-Agency/DHearse/issues/4\",\"2026-11-17T18:04:37Z\"]"
-        },
-        {
-          "source": "a-decent-agency/dhearse",
-          "target": "thejollylama/decenthead",
-          "kind": "issue",
-          "url": "https://github.com/A-Decent-Agency/DHearse/issues/3",
-          "date": "2026-11-17T17:57:06Z",
-          "label": "Issue #3",
-          "id": "[\"a-decent-agency/dhearse\",\"thejollylama/decenthead\",\"issue\",\"https://github.com/A-Decent-Agency/DHearse/issues/3\",\"2026-11-17T17:57:06Z\"]"
-        }
-      ],
+      "crossReferences": [],
       "crossReferenceStatus": "ok",
       "referencesCapped": false,
       "work": {
@@ -321,34 +237,15 @@
             "updatedAt": "2026-11-17T18:04:37Z"
           }
         ],
-        "recent": [
-          {
-            "number": 4,
-            "title": "Validate a deployed DHearse worker and genuine second host",
-            "url": "https://github.com/A-Decent-Agency/DHearse/issues/4",
-            "kind": "issue",
-            "state": "open",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-17T18:04:37Z"
-          },
-          {
-            "number": 3,
-            "title": "Mint Supporter DNFT for v0.1.1",
-            "url": "https://github.com/A-Decent-Agency/DHearse/issues/3",
-            "kind": "issue",
-            "state": "closed",
-            "stateReason": "completed",
-            "updatedAt": "2026-11-17T17:57:06Z"
-          }
-        ]
+        "recent": []
       }
     },
     {
       "repo": "a-decent-agency/dvert",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:36.965Z",
-      "checkedAt": "2026-11-24T17:54:36.965Z",
-      "windowStart": "2026-11-17T17:54:37.335Z",
+      "attemptedAt": "2026-11-24T18:17:20.907Z",
+      "checkedAt": "2026-11-24T18:17:20.907Z",
+      "windowStart": "2026-11-17T18:17:21.395Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -388,9 +285,9 @@
     {
       "repo": "cadcad-org/cadcad",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:42.566Z",
-      "checkedAt": "2026-11-24T17:54:42.566Z",
-      "windowStart": "2026-11-17T17:54:42.842Z",
+      "attemptedAt": "2026-11-24T18:17:27.746Z",
+      "checkedAt": "2026-11-24T18:17:27.746Z",
+      "windowStart": "2026-11-17T18:17:28.080Z",
       "defaultBranch": "master",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -511,9 +408,9 @@
     {
       "repo": "thejollylama/ajollydecentcodecamp",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:43.112Z",
-      "checkedAt": "2026-11-24T17:54:43.112Z",
-      "windowStart": "2026-11-17T17:54:43.333Z",
+      "attemptedAt": "2026-11-24T18:17:29.176Z",
+      "checkedAt": "2026-11-24T18:17:29.176Z",
+      "windowStart": "2026-11-17T18:17:29.481Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -549,9 +446,9 @@
     {
       "repo": "thejollylama/arduino_smarthome",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:41.789Z",
-      "checkedAt": "2026-11-24T17:54:41.789Z",
-      "windowStart": "2026-11-17T17:54:42.021Z",
+      "attemptedAt": "2026-11-24T18:17:27.293Z",
+      "checkedAt": "2026-11-24T18:17:27.293Z",
+      "windowStart": "2026-11-17T18:17:27.652Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -587,9 +484,9 @@
     {
       "repo": "thejollylama/artfi",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:36.892Z",
-      "checkedAt": "2026-11-24T17:54:36.892Z",
-      "windowStart": "2026-11-17T17:54:37.264Z",
+      "attemptedAt": "2026-11-24T18:17:20.875Z",
+      "checkedAt": "2026-11-24T18:17:20.875Z",
+      "windowStart": "2026-11-17T18:17:21.375Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -643,9 +540,9 @@
     {
       "repo": "thejollylama/babelbet",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:48.792Z",
-      "checkedAt": "2026-11-24T17:54:48.792Z",
-      "windowStart": "2026-11-17T17:54:49.054Z",
+      "attemptedAt": "2026-11-24T18:17:35.143Z",
+      "checkedAt": "2026-11-24T18:17:35.143Z",
+      "windowStart": "2026-11-17T18:17:35.516Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -717,9 +614,9 @@
     {
       "repo": "thejollylama/bignuten_vanilla",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:40.128Z",
-      "checkedAt": "2026-11-24T17:54:40.128Z",
-      "windowStart": "2026-11-17T17:54:40.396Z",
+      "attemptedAt": "2026-11-24T18:17:24.781Z",
+      "checkedAt": "2026-11-24T18:17:24.781Z",
+      "windowStart": "2026-11-17T18:17:25.057Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 9,
@@ -831,9 +728,9 @@
     {
       "repo": "thejollylama/decent_nda",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:47.432Z",
-      "checkedAt": "2026-11-24T17:54:47.432Z",
-      "windowStart": "2026-11-17T17:54:47.663Z",
+      "attemptedAt": "2026-11-24T18:17:33.533Z",
+      "checkedAt": "2026-11-24T18:17:33.533Z",
+      "windowStart": "2026-11-17T18:17:33.944Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -869,9 +766,9 @@
     {
       "repo": "thejollylama/decent_ucan_play",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:47.467Z",
-      "checkedAt": "2026-11-24T17:54:47.467Z",
-      "windowStart": "2026-11-17T17:54:47.700Z",
+      "attemptedAt": "2026-11-24T18:17:33.533Z",
+      "checkedAt": "2026-11-24T18:17:33.533Z",
+      "windowStart": "2026-11-17T18:17:33.871Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -907,9 +804,9 @@
     {
       "repo": "thejollylama/decentagency",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:38.452Z",
-      "checkedAt": "2026-11-24T17:54:38.452Z",
-      "windowStart": "2026-11-17T17:54:38.839Z",
+      "attemptedAt": "2026-11-24T18:17:23.201Z",
+      "checkedAt": "2026-11-24T18:17:23.201Z",
+      "windowStart": "2026-11-17T18:17:23.571Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -945,9 +842,9 @@
     {
       "repo": "thejollylama/decentairdrop",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:46.869Z",
-      "checkedAt": "2026-11-24T17:54:46.869Z",
-      "windowStart": "2026-11-17T17:54:47.102Z",
+      "attemptedAt": "2026-11-24T18:17:32.707Z",
+      "checkedAt": "2026-11-24T18:17:32.707Z",
+      "windowStart": "2026-11-17T18:17:32.979Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
@@ -1001,9 +898,9 @@
     {
       "repo": "thejollylama/decentbusking",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:38.836Z",
-      "checkedAt": "2026-11-24T17:54:38.836Z",
-      "windowStart": "2026-11-17T17:54:39.094Z",
+      "attemptedAt": "2026-11-24T18:17:23.340Z",
+      "checkedAt": "2026-11-24T18:17:23.340Z",
+      "windowStart": "2026-11-17T18:17:23.618Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 28,
@@ -1235,9 +1132,9 @@
     {
       "repo": "thejollylama/decentcalendar",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:47.052Z",
-      "checkedAt": "2026-11-24T17:54:47.052Z",
-      "windowStart": "2026-11-17T17:54:47.280Z",
+      "attemptedAt": "2026-11-24T18:17:32.915Z",
+      "checkedAt": "2026-11-24T18:17:32.915Z",
+      "windowStart": "2026-11-17T18:17:33.271Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 23,
@@ -1368,18 +1265,18 @@
     {
       "repo": "thejollylama/decentcanopy",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:38.510Z",
-      "checkedAt": "2026-11-24T17:54:38.510Z",
-      "windowStart": "2026-11-17T17:54:38.839Z",
+      "attemptedAt": "2026-11-24T18:17:23.224Z",
+      "checkedAt": "2026-11-24T18:17:23.224Z",
+      "windowStart": "2026-11-17T18:17:23.532Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 21,
       "commits7d": 100,
       "capped": true,
       "latestCommit": {
-        "sha": "7b575bb8892d7828e139c6cf5d04690f018a3626",
-        "date": "2026-11-24T17:39:58Z",
-        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/7b575bb8892d7828e139c6cf5d04690f018a3626"
+        "sha": "ec63c7572baaecf8c980faf127ad43951553c5f3",
+        "date": "2026-11-24T17:54:51Z",
+        "url": "https://github.com/TheJollyLaMa/DecentCanopy/commit/ec63c7572baaecf8c980faf127ad43951553c5f3"
       },
       "release": {
         "tag": "v0.1.0",
@@ -1406,33 +1303,6 @@
           "date": "2026-11-23T16:52:15Z",
           "label": "PR #77",
           "id": "[\"thejollylama/decentcanopy\",\"thejollylama/decentmarket\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentCanopy/pull/77\",\"2026-11-23T16:52:15Z\"]"
-        },
-        {
-          "source": "thejollylama/decentcanopy",
-          "target": "a-decent-agency/dhearse",
-          "kind": "pull-request",
-          "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/76",
-          "date": "2026-11-17T18:13:24Z",
-          "label": "PR #76",
-          "id": "[\"thejollylama/decentcanopy\",\"a-decent-agency/dhearse\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentCanopy/pull/76\",\"2026-11-17T18:13:24Z\"]"
-        },
-        {
-          "source": "thejollylama/decentcanopy",
-          "target": "thejollylama/decentbusking",
-          "kind": "pull-request",
-          "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/76",
-          "date": "2026-11-17T18:13:24Z",
-          "label": "PR #76",
-          "id": "[\"thejollylama/decentcanopy\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentCanopy/pull/76\",\"2026-11-17T18:13:24Z\"]"
-        },
-        {
-          "source": "thejollylama/decentcanopy",
-          "target": "thejollylama/decentbusking",
-          "kind": "pull-request",
-          "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/75",
-          "date": "2026-11-17T17:59:11Z",
-          "label": "PR #75",
-          "id": "[\"thejollylama/decentcanopy\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentCanopy/pull/75\",\"2026-11-17T17:59:11Z\"]"
         }
       ],
       "crossReferenceStatus": "ok",
@@ -1541,24 +1411,6 @@
             "state": "open",
             "stateReason": "unknown",
             "updatedAt": "2026-11-23T16:52:15Z"
-          },
-          {
-            "number": 76,
-            "title": "Record deployed DHearse integrations and acceptance follow-up",
-            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/76",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-17T18:13:24Z"
-          },
-          {
-            "number": 75,
-            "title": "Add DHearse to the Canopy map",
-            "url": "https://github.com/TheJollyLaMa/DecentCanopy/pull/75",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-17T17:59:11Z"
           }
         ]
       }
@@ -1566,9 +1418,9 @@
     {
       "repo": "thejollylama/decentescrow",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:45.730Z",
-      "checkedAt": "2026-11-24T17:54:45.730Z",
-      "windowStart": "2026-11-17T17:54:45.989Z",
+      "attemptedAt": "2026-11-24T18:17:31.156Z",
+      "checkedAt": "2026-11-24T18:17:31.156Z",
+      "windowStart": "2026-11-17T18:17:31.534Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1604,9 +1456,9 @@
     {
       "repo": "thejollylama/decenthead",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:45.174Z",
-      "checkedAt": "2026-11-24T17:54:45.174Z",
-      "windowStart": "2026-11-17T17:54:45.458Z",
+      "attemptedAt": "2026-11-24T18:17:30.663Z",
+      "checkedAt": "2026-11-24T18:17:30.663Z",
+      "windowStart": "2026-11-17T18:17:30.990Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1656,9 +1508,9 @@
     {
       "repo": "thejollylama/decentinvoice",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:46.056Z",
-      "checkedAt": "2026-11-24T17:54:46.056Z",
-      "windowStart": "2026-11-17T17:54:46.313Z",
+      "attemptedAt": "2026-11-24T18:17:31.796Z",
+      "checkedAt": "2026-11-24T18:17:31.796Z",
+      "windowStart": "2026-11-17T18:17:32.254Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -1694,9 +1546,9 @@
     {
       "repo": "thejollylama/decentmarket",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:45.508Z",
-      "checkedAt": "2026-11-24T17:54:45.508Z",
-      "windowStart": "2026-11-17T17:54:45.758Z",
+      "attemptedAt": "2026-11-24T18:17:30.908Z",
+      "checkedAt": "2026-11-24T18:17:30.908Z",
+      "windowStart": "2026-11-17T18:17:31.240Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 11,
@@ -1964,9 +1816,9 @@
     {
       "repo": "thejollylama/decentpilgrimages",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:44.494Z",
-      "checkedAt": "2026-11-24T17:54:44.494Z",
-      "windowStart": "2026-11-17T17:54:44.810Z",
+      "attemptedAt": "2026-11-24T18:17:29.659Z",
+      "checkedAt": "2026-11-24T18:17:29.659Z",
+      "windowStart": "2026-11-17T18:17:29.977Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 5,
@@ -2052,9 +1904,9 @@
     {
       "repo": "thejollylama/decentsubscriptions",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:44.386Z",
-      "checkedAt": "2026-11-24T17:54:44.386Z",
-      "windowStart": "2026-11-17T17:54:44.643Z",
+      "attemptedAt": "2026-11-24T18:17:29.399Z",
+      "checkedAt": "2026-11-24T18:17:29.399Z",
+      "windowStart": "2026-11-17T18:17:29.703Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -2090,13 +1942,13 @@
     {
       "repo": "thejollylama/decentvoyager",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:48.895Z",
-      "checkedAt": "2026-11-24T17:54:48.895Z",
-      "windowStart": "2026-11-17T17:54:49.127Z",
+      "attemptedAt": "2026-11-24T18:17:35.321Z",
+      "checkedAt": "2026-11-24T18:17:35.321Z",
+      "windowStart": "2026-11-17T18:17:35.665Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 3,
-      "commits7d": 1,
+      "commits7d": 0,
       "capped": true,
       "latestCommit": {
         "sha": "3324b27fe727e2efd239cf73b601195c67f05b89",
@@ -2109,26 +1961,7 @@
         "url": "https://github.com/TheJollyLaMa/DecentVoyager/releases/tag/v1.0.0"
       },
       "error": "",
-      "crossReferences": [
-        {
-          "source": "thejollylama/decentvoyager",
-          "target": "a-decent-agency/dhearse",
-          "kind": "pull-request",
-          "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44",
-          "date": "2026-11-17T18:01:03Z",
-          "label": "PR #44",
-          "id": "[\"thejollylama/decentvoyager\",\"a-decent-agency/dhearse\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentVoyager/pull/44\",\"2026-11-17T18:01:03Z\"]"
-        },
-        {
-          "source": "thejollylama/decentvoyager",
-          "target": "thejollylama/decentbusking",
-          "kind": "pull-request",
-          "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44",
-          "date": "2026-11-17T18:01:03Z",
-          "label": "PR #44",
-          "id": "[\"thejollylama/decentvoyager\",\"thejollylama/decentbusking\",\"pull-request\",\"https://github.com/TheJollyLaMa/DecentVoyager/pull/44\",\"2026-11-17T18:01:03Z\"]"
-        }
-      ],
+      "crossReferences": [],
       "crossReferenceStatus": "ok",
       "referencesCapped": true,
       "work": {
@@ -2163,25 +1996,15 @@
             "updatedAt": "2026-11-12T21:22:21Z"
           }
         ],
-        "recent": [
-          {
-            "number": 44,
-            "title": "Add funded DHearse token 81 to level 9–10 rewards",
-            "url": "https://github.com/TheJollyLaMa/DecentVoyager/pull/44",
-            "kind": "pull-request",
-            "state": "closed",
-            "stateReason": "unknown",
-            "updatedAt": "2026-11-17T18:01:03Z"
-          }
-        ]
+        "recent": []
       }
     },
     {
       "repo": "thejollylama/dlang",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:48.130Z",
-      "checkedAt": "2026-11-24T17:54:48.130Z",
-      "windowStart": "2026-11-17T17:54:48.456Z",
+      "attemptedAt": "2026-11-24T18:17:34.167Z",
+      "checkedAt": "2026-11-24T18:17:34.167Z",
+      "windowStart": "2026-11-17T18:17:34.511Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 7,
@@ -2281,9 +2104,9 @@
     {
       "repo": "thejollylama/greenteahut_01",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:40.876Z",
-      "checkedAt": "2026-11-24T17:54:40.876Z",
-      "windowStart": "2026-11-17T17:54:41.134Z",
+      "attemptedAt": "2026-11-24T18:17:25.818Z",
+      "checkedAt": "2026-11-24T18:17:25.818Z",
+      "windowStart": "2026-11-17T18:17:26.149Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2328,9 +2151,9 @@
     {
       "repo": "thejollylama/jolly-sim-siddhi",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:41.744Z",
-      "checkedAt": "2026-11-24T17:54:41.744Z",
-      "windowStart": "2026-11-17T17:54:41.972Z",
+      "attemptedAt": "2026-11-24T18:17:27.049Z",
+      "checkedAt": "2026-11-24T18:17:27.049Z",
+      "windowStart": "2026-11-17T18:17:27.386Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2375,9 +2198,9 @@
     {
       "repo": "thejollylama/jollysandbox",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:43.929Z",
-      "checkedAt": "2026-11-24T17:54:43.929Z",
-      "windowStart": "2026-11-17T17:54:44.197Z",
+      "attemptedAt": "2026-11-24T18:17:29.178Z",
+      "checkedAt": "2026-11-24T18:17:29.178Z",
+      "windowStart": "2026-11-17T18:17:29.479Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 1,
@@ -2413,9 +2236,9 @@
     {
       "repo": "thejollylama/qart-code",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:48.995Z",
-      "checkedAt": "2026-11-24T17:54:48.995Z",
-      "windowStart": "2026-11-17T17:54:49.310Z",
+      "attemptedAt": "2026-11-24T18:17:35.659Z",
+      "checkedAt": "2026-11-24T18:17:35.659Z",
+      "windowStart": "2026-11-17T18:17:36.079Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 0,
@@ -2441,9 +2264,9 @@
     {
       "repo": "thejollylama/thegreenteaparty",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:40.476Z",
-      "checkedAt": "2026-11-24T17:54:40.476Z",
-      "windowStart": "2026-11-17T17:54:40.724Z",
+      "attemptedAt": "2026-11-24T18:17:25.718Z",
+      "checkedAt": "2026-11-24T18:17:25.718Z",
+      "windowStart": "2026-11-17T18:17:26.065Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
@@ -2488,9 +2311,9 @@
     {
       "repo": "thejollylama/umbrellaacademy",
       "status": "ok",
-      "attemptedAt": "2026-11-24T17:54:43.111Z",
-      "checkedAt": "2026-11-24T17:54:43.111Z",
-      "windowStart": "2026-11-17T17:54:43.356Z",
+      "attemptedAt": "2026-11-24T18:17:27.855Z",
+      "checkedAt": "2026-11-24T18:17:27.855Z",
+      "windowStart": "2026-11-17T18:17:28.204Z",
       "defaultBranch": "main",
       "archived": false,
       "openIssuesAndPRs": 2,
