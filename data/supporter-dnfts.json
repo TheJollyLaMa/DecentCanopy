@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-25T00:43:47.246Z",
+  "generatedAt": "2026-11-25T06:33:47.167Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,20 +29,28 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-11-25T00:42:32.280Z"
+      "attemptedAt": "2026-11-25T06:32:48.488Z"
     },
     "8453": {
       "status": "partial",
       "registered": 82,
       "listings": 23,
       "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:32: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:33: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:34: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:35: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:36: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:37: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:38: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:39: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:40: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:41: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:42: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:43: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:44: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:45: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:47: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:48: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:49: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:50: metadata or contract reads unavailable",
@@ -78,7 +86,7 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:81: metadata unavailable; previous metadata used"
       ],
-      "attemptedAt": "2026-11-25T00:43:47.246Z"
+      "attemptedAt": "2026-11-25T06:33:47.167Z"
     }
   },
   "tokens": [
@@ -116,7 +124,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-25T00:41:16.688Z",
+      "observedAt": "2026-11-25T06:31:33.310Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -157,7 +165,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-25T00:41:16.690Z",
+      "observedAt": "2026-11-25T06:31:33.308Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -195,7 +203,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-25T00:42:19.886Z",
+      "observedAt": "2026-11-25T06:32:36.158Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -233,7 +241,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-25T00:41:29.135Z",
+      "observedAt": "2026-11-25T06:31:45.727Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -274,7 +282,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-25T00:41:29.666Z",
+      "observedAt": "2026-11-25T06:31:46.196Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -315,7 +323,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-25T00:41:29.659Z",
+      "observedAt": "2026-11-25T06:31:46.116Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
@@ -386,7 +394,7 @@
           "artifact_cid": "ipfs://QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6"
         }
       },
-      "observedAt": "2026-11-25T00:43:45.129Z",
+      "observedAt": "2026-11-25T06:33:44.178Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
@@ -456,7 +464,7 @@
           "artifact_cid": "ipfs://QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG"
         }
       },
-      "observedAt": "2026-11-25T00:43:45.264Z",
+      "observedAt": "2026-11-25T06:33:44.284Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     },
@@ -519,7 +527,7 @@
         "site_cid": "bafybeigsij2lmbgkuctllu6xdrb6w4hk5cmrbih2pxl4fzrj45s45eandm",
         "ens_name": "djuke.decentagency.eth"
       },
-      "observedAt": "2026-11-25T00:43:45.558Z",
+      "observedAt": "2026-11-25T06:33:44.501Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
       "creatorGithub": []
     },
@@ -582,7 +590,7 @@
         "site_cid": "bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
         "ens_name": "dvert.decentagency.eth"
       },
-      "observedAt": "2026-11-25T00:43:45.675Z",
+      "observedAt": "2026-11-25T06:33:44.942Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
       "creatorGithub": []
     },
@@ -645,7 +653,7 @@
         "site_cid": "bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
         "ens_name": "dbusk.decentagency.eth"
       },
-      "observedAt": "2026-11-25T00:43:45.981Z",
+      "observedAt": "2026-11-25T06:33:45.173Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74",
       "creatorGithub": []
     },
@@ -732,7 +740,7 @@
         "site_cid": "bafybeichwabguwq5amum7lxokuqvuro6kiulhz5lotpgplnetdffidzxvy",
         "ens_name": "decentbusking.decentagency.eth"
       },
-      "observedAt": "2026-11-25T00:43:46.083Z",
+      "observedAt": "2026-11-25T06:33:45.257Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75",
       "creatorGithub": []
     },
@@ -807,7 +815,7 @@
         "site_cid": "bafybeieokd6tbhjaehhtpbiz5mzn7yq7ifq2vmgho6cfqw2j57rmnr33ou",
         "ens_name": "bignuten.decentagency.eth"
       },
-      "observedAt": "2026-11-25T00:43:46.398Z",
+      "observedAt": "2026-11-25T06:33:45.489Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:76",
       "creatorGithub": []
     },
@@ -892,7 +900,7 @@
         },
         "site_cid": "bafybeigu4i6ovdf5drmb7eyqhopnaureofxinokwn45pp7qiuwus4loucq"
       },
-      "observedAt": "2026-11-25T00:43:46.522Z",
+      "observedAt": "2026-11-25T06:33:45.563Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:77",
       "creatorGithub": []
     },
@@ -965,7 +973,7 @@
         },
         "site_cid": "bafybeidwl2lauhzriokkdpyp24kmo4ro6p5u75s63f7vcttch7ns5gotzq"
       },
-      "observedAt": "2026-11-25T00:43:46.861Z",
+      "observedAt": "2026-11-25T06:33:45.870Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:78",
       "creatorGithub": []
     },
@@ -1038,7 +1046,7 @@
         },
         "site_cid": "bafybeifj3o26zsw6lidchygkr4ygybobfcpe5ydl5om23wx3o5ymnhm6wy"
       },
-      "observedAt": "2026-11-25T00:43:46.829Z",
+      "observedAt": "2026-11-25T06:33:45.872Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79",
       "creatorGithub": []
     },
@@ -1120,7 +1128,7 @@
           "artifact_cid": "ipfs://QmY2BdbKmqLYnvRHupFRRR4fZFeY6WAtQFfnmBS1PyEqaq"
         }
       },
-      "observedAt": "2026-11-25T00:43:47.004Z",
+      "observedAt": "2026-11-25T06:33:46.181Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80",
       "creatorGithub": []
     },
@@ -1183,7 +1191,7 @@
         "site_cid": "bafybeibg25gr546vjschobyka5lvvf5mrdins4o3x7lgsdejzngbowgjci",
         "ens_name": "dhearse.decentagency.eth"
       },
-      "observedAt": "2026-11-25T00:43:47.246Z",
+      "observedAt": "2026-11-25T06:33:46.183Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:81",
       "creatorGithub": []
     }
