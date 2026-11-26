@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-11-26T12:29:47.088Z",
+  "generatedAt": "2026-11-26T18:25:54.955Z",
   "chains": {
     "10": {
       "status": "partial",
@@ -29,13 +29,17 @@
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:8: metadata or contract reads unavailable",
         "Token 0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:9: metadata or contract reads unavailable"
       ],
-      "attemptedAt": "2026-11-26T12:28:53.037Z"
+      "attemptedAt": "2026-11-26T18:25:07.251Z"
     },
     "8453": {
       "status": "partial",
       "registered": 82,
       "listings": 23,
       "issues": [
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:27: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:28: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:29: metadata or contract reads unavailable",
+        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:30: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:31: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:32: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:33: metadata or contract reads unavailable",
@@ -48,8 +52,6 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:40: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:41: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:42: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:43: metadata or contract reads unavailable",
-        "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:44: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:45: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:46: metadata or contract reads unavailable",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:47: metadata or contract reads unavailable",
@@ -88,7 +90,7 @@
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80: metadata unavailable; previous metadata used",
         "Token 0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:81: metadata unavailable; previous metadata used"
       ],
-      "attemptedAt": "2026-11-26T12:29:47.088Z"
+      "attemptedAt": "2026-11-26T18:25:54.955Z"
     }
   },
   "tokens": [
@@ -126,7 +128,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-26T12:27:38.555Z",
+      "observedAt": "2026-11-26T18:23:52.745Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:0",
       "creatorGithub": []
     },
@@ -167,7 +169,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-26T12:27:38.549Z",
+      "observedAt": "2026-11-26T18:23:52.743Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:1",
       "creatorGithub": []
     },
@@ -205,7 +207,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-26T12:28:40.788Z",
+      "observedAt": "2026-11-26T18:24:54.964Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:18",
       "creatorGithub": []
     },
@@ -243,7 +245,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-26T12:27:50.908Z",
+      "observedAt": "2026-11-26T18:24:05.086Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:3",
       "creatorGithub": []
     },
@@ -284,7 +286,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-26T12:27:51.226Z",
+      "observedAt": "2026-11-26T18:24:05.393Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:4",
       "creatorGithub": []
     },
@@ -325,7 +327,7 @@
         }
       ],
       "properties": {},
-      "observedAt": "2026-11-26T12:27:51.228Z",
+      "observedAt": "2026-11-26T18:24:05.406Z",
       "id": "10:0xe870f7b1d10c41dbc6b75598a5308b9a2bb52958:5",
       "creatorGithub": []
     },
@@ -396,7 +398,7 @@
           "artifact_cid": "ipfs://QmZwzHyuSABPNnkdhWBSVqMaGDvbJwLB1aCaZkVQjguzE6"
         }
       },
-      "observedAt": "2026-11-26T12:29:44.265Z",
+      "observedAt": "2026-11-26T18:25:52.240Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:70",
       "creatorGithub": []
     },
@@ -466,7 +468,7 @@
           "artifact_cid": "ipfs://QmWJxsqnidQZ4hR2NtsvgnLe7jgE7wC9EmXNw7R6a7HqoG"
         }
       },
-      "observedAt": "2026-11-26T12:29:44.422Z",
+      "observedAt": "2026-11-26T18:25:52.366Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:71",
       "creatorGithub": []
     },
@@ -529,7 +531,7 @@
         "site_cid": "bafybeigsij2lmbgkuctllu6xdrb6w4hk5cmrbih2pxl4fzrj45s45eandm",
         "ens_name": "djuke.decentagency.eth"
       },
-      "observedAt": "2026-11-26T12:29:44.786Z",
+      "observedAt": "2026-11-26T18:25:52.489Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:72",
       "creatorGithub": []
     },
@@ -592,7 +594,7 @@
         "site_cid": "bafybeig3ttjl47f2fk4pbpg5aoooyqzpxaxzteq6fp3awofk4nzahhvvzy",
         "ens_name": "dvert.decentagency.eth"
       },
-      "observedAt": "2026-11-26T12:29:44.835Z",
+      "observedAt": "2026-11-26T18:25:52.929Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:73",
       "creatorGithub": []
     },
@@ -655,7 +657,7 @@
         "site_cid": "bafybeiapgtx7mm3d2rmlnxk23irwa6wlmgm7rka7vmtuppenxabc4lscge",
         "ens_name": "dbusk.decentagency.eth"
       },
-      "observedAt": "2026-11-26T12:29:44.855Z",
+      "observedAt": "2026-11-26T18:25:52.969Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:74",
       "creatorGithub": []
     },
@@ -742,7 +744,7 @@
         "site_cid": "bafybeichwabguwq5amum7lxokuqvuro6kiulhz5lotpgplnetdffidzxvy",
         "ens_name": "decentbusking.decentagency.eth"
       },
-      "observedAt": "2026-11-26T12:29:44.922Z",
+      "observedAt": "2026-11-26T18:25:53.108Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:75",
       "creatorGithub": []
     },
@@ -817,7 +819,7 @@
         "site_cid": "bafybeieokd6tbhjaehhtpbiz5mzn7yq7ifq2vmgho6cfqw2j57rmnr33ou",
         "ens_name": "bignuten.decentagency.eth"
       },
-      "observedAt": "2026-11-26T12:29:46.335Z",
+      "observedAt": "2026-11-26T18:25:53.162Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:76",
       "creatorGithub": []
     },
@@ -902,7 +904,7 @@
         },
         "site_cid": "bafybeigu4i6ovdf5drmb7eyqhopnaureofxinokwn45pp7qiuwus4loucq"
       },
-      "observedAt": "2026-11-26T12:29:47.088Z",
+      "observedAt": "2026-11-26T18:25:54.955Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:77",
       "creatorGithub": []
     },
@@ -975,7 +977,7 @@
         },
         "site_cid": "bafybeidwl2lauhzriokkdpyp24kmo4ro6p5u75s63f7vcttch7ns5gotzq"
       },
-      "observedAt": "2026-11-26T12:29:46.130Z",
+      "observedAt": "2026-11-26T18:25:54.179Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:78",
       "creatorGithub": []
     },
@@ -1048,7 +1050,7 @@
         },
         "site_cid": "bafybeifj3o26zsw6lidchygkr4ygybobfcpe5ydl5om23wx3o5ymnhm6wy"
       },
-      "observedAt": "2026-11-26T12:29:46.274Z",
+      "observedAt": "2026-11-26T18:25:54.191Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:79",
       "creatorGithub": []
     },
@@ -1130,7 +1132,7 @@
           "artifact_cid": "ipfs://QmY2BdbKmqLYnvRHupFRRR4fZFeY6WAtQFfnmBS1PyEqaq"
         }
       },
-      "observedAt": "2026-11-26T12:29:46.416Z",
+      "observedAt": "2026-11-26T18:25:54.352Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:80",
       "creatorGithub": []
     },
@@ -1193,7 +1195,7 @@
         "site_cid": "bafybeibg25gr546vjschobyka5lvvf5mrdins4o3x7lgsdejzngbowgjci",
         "ens_name": "dhearse.decentagency.eth"
       },
-      "observedAt": "2026-11-26T12:29:46.506Z",
+      "observedAt": "2026-11-26T18:25:54.366Z",
       "id": "8453:0xe63ec9f8228720baac2fd528c0a6d06b3dc5439b:81",
       "creatorGithub": []
     }
