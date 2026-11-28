@@ -680,6 +680,54 @@ The backup also includes the public community registries (`data/community-creato
 
 The community pinning program queues **USDC** through the existing payroll. Settings are in [`community-rewards.json`](community-rewards.json). New creator profiles have no joining reward and require no historical token verification. Legacy records are retained, not deleted.
 
+### First Project creator campaign (implemented; not activated)
+
+The toolbar **First Project** opens public onboarding. Admin **DCal** prepares an
+editable draft: twelve registrations maximum, five native Base USDC per reviewed
+participant, sixty USDC total. Joining is public; minting requires steward approval
+of both the creator and their current signed, published project. Existing published
+profiles may join, but the Supporter mint must follow registration and fall within
+the campaign window. An active creator-owned sale listing is required at claim,
+review and payment preparation. Human review remains necessary: wallets are not
+unique people. The once-per-wallet router reference is independent of campaign ID.
+
+**Prepare allocation controls** only fills `decentcanopy-promotionals` / `60.00`.
+Creation, token approval, deposit, campaign publication, creator/project authorization
+and reward payment remain separate explicit actions. There is no automatic payment
+or chain-enforced atomic listing check at payout. Steward review authorizes minting
+separately from approving a reward, and preserves existing creator allowances.
+
+Reuse: the existing Busking campaign journal and guarded
+`routerPayout` (uncommitted `feat/ommm-campaign-rewards`, base `1c3a7a6`) supply
+campaign settlement, not a second Canopy ledger. The canonical creator-record verifier
+at `e9fceef06afb381ec93164e08ea4c0cc440394b8` verifies current public GitHub
+publications. Browser approval adapts the public-revision/canonical-project approach
+from `prepare-supporter-approval.js` in draft #77; its Node CLI is not imported into
+the browser. The unchanged Market `readCreatorListings` reader
+(uncommitted `feat/supporter-community-integration`, base `95460b1`) renders only
+creator-owned inventory for currently published projects, not all-market/resale
+indexing. Over 100 recorded seller listings produces explicit unavailability.
+Licenses and source notices accompany vendored helpers.
+
+Activation order:
+
+1. Separately approve/deploy creator collection v0.4 and seller listings, configure
+   collection provenance, allowed assets, reviewed fees and gift recipient.
+2. Upgrade the existing Busking worker, retain its durable campaign store and set
+   `SUPPORTER_CREATOR_COLLECTION_ADDRESS` / `SUPPORTER_SELLER_LISTINGS_ADDRESS`.
+   Add Canopy's actual ENS/IPFS origins to `IPFS_ALLOWED_ORIGINS`; GitHub Pages shares
+   the existing permitted origin. Radio-only origins do not authorize mutations.
+3. Set the matching verified addresses in `firstProject` in
+   `community-rewards.json` and Market's `community-supporter.json`. Null means
+   unavailable; never substitute legacy Agency NFT/escrow addresses.
+4. Explicitly create/fund the separate allocation and publish the reviewed draft.
+
+Receiving verification: creator/router/community tests cover publication changes and
+calendar edge cases; Market's local cross-app `FirstProjectCampaign.cjs` rehearses a
+real mint/list and five synthetic USDC payout. Its `community-supporter.browser.mjs`
+checks Canopy's controls and unavailable deployment state at desktop/375/320.
+These local tests are not live funding or a deployment approval.
+
 ### Weekly USDC for community pinners
 
 Anyone can help keep the dataset decentralized:

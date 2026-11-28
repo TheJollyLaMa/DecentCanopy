@@ -42,6 +42,29 @@ test('creator records are canonical, wallet-authorized and portable', async () =
   assert.throws(() => Records.verify({ ...envelope, signature: '0x' }, verifyMessage), /signature/);
   assert.throws(() => Records.verify(envelope, () => stranger.address), /authorize/);
 });
+test('live project approval/discovery requires the current pinned signed publication and rejects source changes', async () => {
+  const { loadPublishedCreator } = await import('../scripts/published-creator.mjs');
+  const r = record(), envelope = await signed(r), sha = 'a'.repeat(40);
+  const entry = { ...envelope, record: r, cid: CID, publishedAt: NOW.toISOString() };
+  const responses = [{ sha }, { version: 1, creators: [entry] }, { sha }];
+  const dependencies = { records: Records, verifyMessage,
+    fetchImpl: async () => ({ ok: true, json: async () => responses.shift() }) };
+  assert.deepEqual((await loadPublishedCreator(owner.address, dependencies)).record, r);
+  responses.push({ sha }, { version: 1, creators: [entry] }, { sha: 'b'.repeat(40) });
+  await assert.rejects(loadPublishedCreator(owner.address, dependencies), /source changed/);
+  responses.push({ sha }, { version: 1, creators: [{ ...entry, record: record({ name: 'Unsigned replacement' }) }] });
+  await assert.rejects(loadPublishedCreator(owner.address, dependencies), /does not match/);
+  responses.push({ sha }, { version: 1, creators: [] });
+  await assert.rejects(loadPublishedCreator(owner.address, dependencies), /current public creator/);
+});
+test('First Project UTC calendar handles leap years and invalid or empty month without rolling dates', async () => {
+  const { calendarMonth, firstProjectDraft } = await import('../scripts/first-project-campaigns.mjs');
+  assert.equal(calendarMonth('2028-02').dates.length, 29);
+  assert.equal(calendarMonth('0000-02').dates.length, 29);
+  assert.throws(() => calendarMonth(''), /calendar month/);
+  assert.throws(() => calendarMonth('2026-13'), /Invalid calendar month/);
+  assert.throws(() => firstProjectDraft('2026-10-08T12:00:00Z', '2026-10-07T12:00:00Z', '2026-10-09T12:00:00Z'), /out of order/);
+});
 test('consent, URLs, amounts, limits and dates are enforced', () => {
   assert.throws(() => record({ consent: false }), /consent/);
   assert.throws(() => record({ website: 'javascript:alert(1)' }), /HTTPS/);
