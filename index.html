@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="styles/participation.css" />
     <link rel="stylesheet" href="styles/onboarding.css" />
     <link rel="stylesheet" href="styles/creators.css" />
+    <link rel="stylesheet" href="styles/first-project.css" />
   <link rel="stylesheet" href="styles/supporter-dnfts.css" />
   </head>
   <body>
@@ -180,6 +181,7 @@
         limits live in the <strong>ⓘ Data notes</strong> tab.
       </p>
       <button class="toolbar-btn" data-creator-open type="button">Create / edit my Decent Creator</button>
+      <button class="toolbar-btn" data-first-project-open type="button" aria-haspopup="dialog" aria-controls="first-project-dialog">First Project · creator incentive</button>
       <p><a href="https://github.com/TheJollyLaMa/DecentCanopy/tree/main/wiki" target="_blank" rel="noopener noreferrer">Read the canopy wiki</a> · Creator guides, pinning and contributing.</p>
       <p class="canopy-about-note">DecentCanopy grew from the early Green Tea Party meeting circles. The network is still growing.</p>
       <section class="about-supporter" aria-labelledby="canopy-series-title">
@@ -494,6 +496,7 @@
         <button id="share-view" class="toolbar-btn" type="button" title="Copy a link to this map view">Share view</button>
         <span id="share-view-status" class="creator-service-status" role="status"></span>
         <button data-creator-open class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="creator-dialog">My creator</button>
+        <button data-first-project-open class="toolbar-btn" type="button" aria-haspopup="dialog" aria-controls="first-project-dialog">First Project</button>
         <span id="creator-service-status" class="creator-service-status" role="status"></span>
         <button id="payroll-open-button" class="toolbar-btn payroll-open-button" type="button" aria-controls="payroll-panel" aria-expanded="false" hidden>
           💸 Payroll
@@ -756,6 +759,39 @@
         </div>
         <button id="payroll-close-button" class="payroll-close-button" type="button" aria-label="Close admin workspace">×</button>
       </div>
+      <section id="first-project-admin" class="admin-section" aria-labelledby="first-project-admin-title">
+        <h3 id="first-project-admin-title">DCal · community campaigns</h3>
+        <p class="payroll-description">First Project: 12 reviewed participants × $5 native Base USDC. $60 total. Profile → project → steward approval → Supporter mint → active listing → reviewed reward. A draft does not fund or publish an offer.</p>
+        <button type="button" class="toolbar-btn" data-first-project-draft>First Project · prepare editable draft</button>
+        <button type="button" class="toolbar-btn" data-campaign-funding>Prepare $60 allocation controls</button>
+        <button type="button" class="toolbar-btn" data-campaign-refresh>Refresh campaigns</button>
+        <label>Calendar month · UTC <input type="month" name="campaignMonth" required></label>
+        <div class="first-project-dcal" aria-label="Community campaign calendar, UTC">
+          <div class="first-project-weekdays" aria-hidden="true"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+          <div data-dcal-days class="first-project-days"></div>
+        </div>
+        <form data-campaign-editor class="admin-form" hidden>
+          <label>Draft title<input name="title" maxlength="100" required></label>
+          <label>Opens · UTC<input type="datetime-local" name="startsAt" required></label>
+          <label>Closes · UTC<input type="datetime-local" name="endsAt" required></label>
+          <label>Claim deadline · UTC<input type="datetime-local" name="claimDeadline" required></label>
+          <p>$5 each · twelve rewards · $60 total. These reviewed economics cannot be changed in this quick campaign.</p>
+          <button type="submit" class="toolbar-btn" data-campaign-save disabled>Sign &amp; save draft only</button>
+        </form>
+        <p data-campaign-status role="status" aria-live="polite">Campaign worker and contract configuration must be available before publication.</p>
+        <div data-campaign-offers></div>
+        <h4>Before minting · steward creator/project approval</h4>
+        <form data-project-approval class="admin-form">
+          <label>Published creator wallet<input name="creatorWallet" required maxlength="42" placeholder="0x…"></label>
+          <label>Published project key<input name="projectKey" required maxlength="50" pattern="[a-zA-Z0-9_-]{1,50}"></label>
+          <label>Per-series edition allowance for a new creator<input name="editionLimit" required inputmode="numeric" value="100"></label>
+          <label><input type="checkbox" name="reviewed"> I reviewed this creator and their current signed public project.</label>
+          <button type="submit" class="toolbar-btn">Verify current publication &amp; authorize minting</button>
+          <p>Public joining is open; minting still requires manual stewardship. Existing creator allowances and lifetime project counts are not reset.</p>
+        </form>
+        <h4>Steward reviews &amp; settlement</h4>
+        <div data-campaign-claims></div>
+      </section>
       <details class="admin-section">
         <summary>Fund allocations &amp; USDC deposits</summary>
         <p class="payroll-description">Named balances on the shared Settlement Router, not new contracts. Creating a fund does not enable a reward or change queue routing.</p>
@@ -786,7 +822,7 @@
           <a href="https://github.com/TheJollyLaMa/DecentCanopy/actions/workflows/publish-site.yml" target="_blank" rel="noopener noreferrer">Site deployments</a>
           <a href="https://github.com/TheJollyLaMa/DecentCanopy/blob/main/community-rewards.json" target="_blank" rel="noopener noreferrer">Reward policy configuration</a>
         </nav>
-        <p class="payroll-description">Pinning currently earns $0.10 USDC per qualifying week, capped at 20 pinners. New onboarding/task incentives are not active. Separate allocations need an explicit routing change before bots or payroll can use them.</p>
+        <p class="payroll-description">Pinning currently earns $0.10 USDC per qualifying week, capped at 20 pinners. First Project uses its own allocation and campaign journal above; it remains inactive until separately configured, funded and published.</p>
       </details>
       <details class="admin-section" open>
         <summary>Payroll &amp; pinner approvals</summary>
@@ -812,6 +848,27 @@
       </div>
       </details>
     </aside>
+
+    <dialog id="first-project-dialog" aria-labelledby="first-project-title" class="first-project-dialog">
+      <button type="button" class="toolbar-btn" data-campaign-close>Close</button>
+      <h2 id="first-project-title">Grow your First Project</h2>
+      <p>Connect your Base wallet, publish your creator profile and project, receive steward approval, mint a Supporter edition and offer it for sale. A steward then reviews your $5 USDC reward. Twelve participants maximum; no automatic payout.</p>
+      <button type="button" class="toolbar-btn" data-creator-open>Create / edit my public creator profile</button>
+      <button type="button" class="toolbar-btn" data-campaign-refresh>Refresh campaign records</button>
+      <form data-participant-form>
+        <label>Published campaign<select name="campaignId" required></select></label>
+        <p data-participant-terms></p>
+        <label><input type="checkbox" name="acceptTerms"> I accept these published terms and the public IPFS record policy.</label>
+        <button type="submit" value="join" class="toolbar-btn">Sign &amp; join before minting</button>
+        <label>My published project key<input name="projectKey" maxlength="50" pattern="[a-zA-Z0-9_-]{1,50}"></label>
+        <button type="button" class="toolbar-btn" data-open-studio>Open my project in Supporter Studio</button>
+        <label>Supporter mint transaction<input name="mintTxHash" maxlength="66" placeholder="0x…"></label>
+        <label>Active seller listing ID<input name="listingId" inputmode="numeric" pattern="0|[1-9][0-9]*"></label>
+        <button type="submit" value="claim" class="toolbar-btn">Sign &amp; submit verified mint/listing for review</button>
+      </form>
+      <p data-campaign-status role="status" aria-live="polite">Loading campaign configuration.</p>
+      <p data-participant-results aria-live="polite"></p>
+    </dialog>
 
     <script src="https://cdn.jsdelivr.net/npm/ethers@6.14.4/dist/ethers.umd.min.js"></script>
     <script src="scripts/decent-head.js"></script>
@@ -865,5 +922,7 @@
     <script src="scripts/reward-messages.js"></script>
     <script src="scripts/community-rewards-ui.js"></script>
     <script type="module" src="scripts/canopy-ipfs-ui.mjs"></script>
+    <script type="module" src="scripts/first-project-campaigns.mjs"></script>
+    <script type="module" src="scripts/project-supporter-sales.mjs"></script>
   </body>
 </html>

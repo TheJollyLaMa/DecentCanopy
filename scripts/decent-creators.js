@@ -576,6 +576,8 @@
       ${window.CanopyProjectDetails ? window.CanopyProjectDetails.render(lastGraph.projects.find(n => n.id === `decent-project:${r.wallet}:${p.key}`) || (projectKey === p.key ? node : null), e) : ''}
       ${financials(p)}
       ${repositoryLinks(p)}
+      ${!node.creatorDraft ? `<p><a href="https://thejollylama.github.io/DecentMarket/studio.html?creator=${e(r.wallet)}&amp;projectKey=${encodeURIComponent(p.key)}" target="_blank" rel="noopener noreferrer">${own ? 'Mint / list this project’s Supporter edition' : 'View this project in Supporter Studio'}</a></p>` : '<p class="details-muted">Publish this project before using Supporter Studio; a local draft is not mint approval.</p>'}
+      ${!node.creatorDraft ? `<div data-project-sales data-creator-wallet="${e(r.wallet)}" data-project-key="${e(p.key)}" role="status" aria-live="polite">Project Supporter sales require verified deployment and current public evidence.</div>` : ''}
       ${window.DecentENS ? window.DecentENS.section(r.wallet, p, own, e, lastGraph) : ''}`;
     const projectCards = projects.map(p => `<details class="creator-project-card">
       <summary>${p.image ? `<img data-creator-image class="creator-project-thumb" src="${e(window.DecentCreatorImages.imageUrl(p.image))}" alt="${e(p.name)} artwork" loading="lazy" referrerpolicy="no-referrer" />` : '<span class="creator-project-thumb" aria-hidden="true">🌱</span>'}

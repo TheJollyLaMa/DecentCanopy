@@ -167,6 +167,7 @@
   window.addEventListener('decentcanopy:ready', event => {
     const params = new URLSearchParams(window.location.search);
     if (params.get('supporters') === '1') return;
+    if (params.get('canopyCampaign') || params.get('mintTxHash') || el('first-project-dialog')?.open) return;
     if (params.get('tour') === '1') { openTour(); return; }
     if (event.detail?.agency) return;
     if (!load(TOUR_KEY)) {
